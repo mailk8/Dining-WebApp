@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="restaurant-ejb-1-classes">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/target/restaurant-ejb-1-classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

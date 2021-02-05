@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="restaurant-ejb:war" />
+      <artifact name="restaurant-web:war" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8b0350e6-03f9-48a3-938e-c238785f6e2c" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+        <option value="JavaScript File" />
+        <option value="XHTML File" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="2" />
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="false" />
+    <option name="FILTER_DEBUG" value="false" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="ProjectId" id="1hdjNaCIb4PSaSxxwBuUtQlTr5d" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mariadb" />
+    <property name="DefaultHtmlFileTemplate" value="XHTML File" />
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../restaurant-web" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.171875" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurant-web\src\main\resources" />
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurant-web\src\main\webapp\WEB-INF" />
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-web\src\main\webapp" />
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-web\src\main\java\de\marcel\restaurant\web" />
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-web\src\main" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-web\src\main\webapp" />
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-web\src" />
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-ejb\src\main\java\de\marcel\restaurant\ejb\model" />
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-ejb\src\main\NoSource" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="de.marcel.restaurant.web.validators" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JBoss Server.JBoss 20.0.1.Final FirstTry">
+    <configuration default="true" type="GlassfishConfiguration" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment />
+      <server-settings>
+        <option name="DOMAIN" value="" />
+        <option name="PRESERVE" value="false" />
+        <option name="COMPATIBILITY" value="false" />
+        <option name="VIRTUAL_SERVER" />
+        <option name="USERNAME" value="admin" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="GlassFish" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="9009" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JBoss 22" type="JBossConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="JBoss 22.0.0.Final" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="restaurant-ejb:war">
+          <settings />
+        </artifact>
+        <artifact name="restaurant-web:war">
+          <settings />
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="SERVER" />
+        <option name="BINDING_SET_NAME" value="" />
+        <option name="DOMAIN" value="false" />
+        <option name="SERVER_GROUP" />
+        <option name="USERNAME" value="illo" />
+        <option name="CREDENTIAL_ALIAS" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="JBoss" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="2531" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="restaurant-ejb:war" />
+          <artifact name="restaurant-web:war" />
+        </option>
+      </method>
+    </configuration>
+    <configuration default="true" type="JBossConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="JBoss 20.0.1.Final" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment />
+      <server-settings>
+        <option name="SERVER" />
+        <option name="BINDING_SET_NAME" value="" />
+        <option name="DOMAIN" value="false" />
+        <option name="SERVER_GROUP" />
+        <option name="USERNAME" value="illo" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="JBoss" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="2531" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
+      <deployment />
+      <server-settings />
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="GlassFish Server.GlassFish 5.0.1 Oracle" />
+      <item itemvalue="JBoss Server.JBoss 22" />
+      <item itemvalue="JBoss Server.JBoss 20.0.1.Final FirstTry" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8b0350e6-03f9-48a3-938e-c238785f6e2c" name="Default Changelist" comment="" />
+      <created>1600347823590</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1600347823590</updated>
+      <workItem from="1600347824646" duration="22923000" />
+      <workItem from="1600426695698" duration="2604000" />
+      <workItem from="1600429368345" duration="7222000" />
+      <workItem from="1600531968862" duration="8627000" />
+      <workItem from="1600542260312" duration="8000" />
+      <workItem from="1600756356150" duration="23524000" />
+      <workItem from="1600802479500" duration="377000" />
+      <workItem from="1600802952383" duration="2210000" />
+      <workItem from="1600849819681" duration="119000" />
+      <workItem from="1600876831504" duration="12542000" />
+      <workItem from="1600932418520" duration="9417000" />
+      <workItem from="1600949373654" duration="12081000" />
+      <workItem from="1600965858772" duration="1132000" />
+      <workItem from="1600973250122" duration="1097000" />
+      <workItem from="1601030403722" duration="36909000" />
+      <workItem from="1601073423956" duration="2202000" />
+      <workItem from="1601102986705" duration="27926000" />
+      <workItem from="1601203988273" duration="23049000" />
+      <workItem from="1601278385689" duration="22226000" />
+      <workItem from="1601317328046" duration="10819000" />
+      <workItem from="1601358524407" duration="12913000" />
+      <workItem from="1601451437026" duration="1215000" />
+      <workItem from="1601490047933" duration="3433000" />
+      <workItem from="1601546755068" duration="1508000" />
+      <workItem from="1601548523678" duration="2925000" />
+      <workItem from="1601574465596" duration="1213000" />
+      <workItem from="1601640920352" duration="3997000" />
+      <workItem from="1601709954956" duration="597000" />
+      <workItem from="1601731803585" duration="1467000" />
+      <workItem from="1602335506149" duration="60000" />
+      <workItem from="1602429713984" duration="12284000" />
+      <workItem from="1602444380268" duration="517000" />
+      <workItem from="1602444900735" duration="6189000" />
+      <workItem from="1602485346865" duration="1207000" />
+      <workItem from="1602527851357" duration="9156000" />
+      <workItem from="1602571710961" duration="5208000" />
+      <workItem from="1602579075833" duration="606000" />
+      <workItem from="1602605905792" duration="599000" />
+      <workItem from="1602610514162" duration="5000" />
+      <workItem from="1602613179599" duration="5604000" />
+      <workItem from="1602653762489" duration="596000" />
+      <workItem from="1602703431694" duration="9600000" />
+      <workItem from="1602714913160" duration="24000" />
+      <workItem from="1602741715347" duration="32000" />
+      <workItem from="1602774840111" duration="448000" />
+      <workItem from="1602776383231" duration="15559000" />
+      <workItem from="1602827489747" duration="597000" />
+      <workItem from="1602830051236" duration="842000" />
+      <workItem from="1602838407391" duration="796000" />
+      <workItem from="1602864858338" duration="12283000" />
+      <workItem from="1602927666911" duration="596000" />
+      <workItem from="1602928763438" duration="5000" />
+      <workItem from="1602928973959" duration="2000" />
+      <workItem from="1602938690389" duration="1196000" />
+      <workItem from="1602946186546" duration="598000" />
+      <workItem from="1602947800117" duration="598000" />
+      <workItem from="1602970523525" duration="4000" />
+      <workItem from="1603023850590" duration="133000" />
+      <workItem from="1603045010431" duration="2000" />
+      <workItem from="1603045858912" duration="149000" />
+      <workItem from="1603046346144" duration="203000" />
+      <workItem from="1603086411146" duration="605000" />
+      <workItem from="1603134747493" duration="4937000" />
+      <workItem from="1603172801370" duration="599000" />
+      <workItem from="1603185833653" duration="325000" />
+      <workItem from="1603218874885" duration="7001000" />
+      <workItem from="1603229621737" duration="1491000" />
+      <workItem from="1603259726414" duration="28000" />
+      <workItem from="1611572081589" duration="8013000" />
+      <workItem from="1611651735680" duration="5234000" />
+      <workItem from="1611741834342" duration="3564000" />
+      <workItem from="1611748032241" duration="11310000" />
+      <workItem from="1611820908635" duration="596000" />
+      <workItem from="1611833860042" duration="71000" />
+      <workItem from="1611995298125" duration="1891000" />
+      <workItem from="1612042583304" duration="828000" />
+      <workItem from="1612110688567" duration="5000" />
+      <workItem from="1612126914609" duration="1872000" />
+      <workItem from="1612131655395" duration="2557000" />
+      <workItem from="1612176060226" duration="6168000" />
+      <workItem from="1612185155699" duration="1000" />
+      <workItem from="1612186756448" duration="10943000" />
+      <workItem from="1612267978566" duration="3000" />
+      <workItem from="1612269508375" duration="7000" />
+      <workItem from="1612274495014" duration="598000" />
+      <workItem from="1612465556837" duration="736000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

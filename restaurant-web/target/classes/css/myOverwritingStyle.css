@@ -1,0 +1,10 @@
+.btn-danger{
+    color: #212529;
+    background-color: #ff3548ed;
+    border-color: #ff3548ed;
+}
+
+.spacer {
+    padding-top: 80px;
+    padding-bottom: 80px
+}

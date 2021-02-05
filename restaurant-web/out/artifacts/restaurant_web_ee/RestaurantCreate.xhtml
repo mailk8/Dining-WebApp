@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:of="http://omnifaces.org/functions"
+      >
+
+    <ui:composition template="WEB-INF/DefaultTemplate.xhtml">
+
+        <ui:param name="active" value="Restaurants" />
+        <ui:param name="title" value="Restaurant anlegen" />
+
+        <ui:define name="mainContent">
+
+            <h2>#{title}</h2>
+            <h:form var="w">
+
+                <h:inputHidden value="#{backingBeanRestaurant.current.prim}" />
+
+                <div class="form-group">
+                    <label for="name">Name:<h:message for="name" class="text-danger" /></label>
+                    <h:inputText id="name" value="#{backingBeanRestaurant.current.name}" class="form-control" required="false" requiredMessage="Erforderlich!">
+                        <!-- <f:validator validatorId="customValidator" />-->
+                    </h:inputText>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-Mail:<h:message for="email" class="text-danger" /></label>
+                    <h:inputText id="email" value="#{backingBeanRestaurant.current.email}" class="form-control" required="false" requiredMessage="Erforderlich!">
+                        <!-- <f:validator validatorId="customValidator" />-->
+                    </h:inputText>
+                </div>
+
+                <div class="form-group">
+                    <label for="phoneNumber">Telefon:<h:message for="phoneNumber" class="text-danger" /></label>
+                    <h:inputText id="phoneNumber" value="#{backingBeanRestaurant.current.phoneNumber}" class="form-control" required="false" requiredMessage="Erforderlich!">
+                        <!-- <f:validator validatorId="customValidator" />-->
+                    </h:inputText>
+                </div>
+    <!--Adresse-->
+                <div class="form-group">
+                    <label for="street">Straße und Hausnummer<h:message for="street" class="text-danger" /></label>
+                    <h:inputText id="street" value="#{backingBeanRestaurant.current.addressRestaurant.street}" class="form-control" required="false" requiredMessage="Erforderlich!">
+                        <!-- <f:validator validatorId="customValidator" />-->
+                    </h:inputText>
+
+                    <h:inputText id="houseNumber" value="#{backingBeanRestaurant.current.addressRestaurant.houseNumber}" class="form-control" required="false" requiredMessage="Erforderlich!">
+                        <!-- <f:validator validatorId="customValidator" />-->
+                    </h:inputText>
+                </div>
+
+                <div class="form-group">
+                    <label for="zipCode">PLZ und Ort:<h:message for="zipCode" class="text-danger" /></label>
+                    <h:inputText id="zipCode" value="#{backingBeanRestaurant.current.addressRestaurant.zipCode}" class="form-control" required="false" requiredMessage="Erforderlich!">
+                        <!-- <f:validator validatorId="customValidator" />-->
+                    </h:inputText>
+
+                    <h:inputText id="city" value="#{backingBeanRestaurant.current.addressRestaurant.city}" class="form-control" required="false" requiredMessage="Erforderlich!">
+                        <!-- <f:validator validatorId="customValidator" />-->
+                    </h:inputText>
+                </div>
+<!--Latitud Longitude-->
+                <div class="form-group">
+                    <label for="wgs84Lat">Position Breitengrad und Längengrad:<h:message for="wgs84Lat" class="text-danger" /></label>
+                    <h:inputText id="wgs84Lat" value="#{backingBeanRestaurant.current.addressRestaurant.wgs84Latitude}" class="form-control" required="false" requiredMessage="Erforderlich!">
+                        <!-- <f:validator validatorId="customValidator" />-->
+                    </h:inputText>
+
+                    <h:inputText id="wgs84Lon" value="#{backingBeanRestaurant.current.addressRestaurant.wgs84Longitude}" class="form-control" required="false" requiredMessage="Erforderlich!">
+                        <!-- <f:validator validatorId="customValidator" />-->
+                    </h:inputText>
+                </div>
+
+
+<!--Links            -->
+                <div class="form-group">
+                    <label for="linkMenu">Link zur Speisekarte: <h:message for="linkMenu" class="text-danger" />
+                        <h:outputLink value="#{backingBeanRestaurant.current.linkMenu}" target="_blank">URL in neuem Tab</h:outputLink>
+                    </label>
+
+                    <h:inputText id="linkMenu" value="#{backingBeanRestaurant.current.linkMenu}" class="form-control" required="false">
+<!--                        <f:validator validatorId = "urlValidator" />-->
+<!--                        <f:converter converterId = "urlConverter" />-->
+                    </h:inputText>
+                </div>
+
+
+<!--Culinaries            -->
+                <!-- equals, hashcode und toString müssen implementiert sein https://stackoverflow.com/questions/17343032/implement-converters-for-entities-with-java-generics/17343582#17343582-->
+                <div>
+                    <h:selectOneMenu value="#{backingBeanRestaurant.current.culinary}" select2="true" styleClass="form-control"  converter="omnifaces.SelectItemsConverter">
+                        <f:selectItem itemLabel="Gebotene Küche" itemValue="" />
+                        <f:selectItems value="#{backingBeanRestaurant.getAllCulinaries()}" var="culi" itemValue="#{culi}" itemLabel="#{culi.getCategory()}"/>
+                    </h:selectOneMenu>
+                </div>
+
+
+<!--Buttons-->
+                <hr/>
+                <h:commandButton action="#{backingBeanRestaurant.saveRestaurant()}" value="Speichern" class="btn btn-success" />
+                <h:commandButton action="#{backingBeanRestaurant.createNew()}" value="Restaurant anlegen" class="btn btn-primary" />
+                <h:commandButton action="#{backingBeanRestaurant.createNew()}" value="#Restaurantbesuch planen" class="btn btn-warning" />
+            </h:form>
+        </ui:define>
+
+        <ui:define name="subContent">
+            <h1>sub</h1>
+        </ui:define>
+
+        <ui:define name="footer">
+        </ui:define>
+
+
+    </ui:composition>
+</html>

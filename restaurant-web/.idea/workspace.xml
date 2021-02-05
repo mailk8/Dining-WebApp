@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="restaurant-web-ee archive" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="99a5f786-ee2c-434d-978b-a5bcad099dbd" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="HTML File" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="2" />
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="ProjectId" id="1hczqwxPRWIx1DZ39TshXwvvxy2" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.20906149" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-web" />
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-web\src\main\webapp" />
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-web\src\main\java\de\marcel\restaurant\web" />
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-web\src\main\resources\META-INF" />
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-web\src\main\resources" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="de.marcel.restaurant.web.model" />
+      <recent name="de.marcel.restaurant.web" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-web\src\main\webapp" />
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-web\src\main\webapp\WEB-INF" />
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-web\src\main\resources" />
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-web\src\main\webapp\WEB-INF\lib" />
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-web\src\main\resources\META-INF" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn install:install-file –Dfile=&quot;C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-ejb\target\restaurant-ejb-1-classes.jar&quot; -DgroupId=de.marcel.restaurant.ejb -DartifactId=restaurant-ejb -Dversion=1.0" />
+      <command value="mvn install:install-file –Dfile=C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-ejb\target\restaurant-ejb-1-classes.jar -DgroupId=de.marcel.restaurant.ejb -DartifactId=restaurant-ejb -Dversion=1.0" />
+      <command value="mvn install:install-file –Dfile=restaurant-ejb-1-classes.jar -DgroupId=de.marcel.restaurant.ejb  -DartifactId=restaurant-ejb  -Dversion=1.0" />
+      <command value="mvn install:install-file –Dfile='c:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-ejb\target\restaurant-ejb-1-classes.jar' -DgroupId=de.marcel.restaurant.ejb -DartifactId=restaurant-ejb -Dversion=1" />
+      <command value="mvn install:install-file 'c:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-ejb\target\restaurant-ejb-1-classes.jar' " />
+      <command value="mvn install:install-file" />
+      <command value="mvn install:install-file c:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-ejb\target\restaurant-ejb-1-classes.jar" />
+      <command value="mvn install:install-file '\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-ejb\target\restaurant-ejb-1-classes.jar'" />
+      <command value="mvn install:install-file –Dfile=c:/Users/Marcel/Dropbox/Studier/Weiterbildung BQG/Oracle OCA/IntelliJ Projekt/restaurant-ejb/target/restaurant-ejb-1-classes.jar -DgroupId=de.marcel.restaurant.ejb -DartifactId=restaurant-ejb -Dversion=1" />
+      <command value="mvn install:install-file –Dfile=/Users/Marcel/Dropbox/Studier/Weiterbildung BQG/Oracle OCA/IntelliJ Projekt/restaurant-ejb/target/restaurant-ejb-1-classes.jar -DgroupId=de.marcel.restaurant.ejb -DartifactId=restaurant-ejb -Dversion=1" />
+      <command value="mvn install:install-file –Dfile=&quot;C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-ejb\target\restaurant-ejb-1-classes.jar&quot; -DgroupId=de.marcel.restaurant.ejb  -DartifactId=restaurant-ejb  -Dversion=1" />
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="GlassFish 5.0.17" type="GlassfishConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="GlassFish 5.0.17" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:11337/restaurant-web-1/UserCreate.jsf" />
+      <option name="BROWSER_ID" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
+      <option name="SHOW_DIALOG_ON_UPDATE" value="false" />
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="restaurant-web-ee archive">
+          <settings />
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="DOMAIN" value="myDomain2" />
+        <option name="PRESERVE" value="false" />
+        <option name="COMPATIBILITY" value="false" />
+        <option name="VIRTUAL_SERVER" />
+        <option name="USERNAME" value="illo" />
+        <option name="CREDENTIAL_ALIAS" value="c5cd1a2a-220b-4e31-bcef-a1e4715ba4cd" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="GlassFish" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="9009" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GlassfishConfiguration" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment />
+      <server-settings>
+        <option name="DOMAIN" value="" />
+        <option name="PRESERVE" value="false" />
+        <option name="COMPATIBILITY" value="false" />
+        <option name="VIRTUAL_SERVER" />
+        <option name="USERNAME" value="admin" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="GlassFish" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="9009" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="99a5f786-ee2c-434d-978b-a5bcad099dbd" name="Default Changelist" comment="" />
+      <created>1600325363290</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1600325363290</updated>
+      <workItem from="1600325364600" duration="12306000" />
+      <workItem from="1600429312306" duration="9000" />
+      <workItem from="1600436849311" duration="16997000" />
+      <workItem from="1600511480021" duration="25720000" />
+      <workItem from="1600596158732" duration="35337000" />
+      <workItem from="1600634082808" duration="4503000" />
+      <workItem from="1600666855845" duration="47445000" />
+      <workItem from="1610630725623" duration="1512000" />
+      <workItem from="1612465692655" duration="581000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/de/marcel/restaurant/copy/model/Address.java</url>
+          <line>112</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

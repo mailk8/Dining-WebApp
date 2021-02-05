@@ -1,0 +1,11 @@
+de\marcel\restaurant\ejb\model\Address.class
+de\marcel\restaurant\ejb\model\SEQUENCE.class
+de\marcel\restaurant\ejb\model\User.class
+de\marcel\restaurant\ejb\model\BaseEntity.class
+de\marcel\restaurant\ejb\model\State.class
+de\marcel\restaurant\ejb\RestaurantEJB.class
+de\marcel\restaurant\ejb\model\Meal.class
+de\marcel\restaurant\ejb\model\Restaurant.class
+de\marcel\restaurant\ejb\model\Culinary.class
+de\marcel\restaurant\ejb\model\Rating.class
+de\marcel\restaurant\ejb\model\RestaurantVisit.class

@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="ear" build-on-make="true" name="restaurant-web-ee archive">
+    <output-path>$PROJECT_DIR$/out/artifacts/restaurant_web_ee_archive</output-path>
+    <root id="archive" name="restaurant-web-ee archive.ear">
+      <element id="artifact" artifact-name="restaurant-web-ee" />
+      <element id="file-copy" path="$PROJECT_DIR$/../restaurant-ejb/target/restaurant-ejb-1.war" />
+    </root>
+  </artifact>
+</component>

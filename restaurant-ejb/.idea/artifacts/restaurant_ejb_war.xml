@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" build-on-make="true" name="restaurant-ejb:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>restaurant-ejb</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="restaurant-ejb-1.war">
+      <element id="artifact" artifact-name="restaurant-ejb:war exploded" />
+    </root>
+  </artifact>
+</component>

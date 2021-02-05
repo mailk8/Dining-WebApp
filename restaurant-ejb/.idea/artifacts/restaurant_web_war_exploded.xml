@@ -1,0 +1,33 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" build-on-make="true" name="restaurant-web:war exploded">
+    <output-path>$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <exploded>true</exploded>
+        <module>restaurant-web</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="restaurant-web" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.webjars:bootstrap:4.5.2" />
+          <element id="library" level="project" name="Maven: org.webjars:jquery:3.5.1" />
+          <element id="library" level="project" name="Maven: org.webjars:popper.js:1.16.0" />
+          <element id="library" level="project" name="Maven: org.primefaces:primefaces:10.0.0-RC1" />
+          <element id="library" level="project" name="Maven: org.primefaces.themes:all-themes:1.0.10" />
+          <element id="library" level="project" name="Maven: org.omnifaces:omnifaces:2.7.7" />
+          <element id="library" level="project" name="Maven: org.webjars:font-awesome:5.14.0" />
+          <element id="library" level="project" name="restaurant-ejb-1-classes" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="restaurant-web/web/Web" />
+    </root>
+  </artifact>
+</component>

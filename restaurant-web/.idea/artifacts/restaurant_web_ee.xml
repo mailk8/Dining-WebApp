@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-ear" build-on-make="true" name="restaurant-web-ee">
+    <output-path>$PROJECT_DIR$/out/artifacts/restaurant_web_ee</output-path>
+    <root id="root">
+      <element id="artifact" artifact-name="restaurant-web:war exploded" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib">
+          <element id="file-copy" path="$PROJECT_DIR$/../restaurant-ejb/target/restaurant-ejb-1-classes.jar" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
