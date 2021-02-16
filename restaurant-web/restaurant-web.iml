@@ -51,8 +51,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="restaurant-ejb-1-classes" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.faces:javax.faces-api:2.3" level="project" />
-    <orderEntry type="library" name="Maven: org.primefaces:primefaces:10.0.0-RC1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax:javaee-web-api:8.0.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.faces:javax.faces-api:2.3" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:bootstrap:4.5.2" level="project" />

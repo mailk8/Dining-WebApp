@@ -21,7 +21,6 @@
           <element id="library" level="project" name="Maven: org.primefaces.themes:all-themes:1.0.10" />
           <element id="library" level="project" name="Maven: org.omnifaces:omnifaces:2.7.7" />
           <element id="library" level="project" name="Maven: org.webjars:font-awesome:5.14.0" />
-          <element id="library" level="project" name="restaurant-ejb-1-classes" />
         </element>
       </element>
       <element id="directory" name="META-INF">
