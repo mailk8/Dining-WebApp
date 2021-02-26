@@ -6,7 +6,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 
-import de.marcel.restaurant.ejb.RestaurantEJB;
+import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.Restaurant;
 import de.marcel.restaurant.ejb.model.User;
@@ -28,7 +28,7 @@ public class BackingBeanRestaurant implements Serializable
 
 	@Inject
 	//@EJB
-	private RestaurantEJB appServer;
+	private IRestaurantEJB appServer;
 
 	// findAll im "appServer" public <T> List<T> findAll(Class entitiyClass)
 	public List<Culinary> getAllCulinaries()

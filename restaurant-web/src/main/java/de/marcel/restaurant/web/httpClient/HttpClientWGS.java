@@ -1,6 +1,7 @@
 package de.marcel.restaurant.web.httpClient;
 
-import de.marcel.restaurant.ejb.RestaurantEJB;
+
+import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.Address;
 
 import javax.annotation.ManagedBean;
@@ -21,7 +22,7 @@ import java.util.concurrent.*;
 public class HttpClientWGS
 {
 	//@Inject nicht auf static Fields
-	private static RestaurantEJB appServer;
+	private static IRestaurantEJB appServer;
 	// Anzahl Threads im Pool
 	private static int maxThreads = 20;
 	private static int maxApiCalls = 10;
@@ -65,7 +66,7 @@ public class HttpClientWGS
 
 	public HttpClientWGS(){}
 
-	public void enqueueNewRequest(Address adr, RestaurantEJB ref)
+	public void enqueueNewRequest(Address adr, IRestaurantEJB ref)
 	{
 		appServer = ref;
 

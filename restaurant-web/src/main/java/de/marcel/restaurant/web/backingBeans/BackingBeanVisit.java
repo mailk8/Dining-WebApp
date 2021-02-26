@@ -1,6 +1,7 @@
 package de.marcel.restaurant.web.backingBeans;
 
-import de.marcel.restaurant.ejb.*;
+
+import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.RestaurantVisit;
 import de.marcel.restaurant.ejb.model.State;
@@ -37,7 +38,7 @@ public class BackingBeanVisit implements Serializable
 	//@EJB
 	// eventuell ist hier eher die @Resource die richtige Annotation? Testen.
 	// https://dzone.com/articles/resource-injection-vs
-	private RestaurantEJB appServer;
+	private IRestaurantEJB appServer;
 
 	// findAll im "appServer" public <T> List<T> findAll(Class entitiyClass)
 

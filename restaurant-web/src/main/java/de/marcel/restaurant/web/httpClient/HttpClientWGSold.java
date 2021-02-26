@@ -1,6 +1,6 @@
 //package de.marcel.restaurant.web.httpClient;
 //
-//import de.marcel.restaurant.ejb.RestaurantEJB;
+//
 //import de.marcel.restaurant.ejb.model.Address;
 //
 //import javax.annotation.ManagedBean;

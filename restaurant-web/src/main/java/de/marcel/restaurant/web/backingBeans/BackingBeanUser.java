@@ -1,6 +1,7 @@
 package de.marcel.restaurant.web.backingBeans;
 
-import de.marcel.restaurant.ejb.*;
+
+import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.Address;
 import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.User;
@@ -21,7 +22,7 @@ public class BackingBeanUser implements Serializable
 	private User current = new User();
 
 	@Inject
-	private RestaurantEJB appServer;
+	private IRestaurantEJB appServer;
 	@Inject
 	private HttpClientWGS client;
 
@@ -166,10 +167,10 @@ public class BackingBeanUser implements Serializable
 		ballern.forEach(e->{
 			System.out.println(e + " trys: " + e.getCounterApiCalls());
 		});
-
-		ballern.forEach(e->{
-			client.enqueueNewRequest(e, appServer);
-		});
+//
+//		ballern.forEach(e->{
+//			client.enqueueNewRequest(e, appServer);
+//		});
 	}
 
 

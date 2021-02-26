@@ -1,6 +1,6 @@
 //package de.marcel.restaurant.web.validators;
 //
-//import de.marcel.restaurant.ejb.RestaurantEJB;
+//
 //
 //import javax.enterprise.context.RequestScoped;
 //import javax.enterprise.context.SessionScoped;
