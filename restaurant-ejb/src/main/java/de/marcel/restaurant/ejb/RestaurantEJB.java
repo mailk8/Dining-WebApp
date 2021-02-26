@@ -22,7 +22,7 @@ public class RestaurantEJB implements IRestaurantEJB
 	private static final long serialVersionUID = 1L;
 
 	@PersistenceContext
-	private EntityManager entityManager;
+	private transient EntityManager entityManager;
 
 
 	@Override @TransactionAttribute(TransactionAttributeType.REQUIRED)
