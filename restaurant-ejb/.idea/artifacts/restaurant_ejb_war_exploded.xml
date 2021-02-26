@@ -21,7 +21,6 @@
           <element id="library" level="project" name="Maven: org.wildfly:jipijapa-spi:20.0.1.Final" />
           <element id="library" level="project" name="Maven: org.jboss:jandex:2.1.3.Final" />
           <element id="library" level="project" name="Maven: jakarta.persistence:jakarta.persistence-api:2.2.3" />
-          <element id="library" level="project" name="Maven: jakarta.enterprise:jakarta.enterprise.cdi-api:2.0.2" />
           <element id="library" level="project" name="Maven: org.jboss.logging:jboss-logging:3.4.1.Final" />
           <element id="library" level="project" name="Maven: org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec:2.0.1.Final" />
           <element id="library" level="project" name="Maven: org.jboss.spec.javax.transaction:jboss-transaction-api_1.3_spec:2.0.0.Final" />
@@ -61,6 +60,18 @@
           <element id="library" level="project" name="Maven: org.iq80.snappy:snappy:0.4" />
           <element id="library" level="project" name="Maven: org.tukaani:xz:1.8" />
           <element id="library" level="project" name="Maven: org.codehaus.plexus:plexus-utils:3.3.0" />
+          <element id="library" level="project" name="Maven: org.jboss.weld.se:weld-se-core:4.0.0.Final" />
+          <element id="library" level="project" name="Maven: org.jboss.weld.environment:weld-environment-common:4.0.0.Final" />
+          <element id="library" level="project" name="Maven: org.jboss.weld:weld-core-impl:4.0.0.Final" />
+          <element id="library" level="project" name="Maven: org.jboss.weld:weld-api:4.0.Final" />
+          <element id="library" level="project" name="Maven: org.jboss.weld:weld-spi:4.0.Final" />
+          <element id="library" level="project" name="Maven: jakarta.annotation:jakarta.annotation-api:2.0.0" />
+          <element id="library" level="project" name="Maven: jakarta.el:jakarta.el-api:4.0.0.M1" />
+          <element id="library" level="project" name="Maven: jakarta.interceptor:jakarta.interceptor-api:2.0.0" />
+          <element id="library" level="project" name="Maven: org.jboss.weld.probe:weld-probe-core:4.0.0.Final" />
+          <element id="library" level="project" name="Maven: jakarta.enterprise:jakarta.enterprise.cdi-api:3.0.0" />
+          <element id="library" level="project" name="Maven: jakarta.inject:jakarta.inject-api:2.0.0" />
+          <element id="library" level="project" name="Maven: org.jboss.classfilewriter:jboss-classfilewriter:1.2.4.Final" />
         </element>
       </element>
       <element id="directory" name="META-INF">

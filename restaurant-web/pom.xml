@@ -77,6 +77,17 @@
             <version>1</version>
         </dependency>
 
+<!--############################################ TEST AREA ####################################-->
+
+        <!-- https://mvnrepository.com/artifact/org.jboss.weld.se/weld-se-core -->
+        <dependency>
+            <groupId>org.jboss.weld.se</groupId>
+            <artifactId>weld-se-core</artifactId>
+            <version>4.0.0.Final</version>
+        </dependency>
+
+<!--##########################################################################################-->
+
     </dependencies>
 
     <repositories>

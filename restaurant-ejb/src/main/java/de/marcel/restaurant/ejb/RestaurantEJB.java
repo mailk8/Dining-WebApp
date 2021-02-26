@@ -4,18 +4,19 @@ package de.marcel.restaurant.ejb;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 
 import javax.annotation.ManagedBean;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+//@ManagedBean
+//@Stateless
+//@LocalBean
+//@Startup
+@Stateful
 @ManagedBean
-@Stateless
-@LocalBean
+@Remote(IRestaurantEJB.class)
 public class RestaurantEJB implements IRestaurantEJB
 {
 	private static final long serialVersionUID = 1L;
