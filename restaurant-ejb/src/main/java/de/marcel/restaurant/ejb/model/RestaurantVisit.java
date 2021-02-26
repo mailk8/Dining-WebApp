@@ -1,14 +1,12 @@
 package de.marcel.restaurant.ejb.model;
 
+import de.marcel.restaurant.ejb.interfaces.IRestaurantVisit;
+
 import javax.annotation.PostConstruct;
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Entity
@@ -17,7 +15,7 @@ import java.util.stream.Collectors;
 				({
 								@NamedQuery(name = "RestaurantVisit.findAll", query = "SELECT u FROM RestaurantVisit u")
 				})
-public class RestaurantVisit extends BaseEntity implements Serializable
+public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 {
 	private static final long serialVersionUID = 1L;
 
@@ -71,7 +69,7 @@ public class RestaurantVisit extends BaseEntity implements Serializable
 		//Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+#+# RestaurantVisit Entity: Konsturktor läuft und setzt " + stateVisit);
 	}
 
-	@PostConstruct
+	@Override @PostConstruct
 	public void initializeState()
 	{
 		stateVisit = State.OBJEKT_ERZ;
@@ -79,139 +77,139 @@ public class RestaurantVisit extends BaseEntity implements Serializable
 	}
 	// GETTER SETTER
 
-	public LocalDateTime getVisitingDateTime()
+	@Override public LocalDateTime getVisitingDateTime()
 	{
 		return visitingDateTime;
 	}
 
-	public void setVisitingDateTime(LocalDateTime visitingDateTime)
+	@Override public void setVisitingDateTime(LocalDateTime visitingDateTime)
 	{
 		this.visitingDateTime = visitingDateTime;
 	}
 
-	public String getMemo()
+	@Override public String getMemo()
 	{
 		return memo;
 	}
 
-	public void setMemo(String memo)
+	@Override public void setMemo(String memo)
 	{
 		this.memo = memo.trim();
 	}
 
-	public Set<User> getParticipants()
+	@Override public Set<User> getParticipants()
 	{
 		return participants;
 	}
 
-	public String getParticipantsAsString()
+	@Override public String getParticipantsAsString()
 	{
 		StringBuffer s = new StringBuffer(participants.stream().map(e -> e.getFirstname()).collect(Collectors.joining(", ")));
 
 		return s.toString().trim();
 	}
 
-	public void setParticipants(Set<User> participants)
+	@Override public void setParticipants(Set<User> participants)
 	{
 		this.participants = participants;
 	}
 
-	public Set<Rating> getRatingsVisit()
+	@Override public Set<Rating> getRatingsVisit()
 	{
 		return ratingsVisit;
 	}
 
-	public void setRatingsVisit(Set<Rating> ratingsVisit)
+	@Override public void setRatingsVisit(Set<Rating> ratingsVisit)
 	{
 		this.ratingsVisit = ratingsVisit;
 	}
 
-	public byte getAverageRating()
+	@Override public byte getAverageRating()
 	{
 		return averageRating;
 	}
 
-	public void setAverageRating(byte averageRating)
+	@Override public void setAverageRating(byte averageRating)
 	{
 		this.averageRating = averageRating;
 	}
 
-	public Restaurant getRestaurantChosen()
+	@Override public Restaurant getRestaurantChosen()
 	{
 		return restaurantChosen;
 	}
 
-	public void setRestaurantChosen(Restaurant restaurantChosen)
+	@Override public void setRestaurantChosen(Restaurant restaurantChosen)
 	{
 		this.restaurantChosen = restaurantChosen;
 	}
 
-	public Set<Restaurant> getRestaurantSuggestions()
+	@Override public Set<Restaurant> getRestaurantSuggestions()
 	{
 		return restaurantSuggestions;
 	}
 
-	public void setRestaurantSuggestions(Set<Restaurant> restaurantSuggestions)
+	@Override public void setRestaurantSuggestions(Set<Restaurant> restaurantSuggestions)
 	{
 		this.restaurantSuggestions = restaurantSuggestions;
 	}
 
-	public Set<Restaurant> getRestaurantSearchHits()
+	@Override public Set<Restaurant> getRestaurantSearchHits()
 	{
 		return restaurantSearchHits;
 	}
 
-	public void setRestaurantSearchHits(Set<Restaurant> restaurantSearchHits)
+	@Override public void setRestaurantSearchHits(Set<Restaurant> restaurantSearchHits)
 	{
 		this.restaurantSearchHits = restaurantSearchHits;
 	}
 
-	public Enum getStateVisit()
+	@Override public Enum getStateVisit()
 	{
 		return stateVisit;
 	}
 
-	public void setStateVisit(State stateVisit)
+	@Override public void setStateVisit(State stateVisit)
 	{
 		this.stateVisit = stateVisit;
 	}
 
-	public Integer getPrim()
+	@Override public Integer getPrim()
 	{
 		return prim;
 	}
 
-	public void setPrim(Integer prim)
+	@Override public void setPrim(Integer prim)
 	{
 		this.prim = prim;
 	}
 
-	public Set<Culinary> getCulinaryMatchingBucket()
+	@Override public Set<Culinary> getCulinaryMatchingBucket()
 	{
 		return culinaryMatchingBucket;
 	}
 
-	public void setCulinaryMatchingBucket(Set<Culinary> culinaryMatchingBucket)
+	@Override public void setCulinaryMatchingBucket(Set<Culinary> culinaryMatchingBucket)
 	{
 		this.culinaryMatchingBucket = culinaryMatchingBucket;
 	}
 
-	public Culinary getChosenCulinary()
+	@Override public Culinary getChosenCulinary()
 	{
 		return chosenCulinary;
 	}
 
-	public void setChosenCulinary(Culinary chosenCulinary)
+	@Override public void setChosenCulinary(Culinary chosenCulinary)
 	{
 		this.chosenCulinary = chosenCulinary;
 	}
 
-	public Address getAddressVisit()
+	@Override public Address getAddressVisit()
 	{
 		return addressVisit;
 	}
 
-	public void setAddressVisit(Address addressVisit)
+	@Override public void setAddressVisit(Address addressVisit)
 	{
 		this.addressVisit = addressVisit;
 	}

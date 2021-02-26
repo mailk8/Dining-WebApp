@@ -1,7 +1,8 @@
 package de.marcel.restaurant.ejb.model;
 
+import de.marcel.restaurant.ejb.interfaces.IUser;
+
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Set;
 
 @Entity
@@ -11,7 +12,7 @@ import java.util.Set;
 								@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
 				}
 )
-public class User extends BaseEntity implements Serializable
+public class User extends BaseEntity implements IUser
 {
 	private static final long serialVersionUID = 1L;
 
@@ -77,92 +78,92 @@ public class User extends BaseEntity implements Serializable
 
 	// GETTER SETTERS
 
-	public Address getAddressLiving()
+	@Override public Address getAddressLiving()
 	{
 		return addressLiving;
 	}
 
-	public void setAddressLiving(Address addressLiving)
+	@Override public void setAddressLiving(Address addressLiving)
 	{
 		this.addressLiving = addressLiving;
 	}
 
-	public Address getAddressActual()
+	@Override public Address getAddressActual()
 	{
 		return addressActual;
 	}
 
-	public void setAddressActual(Address addressActual)
+	@Override public void setAddressActual(Address addressActual)
 	{
 		this.addressActual = addressActual;
 	}
 
-	public Culinary getCulinaryLiking()
+	@Override public Culinary getCulinaryLiking()
 	{
 		return culinaryLiking;
 	}
 
-	public void setCulinaryLiking(Culinary culinaryLiking)
+	@Override public void setCulinaryLiking(Culinary culinaryLiking)
 	{
 		this.culinaryLiking = culinaryLiking;
 	}
 
-	public Set<Rating> getRatingsSubmitted()
+	@Override public Set<Rating> getRatingsSubmitted()
 	{
 		return ratingsSubmitted;
 	}
 
-	public void setRatingsSubmitted(Set<Rating> ratingsSubmitted)
+	@Override public void setRatingsSubmitted(Set<Rating> ratingsSubmitted)
 	{
 		this.ratingsSubmitted = ratingsSubmitted;
 	}
 
-	public String getPhoneNumber()
+	@Override public String getPhoneNumber()
 	{
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(String phoneNumber)
+	@Override public void setPhoneNumber(String phoneNumber)
 	{
 		this.phoneNumber = phoneNumber.trim();
 	}
 
-	public String getEmail()
+	@Override public String getEmail()
 	{
 		return email;
 	}
 
-	public void setEmail(String email)
+	@Override public void setEmail(String email)
 	{
 		this.email = email.trim();
 	}
 
-	public String getFirstname()
+	@Override public String getFirstname()
 	{
 		return firstname;
 	}
 
-	public void setFirstname(String firstname)
+	@Override public void setFirstname(String firstname)
 	{
 		this.firstname = firstname.trim();
 	}
 
-	public String getLastname()
+	@Override public String getLastname()
 	{
 		return lastname;
 	}
 
-	public void setLastname(String lastname)
+	@Override public void setLastname(String lastname)
 	{
 		this.lastname = lastname.trim();
 	}
 
-	public Integer getPrim()
+	@Override public Integer getPrim()
 	{
 		return prim;
 	}
 
-	public void setPrim(Integer prim)
+	@Override public void setPrim(Integer prim)
 	{
 		this.prim = prim;
 	}

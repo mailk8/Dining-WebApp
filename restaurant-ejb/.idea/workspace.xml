@@ -11,9 +11,68 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8b0350e6-03f9-48a3-938e-c238785f6e2c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/restaurant_web_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/restaurant_web_war_exploded.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IAddress.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IBaseEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/ICulinary.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IMeal.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IRating.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IRestaurant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IRestaurantEJB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IRestaurantVisit.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/restaurant_ejb_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/restaurant_ejb_war_exploded.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_enterprise_cdi_api_1_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_enterprise_cdi_api_2_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/JBoss_20_0_1_Final_FirstTry.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations/JBoss_20_0_1_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant-ejb.iml" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant-ejb.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/RestaurantEJB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/RestaurantEJB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/restaurant-web.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/restaurant-web.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Address.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Address.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/BaseEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/BaseEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Culinary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Culinary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Meal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Meal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Rating.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Rating.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Restaurant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Restaurant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/RestaurantVisit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/RestaurantVisit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/SEQUENCE.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/SEQUENCE.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/State.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/RestaurantEJB.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/RestaurantEJB.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/Address.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/Address.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/BaseEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/BaseEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/Culinary.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/Culinary.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/Meal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/Meal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/Rating.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/Rating.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/Restaurant.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/Restaurant.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/RestaurantVisit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/RestaurantVisit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/SEQUENCE.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/State.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/State.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1-classes.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1-classes.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1.war" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1.war" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/RestaurantEJB.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/RestaurantEJB.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/Address.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/Address.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/BaseEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/BaseEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/Culinary.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/Culinary.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/Meal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/Meal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/Rating.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/Rating.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/Restaurant.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/Restaurant.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/RestaurantVisit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/RestaurantVisit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/SEQUENCE.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/State.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/State.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/lib/cdi-api-1.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/lib/javax.el-api-3.0.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/lib/javax.inject-1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/lib/javax.interceptor-api-1.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/httpClient/HttpClientWGS.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/httpClient/HttpClientWGS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/target/classes/de/marcel/restaurant/web/httpClient/HttpClientWGS.class" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/classes/de/marcel/restaurant/web/httpClient/HttpClientWGS.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1.war" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1.war" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/WEB-INF/classes/de/marcel/restaurant/web/httpClient/HttpClientWGS.class" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/WEB-INF/classes/de/marcel/restaurant/web/httpClient/HttpClientWGS.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +86,7 @@
         <option value="JavaScript File" />
         <option value="XHTML File" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -60,6 +120,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java" />
@@ -85,11 +146,28 @@
       <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-ejb\src\main\java\de\marcel\restaurant\ejb\model" />
       <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-ejb\src\main\NoSource" />
     </key>
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="de.marcel.restaurant.ejb.model" />
+      <recent name="de.marcel.restaurant.ejb" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="de.marcel.restaurant.web.validators" />
     </key>
   </component>
-  <component name="RunManager" selected="JBoss Server.JBoss 20.0.1.Final FirstTry">
+  <component name="RunManager" selected="JBoss Server.JBoss 20.0.1.Final">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="GlassfishConfiguration" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment />
@@ -306,7 +384,7 @@
     <list>
       <item itemvalue="GlassFish Server.GlassFish 5.0.1 Oracle" />
       <item itemvalue="JBoss Server.JBoss 22" />
-      <item itemvalue="JBoss Server.JBoss 20.0.1.Final FirstTry" />
+      <item itemvalue="JBoss Server.JBoss 20.0.1.Final" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

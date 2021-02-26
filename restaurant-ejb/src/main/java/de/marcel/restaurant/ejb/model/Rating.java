@@ -1,7 +1,8 @@
 package de.marcel.restaurant.ejb.model;
 
+import de.marcel.restaurant.ejb.interfaces.IRating;
+
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 				({
 								@NamedQuery(name = "Rating.findAll", query = "SELECT u FROM User u")
 				})
-public class Rating extends BaseEntity implements Serializable
+public class Rating extends BaseEntity implements IRating
 {
 	private static final long serialVersionUID = 1L;
 
@@ -103,91 +104,91 @@ public class Rating extends BaseEntity implements Serializable
 
 	// GETTER SETTER
 
-	public Restaurant getRestaurantRated()
+	@Override public Restaurant getRestaurantRated()
 	{
 		return restaurantRated;
 	}
 
-	public void setRestaurantRated(Restaurant restaurantRated)
+	@Override public void setRestaurantRated(Restaurant restaurantRated)
 	{
 		this.restaurantRated = restaurantRated;
 	}
 
-	public RestaurantVisit getVisit()
+	@Override public RestaurantVisit getVisit()
 	{
 		return visit;
 	}
 
-	public void setVisit(RestaurantVisit visit)
+	@Override public void setVisit(RestaurantVisit visit)
 	{
 		this.visit = visit;
 	}
 
-	public User getRatingUser()
+	@Override public User getRatingUser()
 	{
 		return ratingUser;
 	}
 
-	public void setRatingUser(User ratingUser)
+	@Override public void setRatingUser(User ratingUser)
 	{
 		this.ratingUser = ratingUser;
 	}
 
-	public LocalDateTime getRatingDateTime()
+	@Override public LocalDateTime getRatingDateTime()
 	{
 		return ratingDateTime;
 	}
 
-	public void setRatingDateTime(LocalDateTime ratingDateTime)
+	@Override public void setRatingDateTime(LocalDateTime ratingDateTime)
 	{
 		this.ratingDateTime = ratingDateTime;
 	}
 
-	public byte getStars()
+	@Override public byte getStars()
 	{
 		return stars;
 	}
 
-	public void setStars(byte stars)
+	@Override public void setStars(byte stars)
 	{
 		this.stars = stars;
 	}
 
-	public double getPrice()
+	@Override public double getPrice()
 	{
 		return price;
 	}
 
-	public void setPrice(double price)
+	@Override public void setPrice(double price)
 	{
 		this.price = price;
 	}
 
-	public Culinary getMeal()
+	@Override public Culinary getMeal()
 	{
 		return meal;
 	}
 
-	public void setMeal(Culinary meal)
+	@Override public void setMeal(Culinary meal)
 	{
 		this.meal = meal;
 	}
 
-	public String getMealDescription()
+	@Override public String getMealDescription()
 	{
 		return mealDescription;
 	}
 
-	public void setMealDescription(String mealDescription)
+	@Override public void setMealDescription(String mealDescription)
 	{
 		this.mealDescription = mealDescription.trim();
 	}
 
-	public Integer getPrim()
+	@Override public Integer getPrim()
 	{
 		return prim;
 	}
-	public void setPrim(Integer prim)
+	@Override public void setPrim(Integer prim)
 	{
 		this.prim = prim;
 	}

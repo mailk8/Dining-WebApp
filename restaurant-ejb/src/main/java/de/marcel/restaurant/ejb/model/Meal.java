@@ -1,7 +1,8 @@
 package de.marcel.restaurant.ejb.model;
 
+import de.marcel.restaurant.ejb.interfaces.IMeal;
+
 import javax.persistence.*;
-import java.io.Serializable;
 
 /*
 Holds Meals.
@@ -14,7 +15,7 @@ To be filled by Database Table.
 				({
 								@NamedQuery(name = "Meal.findAll", query = "SELECT u FROM Meal u")
 				})
-public class Meal extends BaseEntity implements Serializable
+public class Meal extends BaseEntity implements IMeal
 {
 	private static final long serialVersionUID = 1L;
 
@@ -38,31 +39,31 @@ public class Meal extends BaseEntity implements Serializable
 		this.mealName = s;
 	}
 
-	public Culinary getMealCategory()
+	@Override public Culinary getMealCategory()
 	{
 		return mealCategory;
 	}
 
-	public void setMealCategory(Culinary mealCategory)
+	@Override public void setMealCategory(Culinary mealCategory)
 	{
 		this.mealCategory = mealCategory;
 	}
 
-	public String getMealName()
+	@Override public String getMealName()
 	{
 		return mealName;
 	}
 
-	public void setMealName(String mealName)
+	@Override public void setMealName(String mealName)
 	{
 		this.mealName = mealName.trim();
 	}
 
-	public Integer getPrim()
+	@Override public Integer getPrim()
 	{
 		return prim;
 	}
-	public void setPrim(Integer prim)
+	@Override public void setPrim(Integer prim)
 	{
 		this.prim = prim;
 	}

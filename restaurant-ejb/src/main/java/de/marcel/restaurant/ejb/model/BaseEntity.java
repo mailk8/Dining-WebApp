@@ -1,9 +1,10 @@
 package de.marcel.restaurant.ejb.model;
 
-import java.io.Serializable;
+import de.marcel.restaurant.ejb.interfaces.IBaseEntity;
+
 import java.lang.reflect.Field;
 
-public class BaseEntity implements Serializable
+public class BaseEntity implements IBaseEntity
 {
 	private static final long serialVersionUID = 1L;
 
@@ -45,11 +46,11 @@ public class BaseEntity implements Serializable
 		return String.format("%s[id=%d]", getClass().getSimpleName(), getPrim());
 	}
 
-	public Integer getPrim()
+	@Override public Integer getPrim()
 	{
 		return prim;
 	}
-	public void setPrim(Integer prim)
+	@Override public void setPrim(Integer prim)
 	{
 		this.prim = prim;
 	}

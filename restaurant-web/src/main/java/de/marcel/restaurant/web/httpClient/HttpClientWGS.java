@@ -79,8 +79,7 @@ public class HttpClientWGS
 		try
 		{
 			URI uri = new URI(uriString);
-			°
-			////System.out.println("+#+# HttpClient: URL wird der Queue offeriert. Größe Q " + myQueue.size());
+						////System.out.println("+#+# HttpClient: URL wird der Queue offeriert. Größe Q " + myQueue.size());
 			myQueue.offer(adr);
 			////System.out.println("+#+# HttpClient: Neue URI hinzugefügt " + uri + " Umfang der Queue " + myQueue.size());
 		}

@@ -1,9 +1,9 @@
 package de.marcel.restaurant.ejb.model;
 
+import de.marcel.restaurant.ejb.interfaces.IRestaurant;
+
 import javax.annotation.PostConstruct;
 import javax.persistence.*;
-import java.io.Serializable;
-import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -18,7 +18,7 @@ import java.util.Set;
 				({
 								@NamedQuery(name = "Restaurant.findAll", query = "SELECT u FROM Restaurant u")
 				})
-public class Restaurant extends BaseEntity implements Serializable
+public class Restaurant extends BaseEntity implements IRestaurant
 {
 	private static final long serialVersionUID = 1L;
 
@@ -73,7 +73,7 @@ public class Restaurant extends BaseEntity implements Serializable
 		this.culinary = culinary;
 	}
 
-	@PostConstruct
+	@Override @PostConstruct
 	public void standardOffDays()
 	{
 		List<DayOfWeek> l = new ArrayList<>();
@@ -85,142 +85,142 @@ public class Restaurant extends BaseEntity implements Serializable
 	}
 
 	// GETTER SETTER
-	public String getName()
+	@Override public String getName()
 	{
 		return name;
 	}
 
-	public void setName(String name)
+	@Override public void setName(String name)
 	{
 		this.name = name.trim();
 	}
 
-	public Address getAddressRestaurant()
+	@Override public Address getAddressRestaurant()
 	{
 		return addressRestaurant;
 	}
 
-	public void setAddressRestaurant(Address a)
+	@Override public void setAddressRestaurant(Address a)
 	{
 		this.addressRestaurant = a;
 	}
 
-	public String getPhoneNumber()
+	@Override public String getPhoneNumber()
 	{
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(String phoneNumber)
+	@Override public void setPhoneNumber(String phoneNumber)
 	{
 		this.phoneNumber = phoneNumber.trim();
 	}
 
-	public String getEmail()
+	@Override public String getEmail()
 	{
 		return email;
 	}
 
-	public void setEmail(String email)
+	@Override public void setEmail(String email)
 	{
 		this.email = email.trim();
 	}
 
-	public String getLinkMenu()
+	@Override public String getLinkMenu()
 	{
 		return linkMenu;
 	}
 
-	public void setLinkMenu(String linkMenu)
+	@Override public void setLinkMenu(String linkMenu)
 	{
 		this.linkMenu = linkMenu;
 	}
 
-	public LocalTime getOpenFrom()
+	@Override public LocalTime getOpenFrom()
 	{
 		return openFrom;
 	}
 
-	public void setOpenFrom(LocalTime openFrom)
+	@Override public void setOpenFrom(LocalTime openFrom)
 	{
 		this.openFrom = openFrom;
 	}
 
-	public LocalTime getOpenTill()
+	@Override public LocalTime getOpenTill()
 	{
 		return openTill;
 	}
 
-	public void setOpenTill(LocalTime openTill)
+	@Override public void setOpenTill(LocalTime openTill)
 	{
 		this.openTill = openTill;
 	}
 
-	public LocalDateTime getHolidayFrom()
+	@Override public LocalDateTime getHolidayFrom()
 	{
 		return holidayFrom;
 	}
 
-	public void setHolidayFrom(LocalDateTime holidayFrom)
+	@Override public void setHolidayFrom(LocalDateTime holidayFrom)
 	{
 		this.holidayFrom = holidayFrom;
 	}
 
-	public LocalDateTime getHolidayTill()
+	@Override public LocalDateTime getHolidayTill()
 	{
 		return holidayTill;
 	}
 
-	public void setHolidayTill(LocalDateTime holidayTill)
+	@Override public void setHolidayTill(LocalDateTime holidayTill)
 	{
 		this.holidayTill = holidayTill;
 	}
 
-	public Collection<DayOfWeek> getDaysOfRest()
+	@Override public Collection<DayOfWeek> getDaysOfRest()
 	{
 		return daysOfRest;
 	}
 
-	public void setDaysOfRest(DayOfWeek dayOfRest)
+	@Override public void setDaysOfRest(DayOfWeek dayOfRest)
 	{
 		this.daysOfRest.add(dayOfRest);
 	}
 
-	public Culinary getCulinary()
+	@Override public Culinary getCulinary()
 	{
 		return culinary;
 	}
 
-	public void setCulinary(Culinary culinary)
+	@Override public void setCulinary(Culinary culinary)
 	{
 		this.culinary = culinary;
 	}
 
-	public byte getAverageRating()
+	@Override public byte getAverageRating()
 	{
 		return averageRating;
 	}
 
-	public void setAverageRating(byte averageRating)
+	@Override public void setAverageRating(byte averageRating)
 	{
 		this.averageRating = averageRating;
 	}
 
-	public Set<RestaurantVisit> getVisits()
+	@Override public Set<RestaurantVisit> getVisits()
 	{
 		return visits;
 	}
 
-	public void setVisits(Set<RestaurantVisit> visits)
+	@Override public void setVisits(Set<RestaurantVisit> visits)
 	{
 		this.visits = visits;
 	}
 
-	public Integer getPrim()
+	@Override public Integer getPrim()
 	{
 		return prim;
 	}
 
-	public void setPrim(Integer prim)
+	@Override public void setPrim(Integer prim)
 	{
 		this.prim = prim;
 	}

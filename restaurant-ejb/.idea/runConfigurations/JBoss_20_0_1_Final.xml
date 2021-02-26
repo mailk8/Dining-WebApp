@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="JBoss 20.0.1.Final FirstTry" type="JBossConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="JBoss 20.0.1.Final" ALTERNATIVE_JRE_ENABLED="false">
+  <configuration default="false" name="JBoss 20.0.1.Final" type="JBossConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="JBoss 20.0.1.Final" ALTERNATIVE_JRE_ENABLED="false">
     <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/restaurant-web-1/" />
     <option name="BROWSER_ID" value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
     <option name="SHOW_DIALOG_ON_UPDATE" value="false" />

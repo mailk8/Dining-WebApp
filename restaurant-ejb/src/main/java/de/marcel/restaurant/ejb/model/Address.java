@@ -1,10 +1,9 @@
 package de.marcel.restaurant.ejb.model;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.net.URI;
-import java.util.List;
+import de.marcel.restaurant.ejb.interfaces.IAddress;
 
+import javax.persistence.*;
+import java.net.URI;
 
 @Entity
 @Table(name = "addresses")
@@ -12,7 +11,7 @@ import java.util.List;
 				({
 								@NamedQuery(name = "Address.findAll", query = "SELECT u FROM Address u")
 				})
-public class Address extends BaseEntity implements Serializable
+public class Address extends BaseEntity implements IAddress
 {
 	private static final long serialVersionUID = 1L;
 
@@ -73,102 +72,102 @@ public class Address extends BaseEntity implements Serializable
 
 	// GETTER SETTER
 
-	public String getStreet()
+	@Override public String getStreet()
 	{
 		return street;
 	}
 
-	public void setStreet(String street)
+	@Override public void setStreet(String street)
 	{
 		this.street = street.trim();
 	}
 
-	public String getHouseNumber()
+	@Override public String getHouseNumber()
 	{
 		return houseNumber;
 	}
 
-	public void setHouseNumber(String houseNumber)
+	@Override public void setHouseNumber(String houseNumber)
 	{
 		this.houseNumber = houseNumber.trim();
 	}
 
-	public String getZipCode()
+	@Override public String getZipCode()
 	{
 		return zipCode;
 	}
 
-	public void setZipCode(String zipCode)
+	@Override public void setZipCode(String zipCode)
 	{
 		this.zipCode = zipCode.trim();
 	}
 
-	public String getCity()
+	@Override public String getCity()
 	{
 		return city;
 	}
 
-	public void setCity(String city)
+	@Override public void setCity(String city)
 	{
 		this.city = city.trim();
 	}
 
-	public String getGooglePlace()
+	@Override public String getGooglePlace()
 	{
 		return googlePlace;
 	}
 
-	public void setGooglePlace(String googlePlace)
+	@Override public void setGooglePlace(String googlePlace)
 	{
 		this.googlePlace = googlePlace.trim();
 	}
 
-	public Double getWgs84Latitude()
+	@Override public Double getWgs84Latitude()
 	{
 		return wgs84Latitude;
 	}
 
-	public void setWgs84Latitude(Double wgs84Latitude)
+	@Override public void setWgs84Latitude(Double wgs84Latitude)
 	{
 		this.wgs84Latitude = wgs84Latitude;
 	}
 
-	public Double getWgs84Longitude()
+	@Override public Double getWgs84Longitude()
 	{
 		return wgs84Longitude;
 	}
 
-	public void setWgs84Longitude(Double wgs84Longitude)
+	@Override public void setWgs84Longitude(Double wgs84Longitude)
 	{
 		this.wgs84Longitude = wgs84Longitude;
 	}
 
-	public Integer getPrim()
+	@Override public Integer getPrim()
 	{
 		return prim;
 	}
 
-	public void setPrim(Integer prim)
+	@Override public void setPrim(Integer prim)
 	{
 		this.prim = prim;
 	}
 
-	public int getCounterApiCalls()
+	@Override public int getCounterApiCalls()
 	{
 		return counterApiCalls;
 	}
 
-	public void setCounterApiCalls(int counterApiCalls)
+	@Override public void setCounterApiCalls(int counterApiCalls)
 	{
 		this.counterApiCalls = counterApiCalls;
 	}
 
-	public URI getWgsRestApiCall()
+	@Override public URI getWgsRestApiCall()
 	{
 		return wgsRestApiCall;
 	}
 
-	public void setWgsRestApiCall(URI wgsRestApiCall)
+	@Override public void setWgsRestApiCall(URI wgsRestApiCall)
 	{
 		this.wgsRestApiCall = wgsRestApiCall;
 	}

@@ -1,6 +1,8 @@
 package de.marcel.restaurant.ejb;
 
 
+import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
+
 import javax.annotation.ManagedBean;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -9,15 +11,12 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @ManagedBean
 @Stateless
 @LocalBean
-public class RestaurantEJB implements Serializable
+public class RestaurantEJB implements IRestaurantEJB
 {
 	private static final long serialVersionUID = 1L;
 
@@ -25,20 +24,20 @@ public class RestaurantEJB implements Serializable
 	private EntityManager entityManager;
 
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	@Override @TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public <T> void persist(T t)
 	{
 		//Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+#+# Aufruf persist in ejb");
 		entityManager.persist(t);
 	}
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	@Override @TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public <T> void update(T t)
 	{
 		entityManager.merge(t);
 	}
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	@Override @TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public <T> void delete(T t)
 	{
 		// Entity must be managed:
@@ -47,7 +46,7 @@ public class RestaurantEJB implements Serializable
 		entityManager.remove(t);
 	}
 
-	public <T> List<T> findAll(Class entitiyClass)
+	@Override public <T> List<T> findAll(Class entitiyClass)
 	{
 		TypedQuery<T> query = entityManager.createNamedQuery(entitiyClass.getSimpleName()+".findAll", entitiyClass);
 

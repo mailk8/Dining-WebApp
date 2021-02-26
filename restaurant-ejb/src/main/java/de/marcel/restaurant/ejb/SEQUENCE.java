@@ -1,4 +1,4 @@
-package de.marcel.restaurant.ejb.model;
+package de.marcel.restaurant.ejb;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
