@@ -42,6 +42,12 @@
             <version>20.0.1.Final</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -63,6 +69,7 @@
                 <version>3.2.0</version>
                 <executions>
                     <execution>
+                        <id>Interfaces packen</id>
                         <phase>package</phase>
                         <goals>
                             <goal>jar</goal>
@@ -71,10 +78,24 @@
                         <configuration>
                             <classifier>interfaces</classifier>
                             <includes>
-                                <include>interfaces/**</include>
+                                <include>**/interfaces/**</include>
                             </includes>
                         </configuration>
+                    </execution>
 
+                    <execution>
+                        <id>Model-Klassen packen</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+
+                        <configuration>
+                            <classifier>model-classes</classifier>
+                            <includes>
+                                <include>**/model/**</include>
+                            </includes>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

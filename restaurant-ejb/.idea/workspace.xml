@@ -11,68 +11,50 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8b0350e6-03f9-48a3-938e-c238785f6e2c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IAddress.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IBaseEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/ICulinary.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IMeal.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IRating.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IRestaurant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IRestaurantEJB.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IRestaurantVisit.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IUser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_compress_1_19.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_aether_provider_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_archiver_3_5_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_artifact_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_compat_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_core_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_model_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_model_builder_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_plugin_api_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_repository_metadata_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_settings_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_settings_builder_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_plugins_maven_jar_plugin_3_2_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_shared_file_management_3_0_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_shared_maven_shared_io_3_0_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_shared_maven_shared_utils_3_2_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_wagon_wagon_provider_api_2_10.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_plexus_plexus_archiver_4_2_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_plexus_plexus_classworlds_2_2_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_plexus_plexus_component_annotations_1_5_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_plexus_plexus_interpolation_1_14.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_plexus_plexus_io_3_2_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_plexus_plexus_utils_3_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_iq80_snappy_snappy_0_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_sonatype_aether_aether_api_1_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_sonatype_aether_aether_impl_1_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_sonatype_aether_aether_spi_1_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_sonatype_aether_aether_util_1_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_sonatype_plexus_plexus_cipher_1_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_sonatype_plexus_plexus_sec_dispatcher_1_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_sonatype_sisu_sisu_guice_noaop_2_1_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_sonatype_sisu_sisu_inject_bean_1_4_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_sonatype_sisu_sisu_inject_plexus_1_4_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_tukaani_xz_1_8.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/artifacts/restaurant_ejb_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/restaurant_ejb_war_exploded.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_enterprise_cdi_api_1_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_enterprise_cdi_api_2_0.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/JBoss_20_0_1_Final_FirstTry.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations/JBoss_20_0_1_Final.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/restaurant-ejb.iml" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant-ejb.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/RestaurantEJB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/RestaurantEJB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Address.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Address.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/BaseEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/BaseEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Culinary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Culinary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Meal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Meal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Rating.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Rating.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Restaurant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Restaurant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/RestaurantVisit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/RestaurantVisit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/SEQUENCE.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/SEQUENCE.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/State.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/RestaurantEJB.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/RestaurantEJB.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/Address.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/Address.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/BaseEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/BaseEntity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/Culinary.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/Culinary.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/Meal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/Meal.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/Rating.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/Rating.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/Restaurant.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/Restaurant.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/RestaurantVisit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/RestaurantVisit.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/SEQUENCE.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/State.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/State.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/User.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1-classes.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1-classes.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1-interfaces.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1-interfaces.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1.war" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1.war" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/RestaurantEJB.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/RestaurantEJB.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/Address.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/Address.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/BaseEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/BaseEntity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/Culinary.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/Culinary.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/Meal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/Meal.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/Rating.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/Rating.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/Restaurant.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/Restaurant.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/RestaurantVisit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/RestaurantVisit.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/SEQUENCE.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/State.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/State.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/lib/cdi-api-1.2.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/lib/javax.el-api-3.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/lib/javax.inject-1.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/lib/javax.interceptor-api-1.2.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/httpClient/HttpClientWGS.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/httpClient/HttpClientWGS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/target/classes/de/marcel/restaurant/web/httpClient/HttpClientWGS.class" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/classes/de/marcel/restaurant/web/httpClient/HttpClientWGS.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1.war" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1.war" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/WEB-INF/classes/de/marcel/restaurant/web/httpClient/HttpClientWGS.class" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/WEB-INF/classes/de/marcel/restaurant/web/httpClient/HttpClientWGS.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -383,6 +365,7 @@
     </configuration>
     <list>
       <item itemvalue="GlassFish Server.GlassFish 5.0.1 Oracle" />
+      <item itemvalue="JBoss Server.JBoss 20.0.1.Final FirstTry" />
       <item itemvalue="JBoss Server.JBoss 22" />
       <item itemvalue="JBoss Server.JBoss 20.0.1.Final" />
     </list>
