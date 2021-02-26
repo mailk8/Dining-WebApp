@@ -37,13 +37,6 @@
             <version>4.5.2</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.primefaces</groupId>-->
-<!--            <artifactId>primefaces</artifactId>-->
-<!--            <version>8.0</version>-->
-<!--        </dependency>-->
-
-        <!-- https://mvnrepository.com/artifact/org.primefaces/primefaces -->
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
@@ -68,6 +61,20 @@
             <groupId>org.webjars</groupId>
             <artifactId>font-awesome</artifactId>
             <version>5.14.0</version>
+        </dependency>
+
+        <!-- Lokale Dependencies aus dem .m2 Verzeichnis
+        (müssen mit mvn install dorthin geschafft werden)-->
+        <dependency>
+            <groupId>de.marcel.restaurant.restaurant-ejb</groupId>
+            <artifactId>interfaces</artifactId>
+            <version>1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.marcel.restaurant.restaurant-ejb</groupId>
+            <artifactId>model-classes</artifactId>
+            <version>1</version>
         </dependency>
 
     </dependencies>

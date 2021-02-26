@@ -50,7 +50,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="restaurant-ejb-1-classes" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax:javaee-web-api:8.0.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.faces:javax.faces-api:2.3" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:bootstrap:4.5.2" level="project" />
@@ -60,5 +59,7 @@
     <orderEntry type="library" name="Maven: org.primefaces.themes:all-themes:1.0.10" level="project" />
     <orderEntry type="library" name="Maven: org.omnifaces:omnifaces:2.7.7" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:font-awesome:5.14.0" level="project" />
+    <orderEntry type="library" name="Maven: de.marcel.restaurant.restaurant-ejb:interfaces:1" level="project" />
+    <orderEntry type="library" name="Maven: de.marcel.restaurant.restaurant-ejb:model-classes:1" level="project" />
   </component>
 </module>
