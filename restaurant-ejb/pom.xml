@@ -11,8 +11,9 @@
     <packaging>war</packaging>
 
     <properties>
-        <maven.compiler.target>11</maven.compiler.target>
-        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>15</maven.compiler.target>
+        <maven.compiler.source>15</maven.compiler.source>
+<!--        <shiro.version>1.7.1</shiro.version>-->
     </properties>
 
     <dependencies>
