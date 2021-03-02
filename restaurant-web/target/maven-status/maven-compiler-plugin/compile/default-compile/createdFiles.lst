@@ -1,0 +1,13 @@
+de\marcel\restaurant\web\httpClient\HttpResponseParser$1.class
+de\marcel\restaurant\web\httpClient\HttpResponseParser.class
+de\marcel\restaurant\web\validators\ServerValidatorWGS.class
+de\marcel\restaurant\web\backingBeans\BackingBeanUser.class
+de\marcel\restaurant\web\CalendarView.class
+de\marcel\restaurant\web\messages\GrowlView.class
+de\marcel\restaurant\web\converters\UrlStringConverter.class
+de\marcel\restaurant\web\Injector.class
+de\marcel\restaurant\web\backingBeans\BackingBeanVisit.class
+de\marcel\restaurant\web\backingBeans\BackingBeanRestaurant.class
+de\marcel\restaurant\web\backingBeans\BackingBeanRating.class
+de\marcel\restaurant\web\httpClient\HttpClientWGS.class
+de\marcel\restaurant\web\JsfActivator.class

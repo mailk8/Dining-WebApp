@@ -12,7 +12,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="restaurant-ejb" target="15" />
-      <module name="restaurant-web" target="11" />
+      <module name="restaurant-web" target="15" />
     </bytecodeTargetLevel>
   </component>
 </project>

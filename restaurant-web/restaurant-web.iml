@@ -4,7 +4,6 @@
     <facet type="web" name="Web">
       <configuration>
         <descriptors>
-          <deploymentDescriptor name="jboss-web.xml" url="file://$MODULE_DIR$/src/main/webapp/WEB-INF/jboss-web.xml" />
           <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/src/main/webapp/WEB-INF/web.xml" />
         </descriptors>
         <webroots>
@@ -12,7 +11,6 @@
         </webroots>
         <sourceRoots>
           <root url="file://$MODULE_DIR$/src/main/java" />
-          <root url="file://$MODULE_DIR$/src/main/resources" />
           <root url="file://$MODULE_DIR$/src/main/webapp/resources" />
         </sourceRoots>
       </configuration>
@@ -27,7 +25,7 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_11">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_15">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -35,11 +33,10 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/webapp/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/src/copy" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="15" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax:javaee-web-api:8.0.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.faces:javax.faces-api:2.3" level="project" />
@@ -52,6 +49,20 @@
     <orderEntry type="library" name="Maven: org.webjars:font-awesome:5.14.0" level="project" />
     <orderEntry type="library" name="Maven: de.marcel.restaurant.restaurant-ejb:interfaces:1" level="project" />
     <orderEntry type="library" name="Maven: de.marcel.restaurant.restaurant-ejb:model-classes:1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-core:1.7.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-lang:1.7.1" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.26" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-cache:1.7.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-crypto-hash:1.7.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-crypto-core:1.7.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-crypto-cipher:1.7.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-config-core:1.7.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-config-ogdl:1.7.1" level="project" />
+    <orderEntry type="library" name="Maven: commons-beanutils:commons-beanutils:1.9.4" level="project" />
+    <orderEntry type="library" name="Maven: commons-collections:commons-collections:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-event:1.7.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-web:1.7.1" level="project" />
+    <orderEntry type="library" name="Maven: org.owasp.encoder:encoder:1.2.2" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.weld.se:weld-se-core:4.0.0.Final" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.weld.environment:weld-environment-common:4.0.0.Final" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.weld:weld-core-impl:4.0.0.Final" level="project" />
