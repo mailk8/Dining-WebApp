@@ -1,3 +1,9 @@
+/*
+    Original aus dem Primfaces Showcase.
+    Verzögert scheinbar das Laden der
+    Login-Seite.
+ */
+
 .p-grid {
   display: -webkit-box;
   display: -ms-flexbox;

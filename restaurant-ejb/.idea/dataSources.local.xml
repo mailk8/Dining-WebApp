@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal">
-    <data-source name="restaurant-mariaDB@localhost" uuid="341972bb-d603-4cbc-8033-a0884cadd3f9">
+    <data-source name="mariaDB@XAMP" uuid="54cd7a0b-25a6-4fbf-a20c-8ca32b7dd235">
       <database-info product="MariaDB" version="10.4.13-MariaDB" jdbc-version="4.2" driver-name="MariaDB Connector/J" driver-version="2.6.0" dbms="MARIADB" exact-version="10.4.13" exact-driver-version="2.6">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>glass</user-name>
+      <schema-mapping>
+        <introspection-scope>
+          <node kind="schema" qname="@" />
+        </introspection-scope>
+      </schema-mapping>
+    </data-source>
+    <data-source name="mariaDB@java" uuid="51288d87-b3b1-4483-80a0-e7ab91fc9239">
+      <database-info product="MariaDB" version="10.5.8-MariaDB" jdbc-version="4.2" driver-name="MariaDB Connector/J" driver-version="2.6.0" dbms="MARIADB" exact-version="10.5.8" exact-driver-version="2.6">
         <extra-name-characters>#@</extra-name-characters>
         <identifier-quote-string>`</identifier-quote-string>
       </database-info>
@@ -14,6 +28,10 @@
           <node kind="schema" qname="@" />
         </introspection-scope>
       </schema-mapping>
+      <ssl-config>
+        <enabled>true</enabled>
+        <mode>REQUIRE</mode>
+      </ssl-config>
     </data-source>
   </component>
 </project>

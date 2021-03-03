@@ -13,7 +13,6 @@
 
         <h:outputStylesheet library="webjars" name="bootstrap/4.5.2/css/bootstrap.min.css"/>
         <h:outputStylesheet library="webjars" name="font-awesome/5.14.0/css/all-jsf.css"/>
-        <h:outputStylesheet  library="css" name="myOverwritingStyle.css" />
 
         <h:outputScript library="webjars" name="bootstrap/4.5.2/js/bootstrap.js"/>
         <h:outputScript library="webjars" name="popper.js/1.16.0/esm/popper.js" />
@@ -22,56 +21,13 @@
         <h:outputScript name="jquery/jquery-plugins.js" library="primefaces" />
         <h:outputScript name="core.js" library="primefaces" />
 
+        <h:outputStylesheet  library="css" name="myOverwritingStyle.css" />
 
     </h:head>
 
     <h:body>
-    <!--    Erneutes Setzen der Locale, damit nach Link nicht erneut default eingestellt wird-->
-    <!--    <f:view locale="#{langSwitch.curLoc}" />-->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 
-            <a class="navbar-brand" href="#"><h:outputText value="NavbarBrand" /></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavi">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="mainNavi">
-
-                <ul class="navbar-nav mr-auto">
-
-                    <li class="nav-item #{active == 'User' ? 'active' : ''}">
-                        <h:link class="nav-link" outcome="UserList"><h:outputText value="User" /></h:link>
-                    </li>
-
-                      <li class="nav-item #{active == 'Restaurants' ? 'active' : ''}">
-                        <h:link class="nav-link" outcome="RestaurantList"><h:outputText value="Restaurants" /></h:link>
-                    </li>
-
-                      <li class="nav-item #{active == 'Visit' ? 'active' : ''}">
-                        <h:link class="nav-link" outcome="VisitList"><h:outputText value="Restaurantbesuche" /></h:link>
-                    </li>
-
-                      <li class="nav-item #{active == 'Auswertungen' ? 'active' : ''}">
-                        <h:link class="nav-link" outcome="Auswertungen"><h:outputText value="Auswertungen" /></h:link>
-                    </li>
-
-                      <li class="nav-item #{active == 'Login' ? 'active' : ''}">
-                        <h:link class="nav-link" outcome="Login"><h:outputText value="Login" /></h:link>
-                    </li>
-                </ul>
-
-                <div class="dropdown">
-                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        #Sprache
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Deutsch</a>
-                        <a class="dropdown-item" href="#">Englisch</a>
-                        <a class="dropdown-item" href="#">Französisch</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
+        <ui:insert name="navBar"> <ui:include src="NavBar.xhtml"/> </ui:insert>
 
         <main class="container mt-2">
 

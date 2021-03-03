@@ -23,6 +23,19 @@
           <element id="library" level="project" name="Maven: org.webjars:font-awesome:5.14.0" />
           <element id="library" level="project" name="Maven: de.marcel.restaurant.restaurant-ejb:interfaces:1" />
           <element id="library" level="project" name="Maven: de.marcel.restaurant.restaurant-ejb:model-classes:1" />
+          <element id="library" level="project" name="Maven: org.jboss.weld.se:weld-se-core:4.0.0.Final" />
+          <element id="library" level="project" name="Maven: org.jboss.weld.environment:weld-environment-common:4.0.0.Final" />
+          <element id="library" level="project" name="Maven: org.jboss.weld:weld-core-impl:4.0.0.Final" />
+          <element id="library" level="project" name="Maven: org.jboss.weld:weld-api:4.0.Final" />
+          <element id="library" level="project" name="Maven: org.jboss.weld:weld-spi:4.0.Final" />
+          <element id="library" level="project" name="Maven: jakarta.annotation:jakarta.annotation-api:2.0.0" />
+          <element id="library" level="project" name="Maven: jakarta.el:jakarta.el-api:4.0.0.M1" />
+          <element id="library" level="project" name="Maven: jakarta.interceptor:jakarta.interceptor-api:2.0.0" />
+          <element id="library" level="project" name="Maven: org.jboss.logging:jboss-logging:3.4.1.Final" />
+          <element id="library" level="project" name="Maven: org.jboss.weld.probe:weld-probe-core:4.0.0.Final" />
+          <element id="library" level="project" name="Maven: jakarta.enterprise:jakarta.enterprise.cdi-api:3.0.0" />
+          <element id="library" level="project" name="Maven: jakarta.inject:jakarta.inject-api:2.0.0" />
+          <element id="library" level="project" name="Maven: org.jboss.classfilewriter:jboss-classfilewriter:1.2.4.Final" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-core:1.7.1" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-lang:1.7.1" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.26" />
@@ -37,19 +50,7 @@
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-event:1.7.1" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-web:1.7.1" />
           <element id="library" level="project" name="Maven: org.owasp.encoder:encoder:1.2.2" />
-          <element id="library" level="project" name="Maven: org.jboss.weld.se:weld-se-core:4.0.0.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.weld.environment:weld-environment-common:4.0.0.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.weld:weld-core-impl:4.0.0.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.weld:weld-api:4.0.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.weld:weld-spi:4.0.Final" />
-          <element id="library" level="project" name="Maven: jakarta.annotation:jakarta.annotation-api:2.0.0" />
-          <element id="library" level="project" name="Maven: jakarta.el:jakarta.el-api:4.0.0.M1" />
-          <element id="library" level="project" name="Maven: jakarta.interceptor:jakarta.interceptor-api:2.0.0" />
-          <element id="library" level="project" name="Maven: org.jboss.logging:jboss-logging:3.4.1.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.weld.probe:weld-probe-core:4.0.0.Final" />
-          <element id="library" level="project" name="Maven: jakarta.enterprise:jakarta.enterprise.cdi-api:3.0.0" />
-          <element id="library" level="project" name="Maven: jakarta.inject:jakarta.inject-api:2.0.0" />
-          <element id="library" level="project" name="Maven: org.jboss.classfilewriter:jboss-classfilewriter:1.2.4.Final" />
+          <element id="library" level="project" name="Maven: org.apache.shiro:shiro-faces:2.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">

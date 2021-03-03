@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="restaurant-mariaDB@localhost" uuid="341972bb-d603-4cbc-8033-a0884cadd3f9">
+    <data-source source="LOCAL" name="mariaDB@XAMP" uuid="54cd7a0b-25a6-4fbf-a20c-8ca32b7dd235">
       <driver-ref>mariadb</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mariadb://127.0.0.1:3306/restaurantapp</jdbc-url>
+      <jdbc-url>jdbc:mariadb://localhost:3306/restaurantapp</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="mariaDB@java" uuid="51288d87-b3b1-4483-80a0-e7ab91fc9239">
+      <driver-ref>mariadb</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mariadb://localhost:3307/restaurantapp</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
 </project>
