@@ -45,5 +45,9 @@ public interface IUser extends IBaseEntity, Serializable
 
 	void setPrim(Integer prim);
 
+	String getPassword();
+
+	void setPassword(String pw);
+
 	@Override String toString();
 }

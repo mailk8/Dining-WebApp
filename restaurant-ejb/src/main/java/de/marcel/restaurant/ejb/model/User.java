@@ -16,6 +16,8 @@ public class User extends BaseEntity implements IUser
 {
 	private static final long serialVersionUID = 1L;
 
+	transient private String password;
+
 	@Id
 	@Column(name = "prim", nullable = false, columnDefinition = "INT")
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -168,8 +170,21 @@ public class User extends BaseEntity implements IUser
 		this.prim = prim;
 	}
 
+	public String getPassword()
+	{
+		return password;
+	}
+
+	public void setPassword(String password)
+	{
+		this.password = password;
+	}
+
+
 	@Override public String toString()
 	{
 		return "User{" + "prim=" + prim + ", firstname='" + firstname + '\'' + ", lastname='" + lastname + '\'' + ", addressLiving=" + addressLiving + ", addressActual=" + addressActual + ", culinaryLiking=" + culinaryLiking + ", ratingsSubmitted=" + ratingsSubmitted + ", visitedRestaurants=" + visitedRestaurants + ", phoneNumber='" + phoneNumber + '\'' + ", email='" + email + '\'' + '}';
 	}
+
+
 }

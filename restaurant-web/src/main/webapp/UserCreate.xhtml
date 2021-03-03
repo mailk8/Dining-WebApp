@@ -114,7 +114,19 @@
                 <br/>
 
 
-<!-- Test Area   -->
+<!--Password -->
+                <div class="form-group">
+                    <label for="password">Passwort:<h:message for="password" class="text-danger" /></label>
+                    <div class="row">
+                        <div class="col-12">
+                        <p:password id="password" value="#{backingBeanUser.current.password}" class="form-control" required="true" requiredMessage="Erforderlich!"
+                        toggleMask="true" redisplay="true" feedback="true" inline="true" maxlength="50" size="100">
+                        </p:password>
+                        </div>
+                    </div>
+                </div>
+
+
 
 
 

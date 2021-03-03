@@ -57,17 +57,15 @@
                 <p> </p>
             </div>
 
-            <shiro:user>
-                <div>
-                    <p:button href="https://localhost/restaurant-web-1/logout" value="Logout"/>
-                </div>
-            </shiro:user>
+            <div>
+                <shiro:user>
+                        <p:button href="https://localhost/restaurant-web-1/logout" value="Logout"/>
+                </shiro:user>
 
-            <shiro:guest>
-                <div>
-                    <p:button href="https://localhost/restaurant-web-1/Login.jsf" value="Login"/>
-                </div>
-            </shiro:guest>
+                <shiro:guest>
+                        <p:button href="https://localhost/restaurant-web-1/Login.jsf" value="Login"/>
+                </shiro:guest>
+            </div>
 
             <ui:remove>
 <!--                <div style="width:90px; height:31px; adding-left:10px; padding-right:10px; justify-content:center; align-items:center; display:flex; flex-direction: row; ">-->
