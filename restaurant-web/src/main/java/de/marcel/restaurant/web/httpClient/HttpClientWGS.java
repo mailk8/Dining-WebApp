@@ -80,9 +80,9 @@ public class HttpClientWGS
 		try
 		{
 			URI uri = new URI(uriString);
-						////System.out.println("+#+# HttpClient: URL wird der Queue offeriert. Größe Q " + myQueue.size());
+						////System.out.println("+# HttpClient: URL wird der Queue offeriert. Größe Q " + myQueue.size());
 			myQueue.offer(adr);
-			////System.out.println("+#+# HttpClient: Neue URI hinzugefügt " + uri + " Umfang der Queue " + myQueue.size());
+			////System.out.println("+# HttpClient: Neue URI hinzugefügt " + uri + " Umfang der Queue " + myQueue.size());
 		}
 		catch (URISyntaxException e)
 		{
@@ -98,7 +98,7 @@ public class HttpClientWGS
 
 	private static synchronized void runClient()
 	{
-		System.out.println("+#+# HttpClient: Client gestartet!");
+		System.out.println("+# HttpClient: Client gestartet!");
 
 
 		while(!myQueue.isEmpty())
@@ -145,14 +145,14 @@ public class HttpClientWGS
 				if ( ! entry.getValue().getNow(null))
 				{
 					// Etwas ist schiefgegangen, es wird erneut versucht bis maxApiCalls erreicht ist
-					//System.out.println("+#+# HttpClient: Exception für  " + entry.getKey() + " exceptionally beendet! ");
+					//System.out.println("+# HttpClient: Exception für  " + entry.getKey() + " exceptionally beendet! ");
 					//System.out.println("neuer Auftrag wird erstellt  für " + entry.getKey());
 					myQueue.offer(entry.getKey());
 				}
 				else
 				{
 					// Persistieren
-					System.out.println("+#+# HttpClient: CF für Adresse " + entry.getKey() + " erfolgreich!");
+					System.out.println("+# HttpClient: CF für Adresse " + entry.getKey() + " erfolgreich!");
 					//System.out.println("Addresse würde gespeichert werden");
 
 					// Api Call war erfolgreich, daher kann für ein nächstes Mal der Counter zurückgesetzt werden
@@ -178,7 +178,7 @@ public class HttpClientWGS
 //			}
 		}
 		allApiCalls=0;
-		System.out.println("+#+# HttpClient: Exiting ...");
+		System.out.println("+# HttpClient: Exiting ...");
 	}
 
 	private static CompletableFuture<Boolean> sendRequest(Address adr)
@@ -189,7 +189,7 @@ public class HttpClientWGS
 						.uri(adr.getWgsRestApiCall())
 						.build();
 
-		////System.out.println("+#+# HttpClient: Request erstellt!");
+		////System.out.println("+# HttpClient: Request erstellt!");
 
 //		if(allApiCalls % maxReqeuestTomtom == 0)
 //		{

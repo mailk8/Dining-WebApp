@@ -4,11 +4,14 @@ import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import java.io.Serializable;
 
-public class Injector
+@SessionScoped
+public class Injector implements Serializable
 {
 	@Produces
 	private IRestaurantEJB getAppServer()

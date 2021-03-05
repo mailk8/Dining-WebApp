@@ -66,14 +66,14 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 	public RestaurantVisit()
 	{
 		stateVisit = State.OBJEKT_ERZ;
-		//Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+#+# RestaurantVisit Entity: Konsturktor läuft und setzt " + stateVisit);
+		//Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+# RestaurantVisit Entity: Konsturktor läuft und setzt " + stateVisit);
 	}
 
 	@Override @PostConstruct
 	public void initializeState()
 	{
 		stateVisit = State.OBJEKT_ERZ;
-		//Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+#+# RestaurantVisit Entity: PostConstruct läuft und setzt " + stateVisit);
+		//Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+# RestaurantVisit Entity: PostConstruct läuft und setzt " + stateVisit);
 	}
 	// GETTER SETTER
 

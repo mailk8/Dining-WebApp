@@ -54,7 +54,7 @@ public class CalendarView implements Serializable
 			ExternalContext ectx = FacesContext.getCurrentInstance().getExternalContext();
 			String sessionId = ectx.getSession(false).toString();
 			ectx.getSessionMap().put(sessionId + "chosenDate", ldt);
-			//Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+#+# Calendar: Legt in den Kontext: " + ldt);
+			//Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+# Calendar: Legt in den Kontext: " + ldt);
 		}
 	}
 
@@ -70,7 +70,7 @@ public class CalendarView implements Serializable
 			String sessionId = ectx.getSession(false).toString();
 			ectx.getSessionMap().put(sessionId + "chosenDate", ldt);
 		}
-		//Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+#+# Calendar: Legt in den Kontext: " + ldt);
+		//Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+# Calendar: Legt in den Kontext: " + ldt);
 	}
 
 	public void click() {

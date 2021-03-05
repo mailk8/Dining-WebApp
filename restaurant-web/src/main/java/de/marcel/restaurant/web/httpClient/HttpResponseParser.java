@@ -30,11 +30,11 @@ public class HttpResponseParser
 
 	protected static CompletableFuture<Boolean> parseResponse(HttpResponse<String> response, Address adr)
 	{
-		//System.out.println("+#+# HttpResponseParser: Response erhalten mit Status " + response.statusCode());
+		//System.out.println("+# HttpResponseParser: Response erhalten mit Status " + response.statusCode());
 
 		if((response.statusCode() != 200) || (response.body().length() < 5))
 		{
-			//System.out.println("+#+# HttpResponseParser: Statuscode war nicht 200 oder Inhalt des Messagebodys kleiner 5. Statuscode: " + response.statusCode());
+			//System.out.println("+# HttpResponseParser: Statuscode war nicht 200 oder Inhalt des Messagebodys kleiner 5. Statuscode: " + response.statusCode());
 			return exitExceptionally(response);
 		}
 
@@ -57,14 +57,14 @@ public class HttpResponseParser
 
 							double lat = parser.getBigDecimal().doubleValue();
 							adr.setWgs84Latitude(lat);
-							//System.out.println("+#+# HttpResponseParser: Lat " + lat + " gesetzt in " + adr.getStreet() + " " + adr.getHouseNumber());
+							//System.out.println("+# HttpResponseParser: Lat " + lat + " gesetzt in " + adr.getStreet() + " " + adr.getHouseNumber());
 							parser.next();
 							if(parser.getString().equals("lon")) // Annahme: lon folgt nach lat
 							{
 								parser.next();
 								double lon = parser.getBigDecimal().doubleValue();
 								adr.setWgs84Longitude(lon);
-								//System.out.println("+#+# HttpResponseParser: Lon " + lon + " gesetzt in " + adr.getStreet()+ " " + adr.getHouseNumber());
+								//System.out.println("+# HttpResponseParser: Lon " + lon + " gesetzt in " + adr.getStreet()+ " " + adr.getHouseNumber());
 								return exitSuccessfully(response);
 							}
 						}
@@ -80,7 +80,7 @@ public class HttpResponseParser
 							parser.next();
 							if(parser.getInt() <= 0) // Keine Ergebnisse wurden geliefert
 							{
-								//System.out.println("+#+# Parser: numResults war 0");
+								//System.out.println("+# Parser: numResults war 0");
 								return exitExceptionally(response);
 							}
 							//parser.skipObject();
@@ -90,10 +90,10 @@ public class HttpResponseParser
 						if(s.equals("type"))
 						{
 							parser.next();
-							//System.out.println("+#+# Parser hat  Type gefunden" + parser.getString());
+							//System.out.println("+# Parser hat  Type gefunden" + parser.getString());
 							if(!parser.getString().equals("Point Address")) // Keine Ergebnisse wurden geliefert
 							{
-								//System.out.println("+#+# Parser: in type war etwas anderes als Point Address");
+								//System.out.println("+# Parser: in type war etwas anderes als Point Address");
 								return exitExceptionally(response);
 							}
 							parser.skipObject();
@@ -113,11 +113,11 @@ public class HttpResponseParser
 		}
 		catch (Exception e)
 		{
-			//System.out.println("+#+# HttpResponseParser: Allgemeiner Fehler beim Parsen des Json Dokuments.");
+			//System.out.println("+# HttpResponseParser: Allgemeiner Fehler beim Parsen des Json Dokuments.");
 			e.printStackTrace();
 		}
 
-		//System.out.println("+#+# Parser: ist zuende gelaufen");
+		//System.out.println("+# Parser: ist zuende gelaufen");
 		return exitExceptionally(response);
 	}
 

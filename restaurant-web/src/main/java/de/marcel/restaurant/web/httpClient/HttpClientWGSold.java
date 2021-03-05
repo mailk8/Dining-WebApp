@@ -79,7 +79,7 @@
 //		try
 //		{
 //			addRequest(new URI(uri), a);
-//			System.out.println("+#+# HttpClient: Neue URI hinzugefügt " + uri + " Umfang der Queue " + myQueue.size());
+//			System.out.println("+# HttpClient: Neue URI hinzugefügt " + uri + " Umfang der Queue " + myQueue.size());
 //		}
 //		catch (URISyntaxException e)
 //		{
@@ -93,7 +93,7 @@
 //
 //	private static void runClient()
 //	{
-//		System.out.println("+#+# HttpClient: Client gestartet!");
+//		System.out.println("+# HttpClient: Client gestartet!");
 //
 //		while(!myQueue.isEmpty())
 //		{
@@ -117,16 +117,16 @@
 //				{
 //					if (cf.isCompletedExceptionally())
 //					{
-//						System.out.println("+#+# HttpClient: Exception für  " + cf.getNow(null) + " exceptionally beendet! Im if");
+//						System.out.println("+# HttpClient: Exception für  " + cf.getNow(null) + " exceptionally beendet! Im if");
 //					}
 //					else
 //					{
-//						System.out.println("+#+# HttpClient: CF für Adresse " + cf.getNow(null).getValue().getPrim() + " erfolgreich!");
+//						System.out.println("+# HttpClient: CF für Adresse " + cf.getNow(null).getValue().getPrim() + " erfolgreich!");
 //						//appServer.persist(cf.getNow(null).getValue());}
 //					}
 //					if (cf.isCompletedExceptionally())
 //					{
-//						System.out.println("+#+# HttpClient: Exception für  " + cf.getNow(null) + " exceptionally beendet! Außerhalb if");
+//						System.out.println("+# HttpClient: Exception für  " + cf.getNow(null) + " exceptionally beendet! Außerhalb if");
 //					}
 //
 //				}
@@ -142,7 +142,7 @@
 //		// Request Daten aus Q entfernen, wenn sie bereits raus sind, wird ein gescheiterter CF zurückgegeben, der nicht weiter berücksichtigt wird.
 //		if (myQueue.remove(entry.getKey()) == null)
 //		{
-//			System.out.println("+#+# HttpClient: Entry sollte aus Q entfernt werden und war nicht enthalten.");
+//			System.out.println("+# HttpClient: Entry sollte aus Q entfernt werden und war nicht enthalten.");
 //			return exitExceptionally();
 //		}
 //
@@ -152,7 +152,7 @@
 //						.uri(entry.getKey())
 //						.build();
 //
-//		System.out.println("+#+# HttpClient: Request erstellt!");
+//		System.out.println("+# HttpClient: Request erstellt!");
 //
 //		// Future zurückgeben an Aufrufmethode, vorher das Parsing starten
 //		return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())

@@ -3,7 +3,7 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
              version="2.2">
-    <persistence-unit name="restaurant-ejb">
+    <persistence-unit name="restaurant_ejb">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
 
@@ -40,6 +40,18 @@
 <!--            <property name="eclipselink.logging.parameters" value="true"/>-->
 
             <property name="eclipselink.deploy-on-startup" value="true"/>
+        </properties>
+
+    </persistence-unit>
+
+    <persistence-unit name="restaurant_auth">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+
+        <jta-data-source>java:jboss/datasources/RestaurantAppDSmariaDB_auth</jta-data-source>
+
+        <properties>
+            <property name="eclipselink.target-server" value="JBoss"/>
+            <property name="eclipselink.target-database" value="MySQL"/>
         </properties>
 
     </persistence-unit>

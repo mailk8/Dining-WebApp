@@ -180,7 +180,7 @@ public class BackingBeanVisit implements Serializable
 		// >= 1 Bewertung erteilt, bewertungen offen
 		// Alle Bewertungen aller Teilnehmer eingegangen, abgeschlossen
 
-		Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+#+# BackingBeanVisit: Current enthält als State " + current);
+		Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+# BackingBeanVisit: Current enthält als State " + current);
 
 		int switchVar = current.getStateVisit().ordinal();
 		if (switchVar == 5) return;
@@ -242,7 +242,7 @@ public class BackingBeanVisit implements Serializable
 		availableUsers = new HashSet<>(appServer.findAll(User.class));
 		// reset
 		//current.setParticipants(new HashSet<>());
-		//Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+#+# BackingBeanVisit: fillUsers holte " + availableUsers.size() + " " + availableUsers);
+		//Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+# BackingBeanVisit: fillUsers holte " + availableUsers.size() + " " + availableUsers);
 	}
 
 	public Set<User> getAvailableUsers() {

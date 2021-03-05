@@ -4,6 +4,7 @@ import de.marcel.restaurant.ejb.interfaces.IUser;
 
 import javax.persistence.*;
 import java.util.Set;
+import java.util.logging.Logger;
 
 @Entity
 @Table(name = "users")
@@ -137,6 +138,7 @@ public class User extends BaseEntity implements IUser
 
 	@Override public void setEmail(String email)
 	{
+		Logger.getLogger(getClass().getSimpleName()).severe("+# Entity User: setEmail aufgerufen mit " + email);
 		this.email = email.trim();
 	}
 

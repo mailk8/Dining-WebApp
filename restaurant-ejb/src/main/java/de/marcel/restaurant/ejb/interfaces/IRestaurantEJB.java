@@ -18,5 +18,9 @@ public interface IRestaurantEJB extends Serializable
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED) <T> void delete(T t);
 
+	@TransactionAttribute(TransactionAttributeType.REQUIRED) void persistCredentials(String email, String pass, String salt);
+
 	<T> List<T> findAll(Class entitiyClass);
+
+	@TransactionAttribute(TransactionAttributeType.REQUIRED) void persistEmail(String oldValue, String newValue);
 }

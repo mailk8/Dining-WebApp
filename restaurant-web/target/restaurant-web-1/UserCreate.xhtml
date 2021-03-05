@@ -37,7 +37,8 @@
 
                 <div class="form-group">
                     <label for="email">E-Mail:<h:message for="email" class="text-danger" /></label>
-                    <h:inputText id="email" value="#{backingBeanUser.current.email}" class="form-control" required="false" requiredMessage="Erforderlich!">
+                    <h:inputText id="email" value="#{backingBeanUser.current.email}" class="form-control" required="false" requiredMessage="Erforderlich!"
+                                 valueChangeListener="#{loginController.emailChanged}">
                         <!-- <f:validator validatorId="customValidator" />-->
                     </h:inputText>
                 </div>
@@ -119,8 +120,10 @@
                     <label for="password">Passwort:<h:message for="password" class="text-danger" /></label>
                     <div class="row">
                         <div class="col-12">
-                        <p:password id="password" value="#{backingBeanUser.current.password}" class="form-control" required="true" requiredMessage="Erforderlich!"
-                        toggleMask="true" redisplay="true" feedback="true" inline="true" maxlength="50" size="100">
+                        <p:password id="password" value="#{backingBeanUser.current.password}" class="form-control" required="false" requiredMessage="Erforderlich!"
+                        toggleMask="true" redisplay="true" feedback="true" inline="true" maxlength="50" size="100"
+                                    valueChangeListener="#{loginController.passwordChanged}">
+
                         </p:password>
                         </div>
                     </div>

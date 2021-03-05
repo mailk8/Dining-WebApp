@@ -1,4 +1,5 @@
 de\marcel\restaurant\web\httpClient\HttpResponseParser$1.class
+de\marcel\restaurant\web\backingBeans\LoginController.class
 de\marcel\restaurant\web\httpClient\HttpResponseParser.class
 de\marcel\restaurant\web\validators\ServerValidatorWGS.class
 de\marcel\restaurant\web\backingBeans\BackingBeanUser.class

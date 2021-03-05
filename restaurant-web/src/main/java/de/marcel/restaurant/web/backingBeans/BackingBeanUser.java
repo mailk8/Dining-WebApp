@@ -7,17 +7,40 @@ import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.User;
 import de.marcel.restaurant.web.httpClient.*;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.ejb.PrePassivate;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Named
 @SessionScoped
 public class BackingBeanUser implements Serializable
 {
+	@PostConstruct
+	public void logC()
+	{
+		Logger.getLogger(getClass().getSimpleName()).severe("+# BackingBeanUser PostConstruct. Current User email ist " + current.getEmail() );
+	}
+
+	@PreDestroy
+	public void logD()
+	{
+		Logger.getLogger(getClass().getSimpleName()).severe("+# BackingBeanUser PreDestroy. Current User email ist " + current.getEmail() );
+	}
+
+	@PrePassivate
+	public void logP()
+	{
+		Logger.getLogger(getClass().getSimpleName()).severe("+# BackingBeanUser PrePassivate. Current User email ist " + current.getEmail() );
+	}
+
 	private static final long serialVersionUID = 1L;
 	private User current = new User();
 
@@ -60,13 +83,12 @@ public class BackingBeanUser implements Serializable
 			}
 
 		}
-		current = new User();
+		//current = new User(); // Nur in createNew !
 		return "UserList?faces-redirect=true";
 	}
 
 	public void insert(User u)
 	{
-		//Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+#+# Aufruf insert in backingBean");
 		appServer.persist(u);
 	}
 
@@ -163,7 +185,7 @@ public class BackingBeanUser implements Serializable
 							.map( e -> (Address) e)
 							.filter((Address d) -> (d.getPrim().intValue() >= 810))//.limit(1)
 							.collect(Collectors.toList());
-		System.out.println("+#+# Testliste mit Elementen " + ballern.size() + "\n" + ballern);
+		System.out.println("+# Testliste mit Elementen " + ballern.size() + "\n" + ballern);
 		ballern.forEach(e->{
 			System.out.println(e + " trys: " + e.getCounterApiCalls());
 		});
