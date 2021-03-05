@@ -23,23 +23,6 @@ import java.util.stream.Collectors;
 @SessionScoped
 public class BackingBeanUser implements Serializable
 {
-	@PostConstruct
-	public void logC()
-	{
-		Logger.getLogger(getClass().getSimpleName()).severe("+# BackingBeanUser PostConstruct. Current User email ist " + current.getEmail() );
-	}
-
-	@PreDestroy
-	public void logD()
-	{
-		Logger.getLogger(getClass().getSimpleName()).severe("+# BackingBeanUser PreDestroy. Current User email ist " + current.getEmail() );
-	}
-
-	@PrePassivate
-	public void logP()
-	{
-		Logger.getLogger(getClass().getSimpleName()).severe("+# BackingBeanUser PrePassivate. Current User email ist " + current.getEmail() );
-	}
 
 	private static final long serialVersionUID = 1L;
 	private User current = new User();
@@ -68,33 +51,42 @@ public class BackingBeanUser implements Serializable
 
 	public String saveUser()
 	{
+		String s="empty";
 		if(current != null)
 		{
 			if(null == current.getPrim())
 			{
 				setCoordinatesEntity();
 				insert(current);
+				s = "insert";
 			}
 
 			else
 			{
 				setCoordinatesEntity();
 				update(current);
+				s = "update";
 			}
 
 		}
+
+		Logger.getLogger(getClass().getSimpleName()).severe("+# Es wurde " + s + " aufgerufen in Phase " + FacesContext.getCurrentInstance().getCurrentPhaseId().getName() +
+						" Current User firstname ist " + current.getFirstname() + " mit id " + current.getPrim());
+
 		//current = new User(); // Nur in createNew !
 		return "UserList?faces-redirect=true";
 	}
 
 	public void insert(User u)
 	{
-		appServer.persist(u);
+		Integer i = appServer.persist(u);
+		u.setPrim(i);
 	}
 
 	public void update(User u)
 	{
-		appServer.update(u);
+		Integer i = appServer.update(u);
+		u.setPrim(i);
 	}
 
 	public String edit(User u)
@@ -107,6 +99,7 @@ public class BackingBeanUser implements Serializable
 	public String delete(User u)
 	{
 		appServer.delete(u);
+		// todo Passwort DB Eintrag löschen
 		return "UserList?faces-redirect=true";
 	}
 
@@ -119,6 +112,7 @@ public class BackingBeanUser implements Serializable
 	{
 		current = new User();
 		setCoordinatesBean(current);
+		insert(current);
 
 		return "UserCreate?faces-redirect=true";
 	}

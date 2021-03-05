@@ -39,7 +39,7 @@
                     <label for="email">E-Mail:<h:message for="email" class="text-danger" /></label>
                     <h:inputText id="email" value="#{backingBeanUser.current.email}" class="form-control" required="false" requiredMessage="Erforderlich!"
                                  valueChangeListener="#{loginController.emailChanged}">
-                        <!-- <f:validator validatorId="customValidator" />-->
+                        <ui:remove> <!-- <f:validator validatorId="customValidator" />--> </ui:remove>
                     </h:inputText>
                 </div>
 <!--Phone -->

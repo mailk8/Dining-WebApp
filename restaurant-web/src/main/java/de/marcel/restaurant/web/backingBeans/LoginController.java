@@ -51,11 +51,8 @@ public class LoginController implements Serializable
 		PhaseId.RENDER_RESPONSE 6
 	 */
 
-	private String emailOld, emailNew, emailPass;
-
 	public synchronized void passwordChanged(ValueChangeEvent e){
 		Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. PhaseId des Events ist " + e.getPhaseId().getName());
-//		// Event muss Modelupdate abwarten
 //		if (e.getPhaseId().getOrdinal() > 5)
 //		{
 //			emailOld = backingBeanUser.getCurrent().getEmail();
@@ -73,13 +70,13 @@ public class LoginController implements Serializable
 						+ backingBeanUser.getCurrent() + " aktuelle Phase ist " + e.getPhaseId().getName());
 
 		// Nur bei tatsächlicher Neueingabe eines Passworts wird in die DB geschrieben
-		if(e.getNewValue().equals("") || e.getNewValue() == null)
+		if(e.getNewValue() == null || e.getNewValue().equals(""))
 		{
 			return;
 		}
 		byte[] salt = generateSalt();
 		String[] pass = { encryptPassword(e.getNewValue().toString(), salt) };
-		appServer.persistCredentials(emailOld, pass[0], Base64.getEncoder().encodeToString(salt));
+		appServer.persistCredentials(backingBeanUser.getCurrent().getPrim(), pass[0], Base64.getEncoder().encodeToString(salt));
 		salt = null;
 		pass = null;
 
@@ -91,30 +88,21 @@ public class LoginController implements Serializable
 		Logger.getLogger(getClass().getSimpleName()).severe("+# Email change aufgerufen in Phase" + FacesContext.getCurrentInstance().getCurrentPhaseId().getName());
 		Logger.getLogger(getClass().getSimpleName()).severe("+# Email change old value " + e.getOldValue() + " new Value" + e.getNewValue());
 
-		emailOld = (String) e.getOldValue(); // läuft früh in Phase 3 "Validation"
-		emailNew = (String) e.getNewValue(); // läuft früh in Phase 3 "Validation"
+		String emailOld = (String) e.getOldValue();
+		String emailNew = (String) e.getNewValue();
 
-		if (e.getPhaseId().getOrdinal() < 5)
+		if( null == emailOld || emailOld.equals(""))
 		{
-			Logger.getLogger(getClass().getSimpleName()).severe("+# Email change < 6");
-			e.setPhaseId(PhaseId.INVOKE_APPLICATION);
-			e.queue();
-			return;
+			Logger.getLogger(getClass().getSimpleName()).severe("+# Email Neueingabe ");
 		}
 
-		if(emailOld.equals("") || emailOld == null)
-		{
-			Logger.getLogger(getClass().getSimpleName()).severe("+# Email Neueingabe, exiting... ");
-			return;
-		}
-
-		if(emailNew.equals("") || emailNew == null)
+		if( null == emailNew || emailNew.equals(""))
 		{
 			Logger.getLogger(getClass().getSimpleName()).severe("+# Email change value war null, exiting... ");
 			return;
 		}
 
-		appServer.persistEmail(emailOld, emailNew);
+		appServer.persistEmail(backingBeanUser.getCurrent().getPrim(), emailNew);
 
 	}
 
