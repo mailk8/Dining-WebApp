@@ -98,10 +98,7 @@ public class RestaurantEJB implements IRestaurantEJB
 			return -1;
 		}
 
-
-
 		return result;
-
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)

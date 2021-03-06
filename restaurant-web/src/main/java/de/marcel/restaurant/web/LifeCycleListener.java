@@ -22,6 +22,11 @@ public class LifeCycleListener implements PhaseListener
 
 	private static final String sessionToken = "MULTI_PAGE_MESSAGES_SUPPORT";
 
+
+// todo:  Wird der LifecyleListener session bezogen neu instanziiert?
+// todo:  Dann könnte man das Anlegen von Listen und Maps in globalen Variablen erledigen.
+
+
 	public PhaseId getPhaseId() {
 		return PhaseId.ANY_PHASE;
 	}
@@ -44,13 +49,12 @@ public class LifeCycleListener implements PhaseListener
 	public void afterPhase(PhaseEvent event) {
 		Logger.getLogger(getClass().getSimpleName()).severe("+# Ende der JSF Phase " + event.getPhaseId());
 
-
-
-		if (!PhaseId.RENDER_RESPONSE.equals(event.getPhaseId()))
-		{
-			FacesContext facesContext = event.getFacesContext();
-			this.saveMessages(facesContext);
-		}
+//      Funktioniert ohne dies
+//		if (!PhaseId.RENDER_RESPONSE.equals(event.getPhaseId()))
+//		{
+//			FacesContext facesContext = event.getFacesContext();
+//			this.saveMessages(facesContext);
+//		}
 	}
 
 
@@ -58,8 +62,15 @@ public class LifeCycleListener implements PhaseListener
 
 	private int saveMessages(final FacesContext facesContext)
 	{
+		Iterator<FacesMessage> iter = facesContext.getMessages(null);
+		if (!iter.hasNext())
+		{
+			return 0;
+		}
+
 		List<FacesMessage> messages = new ArrayList<FacesMessage>();
-		for (Iterator<FacesMessage> iter = facesContext.getMessages(null); iter.hasNext();)
+
+		while (iter.hasNext())
 		{
 			FacesMessage m = iter.next();
 			messages.add(m);
