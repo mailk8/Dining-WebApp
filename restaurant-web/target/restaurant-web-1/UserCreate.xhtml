@@ -77,7 +77,7 @@
                 <h:commandButton action="#{backingBeanUser.requestWgsForAddress()}" value="Hole WGS zu Adresse" class="btn btn-success" update="@form"/>
 
 <!--Position-->
-                <p:growl id="growlLocation" showDetail="true" sticky="true" />
+                <p:growl id="growlLocation" showDetail="true"  />
                 <p:panel>
                 <div class="form-group">
                     <label for="wgs84Lat">Position auf Breiten- und Längengrad:
@@ -121,26 +121,18 @@
                     <div class="row">
                         <div class="col-12">
                         <p:password id="password" value="#{backingBeanUser.current.password}" class="form-control" required="false" requiredMessage="Erforderlich!"
-                        toggleMask="true" redisplay="true" feedback="true" inline="true" maxlength="50" size="100"
-                                    valueChangeListener="#{loginController.passwordChanged}">
+                                    toggleMask="true" redisplay="true" feedback="true" inline="true" maxlength="50" size="100"
+                                    valueChangeListener="#{loginController.passwordChanged}" update="passwordChanged">
 
                         </p:password>
                         </div>
                     </div>
                 </div>
 
-
-
-
-
-
-
-
-
-
 <!-- Buttons    -->
                 <hr/>
-                <h:commandButton action="#{backingBeanUser.saveUser()}" value="Speichern" class="btn btn-success" update="@form"/>
+                <h:commandButton class="btn btn-warning" value="Growl" update="growlPassword" actionListener="#{loginController.throwFacesMessage}" />
+                <h:commandButton action="#{backingBeanUser.saveUser()}" value="Speichern" class="btn btn-success" update="@form" actionListener="#{loginController.throwFacesMessage}" />
                 <h:commandButton action="#{backingBeanUser.createNew()}" value="User anlegen" class="btn btn-primary" />
                 <h:commandButton action="#{backingBeanUser.createNew()}" value="#Restaurantbesuch mit diesem User" class="btn btn-warning" />
             </h:form>

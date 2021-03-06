@@ -13,4 +13,8 @@
         <component-class>org.apache.shiro.web.faces.tags.PrincipalTag</component-class>
     </component>
 
+    <lifecycle>
+        <phase-listener>de.marcel.restaurant.web.LifeCycleListener</phase-listener>
+    </lifecycle>
+
 </faces-config>

@@ -57,15 +57,19 @@
                 <p> </p>
             </div>
 
-            <div>
-                <shiro:user>
-                        <p:button href="https://localhost/restaurant-web-1/logout" value="Logout"/>
-                </shiro:user>
+            <shiro:user>
+                <ui:remove>
+<!--                        <p:button href="https://localhost/restaurant-web-1/logout" value="Logout"-->
+<!--                                  actionListener="#{loginController.logout}"/>-->
+                </ui:remove>
+                <h:form>
+                  <h:commandLink class="btn btn-warning" action="#{loginController.logout()}">Logout</h:commandLink>
+                </h:form>
+            </shiro:user>
 
-                <shiro:guest>
-                        <p:button href="https://localhost/restaurant-web-1/Login.jsf" value="Login"/>
-                </shiro:guest>
-            </div>
+            <shiro:guest>
+                    <p:button href="https://localhost/restaurant-web-1/Login.jsf" value="Login"/>
+            </shiro:guest>
 
             <ui:remove>
 <!--                <div style="width:90px; height:31px; adding-left:10px; padding-right:10px; justify-content:center; align-items:center; display:flex; flex-direction: row; ">-->

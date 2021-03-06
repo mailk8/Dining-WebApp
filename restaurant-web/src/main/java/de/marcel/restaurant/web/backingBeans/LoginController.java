@@ -1,5 +1,6 @@
 package de.marcel.restaurant.web.backingBeans;
 
+import com.sun.jdi.Value;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -8,17 +9,27 @@ import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.realm.jdbc.JdbcRealm;
 import org.apache.shiro.util.ByteSource;
+import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
+import org.apache.shiro.web.filter.authc.PassThruAuthenticationFilter;
 import org.apache.shiro.web.mgt.WebSecurityManager;
+import org.omnifaces.util.Faces;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Base64;
 import java.util.logging.Logger;
 
@@ -26,10 +37,14 @@ import java.util.logging.Logger;
 @SessionScoped
 public class LoginController implements Serializable
 {
+	AuthenticatingFilter test;
+
 	private static final long serialVersionUID = 1L;
 
 	@Inject IRestaurantEJB appServer; // Hat den EntityManager für Passwörter
 	@Inject BackingBeanUser backingBeanUser;
+
+
 
 	// Members
 	// boolean: isUser Authenticated oder BESSER immmer bei Shiro nachfragen
@@ -49,23 +64,19 @@ public class LoginController implements Serializable
 		PhaseId.UPDATE_MODEL_VALUES 4
 		PhaseId.INVOKE_APPLICATION 5
 		PhaseId.RENDER_RESPONSE 6
+
+		Events in andere Phase schieben:
+		if (e.getPhaseId().getOrdinal() < 5) {
+			e.setPhaseId(PhaseId.INVOKE_APPLICATION);
+			e.queue();
+			return;
+		}
 	 */
 
 	public synchronized void passwordChanged(ValueChangeEvent e){
+
 		Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. PhaseId des Events ist " + e.getPhaseId().getName());
-//		if (e.getPhaseId().getOrdinal() > 5)
-//		{
-//			emailOld = backingBeanUser.getCurrent().getEmail();
-//			Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged PhaseId < 5 aufgerufen. PhaseId des Events ist " + e.getPhaseId().getName());
-//			e.setPhaseId(PhaseId.INVOKE_APPLICATION);
-//			Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged PhaseId < 5 aufgerufen. PhaseId nach Change " + e.getPhaseId().getName());
-//			e.queue();
-//			Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged PhaseId < 5 aufgerufen. PhaseId nach Queue " + e.getPhaseId().getName());
-//			return;
-//		}
-
 		Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged valueChanged wird ausgeführt in Phase " + FacesContext.getCurrentInstance().getCurrentPhaseId().getName());
-
 		Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged BackingBeanUser ist " +backingBeanUser + " aktuelle email ist " + backingBeanUser.getCurrent().getEmail() + " aktueller User ist "
 						+ backingBeanUser.getCurrent() + " aktuelle Phase ist " + e.getPhaseId().getName());
 
@@ -76,9 +87,11 @@ public class LoginController implements Serializable
 		}
 		byte[] salt = generateSalt();
 		String[] pass = { encryptPassword(e.getNewValue().toString(), salt) };
-		appServer.persistCredentials(backingBeanUser.getCurrent().getPrim(), pass[0], Base64.getEncoder().encodeToString(salt));
+		int result = appServer.persistCredentials(backingBeanUser.getCurrent().getPrim(), pass[0], Base64.getEncoder().encodeToString(salt));
 		salt = null;
 		pass = null;
+
+		throwFacesMessage(result, e);
 
 	}
 
@@ -102,7 +115,9 @@ public class LoginController implements Serializable
 			return;
 		}
 
-		appServer.persistEmail(backingBeanUser.getCurrent().getPrim(), emailNew);
+		int result = appServer.persistEmail(backingBeanUser.getCurrent().getPrim(), emailNew);
+
+		throwFacesMessage(result, e);
 
 	}
 
@@ -129,6 +144,57 @@ public class LoginController implements Serializable
 	// Falls doch: getPassword: Hole Passwort, gib es ins UI ab und vergiss es gleich wieder
 
 
+
+
+	public void throwFacesMessage(int result, ValueChangeEvent e)
+	{
+
+		if(result == 1)
+		{
+			// worauf bezieht sich ClientID, den Browser?
+			FacesContext.getCurrentInstance().addMessage("growlPassword", new FacesMessage(
+							FacesMessage.SEVERITY_INFO, "Passwort wurde erfolgreich gespeichert!", ""));
+
+			Logger.getLogger(getClass().getSimpleName()).severe("+# Versuche Growl INFO / Erfolg auszulösen");
+		}
+		else if(result == -1)
+		{
+			FacesContext.getCurrentInstance().addMessage("growlPassword", new FacesMessage(
+							FacesMessage.SEVERITY_ERROR, "Fehler beim Speichern des Passworts!", "Bitte versuch es noch einmal."));
+			Logger.getLogger(getClass().getSimpleName()).severe("+# Versuche Growl Error auszulösen");
+		}
+	}
+
+	public void throwFacesMessage()
+	{
+		Logger.getLogger(getClass().getSimpleName()).severe("+# Versuche TEst Growl auszulösen in Phase " + FacesContext.getCurrentInstance().getCurrentPhaseId().getName());
+		FacesContext.getCurrentInstance().addMessage("password", new FacesMessage(
+						FacesMessage.SEVERITY_INFO, "Passwort wurde erfolgreich gespeichert!", ""));
+
+	}
+
+
+
+	// logout soll Session invalidieren und dafür sorgen, dass der Current User aus BackingBeanUser verschwindet
+	public String logout()
+	{
+		// Rechte aus Shiro Ant-Matcher entfernen
+		SecurityUtils.getSubject().logout();
+
+		Logger.getLogger(getClass().getSimpleName()).severe("+# LogoutController logout entfernt User " + backingBeanUser.getCurrent() + " aus der BackingBean");
+
+		// Eigenen actual User entfernen
+		backingBeanUser.setCurrent(null);
+
+		// Sessionbeans zurücksetzen
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+
+		org.apache.shiro.web.filter.authc.AuthenticationFilter asdf;
+		AuthenticatingFilter dgf;
+		PassThruAuthenticationFilter sgfs;
+
+		return "UserList?faces-redirect=true";
+	}
 
 
 

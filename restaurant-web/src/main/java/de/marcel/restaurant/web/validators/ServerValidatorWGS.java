@@ -67,7 +67,6 @@ public class ServerValidatorWGS implements Validator {
 		if(component.getId().equals("wgs84Lat") && ((valueDouble > 90) || (valueDouble < -90)))
 		{
 			((UIInput)component).setValid(false);
-			//Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+# ValidatorWGS: if Lat  ");
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fehler", "Breitengrad muss zwischen +90° und -90° liegen.\n" + valueString + " ist nicht valide."));
 			return;
 		}
@@ -76,7 +75,6 @@ public class ServerValidatorWGS implements Validator {
 		if(component.getId().equals("wgs84Lon") && ((valueDouble > 180) || (valueDouble < -180)))
 		{
 			((UIInput)component).setValid(false);
-			//Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+# ValidatorWGS: if Lon  ");
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fehler", "Längengrad muss zwischen +180° und -180° liegen.\n" + valueString + " ist nicht valide."));
 			return;
 		}

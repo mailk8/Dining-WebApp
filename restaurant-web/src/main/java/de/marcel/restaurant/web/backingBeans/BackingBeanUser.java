@@ -98,8 +98,8 @@ public class BackingBeanUser implements Serializable
 
 	public String delete(User u)
 	{
+		appServer.deleteCredentials(u.getPrim());
 		appServer.delete(u);
-		// todo Passwort DB Eintrag löschen
 		return "UserList?faces-redirect=true";
 	}
 
