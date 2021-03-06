@@ -123,7 +123,8 @@
                         <div class="col-12">
                         <p:password id="password" value="#{backingBeanUser.current.password}" class="form-control" required="false" requiredMessage="Erforderlich!"
                                     toggleMask="true" redisplay="true" feedback="true" inline="true" maxlength="50" size="100"
-                                    valueChangeListener="#{loginController.passwordChanged}" update="passwordChanged">
+                                    valueChangeListener="#{loginController.passwordChanged}" update="passwordChanged"
+                                    validator="#{serverValidatorPassword.validate}">
 
                         </p:password>
                         </div>

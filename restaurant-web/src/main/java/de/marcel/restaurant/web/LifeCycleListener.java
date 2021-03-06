@@ -2,6 +2,7 @@ package de.marcel.restaurant.web;
 
 import org.omnifaces.util.Faces;
 
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
 	https://www.ocpsoft.org/java/persist-and-pass-facesmessages-over-page-redirects/
 	https://balusc.omnifaces.org/search/label/JSF2?max-results=100
  */
+@SessionScoped
 public class LifeCycleListener implements PhaseListener
 {
 

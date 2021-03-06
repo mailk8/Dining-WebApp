@@ -76,6 +76,7 @@ public class RestaurantEJB implements IRestaurantEJB
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	@Override public synchronized int persistCredentials(Integer id_prod_db, String pass, String salt)
 	{
+
 		Logger.getLogger(getClass().getSimpleName()).severe("+# persist credentials mit id " + id_prod_db + " pass " + pass + " salt " + salt);
 
 		Query q = null;

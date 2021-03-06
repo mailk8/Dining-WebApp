@@ -41,6 +41,8 @@ public class LoginController implements Serializable
 
 	private static final long serialVersionUID = 1L;
 
+	private boolean pwChanged = false;
+
 	@Inject IRestaurantEJB appServer; // Hat den EntityManager für Passwörter
 	@Inject BackingBeanUser backingBeanUser;
 
@@ -76,11 +78,14 @@ public class LoginController implements Serializable
 	public synchronized void passwordChanged(ValueChangeEvent e){
 
 		Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. PhaseId des Events ist " + e.getPhaseId().getName());
+		Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. ValueNew " + e.getNewValue() + " OldValue " + e.getOldValue());
 
 
 		// Nur bei tatsächlicher Neueingabe eines Passworts wird in die DB geschrieben
 		if(e.getNewValue() == null || e.getNewValue().equals(""))
 		{
+			Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. Keine Änderung, exiting");
+			pwChanged = false;
 			return;
 		}
 		byte[] salt = generateSalt();
@@ -88,6 +93,7 @@ public class LoginController implements Serializable
 		int result = appServer.persistCredentials(backingBeanUser.getCurrent().getPrim(), pass[0], Base64.getEncoder().encodeToString(salt));
 		salt = null;
 		pass = null;
+		pwChanged = true;
 
 		throwFacesMessage(result);
 
@@ -146,20 +152,20 @@ public class LoginController implements Serializable
 
 	public void throwFacesMessage(int result)
 	{
-
-		if(result == 1)
+		if(pwChanged)
 		{
-			// worauf bezieht sich ClientID, den Browser?
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-							FacesMessage.SEVERITY_INFO, "Passwort wurde erfolgreich gespeichert!", ""));
+			if (result == 1)
+			{
+				// worauf bezieht sich ClientID, den Browser?
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Passwort wurde erfolgreich gespeichert!", ""));
 
-			Logger.getLogger(getClass().getSimpleName()).severe("+# Versuche Growl INFO / Erfolg auszulösen");
-		}
-		else if(result == -1)
-		{
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-							FacesMessage.SEVERITY_WARN, "Fehler beim Speichern des Passworts!", "Bitte versuch es noch einmal."));
-			Logger.getLogger(getClass().getSimpleName()).severe("+# Versuche Growl Error auszulösen");
+				Logger.getLogger(getClass().getSimpleName()).severe("+# Versuche Growl INFO / Erfolg auszulösen");
+			}
+			else if (result == -1)
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Fehler beim Speichern des Passworts!", "Bitte versuch es noch einmal."));
+				Logger.getLogger(getClass().getSimpleName()).severe("+# Versuche Growl Error auszulösen");
+			}
 		}
 	}
 
