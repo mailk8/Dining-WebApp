@@ -76,9 +76,7 @@ public class LoginController implements Serializable
 	public synchronized void passwordChanged(ValueChangeEvent e){
 
 		Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. PhaseId des Events ist " + e.getPhaseId().getName());
-		Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged valueChanged wird ausgeführt in Phase " + FacesContext.getCurrentInstance().getCurrentPhaseId().getName());
-		Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged BackingBeanUser ist " +backingBeanUser + " aktuelle email ist " + backingBeanUser.getCurrent().getEmail() + " aktueller User ist "
-						+ backingBeanUser.getCurrent() + " aktuelle Phase ist " + e.getPhaseId().getName());
+
 
 		// Nur bei tatsächlicher Neueingabe eines Passworts wird in die DB geschrieben
 		if(e.getNewValue() == null || e.getNewValue().equals(""))
@@ -91,7 +89,7 @@ public class LoginController implements Serializable
 		salt = null;
 		pass = null;
 
-		throwFacesMessage(result, e);
+		throwFacesMessage(result);
 
 	}
 
@@ -117,7 +115,7 @@ public class LoginController implements Serializable
 
 		int result = appServer.persistEmail(backingBeanUser.getCurrent().getPrim(), emailNew);
 
-		throwFacesMessage(result, e);
+		throwFacesMessage(result);
 
 	}
 
@@ -146,31 +144,23 @@ public class LoginController implements Serializable
 
 
 
-	public void throwFacesMessage(int result, ValueChangeEvent e)
+	public void throwFacesMessage(int result)
 	{
 
 		if(result == 1)
 		{
 			// worauf bezieht sich ClientID, den Browser?
-			FacesContext.getCurrentInstance().addMessage("growlPassword", new FacesMessage(
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
 							FacesMessage.SEVERITY_INFO, "Passwort wurde erfolgreich gespeichert!", ""));
 
 			Logger.getLogger(getClass().getSimpleName()).severe("+# Versuche Growl INFO / Erfolg auszulösen");
 		}
 		else if(result == -1)
 		{
-			FacesContext.getCurrentInstance().addMessage("growlPassword", new FacesMessage(
-							FacesMessage.SEVERITY_ERROR, "Fehler beim Speichern des Passworts!", "Bitte versuch es noch einmal."));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+							FacesMessage.SEVERITY_WARN, "Fehler beim Speichern des Passworts!", "Bitte versuch es noch einmal."));
 			Logger.getLogger(getClass().getSimpleName()).severe("+# Versuche Growl Error auszulösen");
 		}
-	}
-
-	public void throwFacesMessage()
-	{
-		Logger.getLogger(getClass().getSimpleName()).severe("+# Versuche TEst Growl auszulösen in Phase " + FacesContext.getCurrentInstance().getCurrentPhaseId().getName());
-		FacesContext.getCurrentInstance().addMessage("password", new FacesMessage(
-						FacesMessage.SEVERITY_INFO, "Passwort wurde erfolgreich gespeichert!", ""));
-
 	}
 
 
