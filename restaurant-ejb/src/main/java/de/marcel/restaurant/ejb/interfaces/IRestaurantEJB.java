@@ -18,11 +18,14 @@ public interface IRestaurantEJB extends Serializable
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED) <IBaseEntity> void delete(de.marcel.restaurant.ejb.interfaces.IBaseEntity t);
 
+	<T extends IBaseEntity> IBaseEntity findOne(Object characterisitcAttribute, Class attributeClazz, Class<T> resultClazz);
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRED) int persistCredentials(Integer id_prod_db, String pass, String salt);
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED) int persistEmail(Integer id_prod_db, String newEmail);
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED) void deleteCredentials(Integer id_prod_db);
 
-	<T> List<T> findAll(Class entitiyClass);
+	<IBaseEntity> List<IBaseEntity> findAll(Class entitiyClass);
+
 }

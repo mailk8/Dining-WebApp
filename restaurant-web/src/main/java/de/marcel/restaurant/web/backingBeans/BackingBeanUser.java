@@ -6,10 +6,10 @@ import de.marcel.restaurant.ejb.model.Address;
 import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.User;
 import de.marcel.restaurant.web.httpClient.*;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.ejb.PrePassivate;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -25,16 +25,31 @@ public class BackingBeanUser implements Serializable
 {
 
 	private static final long serialVersionUID = 1L;
-	private User current = new User();
-
-	@Inject
-	private IRestaurantEJB appServer;
-	@Inject
-	private HttpClientWGS client;
+	private User current;
+	@Inject private IRestaurantEJB appServer;
+	@Inject private HttpClientWGS client;
 
 	private String validateLon, validateLat;
 
 	// findAll im "appServer" public <T> List<T> findAll(Class entitiyClass)
+
+	@PostConstruct
+	private void fetchLoggedInUser()
+	{
+		Subject s = SecurityUtils.getSubject();
+		if(s.isAuthenticated())
+		{
+			User u = (User) s.getSession().getAttribute("loggedInUser");
+			if(u.getEmail().equals(s.getPrincipal()))
+			{
+				setCurrent(u);
+			}
+		}
+		else
+		{
+			setCurrent(new User());
+		}
+	}
 
 	public List<Culinary> getAllCulinaries()
 	{

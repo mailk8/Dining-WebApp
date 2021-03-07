@@ -1,43 +1,37 @@
 package de.marcel.restaurant.web.backingBeans;
 
-import com.sun.jdi.Value;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Sha256Hash;
-import org.apache.shiro.realm.jdbc.JdbcRealm;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
 import org.apache.shiro.web.filter.authc.PassThruAuthenticationFilter;
-import org.apache.shiro.web.mgt.WebSecurityManager;
-import org.omnifaces.util.Faces;
-
-import javax.annotation.PostConstruct;
+import de.marcel.restaurant.ejb.model.User;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Alternative;
+import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-import javax.faces.event.PhaseId;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.io.Serializable;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Base64;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.logging.Logger;
+
 
 @Named
 @SessionScoped
 public class LoginController implements Serializable
 {
-	AuthenticatingFilter test;
 
 	private static final long serialVersionUID = 1L;
 
@@ -46,12 +40,6 @@ public class LoginController implements Serializable
 	@Inject IRestaurantEJB appServer; // Hat den EntityManager für Passwörter
 	@Inject BackingBeanUser backingBeanUser;
 
-
-
-	// Members
-	// boolean: isUser Authenticated oder BESSER immmer bei Shiro nachfragen
-
-	// Methods
 
 	// isUserDuplicated: Prüfung, gibt es den User schon
 
@@ -185,13 +173,70 @@ public class LoginController implements Serializable
 		// Sessionbeans zurücksetzen
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 
-		org.apache.shiro.web.filter.authc.AuthenticationFilter asdf;
-		AuthenticatingFilter dgf;
-		PassThruAuthenticationFilter sgfs;
-
 		return "UserList?faces-redirect=true";
 	}
 
+//	public void login(Subject sub)
+//	{
+//		Logger.getLogger(getClass().getSimpleName()).severe("+# Login aufgerufen");
+//		//Subject sub = SecurityUtils.getSubject();
+//		Logger.getLogger(getClass().getSimpleName()).severe("+# Subject " + sub.getPrincipal() + " ist angemeldet.");
+//		if(sub.isAuthenticated())
+//		{
+//			User u = (User) appServer.findOne(sub.getPrincipal(), String.class, User.class);
+//			Logger.getLogger(getClass().getSimpleName()).severe("+# Gefunden: " + u.getEmail());
+//			backingBeanUser.setCurrent(u);
+//			Logger.getLogger(getClass().getSimpleName()).severe("+# BackingBeanUser enthält als current " + backingBeanUser.getCurrent());
+//			sub = null;
+//		}
+//
+//	}
 
+	public void testSubject()
+	{
+		Logger.getLogger(getClass().getSimpleName()).severe("+# test aufgerufen");
+		Subject sub = SecurityUtils.getSubject();
+		Logger.getLogger(getClass().getSimpleName()).severe("+# Subject " + sub.getPrincipal() + " ist angemeldet.");
+		if(sub.isAuthenticated())
+		{
+			Logger.getLogger(getClass().getSimpleName()).severe("+# BackingBeanUser enthält als current " + backingBeanUser.getCurrent());
+			sub = null;
+		}
+
+	}
+
+	public void showContexts()
+	{
+		Logger.getLogger(getClass().getSimpleName()).severe("+# ------------------------------------ External Context -------------------------------------");
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		Logger.getLogger(getClass().getSimpleName()).severe("+# APPLICATIONS");
+		ec.getApplicationMap().entrySet().forEach(e ->{
+			Logger.getLogger(getClass().getSimpleName()).severe(String.format("%-30s%-30s", e.getKey(), e.getValue().toString()));
+		});
+
+		Logger.getLogger(getClass().getSimpleName()).severe("+# SESSIONS");
+		ec.getSessionMap().entrySet().forEach(e ->{
+			Logger.getLogger(getClass().getSimpleName()).severe(String.format("%-30s%-30s", e.getKey(), e.getValue().toString()));
+		});
+		Logger.getLogger(getClass().getSimpleName()).severe("+# ------------------------------------- Servlet Context -------------------------------------");
+		ServletContext sc = (ServletContext) ec.getContext();
+		Logger.getLogger(getClass().getSimpleName()).severe("+# ATTRIBUTES");
+		Map<String, String> map = new LinkedHashMap();
+		Enumeration<String> enums = sc.getAttributeNames();
+		while(enums.hasMoreElements())
+		{
+			String key = enums.nextElement();
+			map.put(key, sc.getAttribute(key).toString());
+		}
+		map.entrySet().forEach(e ->{
+			Logger.getLogger(getClass().getSimpleName()).severe(String.format("%-30s%-30s", e.getKey(), e.getValue().toString()));
+		});
+
+		Logger.getLogger(getClass().getSimpleName()).severe("+# SERVLET REGISTRATIONS");
+		sc.getServletRegistrations().entrySet().forEach(e ->{
+			Logger.getLogger(getClass().getSimpleName()).severe(String.format("%-30s%-30s", e.getKey(), e.getValue().toString()));
+		});
+
+	}
 
 }

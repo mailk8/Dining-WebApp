@@ -5,7 +5,6 @@ import de.marcel.restaurant.ejb.interfaces.IBaseEntity;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 
 import javax.annotation.ManagedBean;
-import javax.annotation.PostConstruct;
 import javax.ejb.*;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
@@ -65,11 +64,20 @@ public class RestaurantEJB implements IRestaurantEJB
 
 	}
 
-	@Override public <T> List<T> findAll(Class entitiyClass)
+	@Override public <IBaseEntity> List<IBaseEntity> findAll(Class entitiyClass)
 	{
-		TypedQuery<T> query = entityManager.createNamedQuery(entitiyClass.getSimpleName()+".findAll", entitiyClass);
+		TypedQuery<IBaseEntity> query = entityManager.createNamedQuery(entitiyClass.getSimpleName()+".findAll", entitiyClass);
 
 		return query.getResultList();
+	}
+
+	@Override
+	public <T extends IBaseEntity> IBaseEntity findOne(Object characterisitcAttribute, Class attributeClazz, Class<T> resultClazz)
+	{
+		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findOne", resultClazz);
+		query.setParameter(1, attributeClazz.cast(characterisitcAttribute));
+
+		return (IBaseEntity) query.getSingleResult();
 	}
 
 

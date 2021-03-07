@@ -10,7 +10,8 @@ import java.util.logging.Logger;
 @Table(name = "users")
 @NamedQueries(
 				{
-								@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
+								@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
+								@NamedQuery(name = "User.findOne", query = "SELECT u FROM User u WHERE u.email = ?1")
 				}
 )
 public class User extends BaseEntity implements IUser

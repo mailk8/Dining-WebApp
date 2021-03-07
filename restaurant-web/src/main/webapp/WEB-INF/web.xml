@@ -59,11 +59,13 @@
     <filter>
         <filter-name>ShiroFilter</filter-name>
         <filter-class>org.apache.shiro.web.servlet.ShiroFilter</filter-class>
+<!--        <filter-class>de.marcel.restaurant.web.security.ModifiedAuthenticationFilter</filter-class>-->
         <init-param>
             <param-name>configPath</param-name>
             <param-value>/WEB-INF/shiro.ini</param-value>
         </init-param>
     </filter>
+
 
     <filter-mapping>
         <filter-name>ShiroFilter</filter-name>
