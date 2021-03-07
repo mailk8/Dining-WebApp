@@ -39,8 +39,9 @@
                     <label for="email">E-Mail:<h:message for="email" class="text-danger" /></label>
                     <h:inputText id="email" value="#{backingBeanUser.current.email}" class="form-control" required="false" requiredMessage="Erforderlich!"
                                  valueChangeListener="#{loginController.emailChanged}">
-                        <ui:remove> <!-- <f:validator validatorId="customValidator" />--> </ui:remove>
+                        <f:ajax event="keyup" listener="#{userMailController.check}" update="pseudoMsg" />
                     </h:inputText>
+                    <p:message id="pseudoMsg" for="email" />
                 </div>
 <!--Phone -->
                 <div class="form-group">
@@ -84,19 +85,30 @@
                         <h:commandLink id="linkGrabPos" >jetzt ermitteln!</h:commandLink></label>
                     
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-5">
                             <p:inputText id="wgs84Lat" value="#{backingBeanUser.validateLat}" class="form-control" validator="#{serverValidatorWGS.validate}" >
-                                <p:clientValidator/>
                                 <f:validateRegex pattern="^((?!((,|\.)(.*)(,|\.))|((\+|\-)(.*)(\+|\-))|([a-z])|(([0-9,\.]\+)|([0-9,\.]\-)|((\+|\-)$)|(.\s.))).)*$"/>
+                                <p:clientValidator event="keyup" />
                             </p:inputText>
 
                         </div>
-                        <div class="col-6">
-                            <p:inputText id="wgs84Lon" value="#{backingBeanUser.validateLon}" class="form-control" validator="#{serverValidatorWGS.validate}" >
-                                <p:clientValidator/>
-                                <f:validateRegex pattern="^((?!((,|\.)(.*)(,|\.))|((\+|\-)(.*)(\+|\-))|([a-z])|(([0-9,\.]\+)|([0-9,\.]\-)|((\+|\-)$)|(.\s.))).)*$"/>
-                            </p:inputText>
+
+                        <div class="col-1" style="padding-left: 1px" >
+                            <p:message for="wgs84Lat" display="icon" style="padding-left: 1px" />
                         </div>
+
+                        <div class="col-5">
+                            <p:inputText id="wgs84Lon" value="#{backingBeanUser.validateLon}" class="form-control" validator="#{serverValidatorWGS.validate}" validatorMessage="Das Format passt nicht.">
+                                <f:validateRegex pattern="^((?!((,|\.)(.*)(,|\.))|((\+|\-)(.*)(\+|\-))|([a-z])|(([0-9,\.]\+)|([0-9,\.]\-)|((\+|\-)$)|(.\s.))).)*$"/>
+                                <p:clientValidator event="keyup" />
+                            </p:inputText>
+
+                        </div>
+
+                        <div class="col-1" style="padding-left: 1px" >
+                            <p:message for="wgs84Lon" display="icon" style="padding-left: 1px" />
+                        </div>
+
                         <p:commandButton validateClient="true" ajax="false" rendered="#{false}" update="@form"/>
                     </div>
                 </div>
@@ -133,7 +145,7 @@
 
 <!-- Buttons    -->
                 <hr/>
-                <h:commandButton action="#{backingBeanUser.saveUser()}" value="Speichern" class="btn btn-success" update="@form" />
+                <h:commandButton action="#{backingBeanUser.saveUser()}" value="Speichern" class="btn btn-success" update="@form" actionListener="#{loginController.setChangeSubmitted}"/>
                 <h:commandButton action="#{backingBeanUser.createNew()}" value="User anlegen" class="btn btn-primary" />
                 <h:commandButton action="#{backingBeanUser.createNew()}" value="#Restaurantbesuch mit diesem User" class="btn btn-warning" />
             </h:form>

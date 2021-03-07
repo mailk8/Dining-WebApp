@@ -11,43 +11,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8b0350e6-03f9-48a3-938e-c238785f6e2c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/security/TestFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/UserMailController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/RestaurantEJB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/RestaurantEJB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IRestaurantEJB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IRestaurantEJB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/RestaurantEJB.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/RestaurantEJB.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/interfaces/IRestaurantEJB.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/interfaces/IRestaurantEJB.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/marcel/restaurant/ejb/model/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1-classes.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1-classes.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1-interfaces.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1-interfaces.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1-model-classes.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1-model-classes.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1.war" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1.war" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/RestaurantEJB.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/RestaurantEJB.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/interfaces/IRestaurantEJB.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/interfaces/IRestaurantEJB.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/restaurant-ejb-1/WEB-INF/classes/de/marcel/restaurant/ejb/model/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/Injector.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/Injector.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanUser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/Login.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/Login.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/NavBar.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/NavBar.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/shiro.ini" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/shiro.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/target/classes/de/marcel/restaurant/web/Injector.class" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/classes/de/marcel/restaurant/web/Injector.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/validators/ServerValidatorWGS.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/validators/ServerValidatorWGS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/UserCreate.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/UserCreate.xhtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/target/classes/de/marcel/restaurant/web/backingBeans/BackingBeanUser.class" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/classes/de/marcel/restaurant/web/backingBeans/BackingBeanUser.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/target/classes/de/marcel/restaurant/web/backingBeans/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/classes/de/marcel/restaurant/web/backingBeans/LoginController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/target/classes/de/marcel/restaurant/web/validators/ServerValidatorPassword.class" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/classes/de/marcel/restaurant/web/validators/ServerValidatorPassword.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/target/classes/de/marcel/restaurant/web/validators/ServerValidatorWGS.class" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/classes/de/marcel/restaurant/web/validators/ServerValidatorWGS.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1.war" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1.war" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/Login.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/Login.xhtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/UserCreate.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/UserCreate.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/WEB-INF/NavBar.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/WEB-INF/NavBar.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/WEB-INF/classes/de/marcel/restaurant/web/Injector.class" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/WEB-INF/classes/de/marcel/restaurant/web/Injector.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/WEB-INF/classes/de/marcel/restaurant/web/backingBeans/BackingBeanUser.class" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/WEB-INF/classes/de/marcel/restaurant/web/backingBeans/BackingBeanUser.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/WEB-INF/classes/de/marcel/restaurant/web/backingBeans/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/WEB-INF/classes/de/marcel/restaurant/web/backingBeans/LoginController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/WEB-INF/classes/de/marcel/restaurant/web/validators/ServerValidatorPassword.class" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/WEB-INF/classes/de/marcel/restaurant/web/validators/ServerValidatorPassword.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/WEB-INF/lib/interfaces-1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/WEB-INF/lib/interfaces-1.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/WEB-INF/shiro.ini" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/WEB-INF/shiro.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/WEB-INF/web.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/WEB-INF/classes/de/marcel/restaurant/web/validators/ServerValidatorWGS.class" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/target/restaurant-web-1/WEB-INF/classes/de/marcel/restaurant/web/validators/ServerValidatorWGS.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -437,7 +415,7 @@
       <workItem from="1615025375249" duration="4804000" />
       <workItem from="1615034587327" duration="70000" />
       <workItem from="1615034668191" duration="22254000" />
-      <workItem from="1615117241346" duration="15066000" />
+      <workItem from="1615117241346" duration="31111000" />
     </task>
     <servers />
   </component>

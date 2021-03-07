@@ -27,6 +27,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+// todo: Ein Großteil gehört in die BackingbeanUser
 
 @Named
 @SessionScoped
@@ -35,7 +36,8 @@ public class LoginController implements Serializable
 
 	private static final long serialVersionUID = 1L;
 
-	private boolean pwChanged = false;
+	private boolean pwChanged = false;          // hält Persist PW zurück, wenn nur E-Mail geändert wurde
+	private boolean changeSubmitted = false;     // hält Persist PW und E-Mail zurück, wenn Ajax feuert
 
 	@Inject IRestaurantEJB appServer; // Hat den EntityManager für Passwörter
 	@Inject BackingBeanUser backingBeanUser;
@@ -65,6 +67,11 @@ public class LoginController implements Serializable
 
 	public synchronized void passwordChanged(ValueChangeEvent e){
 
+		if(!changeSubmitted)
+		{
+			return;
+		}
+
 		Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. PhaseId des Events ist " + e.getPhaseId().getName());
 		Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. ValueNew " + e.getNewValue() + " OldValue " + e.getOldValue());
 
@@ -90,6 +97,11 @@ public class LoginController implements Serializable
 	// EMail Änderung in letzter JSF Phase
 	public synchronized void emailChanged(ValueChangeEvent e){
 
+		if(!changeSubmitted)
+		{
+			return;
+		}
+
 		Logger.getLogger(getClass().getSimpleName()).severe("+# Email change aufgerufen in Phase" + FacesContext.getCurrentInstance().getCurrentPhaseId().getName());
 		Logger.getLogger(getClass().getSimpleName()).severe("+# Email change old value " + e.getOldValue() + " new Value" + e.getNewValue());
 
@@ -98,7 +110,7 @@ public class LoginController implements Serializable
 
 		if( null == emailOld || emailOld.equals(""))
 		{
-			Logger.getLogger(getClass().getSimpleName()).severe("+# Email Neueingabe ");
+			Logger.getLogger(getClass().getSimpleName()).severe("+# Email Neueingabe "); // Kann falsche Werte wenn Ajax dauernd neue E-Mail Eingaben feuert.
 		}
 
 		if( null == emailNew || emailNew.equals(""))
@@ -111,6 +123,11 @@ public class LoginController implements Serializable
 
 		throwFacesMessage(result);
 
+	}
+
+	public void setChangeSubmitted()
+	{
+		changeSubmitted = true;
 	}
 
 	private byte[] generateSalt()
@@ -148,6 +165,7 @@ public class LoginController implements Serializable
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Passwort wurde erfolgreich gespeichert!", ""));
 
 				Logger.getLogger(getClass().getSimpleName()).severe("+# Versuche Growl INFO / Erfolg auszulösen");
+				changeSubmitted = false;
 			}
 			else if (result == -1)
 			{

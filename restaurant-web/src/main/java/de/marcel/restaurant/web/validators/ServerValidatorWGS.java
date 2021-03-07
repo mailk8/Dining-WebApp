@@ -38,6 +38,7 @@ public class ServerValidatorWGS implements Validator {
 			return;
 
 		String valueString = value.toString().trim();
+		valueString = valueString.replace(",", ".");
 
 
 		////// Keine fehlerhaften Zeichen oder mehrere Punkte bzw Kommata //////
@@ -48,7 +49,7 @@ public class ServerValidatorWGS implements Validator {
 			return;
 		}
 
-		valueString = valueString.replace(",", ".");
+
 
 		////// Lässt sich der Wert in einen Double umwandeln //////
 		Double valueDouble = null;

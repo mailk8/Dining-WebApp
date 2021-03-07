@@ -7,6 +7,7 @@ import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.User;
 import de.marcel.restaurant.web.httpClient.*;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
 import javax.annotation.PostConstruct;
@@ -14,6 +15,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.sql.RowSet;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
@@ -31,7 +33,6 @@ public class BackingBeanUser implements Serializable
 
 	private String validateLon, validateLat;
 
-	// findAll im "appServer" public <T> List<T> findAll(Class entitiyClass)
 
 	@PostConstruct
 	private void fetchLoggedInUser()
@@ -39,11 +40,13 @@ public class BackingBeanUser implements Serializable
 		Subject s = SecurityUtils.getSubject();
 		if(s.isAuthenticated())
 		{
-			User u = (User) s.getSession().getAttribute("loggedInUser");
+			Session sess = s.getSession();
+			User u = (User) sess.getAttribute("loggedInUser");
 			if(u.getEmail().equals(s.getPrincipal()))
 			{
 				setCurrent(u);
 			}
+			sess.removeAttribute("loggedInUser");
 		}
 		else
 		{
@@ -132,24 +135,26 @@ public class BackingBeanUser implements Serializable
 		return "UserCreate?faces-redirect=true";
 	}
 
-	public String getValidateLon()
-	{
-		return validateLon;
-	}
-
-	public void setValidateLon(String validateLon)
-	{
-		this.validateLon = validateLon;
-	}
-
 	public String getValidateLat()
 	{
 		return validateLat;
 	}
 
+	public String getValidateLon()
+	{
+		return validateLon;
+	}
+
 	public void setValidateLat(String validateLat)
 	{
+		validateLat = validateLat.replace(",", ".");
 		this.validateLat = validateLat;
+	}
+
+	public void setValidateLon(String validateLon)
+	{
+		validateLon = validateLon.replace(",", ".");
+		this.validateLon = validateLon;
 	}
 
 	public void setCoordinatesBean(User u)
@@ -184,6 +189,7 @@ public class BackingBeanUser implements Serializable
 		{
 			// null soll erlaubt sein wenn kein Wert gesetzt ist
 			//throw new NullPointerException("Fehler in setCoordinatesEntity");
+			throw new NumberFormatException("Fehler in setCoordinatesEntity mit Lat" + validateLat + " Lon " + validateLon);
 		}
 	}
 
@@ -204,5 +210,11 @@ public class BackingBeanUser implements Serializable
 //		});
 	}
 
+
+	private void isEmailDuplicated()
+	{
+		RowSet rs;
+
+	}
 
 }
