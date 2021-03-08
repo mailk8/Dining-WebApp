@@ -18,8 +18,9 @@
 
         <ui:define name="mainContent">
 
-            <h:form id="userInput">
 
+            <h:form id="userInput">
+            <h:inputHidden value="#{backingBeanUser.current.prim}" />
 <!--Name -->
                 <div class="form-group">
                     <label for="firstname">Vor- und Nachname:<h:message for="firstname" class="text-danger" /></label>
@@ -33,24 +34,35 @@
                     </div>
                 </div>
 <!--Mail -->
-                <h:inputHidden value="#{backingBeanUser.current.prim}" />
 
+
+
+<!--                <h:messages id="messageForEmailH" globalOnly="true"  layout="table" />-->
                 <div class="form-group">
                     <label for="email">E-Mail:<h:message for="email" class="text-danger" /></label>
                     <h:inputText id="email" value="#{backingBeanUser.current.email}" class="form-control" required="false" requiredMessage="Erforderlich!"
                                  valueChangeListener="#{loginController.emailChanged}">
-                        <f:ajax event="keyup" listener="#{userMailController.check}" update="pseudoMsg" />
+                        <p:ajax event="keyup" listener="#{backingBeanUser.isEmailDuplicated}"  update="messageForEmailH" immediate="true" async="true"/>
+                        <p:ajax event="blur" listener="#{backingBeanUser.removeMessages}"  update="messageForEmailH" immediate="true" async="true"/>
                     </h:inputText>
-                    <p:message id="pseudoMsg" for="email" />
+                    <p:messages id="messageForEmailH"  display="icon" style="padding-left: 1px" />
                 </div>
+
+                <h:messages id="feedback" globalOnly="true" layout="table" />
+                <h:commandLink value="click-here" >
+                    <f:ajax listener="#{backingBeanUser.isEmailDuplicated}" render="feedback"/>
+                </h:commandLink>
+
+
+
 <!--Phone -->
                 <div class="form-group">
                     <label for="phoneNumber">Telefon:<h:message for="phoneNumber" class="text-danger" /></label>
                     <h:inputText id="phoneNumber" value="#{backingBeanUser.current.phoneNumber}" class="form-control" required="false" requiredMessage="Erforderlich!">
-                        <!-- <f:validator validatorId="customValidator" />-->
+                     <!-- <f:validator validatorId="customValidator" />-->
                     </h:inputText>
                 </div>
-<!--Adresse-->
+<!--Adresse -->
                 <div class="form-group">
                     <label for="street">Straße und Hausnummer<h:message for="street" class="text-danger" /></label>
                     <div class="row">
@@ -80,42 +92,42 @@
 <!--Position-->
                 <p:growl id="growlLocation" showDetail="true"  />
                 <p:panel>
-                <div class="form-group">
-                    <label for="wgs84Lat">Position auf Breiten- und Längengrad:
-                        <h:commandLink id="linkGrabPos" >jetzt ermitteln!</h:commandLink></label>
-                    
-                    <div class="row">
-                        <div class="col-5">
-                            <p:inputText id="wgs84Lat" value="#{backingBeanUser.validateLat}" class="form-control" validator="#{serverValidatorWGS.validate}" >
-                                <f:validateRegex pattern="^((?!((,|\.)(.*)(,|\.))|((\+|\-)(.*)(\+|\-))|([a-z])|(([0-9,\.]\+)|([0-9,\.]\-)|((\+|\-)$)|(.\s.))).)*$"/>
-                                <p:clientValidator event="keyup" />
-                            </p:inputText>
+                    <div class="form-group">
+                        <label for="wgs84Lat">Position auf Breiten- und Längengrad:
+                            <h:commandLink id="linkGrabPos" >jetzt ermitteln!</h:commandLink></label>
 
+                        <div class="row">
+                            <div class="col-5">
+                                <p:inputText id="wgs84Lat" value="#{backingBeanUser.validateLat}" class="form-control" validator="#{serverValidatorWGS.validate}" >
+                                    <f:validateRegex pattern="^((?!((,|\.)(.*)(,|\.))|((\+|\-)(.*)(\+|\-))|([a-z])|(([0-9,\.]\+)|([0-9,\.]\-)|((\+|\-)$)|(.\s.))).)*$"/>
+                                    <p:clientValidator event="keyup" />
+                                </p:inputText>
+
+                            </div>
+
+                            <div class="col-1" style="padding-left: 1px" >
+                                <p:message for="wgs84Lat" display="icon" style="padding-left: 1px" />
+                            </div>
+
+                            <div class="col-5">
+                                <p:inputText id="wgs84Lon" value="#{backingBeanUser.validateLon}" class="form-control" validator="#{serverValidatorWGS.validate}" validatorMessage="Das Format passt nicht.">
+                                    <f:validateRegex pattern="^((?!((,|\.)(.*)(,|\.))|((\+|\-)(.*)(\+|\-))|([a-z])|(([0-9,\.]\+)|([0-9,\.]\-)|((\+|\-)$)|(.\s.))).)*$"/>
+                                    <p:clientValidator event="keyup" />
+                                </p:inputText>
+
+                            </div>
+
+                            <div class="col-1" style="padding-left: 1px" >
+                                <p:message for="wgs84Lon" display="icon" style="padding-left: 1px" />
+                            </div>
+
+                            <p:commandButton validateClient="true" ajax="false" rendered="#{false}" update="@form"/>
                         </div>
-
-                        <div class="col-1" style="padding-left: 1px" >
-                            <p:message for="wgs84Lat" display="icon" style="padding-left: 1px" />
-                        </div>
-
-                        <div class="col-5">
-                            <p:inputText id="wgs84Lon" value="#{backingBeanUser.validateLon}" class="form-control" validator="#{serverValidatorWGS.validate}" validatorMessage="Das Format passt nicht.">
-                                <f:validateRegex pattern="^((?!((,|\.)(.*)(,|\.))|((\+|\-)(.*)(\+|\-))|([a-z])|(([0-9,\.]\+)|([0-9,\.]\-)|((\+|\-)$)|(.\s.))).)*$"/>
-                                <p:clientValidator event="keyup" />
-                            </p:inputText>
-
-                        </div>
-
-                        <div class="col-1" style="padding-left: 1px" >
-                            <p:message for="wgs84Lon" display="icon" style="padding-left: 1px" />
-                        </div>
-
-                        <p:commandButton validateClient="true" ajax="false" rendered="#{false}" update="@form"/>
                     </div>
-                </div>
                 </p:panel>
                 <br/>
 
-<!--Culinaries            -->
+<!--Culinaries -->
                 <!-- equals, hashcode und toString müssen implementiert sein-->
                 <!-- https://stackoverflow.com/questions/17343032/implement-converters-for-entities-with-java-generics/17343582#17343582-->
                 <div>
@@ -133,29 +145,28 @@
                     <label for="password">Passwort:<h:message for="password" class="text-danger" /></label>
                     <div class="row">
                         <div class="col-12">
-                        <p:password id="password" value="#{backingBeanUser.current.password}" class="form-control" required="false" requiredMessage="Erforderlich!"
-                                    toggleMask="true" redisplay="true" feedback="true" inline="true" maxlength="50" size="100"
-                                    valueChangeListener="#{loginController.passwordChanged}" update="passwordChanged"
-                                    validator="#{serverValidatorPassword.validate}">
+                            <p:password id="password" value="#{backingBeanUser.current.password}" class="form-control" required="false" requiredMessage="Erforderlich!"
+                                        toggleMask="true" redisplay="true" feedback="true" inline="true" maxlength="50" size="100"
+                                        valueChangeListener="#{loginController.passwordChanged}" update="passwordChanged"
+                                        validator="#{serverValidatorPassword.validate}">
 
-                        </p:password>
+                            </p:password>
                         </div>
                     </div>
                 </div>
 
 <!-- Buttons    -->
                 <hr/>
-                <h:commandButton action="#{backingBeanUser.saveUser()}" value="Speichern" class="btn btn-success" update="@form" actionListener="#{loginController.setChangeSubmitted}"/>
+                <h:commandButton action="#{backingBeanUser.saveUser()}" value="Speichern" class="btn btn-success" update="@form" />
                 <h:commandButton action="#{backingBeanUser.createNew()}" value="User anlegen" class="btn btn-primary" />
                 <h:commandButton action="#{backingBeanUser.createNew()}" value="#Restaurantbesuch mit diesem User" class="btn btn-warning" />
             </h:form>
-
 
 <!-- Skripte    -->
             <script type="text/javascript">
                 document.getElementById("userInput:linkGrabPos").onclick = function()
                 {
-                    if (navigator.geolocation) // Abfrage ob Browser WGS liefern kann
+                    if (navigator.geolocation) // Abfrage ob Browser WGS-Koordinaten liefern kann
                     {
                         navigator.geolocation.getCurrentPosition(showPosition)
                     }

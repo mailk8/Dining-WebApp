@@ -5,18 +5,25 @@ import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.Address;
 import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.User;
+import de.marcel.restaurant.web.UserMailController;
 import de.marcel.restaurant.web.httpClient.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.omnifaces.util.Faces;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.sql.RowSet;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -210,10 +217,78 @@ public class BackingBeanUser implements Serializable
 //		});
 	}
 
-
-	private void isEmailDuplicated()
+	public void removeMessages(AjaxBehaviorEvent event)
 	{
-		RowSet rs;
+		Iterator<FacesMessage> it = FacesContext.getCurrentInstance().getMessages();
+		while ( it.hasNext() ) {
+			it.next();
+			it.remove();
+		}
+	}
+
+	public void isEmailDuplicated(AjaxBehaviorEvent event)
+	{
+
+		Iterator<FacesMessage> it = FacesContext.getCurrentInstance().getMessages();
+		while ( it.hasNext() ) {
+			it.next();
+			it.remove();
+		}
+
+		UIComponent uc = event.getComponent();
+		UIInput ui = (UIInput) event.getSource();
+
+		String input = ui.getSubmittedValue().toString(); //////////////// °!!!!!!!!!!
+
+		if(!input.equals("test")){
+			FacesMessage fm = new FacesMessage("Bereits vorhanden sum", "Bereits vorhanden det");
+			fm.setSeverity(FacesMessage.SEVERITY_FATAL);
+			FacesContext.getCurrentInstance().addMessage(null, fm);
+		}
+		else
+		{
+			FacesMessage fm = new FacesMessage("Email ist wählbar");
+			fm.setSeverity(FacesMessage.SEVERITY_INFO);
+			FacesContext.getCurrentInstance().addMessage(null, fm);
+		}
+//
+//		Logger.getLogger(getClass().getSimpleName()).severe("+# Habe als email erhalten: " + input  );
+//
+//		Logger.getLogger(getClass().getSimpleName()).severe("+# UIComponent renderType" + uc.getRendererType() + " clientId " + uc.getClientId()  );
+//		Logger.getLogger(getClass().getSimpleName()).severe("+# UIInput renderType" + ui.getRendererType() + " clientId " + ui.getClientId()  );
+
+//		Iterator<String> it = event.getFacesContext().getClientIdsWithMessages();
+//		while(it.hasNext())
+//		{
+//			Logger.getLogger(getClass().getSimpleName()).severe("+# getFacesContext().getClientIdsWithMessages" + it.next());
+//		}
+
+
+//		if(UserMailController.check(input))
+//		{
+
+//			FacesMessage fm = new FacesMessage("Bereits vorhanden sum", "Bereits vorhanden det");
+//			fm.setSeverity(FacesMessage.SEVERITY_FATAL);
+//			FacesContext.getCurrentInstance().addMessage(null, fm);
+//			event.getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bereits vorhanden sum", "Bereits vorhanden det"));
+//
+//			FacesContext.getCurrentInstance().addMessage("messageForEmailP", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bereits vorhanden sum", "Bereits vorhanden det"));
+//			event.getFacesContext().addMessage("messageForEmailP", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bereits vorhanden sum", "Bereits vorhanden det"));
+//
+//			FacesContext.getCurrentInstance().addMessage("messageForEmailH", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bereits vorhanden sum", "Bereits vorhanden det"));
+//			event.getFacesContext().addMessage("messageForEmailH", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bereits vorhanden sum", "Bereits vorhanden det"));
+//
+//			FacesContext.getCurrentInstance().addMessage("email", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bereits vorhanden sum", "Bereits vorhanden det"));
+//			event.getFacesContext().addMessage("email", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bereits vorhanden sum", "Bereits vorhanden det"));
+
+
+
+//
+//			ui.setValid(false);
+//			((UIInput)uc).setValid(false);
+//		}
+
+		//FacesContext.getCurrentInstance().renderResponse();
 
 	}
 

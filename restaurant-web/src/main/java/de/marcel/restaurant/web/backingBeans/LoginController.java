@@ -37,7 +37,7 @@ public class LoginController implements Serializable
 	private static final long serialVersionUID = 1L;
 
 	private boolean pwChanged = false;          // hält Persist PW zurück, wenn nur E-Mail geändert wurde
-	private boolean changeSubmitted = false;     // hält Persist PW und E-Mail zurück, wenn Ajax feuert
+	//private boolean changeSubmitted = false;     // hält Persist PW und E-Mail zurück, wenn Ajax feuert
 
 	@Inject IRestaurantEJB appServer; // Hat den EntityManager für Passwörter
 	@Inject BackingBeanUser backingBeanUser;
@@ -67,14 +67,8 @@ public class LoginController implements Serializable
 
 	public synchronized void passwordChanged(ValueChangeEvent e){
 
-		if(!changeSubmitted)
-		{
-			return;
-		}
-
 		Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. PhaseId des Events ist " + e.getPhaseId().getName());
 		Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. ValueNew " + e.getNewValue() + " OldValue " + e.getOldValue());
-
 
 		// Nur bei tatsächlicher Neueingabe eines Passworts wird in die DB geschrieben
 		if(e.getNewValue() == null || e.getNewValue().equals(""))
@@ -94,13 +88,8 @@ public class LoginController implements Serializable
 
 	}
 
-	// EMail Änderung in letzter JSF Phase
-	public synchronized void emailChanged(ValueChangeEvent e){
 
-		if(!changeSubmitted)
-		{
-			return;
-		}
+	public synchronized void emailChanged(ValueChangeEvent e){
 
 		Logger.getLogger(getClass().getSimpleName()).severe("+# Email change aufgerufen in Phase" + FacesContext.getCurrentInstance().getCurrentPhaseId().getName());
 		Logger.getLogger(getClass().getSimpleName()).severe("+# Email change old value " + e.getOldValue() + " new Value" + e.getNewValue());
@@ -125,10 +114,7 @@ public class LoginController implements Serializable
 
 	}
 
-	public void setChangeSubmitted()
-	{
-		changeSubmitted = true;
-	}
+
 
 	private byte[] generateSalt()
 	{
@@ -165,7 +151,6 @@ public class LoginController implements Serializable
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Passwort wurde erfolgreich gespeichert!", ""));
 
 				Logger.getLogger(getClass().getSimpleName()).severe("+# Versuche Growl INFO / Erfolg auszulösen");
-				changeSubmitted = false;
 			}
 			else if (result == -1)
 			{
