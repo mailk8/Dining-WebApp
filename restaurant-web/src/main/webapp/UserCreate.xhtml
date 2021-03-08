@@ -35,24 +35,17 @@
                 </div>
 <!--Mail -->
 
-
-
-<!--                <h:messages id="messageForEmailH" globalOnly="true"  layout="table" />-->
                 <div class="form-group">
                     <label for="email">E-Mail:<h:message for="email" class="text-danger" /></label>
-                    <h:inputText id="email" value="#{backingBeanUser.current.email}" class="form-control" required="false" requiredMessage="Erforderlich!"
+                    <p:inputText id="email" value="#{backingBeanUser.current.email}" class="form-control" required="false" requiredMessage="Erforderlich!"
                                  valueChangeListener="#{loginController.emailChanged}">
-                        <p:ajax event="keyup" listener="#{backingBeanUser.isEmailDuplicated}"  update="messageForEmailH" immediate="true" async="true"/>
-                        <p:ajax event="blur" listener="#{backingBeanUser.removeMessages}"  update="messageForEmailH" immediate="true" async="true"/>
-                    </h:inputText>
-                    <p:messages id="messageForEmailH"  display="icon" style="padding-left: 1px" />
+                        <p:ajax event="keyup" listener="#{backingBeanUser.isEmailDuplicated}"  update="@this messageForEmailH" immediate="true" async="true"/>
+                        <ui:remove>
+                            <f:ajax event="blur" listener="#{backingBeanUser.removeMessages}"  render="messageForEmailH" immediate="true" delay="800"/>
+                        </ui:remove>
+                    </p:inputText>
+                    <p:messages id="messageForEmailH" for="email" display="icon" style="padding-left: 1px" />
                 </div>
-
-                <h:messages id="feedback" globalOnly="true" layout="table" />
-                <h:commandLink value="click-here" >
-                    <f:ajax listener="#{backingBeanUser.isEmailDuplicated}" render="feedback"/>
-                </h:commandLink>
-
 
 
 <!--Phone -->
@@ -157,7 +150,7 @@
 
 <!-- Buttons    -->
                 <hr/>
-                <h:commandButton action="#{backingBeanUser.saveUser()}" value="Speichern" class="btn btn-success" update="@form" />
+                <h:commandButton action="#{backingBeanUser.saveUser()}" value="Speichern" class="btn btn-success"  />
                 <h:commandButton action="#{backingBeanUser.createNew()}" value="User anlegen" class="btn btn-primary" />
                 <h:commandButton action="#{backingBeanUser.createNew()}" value="#Restaurantbesuch mit diesem User" class="btn btn-warning" />
             </h:form>

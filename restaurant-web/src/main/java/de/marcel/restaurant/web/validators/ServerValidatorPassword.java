@@ -28,22 +28,23 @@ public class ServerValidatorPassword implements Validator {
 
 	private int passwordLength = 4;
 
-	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException
+	public void validate(FacesContext context, UIComponent component, Object password) throws ValidatorException
 	{
 		String email = backingBeanUser.getCurrent().getEmail();
 
 		////// Neuanlage eines Users //////
-		if(null == email || email.equals(""))
+		if(null == email || email.equals("") || email.isEmpty() || email.isBlank())
 		{
-			if (!isApropriateLength(value.toString()))
+			if (null == password || !isApropriateLength(password.toString()))
 			{
 				throwFacesErrorMessage(context, component);
+				((UIInput)component).setValid(false);
 				return;
 			}
 		}
 		else ////// Bestehender User wird geändert //////
 		{
-			if(null == value || value.toString().equals("") || isApropriateLength(value.toString()))
+			if(null == password || isApropriateLength(password.toString()) || password.toString().equals("") ||  password.toString().isEmpty() || password.toString().isBlank())
 			{
 				// Bei Änderung eines bestehenden Users soll das Passwort nicht zwangsläufig neu eingegeben werden müssen.
 				// Daher ist null oder empty String erlaubt, aber kein zu kurzes PW < passwordLength.
@@ -51,6 +52,7 @@ public class ServerValidatorPassword implements Validator {
 			}
 			else
 			{
+				((UIInput)component).setValid(false);
 				throwFacesErrorMessage(context, component);
 			}
 		}
@@ -64,7 +66,7 @@ public class ServerValidatorPassword implements Validator {
 
 	public boolean isApropriateLength(String pw)
 	{
-		if(pw.length() < 5)
+		if(null == pw || pw.length() < 5 || pw.isBlank() || pw.isEmpty())
 		{
 			return false;
 		}

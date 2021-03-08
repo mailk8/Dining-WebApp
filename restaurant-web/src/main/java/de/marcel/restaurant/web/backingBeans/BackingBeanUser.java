@@ -181,22 +181,23 @@ public class BackingBeanUser implements Serializable
 
 	public void setCoordinatesEntity()
 	{
-		if(validateLat.equals(""))
+		// null soll erlaubt sein wenn kein Wert gesetzt ist
+		if(null == validateLat || validateLat.equals("") || validateLat.isEmpty() ||validateLat.isBlank())
+		{
 			current.getAddressActual().setWgs84Latitude(null);
-
-		if(validateLon.equals(""))
-			current.getAddressActual().setWgs84Longitude(null);
-
-		try
+		}
+		else
 		{
 			current.getAddressActual().setWgs84Latitude(Double.parseDouble(validateLat));
-			current.getAddressActual().setWgs84Longitude(Double.parseDouble(validateLon));
 		}
-		catch (Exception e)
+
+		if(null == validateLon || validateLon.equals("") || validateLon.isEmpty() ||validateLon.isBlank())
 		{
-			// null soll erlaubt sein wenn kein Wert gesetzt ist
-			//throw new NullPointerException("Fehler in setCoordinatesEntity");
-			throw new NumberFormatException("Fehler in setCoordinatesEntity mit Lat" + validateLat + " Lon " + validateLon);
+			current.getAddressActual().setWgs84Longitude(null);
+		}
+		else
+		{
+			current.getAddressActual().setWgs84Longitude(Double.parseDouble(validateLon));
 		}
 	}
 
@@ -219,11 +220,27 @@ public class BackingBeanUser implements Serializable
 
 	public void removeMessages(AjaxBehaviorEvent event)
 	{
-		Iterator<FacesMessage> it = FacesContext.getCurrentInstance().getMessages();
-		while ( it.hasNext() ) {
-			it.next();
-			it.remove();
+		FacesContext fc = FacesContext.getCurrentInstance();
+		String id = event.getComponent().getClientId();
+		Iterator<FacesMessage> it = fc.getMessages("email");
+		while ( it.hasNext() )
+		{
+			// Errors sollen stehen bleiben.
+			FacesMessage fm = it.next();
+
+			if(!fm.getSeverity().equals(FacesMessage.SEVERITY_INFO))
+			{
+				// Messages gehen schon durch .next verloren und müssen
+				// wieder eingefügt werden, wenn sie stehen bleiben sollen.
+				fc.addMessage("email", new FacesMessage(fm.getSeverity(), fm.getSummary(), fm.getDetail()));
+			}
 		}
+
+		// unsupported
+		// FacesContext.getCurrentInstance().getMessageList().removeIf(e -> e.getSeverity().equals(FacesMessage.SEVERITY_INFO));
+
+		// Verhindert weitere JSF Phasen mit Validierung und ModelUpdates
+		FacesContext.getCurrentInstance().renderResponse();
 	}
 
 	public void isEmailDuplicated(AjaxBehaviorEvent event)
@@ -242,15 +259,30 @@ public class BackingBeanUser implements Serializable
 
 		if(!input.equals("test")){
 			FacesMessage fm = new FacesMessage("Bereits vorhanden sum", "Bereits vorhanden det");
-			fm.setSeverity(FacesMessage.SEVERITY_FATAL);
-			FacesContext.getCurrentInstance().addMessage(null, fm);
+			fm.setSeverity(FacesMessage.SEVERITY_ERROR);
+			FacesContext.getCurrentInstance().addMessage("email", fm);
+
+			//ui.setValid(false);
+			UIInput component = (UIInput) uc;
+			component.setValid(false);
+
+			Logger.getLogger(getClass().getSimpleName()).severe("+# event.getComponent " + event.getComponent());
+			Logger.getLogger(getClass().getSimpleName()).severe("+# event.getComponent getClientId " + event.getComponent().getClientId());
+			Logger.getLogger(getClass().getSimpleName()).severe("+# event.getComponent getRendererType" + event.getComponent().getRendererType());
+
+			Logger.getLogger(getClass().getSimpleName()).severe("+# event.getComponent getParent" + event.getComponent().getParent());
+			Logger.getLogger(getClass().getSimpleName()).severe("+# event.getComponent getParent getClientId" + event.getComponent().getParent().getClientId());
+			Logger.getLogger(getClass().getSimpleName()).severe("+# event.getComponent getParent getRendererType" + event.getComponent().getParent().getRendererType());
+
 		}
 		else
 		{
 			FacesMessage fm = new FacesMessage("Email ist wählbar");
 			fm.setSeverity(FacesMessage.SEVERITY_INFO);
-			FacesContext.getCurrentInstance().addMessage(null, fm);
+			FacesContext.getCurrentInstance().addMessage("email", fm);
 		}
+
+		FacesContext.getCurrentInstance().renderResponse(); // Verhindert weitere JSF Phasen mit Validierung und ModelUpdates
 //
 //		Logger.getLogger(getClass().getSimpleName()).severe("+# Habe als email erhalten: " + input  );
 //
@@ -288,7 +320,7 @@ public class BackingBeanUser implements Serializable
 //			((UIInput)uc).setValid(false);
 //		}
 
-		//FacesContext.getCurrentInstance().renderResponse();
+
 
 	}
 
