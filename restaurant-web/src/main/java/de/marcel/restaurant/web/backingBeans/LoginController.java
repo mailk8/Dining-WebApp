@@ -16,6 +16,7 @@ import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -70,6 +71,12 @@ public class LoginController implements Serializable
 		Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. PhaseId des Events ist " + e.getPhaseId().getName());
 		Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. ValueNew " + e.getNewValue() + " OldValue " + e.getOldValue());
 
+		if (e.getPhaseId().getOrdinal() < 4) {
+			e.setPhaseId(PhaseId.UPDATE_MODEL_VALUES);
+			e.queue();
+			return;
+		}
+
 		// Nur bei tatsächlicher Neueingabe eines Passworts wird in die DB geschrieben
 		if(e.getNewValue() == null || e.getNewValue().equals(""))
 		{
@@ -94,21 +101,27 @@ public class LoginController implements Serializable
 		Logger.getLogger(getClass().getSimpleName()).severe("+# Email change aufgerufen in Phase" + FacesContext.getCurrentInstance().getCurrentPhaseId().getName());
 		Logger.getLogger(getClass().getSimpleName()).severe("+# Email change old value " + e.getOldValue() + " new Value" + e.getNewValue());
 
-		String emailOld = (String) e.getOldValue();
-		String emailNew = (String) e.getNewValue();
+		if (e.getPhaseId().getOrdinal() < 4) {
+			e.setPhaseId(PhaseId.UPDATE_MODEL_VALUES);
+			e.queue();
+			return;
+		}
 
-		if( null == emailOld || emailOld.equals(""))
+		String emailOldValue = (String) e.getOldValue();
+		String emailNewValue = (String) e.getNewValue();
+
+		if( null == emailOldValue || emailOldValue.equals(""))
 		{
 			Logger.getLogger(getClass().getSimpleName()).severe("+# Email Neueingabe "); // Kann falsche Werte wenn Ajax dauernd neue E-Mail Eingaben feuert.
 		}
 
-		if( null == emailNew || emailNew.equals(""))
+		if( null == emailNewValue || emailNewValue.equals(""))
 		{
 			Logger.getLogger(getClass().getSimpleName()).severe("+# Email change value war null, exiting... ");
 			return;
 		}
 
-		int result = appServer.persistEmail(backingBeanUser.getCurrent().getPrim(), emailNew);
+		int result = appServer.persistEmail(backingBeanUser.getCurrent().getPrim(), emailNewValue);
 
 		throwFacesMessage(result);
 

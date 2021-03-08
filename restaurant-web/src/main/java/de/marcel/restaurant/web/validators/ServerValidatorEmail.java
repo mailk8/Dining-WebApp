@@ -1,0 +1,45 @@
+package de.marcel.restaurant.web.validators;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.FacesValidator;
+import javax.faces.validator.Validator;
+import javax.faces.validator.ValidatorException;
+import java.util.Iterator;
+
+@FacesValidator("serverValidatorEmail")
+public class ServerValidatorEmail implements Validator
+{
+	@Override public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException
+	{
+		Iterator<FacesMessage> it = context.getMessages();
+		while ( it.hasNext() ) {
+			it.next();
+			it.remove();
+		}
+
+		String input = value.toString().trim();
+
+		if(input.isEmpty() || input.isEmpty())
+		{
+			((UIInput)component).setValid(false);
+			context.addMessage("email", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Eine E-Mail ist erforderlich",  ""));
+			FacesContext.getCurrentInstance().renderResponse();
+			return;
+		}
+
+		if(!input.equals("test")){
+			context.addMessage("email", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Diese E-Mail wird bereits benutzt",  ""));
+			((UIInput)component).setValid(false);
+			FacesContext.getCurrentInstance().renderResponse();
+			return;
+
+		}
+
+		context.addMessage("email", new FacesMessage(FacesMessage.SEVERITY_INFO, "OK, diese E-Mail wird noch nicht benutzt", ""));
+		((UIInput)component).setValid(true);
+
+	}
+}

@@ -26,7 +26,7 @@ public class ServerValidatorPassword implements Validator {
 
 	@Inject BackingBeanUser backingBeanUser;
 
-	private int passwordLength = 4;
+	private int apropriateLength = 4;
 
 	public void validate(FacesContext context, UIComponent component, Object password) throws ValidatorException
 	{
@@ -61,12 +61,12 @@ public class ServerValidatorPassword implements Validator {
 	private void throwFacesErrorMessage(FacesContext context, UIComponent component)
 	{
 		((UIInput)component).setValid(false);
-		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Achtung", "Es muss ein Passwort mit mindestens " + passwordLength + " Zeichen eingegeben werden."));
+		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Achtung", "Es muss ein Passwort mit mindestens " + apropriateLength + " Zeichen eingegeben werden."));
 	}
 
 	public boolean isApropriateLength(String pw)
 	{
-		if(null == pw || pw.length() < 5 || pw.isBlank() || pw.isEmpty())
+		if(null == pw || pw.length() < apropriateLength || pw.isBlank() || pw.isEmpty())
 		{
 			return false;
 		}

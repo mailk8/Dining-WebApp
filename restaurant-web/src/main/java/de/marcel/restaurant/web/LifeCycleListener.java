@@ -21,10 +21,7 @@ import java.util.logging.Logger;
 @SessionScoped
 public class LifeCycleListener implements PhaseListener
 {
-
 	private static final String sessionToken = "MULTI_PAGE_MESSAGES_SUPPORT";
-
-
 
 	public PhaseId getPhaseId() {
 		return PhaseId.ANY_PHASE;

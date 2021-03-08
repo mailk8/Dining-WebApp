@@ -38,10 +38,11 @@
                 <div class="form-group">
                     <label for="email">E-Mail:<h:message for="email" class="text-danger" /></label>
                     <p:inputText id="email" value="#{backingBeanUser.current.email}" class="form-control" required="false" requiredMessage="Erforderlich!"
-                                 valueChangeListener="#{loginController.emailChanged}">
-                        <p:ajax event="keyup" listener="#{backingBeanUser.isEmailDuplicated}"  update="@this messageForEmailH" immediate="true" async="true"/>
+                                 valueChangeListener="#{loginController.emailChanged}"
+                                    validator="serverValidatorEmail">
+                        <p:ajax event="keyup" update="messageForEmailH" immediate="true" async="true"/>
                         <ui:remove>
-                            <f:ajax event="blur" listener="#{backingBeanUser.removeMessages}"  render="messageForEmailH" immediate="true" delay="800"/>
+<!--                        <f:ajax event="blur" render="messageForEmailH" immediate="true" delay="2000" listener="#{backingBeanUser.removeMessages}"/>-->
                         </ui:remove>
                     </p:inputText>
                     <p:messages id="messageForEmailH" for="email" display="icon" style="padding-left: 1px" />
