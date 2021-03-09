@@ -20,6 +20,8 @@ public interface IRestaurantEJB extends Serializable
 
 	<T extends IBaseEntity> IBaseEntity findOne(Object characterisitcAttribute, Class attributeClazz, Class<T> resultClazz);
 
+	<T extends IBaseEntity> IBaseEntity findOneByPrim(String prim, Class<T> resultClazz);
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRED) int persistCredentials(Integer id_prod_db, String pass, String salt);
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED) int persistEmail(Integer id_prod_db, String newEmail);

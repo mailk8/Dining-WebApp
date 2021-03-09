@@ -39,10 +39,11 @@
                     <label for="email">E-Mail:<h:message for="email" class="text-danger" /></label>
                     <p:inputText id="email" value="#{backingBeanUser.current.email}" class="form-control" required="false" requiredMessage="Erforderlich!"
                                  valueChangeListener="#{loginController.emailChanged}"
-                                    validator="serverValidatorEmail">
+                                 validator="serverValidatorEmail">
                         <p:ajax event="keyup" update="messageForEmailH" immediate="true" async="true"/>
+                        <f:ajax event="blur" render="messageForEmailH" immediate="true" delay="2000" listener="#{loginController.removeMessages}"/>
                         <ui:remove>
-<!--                        <f:ajax event="blur" render="messageForEmailH" immediate="true" delay="2000" listener="#{backingBeanUser.removeMessages}"/>-->
+
                         </ui:remove>
                     </p:inputText>
                     <p:messages id="messageForEmailH" for="email" display="icon" style="padding-left: 1px" />
@@ -141,8 +142,12 @@
                         <div class="col-12">
                             <p:password id="password" value="#{backingBeanUser.current.password}" class="form-control" required="false" requiredMessage="Erforderlich!"
                                         toggleMask="true" redisplay="true" feedback="true" inline="true" maxlength="50" size="100"
-                                        valueChangeListener="#{loginController.passwordChanged}" update="passwordChanged"
-                                        validator="#{serverValidatorPassword.validate}">
+                                        valueChangeListener="#{loginController.passwordChanged}"
+                                        update="passwordChanged" validator="#{serverValidatorPassword.validate}">
+
+                                <ui:remove>
+
+                                </ui:remove>
 
                             </p:password>
                         </div>

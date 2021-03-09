@@ -14,7 +14,7 @@
     </component>
 
     <lifecycle>
-        <phase-listener>de.marcel.restaurant.web.LifeCycleListener</phase-listener>
+        <phase-listener>de.marcel.restaurant.web.jsfFramework.LifeCycleListener</phase-listener>
     </lifecycle>
 
 </faces-config>

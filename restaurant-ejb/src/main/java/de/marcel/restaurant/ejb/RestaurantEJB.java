@@ -80,6 +80,15 @@ public class RestaurantEJB implements IRestaurantEJB
 		return (IBaseEntity) query.getSingleResult();
 	}
 
+	@Override
+	public <T extends IBaseEntity> IBaseEntity findOneByPrim(String prim, Class<T> resultClazz)
+	{
+		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findOneByPrim", resultClazz);
+		query.setParameter("attribute", Integer.parseInt(prim));
+
+		return (IBaseEntity) query.getSingleResult();
+	}
+
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	@Override public synchronized int persistCredentials(Integer id_prod_db, String pass, String salt)

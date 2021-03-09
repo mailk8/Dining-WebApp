@@ -11,7 +11,8 @@ import java.util.logging.Logger;
 @NamedQueries(
 				{
 								@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-								@NamedQuery(name = "User.findOne", query = "SELECT u FROM User u WHERE u.email = ?1")
+								@NamedQuery(name = "User.findOne", query = "SELECT u FROM User u WHERE u.email = ?1"),
+								@NamedQuery(name = "User.findOneByPrim", query = "SELECT u FROM User u WHERE u.prim = :attribute")
 				}
 )
 public class User extends BaseEntity implements IUser

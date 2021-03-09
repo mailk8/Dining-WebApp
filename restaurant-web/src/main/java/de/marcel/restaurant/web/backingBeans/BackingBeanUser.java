@@ -5,25 +5,18 @@ import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.Address;
 import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.User;
-import de.marcel.restaurant.web.UserMailController;
 import de.marcel.restaurant.web.httpClient.*;
+import de.marcel.restaurant.web.security.UserMailController;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-import org.omnifaces.util.Faces;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.sql.RowSet;
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -32,18 +25,16 @@ import java.util.stream.Collectors;
 @SessionScoped
 public class BackingBeanUser implements Serializable
 {
-
 	private static final long serialVersionUID = 1L;
+
 	private User current;
 	@Inject private IRestaurantEJB appServer;
 	@Inject private HttpClientWGS client;
-
 	private String validateLon, validateLat;
 
-
 	@PostConstruct
-	private void fetchLoggedInUser()
-	{
+	// holt eingeloggte User und legt sie auf current
+	private void fetchLoggedInUser() {
 		Subject s = SecurityUtils.getSubject();
 		if(s.isAuthenticated())
 		{
@@ -68,16 +59,10 @@ public class BackingBeanUser implements Serializable
 
 	public List<User> getAllUsers(){return appServer.findAll(User.class);}
 
-	public void setCurrent(User u)
-	{
-		this.current = u;
-		setCoordinatesBean(u);
-	}
-
-	public String saveUser()
-	{
+	// Kontrolliert das Persistieren
+	public String saveUser() {
 		String s="empty";
-		if(current != null)
+		if(null != current)
 		{
 			if(null == current.getPrim())
 			{
@@ -102,27 +87,31 @@ public class BackingBeanUser implements Serializable
 		return "UserList?faces-redirect=true";
 	}
 
-	public void insert(User u)
-	{
-		Integer i = appServer.persist(u);
-		u.setPrim(i);
-	}
-
-	public void update(User u)
-	{
-		Integer i = appServer.update(u);
-		u.setPrim(i);
-	}
-
-	public String edit(User u)
-	{
+	public String edit(User u) {
 		this.current = u;
 		setCoordinatesBean(u);
 		return "UserCreate?faces-redirect=true";
 	}
 
-	public String delete(User u)
-	{
+	// Delegiert Persist new
+	public void insert(User u) {
+		// EmailContainer bekommt neuen Wert
+		UserMailController.putNewUserEmail(u.getEmail());
+		Integer i = appServer.persist(u);
+		u.setPrim(i);
+	}
+
+	// Delegiert Persist update
+	public void update(User u) {
+		User old = (User) appServer.findOneByPrim(u.getPrim().toString(), User.class);
+		UserMailController.deleteUserEmail(old.getEmail());
+		UserMailController.putNewUserEmail(u.getEmail());
+		Integer i = appServer.update(u);
+		u.setPrim(i);
+	}
+
+	public String delete(User u) {
+		UserMailController.deleteUserEmail(u.getEmail());
 		appServer.deleteCredentials(u.getPrim());
 		appServer.delete(u);
 		return "UserList?faces-redirect=true";
@@ -133,8 +122,7 @@ public class BackingBeanUser implements Serializable
 		return current;
 	}
 
-	public String createNew()
-	{
+	public String createNew() {
 		current = new User();
 		setCoordinatesBean(current);
 		insert(current);
@@ -152,20 +140,22 @@ public class BackingBeanUser implements Serializable
 		return validateLon;
 	}
 
-	public void setValidateLat(String validateLat)
-	{
+	public void setCurrent(User u) {
+		this.current = u;
+		setCoordinatesBean(u);
+	}
+
+	public void setValidateLat(String validateLat) {
 		validateLat = validateLat.replace(",", ".");
 		this.validateLat = validateLat;
 	}
 
-	public void setValidateLon(String validateLon)
-	{
+	public void setValidateLon(String validateLon) {
 		validateLon = validateLon.replace(",", ".");
 		this.validateLon = validateLon;
 	}
 
-	public void setCoordinatesBean(User u)
-	{
+	public void setCoordinatesBean(User u) {
 		try
 		{
 			// Ist der Wert null, also nicht gesetzt, soll ein empty String dargestellt werden
@@ -179,8 +169,7 @@ public class BackingBeanUser implements Serializable
 		}
 	}
 
-	public void setCoordinatesEntity()
-	{
+	public void setCoordinatesEntity() {
 		// null soll erlaubt sein wenn kein Wert gesetzt ist
 		if(null == validateLat || validateLat.equals("") || validateLat.isEmpty() ||validateLat.isBlank())
 		{
@@ -201,8 +190,7 @@ public class BackingBeanUser implements Serializable
 		}
 	}
 
-	public void requestWgsForAddress()
-	{
+	public void requestWgsForAddress() {
 		//client.enqueueNewRequest(current.getAddressLiving(), appServer);
 			List<Address> ballern = appServer.findAll(Address.class).stream()
 							.map( e -> (Address) e)
@@ -218,110 +206,9 @@ public class BackingBeanUser implements Serializable
 //		});
 	}
 
-	public void removeMessages(AjaxBehaviorEvent event)
-	{
-		FacesContext fc = FacesContext.getCurrentInstance();
-		String id = event.getComponent().getClientId();
-		Iterator<FacesMessage> it = fc.getMessages("email");
-		while ( it.hasNext() )
-		{
-			// Errors sollen stehen bleiben.
-			FacesMessage fm = it.next();
-
-			if(!fm.getSeverity().equals(FacesMessage.SEVERITY_INFO))
-			{
-				// Messages gehen schon durch .next verloren und müssen
-				// wieder eingefügt werden, wenn sie stehen bleiben sollen.
-				fc.addMessage("email", new FacesMessage(fm.getSeverity(), fm.getSummary(), fm.getDetail()));
-			}
-		}
-
-		// unsupported
-		// FacesContext.getCurrentInstance().getMessageList().removeIf(e -> e.getSeverity().equals(FacesMessage.SEVERITY_INFO));
-
-		// Verhindert weitere JSF Phasen mit Validierung und ModelUpdates
-		FacesContext.getCurrentInstance().renderResponse();
-	}
-
-	public void isEmailDuplicated(AjaxBehaviorEvent event)
-	{
-
-		Iterator<FacesMessage> it = FacesContext.getCurrentInstance().getMessages();
-		while ( it.hasNext() ) {
-			it.next();
-			it.remove();
-		}
-
-		UIComponent uc = event.getComponent();
-		UIInput ui = (UIInput) event.getSource();
-
-		String input = ui.getSubmittedValue().toString(); //////////////// °!!!!!!!!!!
-
-		if(!input.equals("test")){
-			FacesMessage fm = new FacesMessage("Bereits vorhanden sum", "Bereits vorhanden det");
-			fm.setSeverity(FacesMessage.SEVERITY_ERROR);
-			FacesContext.getCurrentInstance().addMessage("email", fm);
-
-			//ui.setValid(false);
-			UIInput component = (UIInput) uc;
-			component.setValid(false);
-
-			Logger.getLogger(getClass().getSimpleName()).severe("+# event.getComponent " + event.getComponent());
-			Logger.getLogger(getClass().getSimpleName()).severe("+# event.getComponent getClientId " + event.getComponent().getClientId());
-			Logger.getLogger(getClass().getSimpleName()).severe("+# event.getComponent getRendererType" + event.getComponent().getRendererType());
-
-			Logger.getLogger(getClass().getSimpleName()).severe("+# event.getComponent getParent" + event.getComponent().getParent());
-			Logger.getLogger(getClass().getSimpleName()).severe("+# event.getComponent getParent getClientId" + event.getComponent().getParent().getClientId());
-			Logger.getLogger(getClass().getSimpleName()).severe("+# event.getComponent getParent getRendererType" + event.getComponent().getParent().getRendererType());
-
-		}
-		else
-		{
-			FacesMessage fm = new FacesMessage("Email ist wählbar");
-			fm.setSeverity(FacesMessage.SEVERITY_INFO);
-			FacesContext.getCurrentInstance().addMessage("email", fm);
-		}
-
-		FacesContext.getCurrentInstance().renderResponse(); // Verhindert weitere JSF Phasen mit Validierung und ModelUpdates
-//
-//		Logger.getLogger(getClass().getSimpleName()).severe("+# Habe als email erhalten: " + input  );
-//
-//		Logger.getLogger(getClass().getSimpleName()).severe("+# UIComponent renderType" + uc.getRendererType() + " clientId " + uc.getClientId()  );
-//		Logger.getLogger(getClass().getSimpleName()).severe("+# UIInput renderType" + ui.getRendererType() + " clientId " + ui.getClientId()  );
-
-//		Iterator<String> it = event.getFacesContext().getClientIdsWithMessages();
-//		while(it.hasNext())
-//		{
-//			Logger.getLogger(getClass().getSimpleName()).severe("+# getFacesContext().getClientIdsWithMessages" + it.next());
-//		}
-
-
-//		if(UserMailController.check(input))
-//		{
-
-//			FacesMessage fm = new FacesMessage("Bereits vorhanden sum", "Bereits vorhanden det");
-//			fm.setSeverity(FacesMessage.SEVERITY_FATAL);
-//			FacesContext.getCurrentInstance().addMessage(null, fm);
-//			event.getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bereits vorhanden sum", "Bereits vorhanden det"));
-//
-//			FacesContext.getCurrentInstance().addMessage("messageForEmailP", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bereits vorhanden sum", "Bereits vorhanden det"));
-//			event.getFacesContext().addMessage("messageForEmailP", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bereits vorhanden sum", "Bereits vorhanden det"));
-//
-//			FacesContext.getCurrentInstance().addMessage("messageForEmailH", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bereits vorhanden sum", "Bereits vorhanden det"));
-//			event.getFacesContext().addMessage("messageForEmailH", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bereits vorhanden sum", "Bereits vorhanden det"));
-//
-//			FacesContext.getCurrentInstance().addMessage("email", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bereits vorhanden sum", "Bereits vorhanden det"));
-//			event.getFacesContext().addMessage("email", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bereits vorhanden sum", "Bereits vorhanden det"));
 
 
 
-//
-//			ui.setValid(false);
-//			((UIInput)uc).setValid(false);
-//		}
 
-
-
-	}
 
 }

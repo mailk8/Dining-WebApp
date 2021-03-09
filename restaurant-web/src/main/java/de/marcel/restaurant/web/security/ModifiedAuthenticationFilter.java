@@ -2,8 +2,6 @@ package de.marcel.restaurant.web.security;
 
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.User;
-import de.marcel.restaurant.web.backingBeans.LoginController;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.session.InvalidSessionException;
