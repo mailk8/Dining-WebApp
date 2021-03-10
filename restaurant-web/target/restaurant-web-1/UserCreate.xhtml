@@ -38,12 +38,12 @@
                 <div class="form-group">
                     <label for="email">E-Mail:<h:message for="email" class="text-danger" /></label>
                     <p:inputText id="email" value="#{backingBeanUser.current.email}" class="form-control" required="false" requiredMessage="Erforderlich!"
-                                 valueChangeListener="#{loginController.emailChanged}"
+
                                  validator="serverValidatorEmail">
                         <p:ajax event="keyup" update="messageForEmailH" immediate="true" async="true"/>
                         <f:ajax event="blur" render="messageForEmailH" immediate="true" delay="2000" listener="#{loginController.removeMessages}"/>
                         <ui:remove>
-
+                            valueChangeListener="#{loginController.emailChanged}"
                         </ui:remove>
                     </p:inputText>
                     <p:messages id="messageForEmailH" for="email" display="icon" style="padding-left: 1px" />
@@ -156,8 +156,7 @@
 
 <!-- Buttons    -->
                 <hr/>
-                <h:commandButton action="#{backingBeanUser.saveUser()}" value="Speichern" class="btn btn-success"  />
-                <h:commandButton action="#{backingBeanUser.createNew()}" value="User anlegen" class="btn btn-primary" />
+                <h:commandButton action="#{backingBeanUser.updateFromView()}" value="Speichern" class="btn btn-success"  />
                 <h:commandButton action="#{backingBeanUser.createNew()}" value="#Restaurantbesuch mit diesem User" class="btn btn-warning" />
             </h:form>
 

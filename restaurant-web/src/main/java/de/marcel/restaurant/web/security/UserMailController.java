@@ -35,6 +35,8 @@ public class UserMailController
 	@Lock(LockType.WRITE)
 	public static boolean putNewUserEmail(String newEmail)
 	{
+		if(newEmail == null)
+			return false;
 		return emailTree.add(newEmail);
 	}
 

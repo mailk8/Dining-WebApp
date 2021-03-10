@@ -1,5 +1,7 @@
 package de.marcel.restaurant.ejb.interfaces;
 
+import de.marcel.restaurant.ejb.model.User;
+
 import javax.annotation.ManagedBean;
 import javax.ejb.Local;
 import javax.ejb.Remote;
@@ -22,9 +24,9 @@ public interface IRestaurantEJB extends Serializable
 
 	<T extends IBaseEntity> IBaseEntity findOneByPrim(String prim, Class<T> resultClazz);
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRED) int persistCredentials(Integer id_prod_db, String pass, String salt);
+	void proxyPersistCredentials(Integer id, String pass, String salt);
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRED) int persistEmail(Integer id_prod_db, String newEmail);
+	Integer proxyPersistUser(User u);
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED) void deleteCredentials(Integer id_prod_db);
 

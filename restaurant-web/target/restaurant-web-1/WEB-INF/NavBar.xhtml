@@ -72,13 +72,23 @@
                 <p> </p>
             </div>
 
+            <h:form>
+                <h:commandLink class="btn btn-warning" action="#{loginController.showCurrentUser}">showCurrentUser</h:commandLink>
+            </h:form>
+
             <div style="padding-left:10px;padding-right:10px">
                 <p> </p>
             </div>
 
+
+
             <h:form>
                 <h:commandLink class="btn btn-success" action="#{userMailController.getMailContainer}">Inhalt Mailcontainer</h:commandLink>
             </h:form>
+
+            <div style="padding-left:10px;padding-right:10px">
+                <p> </p>
+            </div>
 
             <shiro:user>
                 <ui:remove>

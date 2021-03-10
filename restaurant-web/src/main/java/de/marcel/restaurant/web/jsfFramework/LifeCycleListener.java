@@ -28,7 +28,7 @@ public class LifeCycleListener implements PhaseListener
 	}
 
 	public void beforePhase(PhaseEvent event) {
-		Logger.getLogger(getClass().getSimpleName()).severe("+# Start der JSF Phase " + event.getPhaseId() + " Validation failed? " + FacesContext.getCurrentInstance().isValidationFailed());
+//		Logger.getLogger(getClass().getSimpleName()).severe("+# Start der JSF Phase " + event.getPhaseId() + " Validation failed? " + FacesContext.getCurrentInstance().isValidationFailed());
 
 		FacesContext facesContext = event.getFacesContext();
 		this.saveMessages(facesContext);
@@ -43,7 +43,7 @@ public class LifeCycleListener implements PhaseListener
 	}
 
 	public void afterPhase(PhaseEvent event) {
-		Logger.getLogger(getClass().getSimpleName()).severe("+# Ende der JSF Phase " + event.getPhaseId() + " Validation failed? " + FacesContext.getCurrentInstance().isValidationFailed());
+//		Logger.getLogger(getClass().getSimpleName()).severe("+# Ende der JSF Phase " + event.getPhaseId() + " Validation failed? " + FacesContext.getCurrentInstance().isValidationFailed());
 
 		//      Funktioniert ohne dies
 		if (!PhaseId.RENDER_RESPONSE.equals(event.getPhaseId()))

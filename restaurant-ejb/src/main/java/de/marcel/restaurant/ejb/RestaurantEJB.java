@@ -3,10 +3,15 @@ package de.marcel.restaurant.ejb;
 
 import de.marcel.restaurant.ejb.interfaces.IBaseEntity;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
+import de.marcel.restaurant.ejb.model.User;
+import jakarta.enterprise.context.RequestScoped;
 
 import javax.annotation.ManagedBean;
 import javax.ejb.*;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -16,12 +21,10 @@ import java.util.logging.Logger;
 
 
 
-//@ManagedBean
-//@Stateless
-//@LocalBean
-//@Startup
+//@Named
+//@SessionScoped
+//@RequestScoped
 @Stateful
-@ManagedBean
 @Remote(IRestaurantEJB.class)
 public class RestaurantEJB implements IRestaurantEJB
 {
@@ -32,6 +35,9 @@ public class RestaurantEJB implements IRestaurantEJB
 
 	@PersistenceContext(unitName="restaurant_auth")
 	private transient EntityManager entityManagerAuth;
+
+	private transient Credentials cred = new Credentials();
+	private transient User user = new User();
 
 
 	@Override @TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -90,25 +96,36 @@ public class RestaurantEJB implements IRestaurantEJB
 	}
 
 
+	@Override public synchronized void proxyPersistCredentials(Integer id, String pass, String salt) {
+		Logger.getLogger(getClass().getSimpleName()).severe("+# persist credentials aufgerufen mit id " + id + " pass " + pass + " salt " + salt + " this + " + this);
+
+		cred.setPassword(pass);
+		cred.setSalt(salt);
+		cred.setId_prod_db(id);
+		// checkAndMatch(); // ValueChangedListener der das Passwort liefert läuft früh in JSF Phase 3
+	}
+
+	@Override public synchronized Integer proxyPersistUser(User u) {
+		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyPersistUser aufgerufen. this" +  this);
+		this.user = u;
+		return checkAndMatch();
+	}
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	@Override public synchronized int persistCredentials(Integer id_prod_db, String pass, String salt)
-	{
-
-		Logger.getLogger(getClass().getSimpleName()).severe("+# persist credentials mit id " + id_prod_db + " pass " + pass + " salt " + salt);
-
+	private synchronized int persistCredentials(Credentials credentials) {
+		Logger.getLogger(getClass().getSimpleName()).severe("+# dpersistCredentials aufgerufen this + " + this);
 		Query q = null;
 		int result;
 		try
 		{
-			q = entityManagerAuth.createNativeQuery("INSERT INTO users (id_prod_db, password, salt) VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE password=?, salt=?;");
-			q = q.setParameter(1, id_prod_db);
-			q = q.setParameter(2, pass);
-			q = q.setParameter(3, salt);
-			q = q.setParameter(4, pass);
-			q = q.setParameter(5, salt);
+			q = entityManagerAuth.createNativeQuery("INSERT INTO users (email, id_prod_db, password, salt) VALUES(?1, ?2, ?3, ?4) ON DUPLICATE KEY UPDATE email=?1, password=?3, salt=?4;");
+			q = q.setParameter(1, user.getEmail());
+			q = q.setParameter(2, credentials.getId_prod_db());
+			q = q.setParameter(3, credentials.getPassword());
+			q = q.setParameter(4, credentials.getSalt());
 			result = q.executeUpdate();
-			Logger.getLogger(getClass().getSimpleName()).severe("+# persist credentials ergab eine Änderung von  " + result + " Elementen");
-			result = checkEntryComplete(id_prod_db);
+			Logger.getLogger(getClass().getSimpleName()).severe("+# persist credentials ergab eine Änderung von  " + result + " Elementen mit email " + user.getEmail() );
+
 		}
 		catch (Exception e)
 		{
@@ -119,70 +136,106 @@ public class RestaurantEJB implements IRestaurantEJB
 		return result;
 	}
 
+	private synchronized int checkAndMatch() {
+		Logger.getLogger(getClass().getSimpleName()).severe("+# checkAndMatch aufgerufen " + this);
+
+		if(null == user.getPrim()) // User invalid
+		{
+			return -1;
+		}
+		else if(null == cred.getId_prod_db()) // Nur User speichern
+		{
+			Logger.getLogger(getClass().getSimpleName()).severe("+# null == cred.getId_prod_db()    " + this);
+
+			if(null != user.getEmail()) // Speichern wenn er eine E-Mail besitzt
+			{
+				if(update(user) > 0)
+				{
+					return 1; // User erfolgreich gespeichert
+				}
+				else
+				{
+					return -2;
+				}
+			}
+			else
+			{
+				return -3;
+			}
+		}
+		else // User und Credentials speichern
+		{
+			if(user.getPrim().equals(cred.getId_prod_db())) // Gehören User und Credentials zusammen?
+			{
+				int resultUser = update(user);
+				int resultCred = persistCredentials(cred);
+				user = new User(); cred = new Credentials();
+
+				if((resultUser > 0) && (resultCred > 0))
+				{
+					return 2; // User und Credentials erfolgreich gespeichert
+				}
+				else
+				{
+					return -3;
+				}
+			}
+			else
+			{
+				return -4;
+			}
+		}
+	}
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	@Override public synchronized void deleteCredentials(Integer id_prod_db)
-	{
-		Logger.getLogger(getClass().getSimpleName()).severe("+# deleteCredentials mit id " + id_prod_db );
+	@Override public synchronized void deleteCredentials(Integer id_prod_db) {
+		Logger.getLogger(getClass().getSimpleName()).severe("+# deleteCredentials mit id " + id_prod_db + "  " + this);
 
 		Query q = entityManagerAuth.createNativeQuery("DELETE FROM users WHERE id_prod_db=?");
 
 		q = q.setParameter(1, id_prod_db);
 		int i = q.executeUpdate();
 
-		Logger.getLogger(getClass().getSimpleName()).severe("+# deleteCredentials ergab eine Änderung von  " + i + " Elementen");
+		Logger.getLogger(getClass().getSimpleName()).severe("+# deleteCredentials ergab eine Änderung von  " + i + " Elementen " + this);
 	}
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	@Override public synchronized int persistEmail(Integer id_prod_db, String newEmail)
-	{
-		Logger.getLogger(getClass().getSimpleName()).severe("+# persist email läuft mit email " + newEmail);
+	private class Credentials {
+		private String salt;
+		private Integer id_prod_db;
+		private String password;
 
-		Query q = entityManagerAuth.createNativeQuery("INSERT INTO users (id_prod_db, email) VALUES(?, ?) ON DUPLICATE KEY UPDATE email=?;");
-
-		int result;
-
-		try{
-		q = q.setParameter(1, id_prod_db);
-		q = q.setParameter(2, newEmail);
-		q = q.setParameter(3, newEmail);
-		result = q.executeUpdate();
-		Logger.getLogger(getClass().getSimpleName()).severe("+# persist email ergab eine Änderung von  " + result + " Elementen");
-		result = checkEntryComplete(id_prod_db);
-		}
-		catch (Exception e)
+		private String getPassword()
 		{
-			e.printStackTrace();
-			return -1;
+			return password;
 		}
 
-		return result;
+		private void setPassword(String password)
+		{
+			this.password = password;
+		}
 
+		private String getSalt()
+		{
+			return salt;
+		}
+
+		public void setSalt(String salt)
+		{
+			this.salt = salt;
+		}
+
+		public Integer getId_prod_db()
+		{
+			return id_prod_db;
+		}
+
+		public void setId_prod_db(Integer id_prod_db)
+		{
+			Logger.getLogger(getClass().getSimpleName()).severe("+# setId_prod_db aufgerufen, value ist " + id_prod_db +" " );
+			this.id_prod_db = id_prod_db;
+		}
 	}
-
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	private synchronized int checkEntryComplete(int id_prod_db)
-	{
-		Query q = entityManagerAuth.createNativeQuery("SELECT * FROM users WHERE id_prod_db=?");
-		q.setParameter(1, id_prod_db);
-		List<Object[]> resultList = q.getResultList();
-
-		if(resultList.size() != 1 || resultList.get(0).length != 4)
-		{
-			return -1;
-		}
-
-		for (Object s : resultList.get(0))
-		{
-			Logger.getLogger(getClass().getSimpleName()).severe("+# Eintrag Datensatz in DB " + s + " Result hat " + resultList.size() + " Elemente. Object[] size ist " + resultList.get(0).length);
-
-			if(null == s || s.toString().isEmpty())
-				return 0;
-		}
-
-		return 1;
-	}
-
-
 
 
 }
+

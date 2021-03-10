@@ -28,9 +28,7 @@ import java.util.logging.Logger;
 @SessionScoped
 public class LoginController implements Serializable
 {
-
 	private static final long serialVersionUID = 1L;
-	private boolean pwChanged = false;
 
 	@Inject BackingBeanUser backingBeanUser;
 	@Inject IRestaurantEJB appServer;
@@ -71,9 +69,7 @@ public class LoginController implements Serializable
 	}
 
 	//////////////// Email und Passwortchange //////////////////////////////////
-	/*
-	liegt hier, damit encrypt Password private sein kann
-	 */
+
 
 	// https://stackoverflow.com/questions/5698371/valuechangelistener-and-ajax-execution-order-problem-on-selectonemenu
 	/*
@@ -98,85 +94,46 @@ public class LoginController implements Serializable
 		Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. PhaseId des Events ist " + e.getPhaseId().getName());
 		Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. ValueNew " + e.getNewValue() + " OldValue " + e.getOldValue());
 
-		if (e.getPhaseId().getOrdinal() < 4) {
-			e.setPhaseId(PhaseId.UPDATE_MODEL_VALUES);
-			e.queue();
-			return;
-		}
 
 		// Nur bei tatsächlicher Neueingabe eines Passworts wird in die DB geschrieben
 		if(e.getNewValue() == null || e.getNewValue().equals(""))
 		{
 			Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. Keine Änderung, exiting");
-			pwChanged = false;
 			return;
 		}
+
 		byte[] salt = generateSalt();
 		String[] pass = { encryptPassword(e.getNewValue().toString(), salt) };
-		int result = appServer.persistCredentials(backingBeanUser.getCurrent().getPrim(), pass[0], Base64.getEncoder().encodeToString(salt));
+		appServer.proxyPersistCredentials(backingBeanUser.getCurrent().getPrim(), pass[0], Base64.getEncoder().encodeToString(salt));
 		salt = null;
 		pass = null;
-		pwChanged = true;
 
-		throwFacesMessage(result);
-
-	}
-
-
-	public synchronized void emailChanged(ValueChangeEvent e){
-
-		Logger.getLogger(getClass().getSimpleName()).severe("+# Email change aufgerufen in Phase" + FacesContext.getCurrentInstance().getCurrentPhaseId().getName());
-		Logger.getLogger(getClass().getSimpleName()).severe("+# Email change old value " + e.getOldValue() + " new Value" + e.getNewValue());
-
-		if (e.getPhaseId().getOrdinal() < 4) {
-			e.setPhaseId(PhaseId.UPDATE_MODEL_VALUES);
-			e.queue();
-			return;
-		}
-
-		String emailOldValue = (String) e.getOldValue();
-		String emailNewValue = (String) e.getNewValue();
-
-
-
-		if( null == emailOldValue || emailOldValue.equals(""))
-		{
-			Logger.getLogger(getClass().getSimpleName()).severe("+# Email Neueingabe "); // Vorsicht bei Einsatz von Ajax
-		}
-
-		if( null == emailNewValue || emailNewValue.equals(""))
-		{
-			Logger.getLogger(getClass().getSimpleName()).severe("+# Email change value war null, exiting... ");
-			return;
-		}
-
-		int result = appServer.persistEmail(backingBeanUser.getCurrent().getPrim(), emailNewValue);
-
-
-
-
-		throwFacesMessage(result);
-
+		Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged ist durchgelaufen");
 	}
 
 	// checkPasswordQuality: Passwort Qualitätsprüfung übernimmt PrimeFaces Popup
 
 	public void throwFacesMessage(int result) {
-		if(pwChanged)
-		{
-			if (result == 1)
-			{
-				// worauf bezieht sich ClientID, den Browser?
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Passwort wurde erfolgreich gespeichert!", ""));
 
-				Logger.getLogger(getClass().getSimpleName()).severe("+# Versuche Growl INFO / Erfolg auszulösen");
-			}
-			else if (result == -1)
-			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Fehler beim Speichern des Passworts!", "Bitte versuch es noch einmal."));
-				Logger.getLogger(getClass().getSimpleName()).severe("+# Versuche Growl Error auszulösen");
-			}
+		if (result == 1)
+		{
+			// worauf bezieht sich ClientID, den Browser?
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Passwort wurde erfolgreich gespeichert!", ""));
+
+			Logger.getLogger(getClass().getSimpleName()).severe("+# Versuche Growl INFO / Erfolg auszulösen");
 		}
+		else if(result == 2)
+		{
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Passwort wurde erfolgreich gespeichert!", ""));
+
+			Logger.getLogger(getClass().getSimpleName()).severe("+# Versuche Growl INFO / Erfolg auszulösen");
+		}
+		else if (result < 0)
+		{
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Fehler beim Speichern der Userdaten!", "Bitte versuch es noch einmal."));
+			Logger.getLogger(getClass().getSimpleName()).severe("+# Versuche Growl Error auszulösen");
+		}
+
 	}
 
 	// Entfernt FacesMessages (E-Mail Feld onblur)
@@ -207,7 +164,7 @@ public class LoginController implements Serializable
 
 	// Für Debugging Zwecke
 	public void testSubject() {
-		Logger.getLogger(getClass().getSimpleName()).severe("+# test aufgerufen");
+		Logger.getLogger(getClass().getSimpleName()).severe("+# testSubject aufgerufen");
 		Subject sub = SecurityUtils.getSubject();
 		Logger.getLogger(getClass().getSimpleName()).severe("+# Subject " + sub.getPrincipal() + " ist angemeldet.");
 		if(sub.isAuthenticated())
@@ -249,6 +206,15 @@ public class LoginController implements Serializable
 		sc.getServletRegistrations().entrySet().forEach(e ->{
 			Logger.getLogger(getClass().getSimpleName()).severe(String.format("%-30s%-30s", e.getKey(), e.getValue().toString()));
 		});
+
+	}
+
+	// Für Debugging Zwecke
+	public void showCurrentUser() {
+		Logger.getLogger(getClass().getSimpleName()).severe("+# showCurrentUser aufgerufen");
+		{
+			Logger.getLogger(getClass().getSimpleName()).severe("+# BackingBeanUser enthält als current " + backingBeanUser.getCurrent());
+		}
 
 	}
 

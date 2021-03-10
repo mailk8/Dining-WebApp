@@ -61,7 +61,7 @@ public class ServerValidatorEmail implements Validator
 //		context.setProcessingEvents(false);
 //		context.release();
 //		context.renderResponse();
-		context.setCurrentPhaseId(PhaseId.INVOKE_APPLICATION);
+		//context.setCurrentPhaseId(PhaseId.INVOKE_APPLICATION);
 
 
 		Logger.getLogger(this.getClass().getSimpleName()).severe("+# Validator läuft bis Ende ################ validation failed ? " + context.isValidationFailed());
