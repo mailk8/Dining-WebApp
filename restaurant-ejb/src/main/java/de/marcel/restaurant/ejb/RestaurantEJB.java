@@ -1,9 +1,9 @@
 package de.marcel.restaurant.ejb;
 
+
 import de.marcel.restaurant.ejb.interfaces.IBaseEntity;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
-import de.marcel.restaurant.ejb.model.User;
-import de.marcel.restaurant.web.credentials.ICredentials;
+import de.marcel.restaurant.web.security.ICredentials;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -28,9 +28,6 @@ public class RestaurantEJB implements IRestaurantEJB
 
 	@PersistenceContext(unitName="restaurant_auth")
 	private transient EntityManager entityManagerAuth;
-
-
-	private transient User user = new User();
 
 
 	@Override @TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -100,7 +97,37 @@ public class RestaurantEJB implements IRestaurantEJB
 
 	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public synchronized Integer persistCredentials(de.marcel.restaurant.web.credentials.ICredentials cred) {
+	//public synchronized Integer persistCredentials(de.marcel.restaurant.web.security.ICredentials cred) {
+	public synchronized Integer persistCredentials(String email, String pass, String salt, String id) {
+		Logger.getLogger(getClass().getSimpleName()).severe("+# persistCredentials aufgerufen, Parameterübergabe geht klar. Vor Cast." );
+		Query q = null;
+		int result = 0;
+		try
+		{
+			q = entityManagerAuth.createNativeQuery("INSERT INTO users (email, id_prod_db, password, salt) VALUES(?1, ?2, ?3, ?4) ON DUPLICATE KEY UPDATE email=?1, password=?3, salt=?4;");
+			q = q.setParameter(1, email);
+			q = q.setParameter(2, id);
+			q = q.setParameter(3, pass);
+			q = q.setParameter(4, salt);
+			result = q.executeUpdate();
+			Logger.getLogger(getClass().getSimpleName()).severe("+# persist credentials ergab eine Änderung von  " + result + " Elementen mit email " + email );
+			//cred = null; cred = null;
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return -1;
+		}
+
+		if(result < 0)
+			return -1;
+		return 3;
+	}
+
+	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	//public synchronized Integer persistCredentials(de.marcel.restaurant.web.security.ICredentials cred) {
+	public synchronized Integer persistCredentials(ICredentials cred) {
 		Logger.getLogger(getClass().getSimpleName()).severe("+# persistCredentials aufgerufen, Parameterübergabe geht klar. Vor Cast." );
 		Query q = null;
 		int result = 0;
@@ -108,7 +135,7 @@ public class RestaurantEJB implements IRestaurantEJB
 		{
 			q = entityManagerAuth.createNativeQuery("INSERT INTO users (email, id_prod_db, password, salt) VALUES(?1, ?2, ?3, ?4) ON DUPLICATE KEY UPDATE email=?1, password=?3, salt=?4;");
 			q = q.setParameter(1, cred.getEmail());
-			q = q.setParameter(2, cred.getId_prod_db());
+			q = q.setParameter(2, cred.getId_prod_db().toString());
 			q = q.setParameter(3, cred.getPassword());
 			q = q.setParameter(4, cred.getSalt());
 			result = q.executeUpdate();
@@ -163,60 +190,6 @@ public class RestaurantEJB implements IRestaurantEJB
 		Logger.getLogger(getClass().getSimpleName()).severe("+# deleteCredentials ergab eine Änderung von  " + i + " Elementen " + this);
 	}
 
-
-//	//@Stateful
-//	@Local
-//	public static class Credentials implements ICredentials
-//	{
-//		public static final long serialVersionUID = 1L;
-//
-//		private String salt;
-//		private Integer id_prod_db;
-//		private String password;
-//		private String email;
-//
-//
-//		public String getEmail()
-//		{
-//			return email;
-//		}
-//
-//		private void setEmail(String email)
-//		{
-//			this.email = email;
-//		}
-//
-//		public String getPassword()
-//		{
-//			return password;
-//		}
-//
-//		private void setPassword(String password)
-//		{
-//			this.password = password;
-//		}
-//
-//		public String getSalt()
-//		{
-//			return salt;
-//		}
-//
-//		private void setSalt(String salt)
-//		{
-//			this.salt = salt;
-//		}
-//
-//		public Integer getId_prod_db()
-//		{
-//			return id_prod_db;
-//		}
-//
-//		private void setId_prod_db(Integer id_prod_db)
-//		{
-//			Logger.getLogger(getClass().getSimpleName()).severe("+# setId_prod_db aufgerufen, value ist " + id_prod_db +" " );
-//			this.id_prod_db = id_prod_db;
-//		}
-//	}
 
 }
 

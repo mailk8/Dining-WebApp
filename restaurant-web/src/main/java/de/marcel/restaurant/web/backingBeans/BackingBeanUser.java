@@ -63,33 +63,6 @@ public class BackingBeanUser implements Serializable
 
 	public List<User> getAllUsers(){return appServer.findAll(User.class);}
 
-	// Kontrolliert das Persistieren
-//	public String saveUser() {
-//		String s="empty";
-//		if(null != current)
-//		{
-//			if(null == current.getEmail())
-//			{
-//				setCoordinatesEntity();
-//				insert(current);
-//				s = "insert";
-//			}
-//
-//			else
-//			{
-//				setCoordinatesEntity();
-//				update(current);
-//				s = "update";
-//			}
-//
-//		}
-//
-//		Logger.getLogger(getClass().getSimpleName()).severe("+# Es wurde " + s + " aufgerufen in Phase " + FacesContext.getCurrentInstance().getCurrentPhaseId().getName() +
-//						" Current User firstname ist " + current.getFirstname() + " mit id " + current.getPrim());
-//
-//		//current = new User(); // Nur in createNew !
-//		return "UserList?faces-redirect=true";
-//	}
 
 	public String edit(User u) {
 		this.current = u;
@@ -113,20 +86,17 @@ public class BackingBeanUser implements Serializable
 	public String saveUserProxy()
 	{
 		loginController.checkAndPersist(current);
-//		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Test", ""));
 		return "UserList?faces-redirect=true";
 	}
 
 	// Delegiert Persist update
 	public int update(User u) {
-//		User old = (User) appServer.findOneByPrim(u.getPrim().toString(), User.class);
-//		UserMailController.deleteUserEmail(old.getEmail());
-//      UserMailController.putNewUserEmail(u.getEmail());
 
-//		Integer i = appServer.proxyPersistUser(u);
-//		u.setPrim(i);
+		User old = (User) appServer.findOneByPrim(u.getPrim().toString(), User.class);
 		setCoordinatesEntity();
 		int result = appServer.update(u);
+		UserMailController.deleteUserEmail(old.getEmail());
+	    UserMailController.putNewUserEmail(u.getEmail());
 		Logger.getLogger(getClass().getSimpleName()).severe("+# Es wurde update(User u) aufgerufen, result von proxyPersistUser " + result);
 		return result;
 	}

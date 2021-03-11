@@ -156,7 +156,8 @@
                         <configuration>
                             <classifier>credentials-class-interface</classifier>
                             <includes>
-                                <include>**/credentials/**</include>
+                                <include>**/security/Credentials.class</include>
+                                <include>**/security/ICredentials.class</include>
                             </includes>
                         </configuration>
                     </execution>

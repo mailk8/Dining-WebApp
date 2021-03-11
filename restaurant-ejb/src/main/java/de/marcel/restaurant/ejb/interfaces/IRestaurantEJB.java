@@ -2,7 +2,7 @@ package de.marcel.restaurant.ejb.interfaces;
 
 import de.marcel.restaurant.ejb.RestaurantEJB;
 import de.marcel.restaurant.ejb.model.User;
-import de.marcel.restaurant.web.credentials.ICredentials;
+import de.marcel.restaurant.web.security.ICredentials;
 
 import javax.annotation.ManagedBean;
 import javax.ejb.Local;
@@ -22,7 +22,9 @@ public interface IRestaurantEJB extends Serializable
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED) <IBaseEntity> void delete(de.marcel.restaurant.ejb.interfaces.IBaseEntity t);
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRED) Integer persistCredentials(de.marcel.restaurant.web.credentials.ICredentials cred);
+	@TransactionAttribute(TransactionAttributeType.REQUIRED) Integer persistCredentials(String email, String pass, String salt, String id);
+
+	@TransactionAttribute(TransactionAttributeType.REQUIRED) Integer persistCredentials(ICredentials ic);
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED) Integer persistEmail(String email, Integer id);
 

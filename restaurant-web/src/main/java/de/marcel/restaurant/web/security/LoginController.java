@@ -4,7 +4,7 @@ package de.marcel.restaurant.web.security;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.User;
 import de.marcel.restaurant.web.backingBeans.BackingBeanUser;
-import de.marcel.restaurant.web.credentials.Credentials;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
@@ -12,13 +12,11 @@ import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 
-import javax.ejb.Stateless;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.event.PhaseId;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,6 +25,11 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
 
+/*
+Stellt Logoutfunktion bereit und
+steuert Änderung sowie Insert von Credentials (Email Passwort) sowie
+User Objekten in die normale DB und die AuthDB
+ */
 @Named
 @SessionScoped
 public class LoginController implements Serializable
@@ -70,6 +73,7 @@ public class LoginController implements Serializable
 		if(e.getNewValue() == null || e.getNewValue().equals(""))
 		{
 			Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. Keine Änderung, exiting");
+			this.cred = null;
 			return;
 		}
 
@@ -112,10 +116,7 @@ public class LoginController implements Serializable
 					e.printStackTrace();
 					errorLevel = -2;
 				}
-				finally
-				{
-					user = new User();  // Nur zum Überschreiben der Referenz
-				}
+
 			}
 			else
 			{
@@ -131,7 +132,7 @@ public class LoginController implements Serializable
 				try
 				{
 					cred.setEmail(user.getEmail());
-					errorLevel += appServer.persistCredentials((de.marcel.restaurant.web.credentials.ICredentials) cred); // 5
+					errorLevel += appServer.persistCredentials((ICredentials)cred); // 5
 					errorLevel += backingBeanUser.update(user); // 3
 				}
 				catch (Exception e)
@@ -141,7 +142,7 @@ public class LoginController implements Serializable
 				}
 				finally
 				{
-					user = new User(); cred = new Credentials(); // Nur zum Überschreiben der Referenzen
+					cred = null;
 				}
 			}
 			else
@@ -150,6 +151,7 @@ public class LoginController implements Serializable
 			}
 		}
 
+		Logger.getLogger(getClass().getSimpleName()).severe("+# Errorlevel " + errorLevel);
 		UserMailController.putNewUserEmail(user.getEmail());
 		throwFacesMessage(errorLevel);
 	}
@@ -268,9 +270,6 @@ public class LoginController implements Serializable
 		}
 
 	}
-
-
-
 
 }
 

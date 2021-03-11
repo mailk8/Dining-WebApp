@@ -1,5 +1,6 @@
 C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\java\de\marcel\restaurant\web\jsfFramework\Injector.java
 C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\java\de\marcel\restaurant\web\backingBeans\BackingBeanRating.java
+C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\java\de\marcel\restaurant\web\security\ICredentials.java
 C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\java\de\marcel\restaurant\web\converters\UrlStringConverter.java
 C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\java\de\marcel\restaurant\web\httpClient\HttpResponseParser.java
 C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\java\de\marcel\restaurant\web\backingBeans\BackingBeanVisit.java
@@ -14,5 +15,6 @@ C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\rest
 C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\java\de\marcel\restaurant\web\backingBeans\BackingBeanRestaurant.java
 C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\java\de\marcel\restaurant\web\validators\ServerValidatorEmail.java
 C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\java\de\marcel\restaurant\web\backingBeans\BackingBeanUser.java
+C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\java\de\marcel\restaurant\web\security\Credentials.java
 C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\java\de\marcel\restaurant\web\httpClient\HttpClientWGSold.java
 C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\java\de\marcel\restaurant\web\validators\ServerValidatorPassword.java
