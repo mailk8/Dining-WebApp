@@ -5,10 +5,8 @@ import de.marcel.restaurant.ejb.interfaces.IBaseEntity;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.web.security.ICredentials;
 
-import javax.ejb.Remote;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import javax.annotation.Priority;
+import javax.ejb.*;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,6 +15,8 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.logging.Logger;
 
+@Startup()
+@Priority(1)
 @Stateless
 @Remote(IRestaurantEJB.class)
 public class RestaurantEJB implements IRestaurantEJB

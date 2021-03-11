@@ -2,13 +2,17 @@ package de.marcel.restaurant.web.jsfFramework;
 
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 
+import javax.annotation.Priority;
+import javax.ejb.Startup;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import java.io.Serializable;
 
-@SessionScoped
+@Startup()
+@Priority(100)
+//@SessionScoped
 public class Injector implements Serializable
 {
 	@Produces
