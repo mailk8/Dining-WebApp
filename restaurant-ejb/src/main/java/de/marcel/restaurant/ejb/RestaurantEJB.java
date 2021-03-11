@@ -1,17 +1,15 @@
 package de.marcel.restaurant.ejb;
 
-
 import de.marcel.restaurant.ejb.interfaces.IBaseEntity;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.User;
-import jakarta.enterprise.context.RequestScoped;
+import de.marcel.restaurant.web.credentials.ICredentials;
 
-import javax.annotation.ManagedBean;
-import javax.ejb.*;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.SessionScoped;
+import javax.ejb.Remote;
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -19,12 +17,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.logging.Logger;
 
-
-
-//@Named
-//@SessionScoped
-//@RequestScoped
-@Stateful
+@Stateless
 @Remote(IRestaurantEJB.class)
 public class RestaurantEJB implements IRestaurantEJB
 {
@@ -36,7 +29,7 @@ public class RestaurantEJB implements IRestaurantEJB
 	@PersistenceContext(unitName="restaurant_auth")
 	private transient EntityManager entityManagerAuth;
 
-	private transient Credentials cred = new Credentials();
+
 	private transient User user = new User();
 
 
@@ -44,44 +37,53 @@ public class RestaurantEJB implements IRestaurantEJB
 	public <IBaseEntity> Integer persist(de.marcel.restaurant.ejb.interfaces.IBaseEntity t)
 	{
 		Logger.getLogger(getClass().getSimpleName()).severe("+# persist aufgerufen. PhaseId des Events ist " + FacesContext.getCurrentInstance().getCurrentPhaseId().getName());
+
+		// Persist takes an entity instance, adds it to the context and makes that instance managed (ie future updates to the entity will be tracked).
+
 		entityManager.persist(t);
+
 		entityManager.flush();
 		Logger.getLogger(getClass().getSimpleName()).severe("+# nach persist und flush. id des Objekts ist "  + t.getPrim());
-
 		return t.getPrim();
 	}
 
 	@Override @TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public <IBaseEntity> Integer update(de.marcel.restaurant.ejb.interfaces.IBaseEntity t)
 	{
-		entityManager.merge(t);
-		entityManager.flush();
-		return t.getPrim();
+		try
+		{
+			entityManager.merge(t);
+			entityManager.flush();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return -1;
+		}
+
+		return 2;
 	}
 
 	@Override @TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public <IBaseEntity> void delete(de.marcel.restaurant.ejb.interfaces.IBaseEntity t)
 	{
-		// Entity must be managed:
 		// Because merge returns managed entity instance, you can call remove with the object it returns, because it is managed by JPA
+		// Retourniert eine Kopie der Entity, diese wird durch die Kopie zur JPA-Managed Bean
 		t = entityManager.merge(t);
 		entityManager.remove(t);
-
-
 	}
 
 	@Override public <IBaseEntity> List<IBaseEntity> findAll(Class entitiyClass)
 	{
 		TypedQuery<IBaseEntity> query = entityManager.createNamedQuery(entitiyClass.getSimpleName()+".findAll", entitiyClass);
-
 		return query.getResultList();
 	}
 
 	@Override
-	public <T extends IBaseEntity> IBaseEntity findOne(Object characterisitcAttribute, Class attributeClazz, Class<T> resultClazz)
+	public <T extends IBaseEntity> IBaseEntity findOne(Object attributeFromNamedQuery, Class attributeClazz, Class<T> resultClazz)
 	{
 		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findOne", resultClazz);
-		query.setParameter(1, attributeClazz.cast(characterisitcAttribute));
+		query.setParameter(1, attributeClazz.cast(attributeFromNamedQuery));
 
 		return (IBaseEntity) query.getSingleResult();
 	}
@@ -96,36 +98,22 @@ public class RestaurantEJB implements IRestaurantEJB
 	}
 
 
-	@Override public synchronized void proxyPersistCredentials(Integer id, String pass, String salt) {
-		Logger.getLogger(getClass().getSimpleName()).severe("+# persist credentials aufgerufen mit id " + id + " pass " + pass + " salt " + salt + " this + " + this);
-
-		cred.setPassword(pass);
-		cred.setSalt(salt);
-		cred.setId_prod_db(id);
-		// checkAndMatch(); // ValueChangedListener der das Passwort liefert läuft früh in JSF Phase 3
-	}
-
-	@Override public synchronized Integer proxyPersistUser(User u) {
-		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyPersistUser aufgerufen. this" +  this);
-		this.user = u;
-		return checkAndMatch();
-	}
-
+	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	private synchronized int persistCredentials(Credentials credentials) {
-		Logger.getLogger(getClass().getSimpleName()).severe("+# dpersistCredentials aufgerufen this + " + this);
+	public synchronized Integer persistCredentials(de.marcel.restaurant.web.credentials.ICredentials cred) {
+		Logger.getLogger(getClass().getSimpleName()).severe("+# persistCredentials aufgerufen, Parameterübergabe geht klar. Vor Cast." );
 		Query q = null;
-		int result;
+		int result = 0;
 		try
 		{
 			q = entityManagerAuth.createNativeQuery("INSERT INTO users (email, id_prod_db, password, salt) VALUES(?1, ?2, ?3, ?4) ON DUPLICATE KEY UPDATE email=?1, password=?3, salt=?4;");
-			q = q.setParameter(1, user.getEmail());
-			q = q.setParameter(2, credentials.getId_prod_db());
-			q = q.setParameter(3, credentials.getPassword());
-			q = q.setParameter(4, credentials.getSalt());
+			q = q.setParameter(1, cred.getEmail());
+			q = q.setParameter(2, cred.getId_prod_db());
+			q = q.setParameter(3, cred.getPassword());
+			q = q.setParameter(4, cred.getSalt());
 			result = q.executeUpdate();
-			Logger.getLogger(getClass().getSimpleName()).severe("+# persist credentials ergab eine Änderung von  " + result + " Elementen mit email " + user.getEmail() );
-
+			Logger.getLogger(getClass().getSimpleName()).severe("+# persist credentials ergab eine Änderung von  " + result + " Elementen mit email " + cred.getEmail() );
+			cred = null; cred = null;
 		}
 		catch (Exception e)
 		{
@@ -133,58 +121,34 @@ public class RestaurantEJB implements IRestaurantEJB
 			return -1;
 		}
 
-		return result;
+		if(result < 0)
+			return -1;
+		return 3;
 	}
 
-	private synchronized int checkAndMatch() {
-		Logger.getLogger(getClass().getSimpleName()).severe("+# checkAndMatch aufgerufen " + this);
-
-		if(null == user.getPrim()) // User invalid
+	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public synchronized Integer persistEmail(String email, Integer id) {
+		Query q = null;
+		int result = 0;
+		try
 		{
+			q = entityManagerAuth.createNativeQuery("UPDATE users SET email=?1 WHERE id_prod_db=?2");
+			q = q.setParameter(1, email);
+			q = q.setParameter(2, id);
+			result = q.executeUpdate();
+			Logger.getLogger(getClass().getSimpleName()).severe("+# persist Email ergab eine Änderung von  " + result + " Elementen mit email " + email );
+			email = null; id = null;
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 			return -1;
 		}
-		else if(null == cred.getId_prod_db()) // Nur User speichern
-		{
-			Logger.getLogger(getClass().getSimpleName()).severe("+# null == cred.getId_prod_db()    " + this);
 
-			if(null != user.getEmail()) // Speichern wenn er eine E-Mail besitzt
-			{
-				if(update(user) > 0)
-				{
-					return 1; // User erfolgreich gespeichert
-				}
-				else
-				{
-					return -2;
-				}
-			}
-			else
-			{
-				return -3;
-			}
-		}
-		else // User und Credentials speichern
-		{
-			if(user.getPrim().equals(cred.getId_prod_db())) // Gehören User und Credentials zusammen?
-			{
-				int resultUser = update(user);
-				int resultCred = persistCredentials(cred);
-				user = new User(); cred = new Credentials();
-
-				if((resultUser > 0) && (resultCred > 0))
-				{
-					return 2; // User und Credentials erfolgreich gespeichert
-				}
-				else
-				{
-					return -3;
-				}
-			}
-			else
-			{
-				return -4;
-			}
-		}
+		if(result < 0)
+			return -1;
+		return 1;
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -199,43 +163,60 @@ public class RestaurantEJB implements IRestaurantEJB
 		Logger.getLogger(getClass().getSimpleName()).severe("+# deleteCredentials ergab eine Änderung von  " + i + " Elementen " + this);
 	}
 
-	private class Credentials {
-		private String salt;
-		private Integer id_prod_db;
-		private String password;
 
-		private String getPassword()
-		{
-			return password;
-		}
-
-		private void setPassword(String password)
-		{
-			this.password = password;
-		}
-
-		private String getSalt()
-		{
-			return salt;
-		}
-
-		public void setSalt(String salt)
-		{
-			this.salt = salt;
-		}
-
-		public Integer getId_prod_db()
-		{
-			return id_prod_db;
-		}
-
-		public void setId_prod_db(Integer id_prod_db)
-		{
-			Logger.getLogger(getClass().getSimpleName()).severe("+# setId_prod_db aufgerufen, value ist " + id_prod_db +" " );
-			this.id_prod_db = id_prod_db;
-		}
-	}
-
+//	//@Stateful
+//	@Local
+//	public static class Credentials implements ICredentials
+//	{
+//		public static final long serialVersionUID = 1L;
+//
+//		private String salt;
+//		private Integer id_prod_db;
+//		private String password;
+//		private String email;
+//
+//
+//		public String getEmail()
+//		{
+//			return email;
+//		}
+//
+//		private void setEmail(String email)
+//		{
+//			this.email = email;
+//		}
+//
+//		public String getPassword()
+//		{
+//			return password;
+//		}
+//
+//		private void setPassword(String password)
+//		{
+//			this.password = password;
+//		}
+//
+//		public String getSalt()
+//		{
+//			return salt;
+//		}
+//
+//		private void setSalt(String salt)
+//		{
+//			this.salt = salt;
+//		}
+//
+//		public Integer getId_prod_db()
+//		{
+//			return id_prod_db;
+//		}
+//
+//		private void setId_prod_db(Integer id_prod_db)
+//		{
+//			Logger.getLogger(getClass().getSimpleName()).severe("+# setId_prod_db aufgerufen, value ist " + id_prod_db +" " );
+//			this.id_prod_db = id_prod_db;
+//		}
+//	}
 
 }
 

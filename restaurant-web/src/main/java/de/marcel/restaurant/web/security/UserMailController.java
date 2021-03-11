@@ -33,26 +33,28 @@ public class UserMailController
 	}
 
 	@Lock(LockType.WRITE)
-	public static boolean putNewUserEmail(String newEmail)
+	@Asynchronous // Erwerben des Locks kann async. geschehen ?
+	public static void putNewUserEmail(String newEmail)
 	{
-		if(newEmail == null)
-			return false;
-		return emailTree.add(newEmail);
+		if(null != newEmail){
+			if (emailTree.contains(newEmail))
+				emailTree.remove(newEmail);
+			emailTree.add(newEmail);
+		}
 	}
 
 	@Lock(LockType.WRITE)
-	public static boolean deleteUserEmail(String email)
+	@Asynchronous // Erwerben des Locks kann async. geschehen ?
+	public static void deleteUserEmail(String email)
 	{
-		if(!(null == email))
-			return emailTree.remove(email);
-		return false;
+		if(null != email)
+			emailTree.remove(email);
 	}
 
 	@Lock(LockType.READ)
 	public static boolean containsUserEmail(String input)
 	{
 		Logger.getLogger(UserMailController.class.getSimpleName()).severe("+# Duplikatscheck email bereits vorhanden? " + emailTree.contains(input) + " Value war "+input );
-
 		return emailTree.contains(input);
 	}
 

@@ -17,6 +17,7 @@
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
@@ -48,6 +49,15 @@
             <artifactId>maven-jar-plugin</artifactId>
             <version>3.2.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>de.marcel.restaurant.restaurant-web</groupId>
+            <artifactId>credentials-class-interface</artifactId>
+            <version>1</version>
+            <scope>provided</scope>
+        </dependency>
+
+
 <!--############################################ TEST AREA ####################################-->
 
         <!-- https://mvnrepository.com/artifact/org.jboss.weld.se/weld-se-core -->
@@ -57,7 +67,9 @@
             <version>4.0.0.Final</version>
         </dependency>
 
-<!--##########################################################################################-->
+
+
+        <!--##########################################################################################-->
 
     </dependencies>
 

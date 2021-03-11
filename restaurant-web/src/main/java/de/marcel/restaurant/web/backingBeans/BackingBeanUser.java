@@ -6,6 +6,8 @@ import de.marcel.restaurant.ejb.model.Address;
 import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.User;
 import de.marcel.restaurant.web.httpClient.*;
+
+import de.marcel.restaurant.web.security.LoginController;
 import de.marcel.restaurant.web.security.UserMailController;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -13,6 +15,7 @@ import org.apache.shiro.subject.Subject;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -30,6 +33,7 @@ public class BackingBeanUser implements Serializable
 	private User current;
 	@Inject private IRestaurantEJB appServer;
 	@Inject private HttpClientWGS client;
+	@Inject private LoginController loginController;
 	private String validateLon, validateLat;
 
 	@PostConstruct
@@ -96,7 +100,7 @@ public class BackingBeanUser implements Serializable
 	// Delegiert Persist new
 	public void insert(User u) {
 		// EmailContainer bekommt neuen Wert
-		UserMailController.putNewUserEmail(u.getEmail());
+		//UserMailController.putNewUserEmail(u.getEmail());
 
 		setCoordinatesEntity();
 		//		Integer i = appServer.proxyPersistUser(u);
@@ -106,24 +110,25 @@ public class BackingBeanUser implements Serializable
 		Logger.getLogger(getClass().getSimpleName()).severe("+# Es wurde insert(User u) aufgerufen, result von proxyPersistUser " + result);
 	}
 
-	public String updateFromView()
+	public String saveUserProxy()
 	{
-		update(current);
-
+		loginController.checkAndPersist(current);
+//		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Test", ""));
 		return "UserList?faces-redirect=true";
 	}
 
 	// Delegiert Persist update
-	public void update(User u) {
+	public int update(User u) {
 //		User old = (User) appServer.findOneByPrim(u.getPrim().toString(), User.class);
 //		UserMailController.deleteUserEmail(old.getEmail());
-		UserMailController.putNewUserEmail(u.getEmail());
+//      UserMailController.putNewUserEmail(u.getEmail());
 
 //		Integer i = appServer.proxyPersistUser(u);
 //		u.setPrim(i);
 		setCoordinatesEntity();
-		int result = appServer.proxyPersistUser(u);
+		int result = appServer.update(u);
 		Logger.getLogger(getClass().getSimpleName()).severe("+# Es wurde update(User u) aufgerufen, result von proxyPersistUser " + result);
+		return result;
 	}
 
 	public String delete(User u) {
@@ -221,10 +226,5 @@ public class BackingBeanUser implements Serializable
 //			client.enqueueNewRequest(e, appServer);
 //		});
 	}
-
-
-
-
-
 
 }
