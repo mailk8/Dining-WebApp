@@ -94,10 +94,11 @@ public class BackingBeanUser implements Serializable
 
 		User old = (User) appServer.findOneByPrim(u.getPrim().toString(), User.class);
 		setCoordinatesEntity();
-		int result = appServer.update(u);
+		int result = appServer.update(u); // -1 fail 3 success
 		UserMailController.deleteUserEmail(old.getEmail());
-	    UserMailController.putNewUserEmail(u.getEmail());
+	    UserMailController.putNewUserEmail(u);
 		Logger.getLogger(getClass().getSimpleName()).severe("+# Es wurde update(User u) aufgerufen, result von proxyPersistUser " + result);
+
 		return result;
 	}
 

@@ -152,7 +152,7 @@ public class LoginController implements Serializable
 		}
 
 		Logger.getLogger(getClass().getSimpleName()).severe("+# Errorlevel " + errorLevel);
-		UserMailController.putNewUserEmail(user.getEmail());
+		UserMailController.putNewUserEmail(user);
 		throwFacesMessage(errorLevel);
 	}
 

@@ -7,6 +7,7 @@ import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
+import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PostValidateEvent;
@@ -33,6 +34,17 @@ public class ServerValidatorEmail implements Validator
 
 		String input = value.toString().trim();
 
+//		UIComponent parent = component.getParent();
+//		Logger.getLogger(this.getClass().getSimpleName()).severe("+# Validator grab parent field id " + parent.getClientId());
+//		Logger.getLogger(this.getClass().getSimpleName()).severe("+# Validator grab parent Children " + parent.getChildren().toString());
+//
+//
+//
+//		Logger.getLogger(this.getClass().getSimpleName()).severe("+# Validator grab hidden field id " + component.getParent().getChildren().get(0).getClientId());
+//		Logger.getLogger(this.getClass().getSimpleName()).severe("+# Validator grab hidden Inhalt " + ((UIInput)(component.getParent().getChildren().get(0))).getValue().toString());
+//		Logger.getLogger(this.getClass().getSimpleName()).severe("+# Validator grab hidden Inhalt " + ((UIInput)(component.getParent().getChildren().get(0))).getValue().getClass().getName());
+
+
 		if(input.isEmpty() || input.isEmpty())
 		{
 			((UIInput)component).setValid(false);
@@ -41,7 +53,11 @@ public class ServerValidatorEmail implements Validator
 			return;
 		}
 
-		if(UserMailController.containsUserEmail(input)){
+
+
+		UIInput hiddenField = (UIInput) component.getParent().getChildren().get(0);
+
+		if(UserMailController.containsUserEmail(input, hiddenField.getValue())){
 			context.addMessage("email", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Diese E-Mail wird bereits benutzt",  ""));
 			((UIInput)component).setValid(false);
 			FacesContext.getCurrentInstance().renderResponse();
@@ -56,7 +72,7 @@ public class ServerValidatorEmail implements Validator
 
 
 
-		Logger.getLogger(this.getClass().getSimpleName()).severe("+# Validator vor Render ############### validation failed ? " + context.isValidationFailed() );
+
 
 //		context.setProcessingEvents(false);
 //		context.release();

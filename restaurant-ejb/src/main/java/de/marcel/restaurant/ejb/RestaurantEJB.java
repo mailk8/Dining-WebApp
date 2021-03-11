@@ -58,7 +58,7 @@ public class RestaurantEJB implements IRestaurantEJB
 			return -1;
 		}
 
-		return 2;
+		return 3;
 	}
 
 	@Override @TransactionAttribute(TransactionAttributeType.REQUIRED)
