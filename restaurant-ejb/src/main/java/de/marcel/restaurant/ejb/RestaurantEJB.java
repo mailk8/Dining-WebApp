@@ -95,38 +95,9 @@ public class RestaurantEJB implements IRestaurantEJB
 	}
 
 
-	@Override
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	//public synchronized Integer persistCredentials(de.marcel.restaurant.web.security.ICredentials cred) {
-	public synchronized Integer persistCredentials(String email, String pass, String salt, String id) {
-		Logger.getLogger(getClass().getSimpleName()).severe("+# persistCredentials aufgerufen, Parameterübergabe geht klar. Vor Cast." );
-		Query q = null;
-		int result = 0;
-		try
-		{
-			q = entityManagerAuth.createNativeQuery("INSERT INTO users (email, id_prod_db, password, salt) VALUES(?1, ?2, ?3, ?4) ON DUPLICATE KEY UPDATE email=?1, password=?3, salt=?4;");
-			q = q.setParameter(1, email);
-			q = q.setParameter(2, id);
-			q = q.setParameter(3, pass);
-			q = q.setParameter(4, salt);
-			result = q.executeUpdate();
-			Logger.getLogger(getClass().getSimpleName()).severe("+# persist credentials ergab eine Änderung von  " + result + " Elementen mit email " + email );
-			//cred = null; cred = null;
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			return -1;
-		}
-
-		if(result < 0)
-			return -1;
-		return 3;
-	}
 
 	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	//public synchronized Integer persistCredentials(de.marcel.restaurant.web.security.ICredentials cred) {
 	public synchronized Integer persistCredentials(ICredentials cred) {
 		Logger.getLogger(getClass().getSimpleName()).severe("+# persistCredentials aufgerufen, Parameterübergabe geht klar. Vor Cast." );
 		Query q = null;

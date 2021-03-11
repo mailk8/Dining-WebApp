@@ -45,12 +45,21 @@
     <!--    Das Framework geht somit von Anfang an davon aus, dass er Cookies mit einer ID zuweisen kann und versucht es nicht-->
     <!--    zunächst im Kompatibilitätsmodus über die URL Konkatenierung.-->
 
+
+<!--    SESSION KONFIGURATION-->
+    <listener>
+        <listener-class>de.marcel.restaurant.web.jsfFramework.SessionListenerWithMetrics</listener-class>
+    </listener>
+<!--    Es darf nur ein Session Config Element geben?-->
+<!--    <session-config>-->
+<!--        <tracking-mode>COOKIE</tracking-mode>-->
+<!--    </session-config>-->
     <session-config>
-        <tracking-mode>COOKIE</tracking-mode>
+        <session-timeout>1</session-timeout>
     </session-config>
 
 
-    <!--    Shiro Config-->
+<!--    SHIRO SECURITY KONFIGURATION -->
 
     <listener>
         <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>

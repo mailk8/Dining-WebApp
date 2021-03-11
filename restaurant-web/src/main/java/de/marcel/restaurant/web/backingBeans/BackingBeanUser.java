@@ -13,8 +13,13 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
+import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.Asynchronous;
+import javax.ejb.PrePassivate;
+import javax.ejb.Remove;
+import javax.enterprise.context.Destroyed;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -27,6 +32,7 @@ import java.util.stream.Collectors;
 
 @Named
 @SessionScoped
+@ManagedBean
 public class BackingBeanUser implements Serializable
 {
 	private static final long serialVersionUID = 1L;
@@ -36,10 +42,15 @@ public class BackingBeanUser implements Serializable
 	@Inject private HttpClientWGS client;
 	@Inject private LoginController loginController;
 	private String validateLon, validateLat;
+	private Logger logger = Logger.getLogger(getClass().getSimpleName());
+	private String sessionId;
 
 	@PostConstruct
 	// holt eingeloggte User und legt sie auf current
 	private void fetchLoggedInUser() {
+		sessionId = FacesContext.getCurrentInstance().getExternalContext().getSessionId(false);
+		logger.severe("+# BackingBeanUser unter SessionID " + sessionId + " erstellt.");
+
 		Subject s = SecurityUtils.getSubject();
 		if(s.isAuthenticated())
 		{
@@ -55,7 +66,9 @@ public class BackingBeanUser implements Serializable
 		{
 			setCurrent(new User());
 		}
+
 	}
+
 
 	public List<Culinary> getAllCulinaries()
 	{
@@ -63,23 +76,9 @@ public class BackingBeanUser implements Serializable
 	}
 
 	public List<User> getAllUsers(){
-		//new Thread(()->houseKeepingRemoveUsers()).start();
 		return appServer.findAll(User.class);
 	}
 
-	@Asynchronous
-	private void houseKeepingRemoveUsers()
-	{
-		try
-		{
-			Thread.sleep(2500);
-		}
-		catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}
-		appServer.findAll(User.class).stream().map(e -> (User)e).filter(e -> null == e.getEmail()).forEach(e -> appServer.delete(e));
-	}
 
 	public String edit(User u) {
 		this.current = u;
@@ -89,12 +88,7 @@ public class BackingBeanUser implements Serializable
 
 	// Delegiert Persist new
 	public void insert(User u) {
-		// EmailContainer bekommt neuen Wert
-		//UserMailController.putNewUserEmail(u.getEmail());
-
 		setCoordinatesEntity();
-		//		Integer i = appServer.proxyPersistUser(u);
-		//		u.setPrim(i);
 		int result = appServer.persist(u);
 		current.setPrim(result);
 		Logger.getLogger(getClass().getSimpleName()).severe("+# Es wurde insert(User u) aufgerufen, result von proxyPersistUser " + result);

@@ -22,8 +22,6 @@ public interface IRestaurantEJB extends Serializable
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED) <IBaseEntity> void delete(de.marcel.restaurant.ejb.interfaces.IBaseEntity t);
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRED) Integer persistCredentials(String email, String pass, String salt, String id);
-
 	@TransactionAttribute(TransactionAttributeType.REQUIRED) Integer persistCredentials(ICredentials ic);
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED) Integer persistEmail(String email, Integer id);

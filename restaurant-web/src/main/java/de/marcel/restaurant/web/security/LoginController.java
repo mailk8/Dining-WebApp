@@ -49,6 +49,8 @@ public class LoginController implements Serializable
 	public synchronized String logout() {
 		// logout soll Session invalidieren und dafür sorgen, dass der Current User aus BackingBeanUser verschwindet
 		// Rechte aus Shiro Ant-Matcher entfernen
+
+
 		SecurityUtils.getSubject().logout();
 
 		Logger.getLogger(getClass().getSimpleName()).severe("+# LogoutController logout entfernt User " + backingBeanUser.getCurrent() + " aus der BackingBean");
