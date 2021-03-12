@@ -1,22 +1,15 @@
 package de.marcel.restaurant.web.validators;
 
 import de.marcel.restaurant.web.security.UserMailController;
-import org.omnifaces.util.Faces;
 
-import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
-import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.context.FacesContext;
-import javax.faces.event.PhaseId;
-import javax.faces.event.PostValidateEvent;
-import javax.faces.event.SystemEventListener;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.logging.Logger;
 
 @FacesValidator("serverValidatorEmail")

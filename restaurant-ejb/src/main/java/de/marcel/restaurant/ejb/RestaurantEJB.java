@@ -8,16 +8,15 @@ import de.marcel.restaurant.web.security.ICredentials;
 import javax.annotation.Priority;
 import javax.ejb.*;
 import javax.faces.context.FacesContext;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
+import javax.transaction.UserTransaction;
+import java.sql.Connection;
 import java.util.List;
 import java.util.logging.Logger;
 
 @Startup()
 @Priority(1)
-@Stateless
+@Stateful
 @Remote(IRestaurantEJB.class)
 public class RestaurantEJB implements IRestaurantEJB
 {
@@ -33,14 +32,25 @@ public class RestaurantEJB implements IRestaurantEJB
 	@Override @TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public <IBaseEntity> Integer persist(de.marcel.restaurant.ejb.interfaces.IBaseEntity t)
 	{
-		Logger.getLogger(getClass().getSimpleName()).severe("+# persist aufgerufen. PhaseId des Events ist " + FacesContext.getCurrentInstance().getCurrentPhaseId().getName());
+		Logger.getLogger(getClass().getSimpleName()).severe("+# persist aufgerufen. PhaseId des Events ist " + FacesContext.getCurrentInstance().getCurrentPhaseId().getName()+ " appServer Objekt " + this);
 
 		// Persist takes an entity instance, adds it to the context and makes that instance managed (ie future updates to the entity will be tracked).
 
 		entityManager.persist(t);
+////////////////////////////////// Test ////////////////////////////////////
+//		javax.servlet.ServletException: javax.servlet.ServletException: javax.ejb.EJBException: java.lang.IllegalStateException:
+//		Exception Description: Cannot use an EntityTransaction while using JTA.
+//
+//		EntityTransaction transUser = entityManager.getTransaction();
+//		EntityTransaction transPassword = entityManagerAuth.getTransaction();
+//		UserTransaction ut;
+
+
+///////////////////////////////////////////////////////////////////////////////////
+
 
 		entityManager.flush();
-		Logger.getLogger(getClass().getSimpleName()).severe("+# nach persist und flush. id des Objekts ist "  + t.getPrim());
+		Logger.getLogger(getClass().getSimpleName()).severe("+# nach persist (INSERT) und flush. id des persistierten Objekts ist "  + t.getPrim() + " appServer Objekt " + this);
 		return t.getPrim();
 	}
 
@@ -49,8 +59,13 @@ public class RestaurantEJB implements IRestaurantEJB
 	{
 		try
 		{
+			// Mit merge meldet der EntityManager keinen Erfolg.
+			// Jedes mal wird das Objekt zurückgegeben, egal ob es in die Tabelle gefügt wurde oder nicht!
 			entityManager.merge(t);
+			Logger.getLogger(getClass().getSimpleName()).severe("+# nach merge. Objekt ist " + t + " prim ist " + t.getPrim());
 			entityManager.flush();
+
+			Logger.getLogger(getClass().getSimpleName()).severe("+# nach merge (UPDATE) und flush. id des persistierten Objekts ist "  + t.getPrim() + " appServer Objekt " + this);
 		}
 		catch (Exception e)
 		{
@@ -99,7 +114,7 @@ public class RestaurantEJB implements IRestaurantEJB
 	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public synchronized Integer persistCredentials(ICredentials cred) {
-		Logger.getLogger(getClass().getSimpleName()).severe("+# persistCredentials aufgerufen, Parameterübergabe geht klar. Vor Cast." );
+		Logger.getLogger(getClass().getSimpleName()).severe("+# persistCredentials aufgerufen, Parameterübergabe geht klar. Vor Cast." + " appServer Objekt " + this);
 		Query q = null;
 		int result = 0;
 		try
@@ -110,7 +125,7 @@ public class RestaurantEJB implements IRestaurantEJB
 			q = q.setParameter(3, cred.getPassword());
 			q = q.setParameter(4, cred.getSalt());
 			result = q.executeUpdate();
-			Logger.getLogger(getClass().getSimpleName()).severe("+# persist credentials ergab eine Änderung von  " + result + " Elementen mit email " + cred.getEmail() );
+			Logger.getLogger(getClass().getSimpleName()).severe("+# persist credentials ergab eine Änderung von  " + result + " Elementen mit email " + cred.getEmail() + " appServer Objekt " + this);
 			cred = null; cred = null;
 		}
 		catch (Exception e)
@@ -135,7 +150,7 @@ public class RestaurantEJB implements IRestaurantEJB
 			q = q.setParameter(1, email);
 			q = q.setParameter(2, id);
 			result = q.executeUpdate();
-			Logger.getLogger(getClass().getSimpleName()).severe("+# persist Email ergab eine Änderung von  " + result + " Elementen mit email " + email );
+			Logger.getLogger(getClass().getSimpleName()).severe("+# persist Email ergab eine Änderung von  " + result + " Elementen mit email " + email + " appServer Objekt " + this);
 			email = null; id = null;
 		}
 		catch (Exception e)
@@ -158,7 +173,7 @@ public class RestaurantEJB implements IRestaurantEJB
 		q = q.setParameter(1, id_prod_db);
 		int i = q.executeUpdate();
 
-		Logger.getLogger(getClass().getSimpleName()).severe("+# deleteCredentials ergab eine Änderung von  " + i + " Elementen " + this);
+		Logger.getLogger(getClass().getSimpleName()).severe("+# deleteCredentials ergab eine Änderung von  " + i + " Elementen " + " appServer Objekt " + this);
 	}
 
 

@@ -15,7 +15,6 @@ public class SessionListenerWithMetrics implements HttpSessionListener
 
 	public SessionListenerWithMetrics() {
 		super();
-
 		activeSessions = new AtomicInteger();
 	}
 
