@@ -4,6 +4,7 @@ package de.marcel.restaurant.web.backingBeans;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.Address;
 import de.marcel.restaurant.ejb.model.Culinary;
+import de.marcel.restaurant.ejb.model.Restaurant;
 import de.marcel.restaurant.ejb.model.User;
 import de.marcel.restaurant.web.httpClient.*;
 
@@ -28,6 +29,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -86,13 +88,7 @@ public class BackingBeanUser implements Serializable
 		return "UserCreate?faces-redirect=true";
 	}
 
-	// Delegiert Persist new
-	public void insert(User u) {
-		setCoordinatesEntity();
-		int result = appServer.persist(u);
-		current.setPrim(result);
-		Logger.getLogger(getClass().getSimpleName()).severe("+# Es wurde insert(User u) aufgerufen, result von proxyPersistUser " + result);
-	}
+
 
 	public String saveUserProxy()
 	{
@@ -100,16 +96,38 @@ public class BackingBeanUser implements Serializable
 		return "UserList?faces-redirect=true";
 	}
 
+	public int saveUser(User u)
+	{
+		if(null == current.getPrim())
+		{
+			return insert(u);
+		}
+		else
+		{
+			return update(u);
+		}
+	}
+
+	// Delegiert Persist new
+	public int insert(User u) {
+		setCoordinatesEntity();
+		int result = appServer.persist(u);
+		if(result < 0)
+			return -1; // -1 = fail
+		current.setPrim(result);
+		Logger.getLogger(getClass().getSimpleName()).severe("+# Es wurde insert(User u) aufgerufen, result von proxyPersistUser " + result);
+		return 3; // 3  = success
+	}
+
+
 	// Delegiert Persist update
 	public int update(User u) {
-
 		User old = (User) appServer.findOneByPrim(u.getPrim().toString(), User.class);
 		setCoordinatesEntity();
-		int result = appServer.update(u); // -1 fail 3 success
+		int result = appServer.update(u); // -1 = fail 3 = success
 		UserMailController.deleteUserEmail(old.getEmail());
 	    UserMailController.putNewUserEmail(u);
 		Logger.getLogger(getClass().getSimpleName()).severe("+# Es wurde update(User u) aufgerufen, result von proxyPersistUser " + result);
-
 		return result;
 	}
 
@@ -128,8 +146,9 @@ public class BackingBeanUser implements Serializable
 	public String createNew() {
 		current = new User();
 		setCoordinatesBean(current);
-		insert(current);
-
+		//insert(current);
+		int nextId = appServer.findMaxId(User.class) + 1 + (new Random().nextInt(2));
+		current.setId(nextId);
 		return "UserCreate?faces-redirect=true";
 	}
 
@@ -209,6 +228,7 @@ public class BackingBeanUser implements Serializable
 //		});
 	}
 
+	// Proxy Methode dient dem Zweck, dass beim AppServer das selbe Objekt erreicht wird
 	public int proxyPersistEmail(String email, int id)
 	{
 		return appServer.persistEmail(email, id);

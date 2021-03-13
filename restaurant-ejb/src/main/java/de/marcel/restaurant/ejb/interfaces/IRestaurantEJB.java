@@ -34,4 +34,6 @@ public interface IRestaurantEJB extends Serializable
 
 	<IBaseEntity> List<IBaseEntity> findAll(Class entitiyClass);
 
+	<T extends IBaseEntity> Integer findMaxId(Class<T> resultClazz);
+
 }

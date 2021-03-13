@@ -6,9 +6,6 @@
     <persistence-unit name="restaurant_ejb">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
-
-<!--        <jta-data-source>jdbc/RestaurantAppDS</jta-data-source>-->
-<!--        <jta-data-source>java:/jdbc/RestaurantAppDSmariaDB</jta-data-source>-->
         <jta-data-source>java:jboss/datasources/RestaurantAppDSmariaDB</jta-data-source>
 <!--        <non-jta-data-source>java:jboss/datasources/RestaurantAppDSmariaDB</non-jta-data-source>-->
 

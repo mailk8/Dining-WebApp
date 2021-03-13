@@ -14,4 +14,8 @@ public interface IBaseEntity extends Serializable
 	Integer getPrim();
 
 	void setPrim(Integer prim);
+
+	Integer getId();
+
+	void setId(Integer id);
 }

@@ -9,6 +9,7 @@ public class BaseEntity implements IBaseEntity
 	private static final long serialVersionUID = 1L;
 
 	private Integer prim;
+	private Integer id;
 
 	//https://stackoverflow.com/questions/17343032/implement-converters-for-entities-with-java-generics/17343582#17343582
 	@Override
@@ -41,8 +42,7 @@ public class BaseEntity implements IBaseEntity
 						: (other == this);
 	}
 
-	@Override
-	public String toString() {
+	@Override public String toString() {
 		return String.format("%s[id=%d]", getClass().getSimpleName(), getPrim());
 	}
 
@@ -50,8 +50,19 @@ public class BaseEntity implements IBaseEntity
 	{
 		return prim;
 	}
+
 	@Override public void setPrim(Integer prim)
 	{
 		this.prim = prim;
+	}
+
+	@Override public Integer getId()
+	{
+		return id;
+	}
+
+	@Override public void setId(Integer id)
+	{
+		this.id = id;
 	}
 }

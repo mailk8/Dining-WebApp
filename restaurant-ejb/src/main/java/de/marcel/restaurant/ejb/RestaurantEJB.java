@@ -32,25 +32,19 @@ public class RestaurantEJB implements IRestaurantEJB
 	@Override @TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public <IBaseEntity> Integer persist(de.marcel.restaurant.ejb.interfaces.IBaseEntity t)
 	{
-		Logger.getLogger(getClass().getSimpleName()).severe("+# persist aufgerufen. PhaseId des Events ist " + FacesContext.getCurrentInstance().getCurrentPhaseId().getName()+ " appServer Objekt " + this);
-
-		// Persist takes an entity instance, adds it to the context and makes that instance managed (ie future updates to the entity will be tracked).
-
-		entityManager.persist(t);
-////////////////////////////////// Test ////////////////////////////////////
-//		javax.servlet.ServletException: javax.servlet.ServletException: javax.ejb.EJBException: java.lang.IllegalStateException:
-//		Exception Description: Cannot use an EntityTransaction while using JTA.
-//
-		EntityTransaction transUser = entityManager.getTransaction();
-		EntityTransaction transPassword = entityManagerAuth.getTransaction();
-		transUser.commit();
-
-
-///////////////////////////////////////////////////////////////////////////////////
-
-
-		entityManager.flush();
-		Logger.getLogger(getClass().getSimpleName()).severe("+# nach persist (INSERT) und flush. id des persistierten Objekts ist "  + t.getPrim() + " appServer Objekt " + this);
+		try
+		{
+			Logger.getLogger(getClass().getSimpleName()).severe("+# persist aufgerufen. PhaseId des Events ist " + FacesContext.getCurrentInstance().getCurrentPhaseId().getName()+ " appServer Objekt " + this);
+			// Persist takes an entity instance, adds it to the context and makes that instance managed (ie future updates to the entity will be tracked).
+			entityManager.persist(t);
+			entityManager.flush();
+			Logger.getLogger(getClass().getSimpleName()).severe("+# nach persist (INSERT) und flush. id des persistierten Objekts ist "  + t.getPrim() + " appServer Objekt " + this);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return -1;
+		}
 		return t.getPrim();
 	}
 
@@ -64,7 +58,6 @@ public class RestaurantEJB implements IRestaurantEJB
 			entityManager.merge(t);
 			Logger.getLogger(getClass().getSimpleName()).severe("+# nach merge. Objekt ist " + t + " prim ist " + t.getPrim());
 			entityManager.flush();
-
 			Logger.getLogger(getClass().getSimpleName()).severe("+# nach merge (UPDATE) und flush. id des persistierten Objekts ist "  + t.getPrim() + " appServer Objekt " + this);
 		}
 		catch (Exception e)
@@ -85,7 +78,7 @@ public class RestaurantEJB implements IRestaurantEJB
 		entityManager.remove(t);
 	}
 
-	@Override public <IBaseEntity> List<IBaseEntity> findAll(Class entitiyClass)
+	@Override public List<IBaseEntity> findAll(Class entitiyClass)
 	{
 		TypedQuery<IBaseEntity> query = entityManager.createNamedQuery(entitiyClass.getSimpleName()+".findAll", entitiyClass);
 		return query.getResultList();
@@ -109,7 +102,13 @@ public class RestaurantEJB implements IRestaurantEJB
 		return (IBaseEntity) query.getSingleResult();
 	}
 
+	@Override
+	public <T extends IBaseEntity> Integer findMaxId(Class<T> resultClazz)
+	{
+		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findNextId", resultClazz);
 
+		return (Integer) query.getSingleResult();
+	}
 
 	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)

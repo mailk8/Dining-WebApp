@@ -12,19 +12,21 @@ import java.util.logging.Logger;
 				{
 								@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
 								@NamedQuery(name = "User.findOne", query = "SELECT u FROM User u WHERE u.email = ?1"),
-								@NamedQuery(name = "User.findOneByPrim", query = "SELECT u FROM User u WHERE u.prim = :attribute")
+								@NamedQuery(name = "User.findOneByPrim", query = "SELECT u FROM User u WHERE u.prim = :attribute"),
+								@NamedQuery(name = "User.findMaxId", query = "SELECT MAX(u.id) FROM User u")
 				}
 )
 public class User extends BaseEntity implements IUser
 {
 	private static final long serialVersionUID = 1L;
 
-	transient private String password;
-
 	@Id
 	@Column(name = "prim", nullable = false, columnDefinition = "INT")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer prim;
+
+	@Column(name = "id", columnDefinition = "INT", unique = true)
+	private Integer id;
 
 	@Column(name = "firstname", nullable = true, length = 20)
 	private String firstname;
@@ -163,27 +165,6 @@ public class User extends BaseEntity implements IUser
 	{
 		this.lastname = lastname.trim();
 	}
-
-	@Override public Integer getPrim()
-	{
-		return prim;
-	}
-
-	@Override public void setPrim(Integer prim)
-	{
-		this.prim = prim;
-	}
-
-	public String getPassword()
-	{
-		return password;
-	}
-
-	public void setPassword(String password)
-	{
-		this.password = password;
-	}
-
 
 	@Override public String toString()
 	{
