@@ -7,6 +7,7 @@ import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.User;
 import de.marcel.restaurant.web.httpClient.*;
 
+import de.marcel.restaurant.web.security.ICredentials;
 import de.marcel.restaurant.web.security.LoginController;
 import de.marcel.restaurant.web.security.UserMailController;
 import org.apache.shiro.SecurityUtils;
@@ -78,7 +79,6 @@ public class BackingBeanUser implements Serializable
 	public List<User> getAllUsers(){
 		return appServer.findAll(User.class);
 	}
-
 
 	public String edit(User u) {
 		this.current = u;
@@ -207,6 +207,16 @@ public class BackingBeanUser implements Serializable
 //		ballern.forEach(e->{
 //			client.enqueueNewRequest(e, appServer);
 //		});
+	}
+
+	public int proxyPersistEmail(String email, int id)
+	{
+		return appServer.persistEmail(email, id);
+	}
+
+	public int proxyPersistCredentials(ICredentials cred)
+	{
+		return appServer.persistCredentials(cred);
 	}
 
 }

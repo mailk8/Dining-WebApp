@@ -10,6 +10,7 @@
 <!--        <jta-data-source>jdbc/RestaurantAppDS</jta-data-source>-->
 <!--        <jta-data-source>java:/jdbc/RestaurantAppDSmariaDB</jta-data-source>-->
         <jta-data-source>java:jboss/datasources/RestaurantAppDSmariaDB</jta-data-source>
+<!--        <non-jta-data-source>java:jboss/datasources/RestaurantAppDSmariaDB</non-jta-data-source>-->
 
         <class>de.marcel.restaurant.ejb.model.Address</class>
         <class>de.marcel.restaurant.ejb.model.Culinary</class>
@@ -48,7 +49,7 @@
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
         <jta-data-source>java:jboss/datasources/RestaurantAppDSmariaDB_auth</jta-data-source>
-
+<!--        <non-jta-data-source>java:jboss/datasources/RestaurantAppDSmariaDB_auth</non-jta-data-source>-->
         <properties>
             <property name="eclipselink.target-server" value="JBoss"/>
             <property name="eclipselink.target-database" value="MySQL"/>

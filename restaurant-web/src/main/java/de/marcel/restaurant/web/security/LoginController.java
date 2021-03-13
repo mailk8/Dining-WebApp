@@ -37,7 +37,7 @@ public class LoginController implements Serializable
 	private static final long serialVersionUID = 1L;
 
 	@Inject BackingBeanUser backingBeanUser;
-	@Inject IRestaurantEJB appServer;
+	//@Inject IRestaurantEJB appServer;
 	private Credentials cred;
 
 	public void login() {
@@ -67,6 +67,7 @@ public class LoginController implements Serializable
 	/////////////// Änderung Passwort und UserDaten koordinieren /////////////////
 
 	public synchronized void passwordChanged(ValueChangeEvent e){
+		// als ValueChanged Listener, weil ein Validator kein Zugriff auf old und new Value hat
 		// checkPasswordQuality: Passwort Qualitätsprüfung übernimmt PrimeFaces Popup
 		Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. PhaseId des Events ist " + e.getPhaseId().getName());
 		Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. ValueNew " + e.getNewValue() + " OldValue " + e.getOldValue());
@@ -110,7 +111,7 @@ public class LoginController implements Serializable
 				try
 				{
 					errorLevel += backingBeanUser.update(user);
-					errorLevel += appServer.persistEmail(user.getEmail(), user.getPrim());
+					errorLevel += backingBeanUser.proxyPersistEmail(user.getEmail(), user.getPrim());
 
 				}
 				catch (Exception e)
@@ -134,7 +135,7 @@ public class LoginController implements Serializable
 				try
 				{
 					cred.setEmail(user.getEmail());
-					errorLevel += appServer.persistCredentials((ICredentials)cred); // 5
+					errorLevel += backingBeanUser.proxyPersistCredentials((ICredentials)cred); // 5
 					errorLevel += backingBeanUser.update(user); // 3
 				}
 				catch (Exception e)

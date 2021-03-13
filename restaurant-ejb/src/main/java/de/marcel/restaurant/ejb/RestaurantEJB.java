@@ -41,9 +41,9 @@ public class RestaurantEJB implements IRestaurantEJB
 //		javax.servlet.ServletException: javax.servlet.ServletException: javax.ejb.EJBException: java.lang.IllegalStateException:
 //		Exception Description: Cannot use an EntityTransaction while using JTA.
 //
-//		EntityTransaction transUser = entityManager.getTransaction();
-//		EntityTransaction transPassword = entityManagerAuth.getTransaction();
-//		UserTransaction ut;
+		EntityTransaction transUser = entityManager.getTransaction();
+		EntityTransaction transPassword = entityManagerAuth.getTransaction();
+		transUser.commit();
 
 
 ///////////////////////////////////////////////////////////////////////////////////
