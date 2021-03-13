@@ -9,6 +9,7 @@ public class BaseEntity implements IBaseEntity
 	private static final long serialVersionUID = 1L;
 
 	private Integer prim;
+
 	private Integer id;
 
 	//https://stackoverflow.com/questions/17343032/implement-converters-for-entities-with-java-generics/17343582#17343582

@@ -75,9 +75,18 @@ public class LoginController implements Serializable
 		// Nur bei tatsächlicher Neueingabe eines Passworts wird in die DB geschrieben
 		if(e.getNewValue() == null || e.getNewValue().equals(""))
 		{
-			Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. Keine Änderung, exiting");
-			this.cred = null;
-			return;
+			if(null == backingBeanUser.getCurrent().getPrim())
+			{
+				Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. Keine Änderung, exiting");
+				this.cred = null;
+				return;
+			}
+			else if(null != backingBeanUser.getCurrent().getPrim())
+			{
+				Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. Neuanlage ohne Passwort exiting");
+				//this.cred = null;
+				return;
+			}
 		}
 
 		byte[] salt = generateSalt();
@@ -86,7 +95,7 @@ public class LoginController implements Serializable
 		cred = new Credentials();
 		cred.setPassword(passEncrypted[0]);
 		cred.setSalt(Base64.getEncoder().encodeToString(salt));
-		cred.setId_prod_db(backingBeanUser.getCurrent().getPrim());
+		cred.setId_prod_db(backingBeanUser.getCurrent().getId());
 		passClear = null; salt = null; passEncrypted = null;
 
 		Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged ist durchgelaufen");
@@ -97,13 +106,13 @@ public class LoginController implements Serializable
 
 		int errorLevel = 0;
 
-		if(null == user.getPrim()) // User invalid
+		if(null == user.getId()) // User invalid
 		{
 			errorLevel = -1;
 		}
-		else if(null == cred) // Ist null wenn kein Passwort eingegeben wurde
+		else if(null == cred) // Ist null, wenn das Passwort nicht geändert wurde
 		{
-			// Nur User speichern, aber Email dennoch in authDB schreiben
+			// Nur User speichern, Email dennoch in authDB aktualisieren
 			Logger.getLogger(getClass().getSimpleName()).severe("+# null == cred Nur User speichern, aber Email dennoch in authDB schreiben    " + this);
 
 			if(null != user.getEmail()) // Speichern wenn eine E-Mail im User gesetzt wurde
@@ -111,7 +120,7 @@ public class LoginController implements Serializable
 				try
 				{
 					errorLevel += backingBeanUser.update(user);
-					errorLevel += backingBeanUser.proxyPersistEmail(user.getEmail(), user.getPrim());
+					errorLevel += backingBeanUser.proxyPersistEmail(user.getEmail(), user.getId());
 
 				}
 				catch (Exception e)
@@ -130,13 +139,14 @@ public class LoginController implements Serializable
 		{
 			Logger.getLogger(getClass().getSimpleName()).severe("+# User und Credentials speichern    " + this);
 
-			if(user.getPrim().equals(cred.getId_prod_db())) // Gehören User und Credentials zusammen?
+			if(user.getId().equals(cred.getId_prod_db())) // Gehören User und Credentials zusammen?
 			{
 				try
 				{
 					cred.setEmail(user.getEmail());
-					errorLevel += backingBeanUser.proxyPersistCredentials((ICredentials)cred); // 5
+					// gefährliches zuerst
 					errorLevel += backingBeanUser.update(user); // 3
+					errorLevel += backingBeanUser.proxyPersistCredentials((ICredentials)cred); // 5
 				}
 				catch (Exception e)
 				{

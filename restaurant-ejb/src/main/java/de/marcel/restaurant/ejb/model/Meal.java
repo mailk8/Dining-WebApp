@@ -24,6 +24,9 @@ public class Meal extends BaseEntity implements IMeal
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer prim;
 
+	@Column(name = "id", columnDefinition = "INT", unique = true)
+	private Integer id;
+
 	@ManyToOne
 	private Culinary mealCategory;
 
@@ -59,12 +62,4 @@ public class Meal extends BaseEntity implements IMeal
 		this.mealName = mealName.trim();
 	}
 
-	@Override public Integer getPrim()
-	{
-		return prim;
-	}
-	@Override public void setPrim(Integer prim)
-	{
-		this.prim = prim;
-	}
 }

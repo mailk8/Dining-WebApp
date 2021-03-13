@@ -27,6 +27,9 @@ public class Restaurant extends BaseEntity implements IRestaurant
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer prim;
 
+	@Column(name = "id", columnDefinition = "INT", unique = true)
+	private Integer id;
+
 	@Column(name = "name", nullable = false, length = 70)
 	private String name;
 
@@ -215,13 +218,4 @@ public class Restaurant extends BaseEntity implements IRestaurant
 		this.visits = visits;
 	}
 
-	@Override public Integer getPrim()
-	{
-		return prim;
-	}
-
-	@Override public void setPrim(Integer prim)
-	{
-		this.prim = prim;
-	}
 }

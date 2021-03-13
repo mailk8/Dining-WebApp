@@ -33,9 +33,6 @@ public interface IAddress extends Serializable
 
 	void setWgs84Longitude(Double wgs84Longitude);
 
-	Integer getPrim();
-
-	void setPrim(Integer prim);
 
 	int getCounterApiCalls();
 

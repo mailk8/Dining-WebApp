@@ -20,7 +20,7 @@
 
 
             <h:form id="userInput">
-            <h:inputHidden value="#{backingBeanUser.current.prim}" id="prim" />
+            <h:inputHidden value="#{backingBeanUser.current.id}" id="id" />
 <!--Name -->
                 <div class="form-group">
                     <label for="firstname">Vor- und Nachname:<h:message for="firstname" class="text-danger" /></label>
@@ -140,7 +140,9 @@
                     <label for="password">Passwort:<h:message for="password" class="text-danger" /></label>
                     <div class="row">
                         <div class="col-12">
-                            <p:password id="password" value="#{backingBeanUser.current.password}" class="form-control" required="false" requiredMessage="Erforderlich!"
+                            <!-- Hier wird kein #{object.value} Feld benutzt, damit das Passwort nicht irgenwo unsicher herumgliegt-->
+                            <!-- ValueChangedListener läuft trotzdem-->
+                            <p:password id="password" class="form-control" required="false" requiredMessage="Erforderlich!"
                                         toggleMask="true" redisplay="true" feedback="true" inline="true" maxlength="50" size="100"
                                         valueChangeListener="#{loginController.passwordChanged}"
                                         update="passwordChanged" validator="#{serverValidatorPassword.validate}">

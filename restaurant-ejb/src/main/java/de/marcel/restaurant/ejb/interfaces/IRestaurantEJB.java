@@ -30,7 +30,7 @@ public interface IRestaurantEJB extends Serializable
 
 	<T extends IBaseEntity> IBaseEntity findOne(Object characterisitcAttribute, Class attributeClazz, Class<T> resultClazz);
 
-	<T extends IBaseEntity> IBaseEntity findOneByPrim(String prim, Class<T> resultClazz);
+	<T extends IBaseEntity> IBaseEntity findOneById(String id, Class<T> resultClazz);
 
 	<IBaseEntity> List<IBaseEntity> findAll(Class entitiyClass);
 

@@ -24,6 +24,9 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer prim;
 
+	@Column(name = "id", columnDefinition = "INT", unique = true)
+	private Integer id;
+
 	@Column(name = "visitingDateTime", nullable = true)
 	private LocalDateTime visitingDateTime; // Dinner DateTime
 	@Column(name = "memo", nullable = true, length = 200)
@@ -172,16 +175,6 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 	@Override public void setStateVisit(State stateVisit)
 	{
 		this.stateVisit = stateVisit;
-	}
-
-	@Override public Integer getPrim()
-	{
-		return prim;
-	}
-
-	@Override public void setPrim(Integer prim)
-	{
-		this.prim = prim;
 	}
 
 	@Override public Set<Culinary> getCulinaryMatchingBucket()

@@ -22,7 +22,7 @@
         <ui:define name="mainContent">
 
             <h:form>
-                <h:inputHidden value="#{backingBeanVisit.current.prim}" />
+                <h:inputHidden value="#{backingBeanVisit.current.id}" />
 
     <!--Ort -->
                 <div class="row">
@@ -119,7 +119,7 @@
                         </p:column>
 
                         <!--                    <p:column headerText="Id">-->
-                        <!--                        <h:outputText value="#{dragUser.getPrim()}" />-->
+                        <!--                        <h:outputText value="#{dragUser.getId()}" />-->
                         <!--                    </p:column>-->
 
 
@@ -175,7 +175,7 @@
                         <h:panelGrid columns="2" cellpadding="6" rendered="#{not empty backingBeanVisit.selectedUser}">
 
                             <h:outputText value="Id:" />
-                            <h:outputText value="#{backingBeanVisit.selectedUser.getPrim()}" style="font-weight:bold"/>
+                            <h:outputText value="#{backingBeanVisit.selectedUser.getId()}" style="font-weight:bold"/>
 
                             <h:outputText value="Vorname:" />
                             <h:outputText value="#{backingBeanVisit.selectedUser.getFirstname()}" style="font-weight:bold"/>
@@ -211,9 +211,6 @@
         </ui:define>
 
     </ui:composition>
-
-
-
 
 
 </html>

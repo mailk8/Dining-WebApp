@@ -64,9 +64,6 @@ public class ServerValidatorEmail implements Validator
 
 
 
-
-
-
 //		context.setProcessingEvents(false);
 //		context.release();
 //		context.renderResponse();

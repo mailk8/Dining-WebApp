@@ -53,9 +53,6 @@ public class LifeCycleListener implements PhaseListener
 		}
 	}
 
-
-
-
 	private int saveMessages(final FacesContext facesContext)
 	{
 		Iterator<FacesMessage> iter = facesContext.getMessages(null);

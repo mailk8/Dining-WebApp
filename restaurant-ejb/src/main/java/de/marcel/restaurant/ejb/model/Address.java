@@ -23,6 +23,9 @@ public class Address extends BaseEntity implements IAddress
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer prim;
 
+	@Column(name = "id", columnDefinition = "INT", unique = true)
+	private Integer id;
+
 	@Column(name = "street", nullable = true, length = 70)
 	private String street;
 	@Column(name = "houseNumber", nullable = true, length = 10)
@@ -142,16 +145,6 @@ public class Address extends BaseEntity implements IAddress
 		this.wgs84Longitude = wgs84Longitude;
 	}
 
-	@Override public Integer getPrim()
-	{
-		return prim;
-	}
-
-	@Override public void setPrim(Integer prim)
-	{
-		this.prim = prim;
-	}
-
 	@Override public int getCounterApiCalls()
 	{
 		return counterApiCalls;
@@ -174,6 +167,6 @@ public class Address extends BaseEntity implements IAddress
 
 	@Override public String toString()
 	{
-		return "Address{" + "counterApiCalls=" + counterApiCalls + ", wgsRestApiCall=" + wgsRestApiCall + ", prim=" + prim + ", street='" + street + '\'' + ", houseNumber='" + houseNumber + '\'' + ", zipCode='" + zipCode + '\'' + ", city='" + city + '\'' + ", googlePlace='" + googlePlace + '\'' + ", wgs84Latitude=" + wgs84Latitude + ", wgs84Longitude=" + wgs84Longitude + '}';
+		return "Address{" + "counterApiCalls=" + counterApiCalls + ", wgsRestApiCall=" + wgsRestApiCall + ", prim=" + prim + ", Id=" + id + ", street='" + street + '\'' + ", houseNumber='" + houseNumber + '\'' + ", zipCode='" + zipCode + '\'' + ", city='" + city + '\'' + ", googlePlace='" + googlePlace + '\'' + ", wgs84Latitude=" + wgs84Latitude + ", wgs84Longitude=" + wgs84Longitude + '}';
 	}
 }

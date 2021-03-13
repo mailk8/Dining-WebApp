@@ -49,9 +49,6 @@ public interface IRestaurantVisit extends IBaseEntity, Serializable
 
 	void setStateVisit(State stateVisit);
 
-	Integer getPrim();
-
-	void setPrim(Integer prim);
 
 	Set<Culinary> getCulinaryMatchingBucket();
 

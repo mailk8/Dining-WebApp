@@ -38,7 +38,7 @@ public class UserMailController
 			String s = u.getEmail();
 			if(null!=s)
 			{
-				emailTree.put(s, u.getPrim());
+				emailTree.put(s, u.getId());
 			}
 		});
 
@@ -52,7 +52,7 @@ public class UserMailController
 		if(null != s){
 			if (emailTree.containsKey(s))
 				emailTree.remove(s);
-			emailTree.put(s, newUser.getPrim());
+			emailTree.put(s, newUser.getId());
 		}
 	}
 

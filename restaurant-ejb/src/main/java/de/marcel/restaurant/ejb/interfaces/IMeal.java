@@ -14,7 +14,4 @@ public interface IMeal extends IBaseEntity, Serializable
 
 	void setMealName(String mealName);
 
-	Integer getPrim();
-
-	void setPrim(Integer prim);
 }

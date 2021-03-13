@@ -20,7 +20,8 @@ public class Rating extends BaseEntity implements IRating
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer prim;
 
-
+	@Column(name = "id", columnDefinition = "INT", unique = true)
+	private Integer id;
 
 	@OneToOne
 	//@JoinColumn(name="prim")
@@ -184,12 +185,4 @@ public class Rating extends BaseEntity implements IRating
 		this.mealDescription = mealDescription.trim();
 	}
 
-	@Override public Integer getPrim()
-	{
-		return prim;
-	}
-	@Override public void setPrim(Integer prim)
-	{
-		this.prim = prim;
-	}
 }

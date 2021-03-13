@@ -42,7 +42,4 @@ public interface IRating extends IBaseEntity, Serializable
 
 	void setMealDescription(String mealDescription);
 
-	Integer getPrim();
-
-	void setPrim(Integer prim);
 }

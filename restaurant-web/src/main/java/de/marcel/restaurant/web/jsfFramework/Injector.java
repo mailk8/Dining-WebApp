@@ -12,7 +12,6 @@ import java.io.Serializable;
 
 @Startup()
 @Priority(100)
-//@SessionScoped
 public class Injector implements Serializable
 {
 	@Produces

@@ -69,7 +69,4 @@ public interface IRestaurant extends IBaseEntity, Serializable
 
 	void setVisits(Set<RestaurantVisit> visits);
 
-	Integer getPrim();
-
-	void setPrim(Integer prim);
 }

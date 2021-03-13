@@ -52,7 +52,7 @@ public class BackingBeanRestaurant implements Serializable
 
 		if(current != null)
 		{
-			if(null == current.getPrim())
+			if(null == current.getId())
 			{
 				setCoordinatesEntity();
 				insert(current);

@@ -15,9 +15,6 @@ public interface ICulinary extends IBaseEntity, Serializable
 
 	void setCategory(String category);
 
-	Integer getPrim();
-
-	void setPrim(Integer prim);
 
 	String toString();
 }

@@ -25,6 +25,9 @@ public class Culinary extends BaseEntity implements ICulinary
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer prim;
 
+	@Column(name = "id", columnDefinition = "INT", unique = true)
+	private Integer id;
+
 	@Column(name = "category", nullable = false, length = 50)
 	private String category;
 
@@ -54,16 +57,6 @@ public class Culinary extends BaseEntity implements ICulinary
 	@Override public void setCategory(String category)
 	{
 		this.category = category.trim();
-	}
-
-	@Override public Integer getPrim()
-	{
-		return prim;
-	}
-
-	@Override public void setPrim(Integer prim)
-	{
-		this.prim = prim;
 	}
 
 	@Override public String toString()

@@ -17,13 +17,7 @@ import org.apache.shiro.subject.Subject;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.ejb.Asynchronous;
-import javax.ejb.PrePassivate;
-import javax.ejb.Remove;
-import javax.enterprise.context.Destroyed;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -98,7 +92,7 @@ public class BackingBeanUser implements Serializable
 
 	public int saveUser(User u)
 	{
-		if(null == current.getPrim())
+		if(null == current.getId())
 		{
 			return insert(u);
 		}
@@ -122,7 +116,7 @@ public class BackingBeanUser implements Serializable
 
 	// Delegiert Persist update
 	public int update(User u) {
-		User old = (User) appServer.findOneByPrim(u.getPrim().toString(), User.class);
+		User old = (User) appServer.findOneById(u.getId().toString(), User.class);
 		setCoordinatesEntity();
 		int result = appServer.update(u); // -1 = fail 3 = success
 		UserMailController.deleteUserEmail(old.getEmail());
@@ -133,7 +127,7 @@ public class BackingBeanUser implements Serializable
 
 	public String delete(User u) {
 		UserMailController.deleteUserEmail(u.getEmail());
-		appServer.deleteCredentials(u.getPrim());
+		appServer.deleteCredentials(u.getId());
 		appServer.delete(u);
 		return "UserList?faces-redirect=true";
 	}
@@ -146,7 +140,7 @@ public class BackingBeanUser implements Serializable
 	public String createNew() {
 		current = new User();
 		setCoordinatesBean(current);
-		//insert(current);
+		// Nächste freie id wird antizipiert und per Zufall erhöht, falls die Aktion parallel erfolgt
 		int nextId = appServer.findMaxId(User.class) + 1 + (new Random().nextInt(2));
 		current.setId(nextId);
 		return "UserCreate?faces-redirect=true";

@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 				{
 								@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
 								@NamedQuery(name = "User.findOne", query = "SELECT u FROM User u WHERE u.email = ?1"),
-								@NamedQuery(name = "User.findOneByPrim", query = "SELECT u FROM User u WHERE u.prim = :attribute"),
+								@NamedQuery(name = "User.findOneById", query = "SELECT u FROM User u WHERE u.id = :attribute"),
 								@NamedQuery(name = "User.findMaxId", query = "SELECT MAX(u.id) FROM User u")
 				}
 )
@@ -168,7 +168,7 @@ public class User extends BaseEntity implements IUser
 
 	@Override public String toString()
 	{
-		return "User{" + "prim=" + prim + ", firstname='" + firstname + '\'' + ", lastname='" + lastname + '\'' + ", addressLiving=" + addressLiving + ", addressActual=" + addressActual + ", culinaryLiking=" + culinaryLiking + ", ratingsSubmitted=" + ratingsSubmitted + ", visitedRestaurants=" + visitedRestaurants + ", phoneNumber='" + phoneNumber + '\'' + ", email='" + email + '\'' + '}';
+		return "User{" + "prim=" + prim + "Id=" + id +", firstname='" + firstname + '\'' + ", lastname='" + lastname + '\'' + ", addressLiving=" + addressLiving + ", addressActual=" + addressActual + ", culinaryLiking=" + culinaryLiking + ", ratingsSubmitted=" + ratingsSubmitted + ", visitedRestaurants=" + visitedRestaurants + ", phoneNumber='" + phoneNumber + '\'' + ", email='" + email + '\'' + '}';
 	}
 
 

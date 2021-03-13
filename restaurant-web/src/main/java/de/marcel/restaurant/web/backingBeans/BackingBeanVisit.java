@@ -98,7 +98,7 @@ public class BackingBeanVisit implements Serializable
 	{
 		if(current != null)
 		{
-				if(null == current.getPrim())
+				if(null == current.getId())
 				{
 					insert(current);
 				}
