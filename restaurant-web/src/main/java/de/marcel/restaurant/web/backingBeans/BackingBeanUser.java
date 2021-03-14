@@ -92,7 +92,7 @@ public class BackingBeanUser implements Serializable
 
 	public int saveUser(User u)
 	{
-		if(null == current.getId())
+		if(null == current.getPrim())
 		{
 			return insert(u);
 		}
@@ -121,7 +121,7 @@ public class BackingBeanUser implements Serializable
 		int result = appServer.update(u); // -1 = fail 3 = success
 		UserMailController.deleteUserEmail(old.getEmail());
 	    UserMailController.putNewUserEmail(u);
-		Logger.getLogger(getClass().getSimpleName()).severe("+# Es wurde update(User u) aufgerufen, result von proxyPersistUser " + result);
+		Logger.getLogger(getClass().getSimpleName()).severe("+# Es wurde update(User u) aufgerufen, result von appServer.update(u) " + result);
 		return result;
 	}
 
@@ -138,11 +138,11 @@ public class BackingBeanUser implements Serializable
 	}
 
 	public String createNew() {
-		current = new User();
-		setCoordinatesBean(current);
 		// Nächste freie id wird antizipiert und per Zufall erhöht, falls die Aktion parallel erfolgt
-		int nextId = appServer.findMaxId(User.class) + 1 + (new Random().nextInt(2));
+		int nextId = (appServer.findMaxId(User.class) + 1 + (new Random().nextInt(2)));
+		current = new User();
 		current.setId(nextId);
+		setCoordinatesBean(current);
 		return "UserCreate?faces-redirect=true";
 	}
 

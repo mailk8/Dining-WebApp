@@ -18,7 +18,6 @@
 
         <ui:define name="mainContent">
 
-
             <h:form id="userInput">
             <h:inputHidden value="#{backingBeanUser.current.id}" id="id" />
 <!--Name -->
@@ -38,13 +37,9 @@
                 <div class="form-group">
                     <label for="email">E-Mail:<h:message for="email" class="text-danger" /></label>
                     <p:inputText id="email" value="#{backingBeanUser.current.email}" class="form-control" required="false" requiredMessage="Erforderlich!"
-
                                  validator="serverValidatorEmail">
                         <p:ajax event="keyup" update="messageForEmailH" immediate="true" async="true"/>
                         <f:ajax event="blur" render="messageForEmailH" immediate="true" delay="2000" listener="#{loginController.removeMessages}"/>
-                        <ui:remove>
-                            valueChangeListener="#{loginController.emailChanged}"
-                        </ui:remove>
                     </p:inputText>
                     <p:messages id="messageForEmailH" for="email" display="icon" style="padding-left: 1px" />
                 </div>

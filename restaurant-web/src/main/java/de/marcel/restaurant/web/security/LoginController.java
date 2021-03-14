@@ -75,18 +75,21 @@ public class LoginController implements Serializable
 		// Nur bei tatsächlicher Neueingabe eines Passworts wird in die DB geschrieben
 		if(e.getNewValue() == null || e.getNewValue().equals(""))
 		{
-			if(null == backingBeanUser.getCurrent().getPrim())
-			{
-				Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. Keine Änderung, exiting");
-				this.cred = null;
-				return;
-			}
-			else if(null != backingBeanUser.getCurrent().getPrim())
-			{
-				Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. Neuanlage ohne Passwort exiting");
-				//this.cred = null;
-				return;
-			}
+			this.cred = null;
+			return;
+			// todo Testen ob das okay ist mit der Auskommentierung
+//			if(null != backingBeanUser.getCurrent().getPrim()) // Änderung User
+//			{
+//				Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. Keine Änderung, exiting");
+//				this.cred = null;
+//				return;
+//			}
+//			else if(null == backingBeanUser.getCurrent().getPrim()) // Neuanlage
+//			{
+//				Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. Neuanlage ohne Passwort exiting");
+//				//this.cred = null;
+//				return;
+//			}
 		}
 
 		byte[] salt = generateSalt();
@@ -119,7 +122,7 @@ public class LoginController implements Serializable
 			{
 				try
 				{
-					errorLevel += backingBeanUser.update(user);
+					errorLevel += backingBeanUser.saveUser(user);
 					errorLevel += backingBeanUser.proxyPersistEmail(user.getEmail(), user.getId());
 
 				}
@@ -144,9 +147,9 @@ public class LoginController implements Serializable
 				try
 				{
 					cred.setEmail(user.getEmail());
-					// gefährliches zuerst
-					errorLevel += backingBeanUser.update(user); // 3
+
 					errorLevel += backingBeanUser.proxyPersistCredentials((ICredentials)cred); // 5
+					errorLevel += backingBeanUser.saveUser(user); // 3
 				}
 				catch (Exception e)
 				{
@@ -168,7 +171,6 @@ public class LoginController implements Serializable
 		UserMailController.putNewUserEmail(user);
 		throwFacesMessage(errorLevel);
 	}
-
 
 	public void throwFacesMessage(int errorLevel) {
 
@@ -225,8 +227,6 @@ public class LoginController implements Serializable
 		// Iterationen von Shiro holen? Die Liegen im (Hashed) CredentialsMatcher und der liegt als Member im Realm.
 		return new Sha256Hash(clearText[0], salt, 1).toBase64();
 	}
-
-
 
 	///////////////////////// Für Debugging Zwecke /////////////////////////
 	public void testSubject() {

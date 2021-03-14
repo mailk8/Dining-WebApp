@@ -3,6 +3,7 @@ package de.marcel.restaurant.ejb.model;
 import de.marcel.restaurant.ejb.interfaces.IBaseEntity;
 
 import java.lang.reflect.Field;
+import java.util.logging.Logger;
 
 public class BaseEntity implements IBaseEntity
 {
@@ -43,8 +44,9 @@ public class BaseEntity implements IBaseEntity
 						: (other == this);
 	}
 
-	@Override public String toString() {
-		return String.format("%s[id=%d]", getClass().getSimpleName(), getPrim());
+	@Override public String toString()
+	{
+		return "BaseEntity{" + "prim=" + prim + ", id=" + id + " Class="+getClass().getSimpleName()+'}';
 	}
 
 	@Override public Integer getPrim()
@@ -64,6 +66,8 @@ public class BaseEntity implements IBaseEntity
 
 	@Override public void setId(Integer id)
 	{
+		Logger.getLogger(getClass().getSimpleName()).severe("+# setId aufgerufen vor set");
 		this.id = id;
+		Logger.getLogger(getClass().getSimpleName()).severe("+# setId nach set mit id " + id + "  Objekt id " + this.id +  " name " + this.getClass().getName());
 	}
 }

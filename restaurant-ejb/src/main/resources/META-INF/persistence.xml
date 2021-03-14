@@ -49,6 +49,7 @@
 <!--        <non-jta-data-source>java:jboss/datasources/RestaurantAppDSmariaDB_auth</non-jta-data-source>-->
         <properties>
             <property name="eclipselink.target-server" value="JBoss"/>
+<!--            Es gibt keinen Wert für MariaDB-->
             <property name="eclipselink.target-database" value="MySQL"/>
         </properties>
 

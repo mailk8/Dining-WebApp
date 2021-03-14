@@ -3,6 +3,7 @@ package de.marcel.restaurant.web.validators;
 import de.marcel.restaurant.web.backingBeans.BackingBeanUser;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
@@ -12,6 +13,7 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.logging.Logger;
 
 /*
 	https://beanvalidation.org/resources/
@@ -20,6 +22,7 @@ import javax.inject.Named;
 
 
 @Named
+//@SessionScoped
 @RequestScoped
 @FacesValidator("serverValidatorPassword")
 public class ServerValidatorPassword implements Validator {
@@ -30,11 +33,13 @@ public class ServerValidatorPassword implements Validator {
 
 	public void validate(FacesContext context, UIComponent component, Object password) throws ValidatorException
 	{
-		String email = backingBeanUser.getCurrent().getEmail();
 
 		////// Neuanlage eines Users //////
-		if(null == email || email.equals("") || email.isEmpty() || email.isBlank())
+		//if(null == email || email.equals("") || email.isEmpty() || email.isBlank())
+		if(null == backingBeanUser.getCurrent().getPrim())
 		{
+			Logger.getLogger(this.getClass().getSimpleName()).severe("+# Neuanlage eines Users. validation failed ? " + context.isValidationFailed() + " JSF Phase " + context.getCurrentPhaseId());
+
 			if (null == password || !isApropriateLength(password.toString()))
 			{
 				throwFacesErrorMessage(context, component);
@@ -44,6 +49,8 @@ public class ServerValidatorPassword implements Validator {
 		}
 		else ////// Bestehender User wird geändert //////
 		{
+			Logger.getLogger(this.getClass().getSimpleName()).severe("+# Bestehender User wird geändert. validation failed ? " + context.isValidationFailed()+ " JSF Phase " + context.getCurrentPhaseId());
+
 			if(null == password || isApropriateLength(password.toString()) || password.toString().equals("") ||  password.toString().isEmpty() || password.toString().isBlank())
 			{
 				// Bei Änderung eines bestehenden Users soll das Passwort nicht zwangsläufig neu eingegeben werden müssen.

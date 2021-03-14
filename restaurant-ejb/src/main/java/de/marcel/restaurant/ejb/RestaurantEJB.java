@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 @Startup()
 @Priority(1)
 @Stateful
-@SessionScoped
+//@SessionScoped
 @Remote(IRestaurantEJB.class)
 public class RestaurantEJB implements IRestaurantEJB
 {
@@ -83,7 +83,12 @@ public class RestaurantEJB implements IRestaurantEJB
 	@Override public List<IBaseEntity> findAll(Class entitiyClass)
 	{
 		TypedQuery<IBaseEntity> query = entityManager.createNamedQuery(entitiyClass.getSimpleName()+".findAll", entitiyClass);
-		return query.getResultList();
+		List<IBaseEntity> result = (List<IBaseEntity>) query.getResultList();
+//		Logger.getLogger(getClass().getSimpleName()).severe("-------------------------------------------------------------");
+//		Logger.getLogger(getClass().getSimpleName()).severe("+# findAll aufgerufen, appServer Objekt " + this);
+//		result.forEach(e -> Logger.getLogger(getClass().getSimpleName()).severe("+# "+ e ));
+//		Logger.getLogger(getClass().getSimpleName()).severe("-------------------------------------------------------------");
+		return result;
 	}
 
 	@Override
@@ -91,8 +96,9 @@ public class RestaurantEJB implements IRestaurantEJB
 	{
 		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findOne", resultClazz);
 		query.setParameter(1, attributeClazz.cast(attributeFromNamedQuery));
-
-		return (IBaseEntity) query.getSingleResult();
+		IBaseEntity result = (IBaseEntity) query.getSingleResult();
+//		Logger.getLogger(getClass().getSimpleName()).severe("+# findOne aufgerufen, Result" + result + " appServer Objekt " + this);
+		return result;
 	}
 
 	@Override
@@ -100,16 +106,20 @@ public class RestaurantEJB implements IRestaurantEJB
 	{
 		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findOneById", resultClazz);
 		query.setParameter("attribute", Integer.parseInt(id));
+		IBaseEntity result = (IBaseEntity) query.getSingleResult();
+//		Logger.getLogger(getClass().getSimpleName()).severe("+# findOneById aufgerufen, Result" + result + " appServer Objekt " + this);
 
-		return (IBaseEntity) query.getSingleResult();
+		return result;
 	}
 
 	@Override
 	public <T extends IBaseEntity> Integer findMaxId(Class<T> resultClazz)
 	{
-		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findMaxId", resultClazz);
 
-		return (Integer) query.getSingleResult();
+		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findMaxId", resultClazz);
+		Integer i = (Integer) query.getSingleResult();
+		Logger.getLogger(getClass().getSimpleName()).severe("+# findMaxId aufgerufen, Result " + i + " appServer Objekt " + this);
+		return i;
 	}
 
 	@Override

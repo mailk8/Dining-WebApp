@@ -42,4 +42,8 @@ public interface IUser extends IBaseEntity, Serializable
 	void setLastname(String lastname);
 
 	@Override String toString();
+
+	@Override Integer getId();
+
+	@Override void setId(Integer id);
 }

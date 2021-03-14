@@ -171,5 +171,23 @@ public class User extends BaseEntity implements IUser
 		return "User{" + "prim=" + prim + "Id=" + id +", firstname='" + firstname + '\'' + ", lastname='" + lastname + '\'' + ", addressLiving=" + addressLiving + ", addressActual=" + addressActual + ", culinaryLiking=" + culinaryLiking + ", ratingsSubmitted=" + ratingsSubmitted + ", visitedRestaurants=" + visitedRestaurants + ", phoneNumber='" + phoneNumber + '\'' + ", email='" + email + '\'' + '}';
 	}
 
+	@Override public Integer getPrim()
+	{
+		return prim;
+	}
 
+	@Override public void setPrim(Integer prim)
+	{
+		this.prim = prim;
+	}
+
+	@Override public Integer getId()
+	{
+		return id;
+	}
+
+	@Override public void setId(Integer id)
+	{
+		this.id = id;
+	}
 }
