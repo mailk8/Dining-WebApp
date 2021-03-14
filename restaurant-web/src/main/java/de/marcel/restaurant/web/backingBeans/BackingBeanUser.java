@@ -82,8 +82,6 @@ public class BackingBeanUser implements Serializable
 		return "UserCreate?faces-redirect=true";
 	}
 
-
-
 	public String saveUserProxy()
 	{
 		loginController.checkAndPersist(current);
@@ -112,7 +110,6 @@ public class BackingBeanUser implements Serializable
 		Logger.getLogger(getClass().getSimpleName()).severe("+# Es wurde insert(User u) aufgerufen, result von proxyPersistUser " + result);
 		return 3; // 3  = success
 	}
-
 
 	// Delegiert Persist update
 	public int update(User u) {
