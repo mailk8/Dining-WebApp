@@ -1,10 +1,9 @@
 package de.marcel.restaurant.web.backingBeans;
 
-
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
+import de.marcel.restaurant.ejb.interfaces.IUser;
 import de.marcel.restaurant.ejb.model.Address;
 import de.marcel.restaurant.ejb.model.Culinary;
-import de.marcel.restaurant.ejb.model.Restaurant;
 import de.marcel.restaurant.ejb.model.User;
 import de.marcel.restaurant.web.httpClient.*;
 
@@ -46,7 +45,7 @@ public class BackingBeanUser implements Serializable
 	// holt eingeloggte User und legt sie auf current
 	private void fetchLoggedInUser() {
 		sessionId = FacesContext.getCurrentInstance().getExternalContext().getSessionId(false);
-		logger.severe("+# BackingBeanUser unter SessionID " + sessionId + " erstellt.");
+		logger.severe("+# fetchLoggedInUser läuft. BackingBeanUser unter SessionID " + sessionId + " erstellt.");
 
 		Subject s = SecurityUtils.getSubject();
 		if(s.isAuthenticated())
@@ -57,7 +56,7 @@ public class BackingBeanUser implements Serializable
 			{
 				setCurrent(u);
 			}
-			sess.removeAttribute("loggedInUser");
+			//sess.removeAttribute("loggedInUser");
 		}
 		else
 		{
@@ -65,7 +64,6 @@ public class BackingBeanUser implements Serializable
 		}
 
 	}
-
 
 	public List<Culinary> getAllCulinaries()
 	{
@@ -77,9 +75,22 @@ public class BackingBeanUser implements Serializable
 	}
 
 	public String edit(User u) {
+		if(!loginController.isPermitted(u))
+			return "Login.jsf?faces-redirect=true";
+
 		this.current = u;
 		setCoordinatesBean(u);
 		return "UserCreate?faces-redirect=true";
+	}
+
+	public String delete(User u) {
+		if(!loginController.isPermitted(u))
+			return "Login.jsf?faces-redirect=true";
+
+		UserMailController.deleteUserEmail(u.getEmail());
+		appServer.deleteCredentials(u.getId());
+		appServer.delete(u);
+		return "UserList?faces-redirect=true";
 	}
 
 	public String saveUserProxy()
@@ -120,13 +131,6 @@ public class BackingBeanUser implements Serializable
 	    UserMailController.putNewUserEmail(u);
 		Logger.getLogger(getClass().getSimpleName()).severe("+# Es wurde update(User u) aufgerufen, result von appServer.update(u) " + result);
 		return result;
-	}
-
-	public String delete(User u) {
-		UserMailController.deleteUserEmail(u.getEmail());
-		appServer.deleteCredentials(u.getId());
-		appServer.delete(u);
-		return "UserList?faces-redirect=true";
 	}
 
 	public User getCurrent()

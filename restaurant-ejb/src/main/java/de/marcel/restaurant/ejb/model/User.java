@@ -166,10 +166,7 @@ public class User extends BaseEntity implements IUser
 		this.lastname = lastname.trim();
 	}
 
-	@Override public String toString()
-	{
-		return "User{" + "prim=" + prim + "Id=" + id +", firstname='" + firstname + '\'' + ", lastname='" + lastname + '\'' + ", addressLiving=" + addressLiving + ", addressActual=" + addressActual + ", culinaryLiking=" + culinaryLiking + ", ratingsSubmitted=" + ratingsSubmitted + ", visitedRestaurants=" + visitedRestaurants + ", phoneNumber='" + phoneNumber + '\'' + ", email='" + email + '\'' + '}';
-	}
+
 
 	@Override public Integer getPrim()
 	{
@@ -189,5 +186,10 @@ public class User extends BaseEntity implements IUser
 	@Override public void setId(Integer id)
 	{
 		this.id = id;
+	}
+
+	@Override public String toString()
+	{
+		return "User{" + "prim=" + prim + ", id=" + id + ", firstname='" + firstname + '\'' + ", lastname='" + lastname + '\'' + ", addressLiving=" + addressLiving + ", addressActual=" + addressActual + ", culinaryLiking=" + culinaryLiking + ", ratingsSubmitted=" + ratingsSubmitted + ", visitedRestaurants=" + visitedRestaurants + ", phoneNumber='" + phoneNumber + '\'' + ", email='" + email + '\'' + '}';
 	}
 }

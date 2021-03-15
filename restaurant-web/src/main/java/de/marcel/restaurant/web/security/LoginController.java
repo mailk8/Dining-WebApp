@@ -9,6 +9,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Sha256Hash;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 
@@ -37,7 +38,6 @@ public class LoginController implements Serializable
 	private static final long serialVersionUID = 1L;
 
 	@Inject BackingBeanUser backingBeanUser;
-	//@Inject IRestaurantEJB appServer;
 	private Credentials cred;
 
 	public void login() {
@@ -48,20 +48,54 @@ public class LoginController implements Serializable
 
 	public synchronized String logout() {
 		// logout soll Session invalidieren und dafür sorgen, dass der Current User aus BackingBeanUser verschwindet
-		// Rechte aus Shiro Ant-Matcher entfernen
-
-
-		SecurityUtils.getSubject().logout();
-
-		Logger.getLogger(getClass().getSimpleName()).severe("+# LogoutController logout entfernt User " + backingBeanUser.getCurrent() + " aus der BackingBean");
-
-		// Eigenen actual User entfernen
-		backingBeanUser.setCurrent(null);
-
-		// Sessionbeans zurücksetzen
-		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-
+		clearSession();
 		return "UserList?faces-redirect=true";
+	}
+
+	public boolean isPermitted(User u)
+	{
+		Subject sub = SecurityUtils.getSubject();
+		Session sessionAuth = sub.getSession();
+		String sessionIdActual = FacesContext.getCurrentInstance().getExternalContext().getSessionId(false);
+		User loggedInUser = (User) sessionAuth.getAttribute("loggedInUser");
+
+		if(!sessionAuth.getId().toString().equals(sessionIdActual) || !sub.isAuthenticated() || !u.getPrim().equals(loggedInUser.getPrim()))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	public boolean isLoggedInUser(User u)
+	{
+		// light Version für UserList, um Buttons nur für den eingeloggten User anzuzeigen
+		// Wird für den loggedIn User 6x aufgerufen.
+		// https://stackoverflow.com/questions/4281261/why-is-the-getter-called-so-many-times-by-the-rendered-attribute
+		Logger.getLogger(getClass().getSimpleName()).severe("+# isLoggedInUser für " + u );
+
+		if( u == null )
+		{
+			return false;
+		}
+		Subject sub = SecurityUtils.getSubject();
+		if( !sub.isAuthenticated() )
+		{
+			return false;
+		}
+		return ((User) SecurityUtils.getSubject().getSession().getAttribute("loggedInUser")).getPrim().equals(u.getPrim());
+	}
+
+	public synchronized void clearSession()
+	{
+		SecurityUtils.getSubject().logout();
+		Logger.getLogger(getClass().getSimpleName()).severe("+# LogoutController logout entfernt User " + backingBeanUser.getCurrent() + " aus der BackingBean");
+		backingBeanUser.setCurrent(null);
+		String id = FacesContext.getCurrentInstance().getExternalContext().getSessionId(false);
+		Logger.getLogger(getClass().getSimpleName()).severe("+# Session mit ID " + id + " wird invalidiert.");
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+		String newId = FacesContext.getCurrentInstance().getExternalContext().getSessionId(true);
+		Logger.getLogger(getClass().getSimpleName()).severe("+# Session mit ID " + newId + " neu angelegt.");
 	}
 
 	/////////////// Änderung Passwort und UserDaten koordinieren /////////////////
@@ -77,7 +111,6 @@ public class LoginController implements Serializable
 		{
 			this.cred = null;
 			return;
-			// todo Testen ob das okay ist mit der Auskommentierung
 //			if(null != backingBeanUser.getCurrent().getPrim()) // Änderung User
 //			{
 //				Logger.getLogger(getClass().getSimpleName()).severe("+# passwordChanged aufgerufen. Keine Änderung, exiting");
@@ -230,14 +263,14 @@ public class LoginController implements Serializable
 
 	///////////////////////// Für Debugging Zwecke /////////////////////////
 	public void testSubject() {
-		Logger.getLogger(getClass().getSimpleName()).severe("+# testSubject aufgerufen");
 		Subject sub = SecurityUtils.getSubject();
-		Logger.getLogger(getClass().getSimpleName()).severe("+# Subject " + sub.getPrincipal() + " ist angemeldet.");
-		if(sub.isAuthenticated())
-		{
-			Logger.getLogger(getClass().getSimpleName()).severe("+# BackingBeanUser enthält als current " + backingBeanUser.getCurrent());
-			sub = null;
-		}
+		Logger.getLogger(getClass().getSimpleName()).severe("+# Subject " + sub.getPrincipal() + " ist angemeldet. Weitere Principals: " + sub.getPrincipals());
+		Logger.getLogger(getClass().getSimpleName()).severe("+# SessionID des Subject ist: " + sub.getSession().getId().toString());
+
+		Logger.getLogger(getClass().getSimpleName()).severe("+# BackingBeanUser enthält als current " + backingBeanUser.getCurrent());
+		Logger.getLogger(getClass().getSimpleName()).severe("+# SessionMap enthält unter loggedIn User " +
+						SecurityUtils.getSubject().getSession(false).getAttribute("loggedInUser"));
+
 
 	}
 

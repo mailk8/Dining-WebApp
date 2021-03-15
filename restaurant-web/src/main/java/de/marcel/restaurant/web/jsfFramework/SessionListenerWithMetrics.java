@@ -1,5 +1,6 @@
 package de.marcel.restaurant.web.jsfFramework;
 
+import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 import java.util.Iterator;
@@ -25,7 +26,6 @@ public class SessionListenerWithMetrics implements HttpSessionListener
 	public void sessionCreated(final HttpSessionEvent event) {
 		activeSessions.incrementAndGet();
 		logger.severe("+# Session " + event.getSession().getId() + " created. Aktive Sessions " + activeSessions);
-
 		Iterator<String> it = event.getSession().getAttributeNames().asIterator();
 		while(it.hasNext())
 		{

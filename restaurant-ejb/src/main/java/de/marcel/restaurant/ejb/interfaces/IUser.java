@@ -46,4 +46,5 @@ public interface IUser extends IBaseEntity, Serializable
 	@Override Integer getId();
 
 	@Override void setId(Integer id);
+
 }

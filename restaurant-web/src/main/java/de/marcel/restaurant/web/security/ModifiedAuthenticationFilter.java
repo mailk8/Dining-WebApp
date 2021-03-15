@@ -162,7 +162,7 @@ public class ModifiedAuthenticationFilter extends FormAuthenticationFilter
 		IRestaurantEJB appServer = getAppServer();
 		try
 		{
-			User authenticatedUser = (User) appServer.findOne(subject.getPrincipal(),String.class,User.class);
+			User authenticatedUser = (User) appServer.findOne(subject.getPrincipal(), String.class, User.class);
 			subject.getSession().setAttribute("loggedInUser", authenticatedUser);
 		}
 		catch (InvalidSessionException e)

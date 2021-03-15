@@ -9,6 +9,10 @@
 
 <ui:composition template="WEB-INF/DefaultTemplateOneColumn.xhtml">
 
+    <f:metadata>
+        <f:viewAction action="#{loginController.clearSession}" phase="PROCESS_VALIDATIONS"/>
+    </f:metadata>
+
 
     <ui:param name="active" value="User"/>
     <ui:param name="title" value=" "/>
