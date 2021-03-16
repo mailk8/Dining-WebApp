@@ -13,7 +13,9 @@ import java.util.stream.Collectors;
 @Table(name = "restaurantVisit")
 @NamedQueries
 				({
-								@NamedQuery(name = "RestaurantVisit.findAll", query = "SELECT u FROM RestaurantVisit u")
+								@NamedQuery(name = "RestaurantVisit.findAll", query = "SELECT u FROM RestaurantVisit u"),
+								@NamedQuery(name = "RestaurantVisit.findAllForUser", query = "SELECT u FROM RestaurantVisit u WHERE u.restaurantChosen = :attribute"),
+								@NamedQuery(name = "RestaurantVisit.findAllForRestaurant", query = "SELECT u FROM RestaurantVisit u WHERE u.restaurantChosen = :attribute")
 				})
 public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 {

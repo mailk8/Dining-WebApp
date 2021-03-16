@@ -11,16 +11,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8b0350e6-03f9-48a3-938e-c238785f6e2c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/SubcontentVisits.xhtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/jsfFramework/LifeCycleListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/jsfFramework/LifeCycleListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/jsfFramework/SessionListenerWithMetrics.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/jsfFramework/SessionListenerWithMetrics.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/RestaurantEJB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/RestaurantEJB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Culinary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Culinary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Restaurant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/Restaurant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/RestaurantVisit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/RestaurantVisit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanRestaurant.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanRestaurant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanVisit.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanVisit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/security/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/security/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/security/ModifiedAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/security/ModifiedAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/Login.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/Login.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/RestaurantCreate.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/RestaurantCreate.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/RestaurantList.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/RestaurantList.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/UserCreate.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/UserCreate.xhtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/UserList.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/UserList.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitCreate.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitCreate.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitList.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitList.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/DefaultTemplate.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/DefaultTemplateTwoColumns.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/NavBar.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/NavBar.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/shiro.ini" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/shiro.ini" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,9 +41,9 @@
         <option value="CSS File" />
         <option value="JavaScript File" />
         <option value="XHTML File" />
-        <option value="jsf" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="jsf" />
       </list>
     </option>
   </component>
@@ -153,6 +161,17 @@
     </option>
   </component>
   <component name="RunManager" selected="JBoss Server.JBoss 22.0.1.Final">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="GlassfishConfiguration" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment />
@@ -422,7 +441,8 @@
       <workItem from="1615632227144" duration="10104000" />
       <workItem from="1615647092967" duration="17705000" />
       <workItem from="1615724346255" duration="7915000" />
-      <workItem from="1615799965697" duration="15183000" />
+      <workItem from="1615799965697" duration="18802000" />
+      <workItem from="1615878211295" duration="5878000" />
     </task>
     <servers />
   </component>
@@ -448,6 +468,11 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="1" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanUser.java</url>
+          <line>86</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

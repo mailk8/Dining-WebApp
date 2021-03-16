@@ -59,6 +59,29 @@ public class Culinary extends BaseEntity implements ICulinary
 		this.category = category.trim();
 	}
 
+	@Override public Integer getPrim()
+	{
+		return prim;
+	}
+
+	@Override public void setPrim(Integer prim)
+	{
+		this.prim = prim;
+	}
+
+	@Override public Integer getId()
+	{
+		return id;
+	}
+
+	@Override public void setId(Integer id)
+	{
+		this.id = id;
+	}
+
+
+
+
 	@Override public String toString()
 	{
 		return category;

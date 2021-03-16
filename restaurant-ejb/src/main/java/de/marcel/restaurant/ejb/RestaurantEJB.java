@@ -84,12 +84,15 @@ public class RestaurantEJB implements IRestaurantEJB
 	{
 		TypedQuery<IBaseEntity> query = entityManager.createNamedQuery(entitiyClass.getSimpleName()+".findAll", entitiyClass);
 		List<IBaseEntity> result = (List<IBaseEntity>) query.getResultList();
-//		Logger.getLogger(getClass().getSimpleName()).severe("-------------------------------------------------------------");
-//		Logger.getLogger(getClass().getSimpleName()).severe("+# findAll aufgerufen, appServer Objekt " + this);
-//		result.forEach(e -> Logger.getLogger(getClass().getSimpleName()).severe("+# "+ e ));
-//		Logger.getLogger(getClass().getSimpleName()).severe("-------------------------------------------------------------");
 		return result;
 	}
+
+//	@Override public <T extends IBaseEntity> List<IBaseEntity> findAllFor(Object attributeFromNamedQuery, Class attributeClazz, Class<T> resultClazz)
+//	{
+//		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findAllFor" + attributeClazz.getSimpleName(), resultClazz);
+//		List<IBaseEntity> result = (List<IBaseEntity>) query.getResultList();
+//		return result;
+//	}
 
 	@Override
 	public <T extends IBaseEntity> IBaseEntity findOne(Object attributeFromNamedQuery, Class attributeClazz, Class<T> resultClazz)

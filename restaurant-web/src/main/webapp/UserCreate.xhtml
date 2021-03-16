@@ -5,15 +5,28 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       >
 
-    <ui:composition template="WEB-INF/DefaultTemplate.xhtml">
+    <ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
 
         <ui:param name="active" value="User" />
-        <ui:param name="title" value="User anlegen" />
+        <ui:param name="param_Class_getVisitsFor" value="#{User.class}" />
+        <ui:param name="param_Entity_getVisitsFor" value="#{backingBeanUser.current}" />
 
         <ui:define name="titleHeader">
+
+            <c:choose>
+                <c:when test="#{backingBeanUser.getCurrent().getPrim() != null}">
+                    <c:set var="title" value="Userdaten ändern"/>
+                </c:when>
+                <c:otherwise>
+                    <c:set var="title" value="User anlegen"/>
+                </c:otherwise>
+            </c:choose>
+
             <h2>#{title}</h2>
+
         </ui:define>
 
         <ui:define name="mainContent">
@@ -33,7 +46,6 @@
                     </div>
                 </div>
 <!--Mail -->
-
                 <div class="form-group">
                     <label for="email">E-Mail:<h:message for="email" class="text-danger" /></label>
                     <p:inputText id="email" value="#{backingBeanUser.current.email}" class="form-control" required="false" requiredMessage="Erforderlich!"
@@ -44,7 +56,6 @@
                     <p:messages id="messageForEmailH" for="email" display="icon" style="padding-left: 1px" />
                 </div>
 
-
 <!--Phone -->
                 <div class="form-group">
                     <label for="phoneNumber">Telefon:<h:message for="phoneNumber" class="text-danger" /></label>
@@ -52,6 +63,7 @@
                      <!-- <f:validator validatorId="customValidator" />-->
                     </h:inputText>
                 </div>
+
 <!--Adresse -->
                 <div class="form-group">
                     <label for="street">Straße und Hausnummer<h:message for="street" class="text-danger" /></label>
@@ -64,7 +76,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label for="zipCode">PLZ und Ort:<h:message for="zipCode" class="text-danger" /></label>
                     <div class="row">
@@ -76,7 +87,6 @@
                         </div>
                     </div>
                 </div>
-
                 <h:commandButton action="#{backingBeanUser.requestWgsForAddress()}" value="Hole WGS zu Adresse" class="btn btn-success" update="@form"/>
 
 <!--Position-->
@@ -127,8 +137,6 @@
                     </h:selectOneMenu>
                 </div>
                 <br/>
-
-
 <!--Password -->
 
                 <div class="form-group">

@@ -1,6 +1,7 @@
 package de.marcel.restaurant.web.backingBeans;
 
 
+import de.marcel.restaurant.ejb.interfaces.IBaseEntity;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.RestaurantVisit;
@@ -35,9 +36,6 @@ public class BackingBeanVisit implements Serializable
 	private User currParticipant;
 
 	@Inject
-	//@EJB
-	// eventuell ist hier eher die @Resource die richtige Annotation? Testen.
-	// https://dzone.com/articles/resource-injection-vs
 	private IRestaurantEJB appServer;
 
 	// findAll im "appServer" public <T> List<T> findAll(Class entitiyClass)
@@ -46,10 +44,18 @@ public class BackingBeanVisit implements Serializable
 	{
 		return appServer.findAll(Culinary.class);
 	}
+
 	public List<RestaurantVisit> getAllVisits()
 	{
 		return appServer.findAll(RestaurantVisit.class);
 	}
+
+//	public List<RestaurantVisit> getVisitFor(Class<IBaseEntity> c, IBaseEntity e )
+//	{
+//
+//		return appServer.findAllFor(c, e);
+//	}
+
 
 	public void setCurrent(RestaurantVisit u)
 	{

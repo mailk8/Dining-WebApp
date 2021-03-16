@@ -218,4 +218,32 @@ public class Restaurant extends BaseEntity implements IRestaurant
 		this.visits = visits;
 	}
 
+	@Override public Integer getPrim()
+	{
+		return prim;
+	}
+
+	@Override public void setPrim(Integer prim)
+	{
+		this.prim = prim;
+	}
+
+	@Override public Integer getId()
+	{
+		return id;
+	}
+
+	@Override public void setId(Integer id)
+	{
+		this.id = id;
+	}
+
+
+
+
+
+	@Override public String toString()
+	{
+		return "Restaurant{" + "prim=" + prim + ", id=" + id + ", name='" + name + '\'' + ", addressRestaurant=" + addressRestaurant + ", phoneNumber='" + phoneNumber + '\'' + ", email='" + email + '\'' + ", linkMenu='" + linkMenu + '\'' + ", openFrom=" + openFrom + ", openTill=" + openTill + ", holidayFrom=" + holidayFrom + ", holidayTill=" + holidayTill + ", daysOfRest=" + daysOfRest + ", culinary=" + culinary + ", averageRating=" + averageRating + ", visits=" + visits + '}';
+	}
 }

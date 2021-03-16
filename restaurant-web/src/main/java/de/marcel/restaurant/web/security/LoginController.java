@@ -72,7 +72,7 @@ public class LoginController implements Serializable
 		// light Version für UserList, um Buttons nur für den eingeloggten User anzuzeigen
 		// Wird für den loggedIn User 6x aufgerufen.
 		// https://stackoverflow.com/questions/4281261/why-is-the-getter-called-so-many-times-by-the-rendered-attribute
-		Logger.getLogger(getClass().getSimpleName()).severe("+# isLoggedInUser für " + u );
+		// Logger.getLogger(getClass().getSimpleName()).severe("+# isLoggedInUser für " + u );
 
 		if( u == null )
 		{

@@ -1,5 +1,6 @@
 package de.marcel.restaurant.web.backingBeans;
 
+import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -11,23 +12,20 @@ import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.Restaurant;
 import de.marcel.restaurant.ejb.model.User;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
-import java.util.logging.Level;
+import java.util.Random;
 import java.util.logging.Logger;
 
-//@MangedBean // JSF managed die Bean -> deprecated
-@Named // CDI managed die Bean
+@Named
 @SessionScoped
+@ManagedBean
 public class BackingBeanRestaurant implements Serializable
 {
 	private static final long serialVersionUID = 1L;
-	private Restaurant current = new Restaurant();
+	private Restaurant current;
 	private String validateLon, validateLat;
 
 	@Inject
-	//@EJB
 	private IRestaurantEJB appServer;
 
 	// findAll im "appServer" public <T> List<T> findAll(Class entitiyClass)
@@ -48,39 +46,40 @@ public class BackingBeanRestaurant implements Serializable
 
 	public String saveRestaurant()
 	{
-		//Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "Aufruf SaveRestaurant - current ist " + current);
 
-		if(current != null)
+
+		if(null == current.getPrim())
 		{
-			if(null == current.getId())
-			{
-				setCoordinatesEntity();
-				insert(current);
-			}
-
-			else
-			{
-				setCoordinatesEntity();
-				update(current);
-			}
+			Logger.getLogger(getClass().getSimpleName()).severe("+# Aufruf insert - current ist " + current);
+			insert(current);
 		}
 
-		current = new Restaurant();
+		else
+		{
+			Logger.getLogger(getClass().getSimpleName()).severe("+# Aufruf update - current ist " + current);
+			update(current);
+		}
+
+		//current = new Restaurant();
 		return "RestaurantList?faces-redirect=true";
 	}
 
 	public void insert(Restaurant u)
 	{
-		appServer.persist(u);
+		setCoordinatesEntity();
+		int result = appServer.persist(u);
+		current.setPrim(result);
 	}
 
 	public void update(Restaurant u)
 	{
+		setCoordinatesEntity();
 		appServer.update(u);
 	}
 
 	public String edit(Restaurant u)
 	{
+		Logger.getLogger(getClass().getSimpleName()).severe("+# Aufruf edit - current ist " + current +" zu editieren " + u);
 		this.current = u;
 		setCoordinatesBean(u);
 		return "RestaurantCreate?faces-redirect=true";
@@ -99,9 +98,10 @@ public class BackingBeanRestaurant implements Serializable
 
 	public String createNew()
 	{
+		int nextId = (appServer.findMaxId(Restaurant.class) + 1 + (new Random().nextInt(2)));
 		current = new Restaurant();
+		current.setId(nextId);
 		setCoordinatesBean(current);
-
 		return "RestaurantCreate?faces-redirect=true";
 	}
 
@@ -112,6 +112,7 @@ public class BackingBeanRestaurant implements Serializable
 
 	public void setValidateLon(String validateLon)
 	{
+		validateLon = validateLon.replace(",", ".");
 		this.validateLon = validateLon;
 	}
 
@@ -122,6 +123,7 @@ public class BackingBeanRestaurant implements Serializable
 
 	public void setValidateLat(String validateLat)
 	{
+		validateLon = validateLon.replace(",", ".");
 		this.validateLat = validateLat;
 	}
 
@@ -140,23 +142,24 @@ public class BackingBeanRestaurant implements Serializable
 
 	}
 
-	public void setCoordinatesEntity()
-	{
-		if(validateLat.equals(""))
+	public void setCoordinatesEntity() {
+		// null soll erlaubt sein wenn kein Wert gesetzt ist
+		if(null == validateLat || validateLat.equals("") || validateLat.isEmpty() ||validateLat.isBlank())
+		{
 			current.getAddressRestaurant().setWgs84Latitude(null);
-
-		if(validateLon.equals(""))
-			current.getAddressRestaurant().setWgs84Longitude(null);
-
-		try
+		}
+		else
 		{
 			current.getAddressRestaurant().setWgs84Latitude(Double.parseDouble(validateLat));
-			current.getAddressRestaurant().setWgs84Longitude(Double.parseDouble(validateLon));
 		}
-		catch (Exception e)
+
+		if(null == validateLon || validateLon.equals("") || validateLon.isEmpty() ||validateLon.isBlank())
 		{
-			// null soll erlaubt sein wenn kein Wert gesetzt ist
-			//throw new NullPointerException("Fehler in setCoordinatesEntity");
+			current.getAddressRestaurant().setWgs84Longitude(null);
+		}
+		else
+		{
+			current.getAddressRestaurant().setWgs84Longitude(Double.parseDouble(validateLon));
 		}
 	}
 
