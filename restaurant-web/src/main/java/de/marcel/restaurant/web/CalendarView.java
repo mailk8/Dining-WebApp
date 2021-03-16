@@ -3,7 +3,7 @@ package de.marcel.restaurant.web;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -41,7 +41,8 @@ public class CalendarView implements Serializable
 
 	LocalDate ld;
 	LocalTime lt;
-	LocalDateTime ldt;
+	ZonedDateTime ldt;
+	ZoneId zid = ZoneId.of("Europe/Berlin");
 
 
 	public void onDateSelect(SelectEvent event) {
@@ -50,7 +51,7 @@ public class CalendarView implements Serializable
 
 		if(lt != null)
 		{
-			ldt = LocalDateTime.of(ld, lt);
+			ldt = ZonedDateTime.of(ld, lt, zid);
 			ExternalContext ectx = FacesContext.getCurrentInstance().getExternalContext();
 			String sessionId = ectx.getSession(false).toString();
 			ectx.getSessionMap().put(sessionId + "chosenDate", ldt);
@@ -65,7 +66,7 @@ public class CalendarView implements Serializable
 
 		if(ld != null)
 		{
-			ldt = LocalDateTime.of(ld, lt);
+			ldt = ZonedDateTime.of(ld, lt, zid);
 			ExternalContext ectx = FacesContext.getCurrentInstance().getExternalContext();
 			String sessionId = ectx.getSession(false).toString();
 			ectx.getSessionMap().put(sessionId + "chosenDate", ldt);

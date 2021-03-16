@@ -4,7 +4,7 @@ import de.marcel.restaurant.ejb.interfaces.IRestaurantVisit;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,7 +30,7 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 	private Integer id;
 
 	@Column(name = "visitingDateTime", nullable = true)
-	private LocalDateTime visitingDateTime; // Dinner DateTime
+	private ZonedDateTime visitingDateTime; // Dinner DateTime
 	@Column(name = "memo", nullable = true, length = 200)
 	private String memo;
 
@@ -82,12 +82,12 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 	}
 	// GETTER SETTER
 
-	@Override public LocalDateTime getVisitingDateTime()
+	@Override public ZonedDateTime getVisitingDateTime()
 	{
 		return visitingDateTime;
 	}
 
-	@Override public void setVisitingDateTime(LocalDateTime visitingDateTime)
+	@Override public void setVisitingDateTime(ZonedDateTime visitingDateTime)
 	{
 		this.visitingDateTime = visitingDateTime;
 	}
@@ -209,5 +209,34 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 		this.addressVisit = addressVisit;
 	}
 
+	@Override public Integer getPrim()
+	{
+		return prim;
+	}
 
+	@Override public void setPrim(Integer prim)
+	{
+		this.prim = prim;
+	}
+
+	@Override public Integer getId()
+	{
+		return id;
+	}
+
+	@Override public void setId(Integer id)
+	{
+		this.id = id;
+	}
+
+
+
+
+
+
+
+	@Override public String toString()
+	{
+		return "RestaurantVisit{" + "prim=" + prim + ", id=" + id + ", visitingDateTime=" + visitingDateTime + ", memo='" + memo + '\'' + ", participants=" + participants + ", addressVisit=" + addressVisit + ", ratingsVisit=" + ratingsVisit + ", averageRating=" + averageRating + ", restaurantChosen=" + restaurantChosen + ", restaurantSuggestions=" + restaurantSuggestions + ", restaurantSearchHits=" + restaurantSearchHits + ", culinaryMatchingBucket=" + culinaryMatchingBucket + ", chosenCulinary=" + chosenCulinary + ", stateVisit=" + stateVisit + '}';
+	}
 }

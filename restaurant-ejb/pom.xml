@@ -54,7 +54,7 @@
             <groupId>de.marcel.restaurant.restaurant-web</groupId>
             <artifactId>credentials-class-interface</artifactId>
             <version>1</version>
-            <scope>provided</scope>
+
         </dependency>
 
 
@@ -71,6 +71,9 @@
     </dependencies>
 
     <build>
+
+<!--        <defaultGoal>clean package install</defaultGoal>-->
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -117,6 +120,49 @@
                             </includes>
                         </configuration>
                     </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <id>install-interfaces</id>
+
+                        <goals> <goal>install-file</goal> </goals>
+
+                        <phase>install</phase>
+
+                        <configuration>
+                            <groupId>de.marcel.restaurant.restaurant-ejb</groupId>
+                            <artifactId>interfaces</artifactId>
+                            <packaging>jar</packaging>
+                            <version>1</version>
+                            <file>${basedir}/target/restaurant-ejb-1-interfaces.jar</file>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>install-model</id>
+
+                        <goals> <goal>install-file</goal> </goals>
+
+                        <phase>install</phase>
+
+                        <configuration>
+                            <groupId>de.marcel.restaurant.restaurant-ejb</groupId>
+                            <artifactId>model-classes</artifactId>
+                            <packaging>jar</packaging>
+                            <version>1</version>
+                            <file>${basedir}/target/restaurant-ejb-1-model-classes.jar</file>
+                        </configuration>
+                    </execution>
+
+
+
                 </executions>
             </plugin>
 

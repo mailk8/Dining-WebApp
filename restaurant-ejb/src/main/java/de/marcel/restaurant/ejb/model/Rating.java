@@ -3,7 +3,7 @@ package de.marcel.restaurant.ejb.model;
 import de.marcel.restaurant.ejb.interfaces.IRating;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "ratings")
@@ -55,7 +55,7 @@ public class Rating extends BaseEntity implements IRating
 	private	User ratingUser;
 
 	@Column(name = "ratingDateTime", nullable = true)
-	private LocalDateTime ratingDateTime;
+	private ZonedDateTime ratingDateTime;
 
 	// CONSTRUCTORS
 
@@ -135,12 +135,12 @@ public class Rating extends BaseEntity implements IRating
 		this.ratingUser = ratingUser;
 	}
 
-	@Override public LocalDateTime getRatingDateTime()
+	@Override public ZonedDateTime getRatingDateTime()
 	{
 		return ratingDateTime;
 	}
 
-	@Override public void setRatingDateTime(LocalDateTime ratingDateTime)
+	@Override public void setRatingDateTime(ZonedDateTime ratingDateTime)
 	{
 		this.ratingDateTime = ratingDateTime;
 	}

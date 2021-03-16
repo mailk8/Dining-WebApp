@@ -6,7 +6,7 @@ import de.marcel.restaurant.ejb.model.RestaurantVisit;
 import de.marcel.restaurant.ejb.model.User;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 public interface IRating extends IBaseEntity, Serializable
 {
@@ -22,9 +22,9 @@ public interface IRating extends IBaseEntity, Serializable
 
 	void setRatingUser(User ratingUser);
 
-	LocalDateTime getRatingDateTime();
+	ZonedDateTime getRatingDateTime();
 
-	void setRatingDateTime(LocalDateTime ratingDateTime);
+	void setRatingDateTime(ZonedDateTime ratingDateTime);
 
 	byte getStars();
 

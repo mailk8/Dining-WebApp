@@ -7,7 +7,7 @@ import de.marcel.restaurant.ejb.model.RestaurantVisit;
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.time.DayOfWeek;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Set;
@@ -45,13 +45,13 @@ public interface IRestaurant extends IBaseEntity, Serializable
 
 	void setOpenTill(LocalTime openTill);
 
-	LocalDateTime getHolidayFrom();
+	ZonedDateTime getHolidayFrom();
 
-	void setHolidayFrom(LocalDateTime holidayFrom);
+	void setHolidayFrom(ZonedDateTime holidayFrom);
 
-	LocalDateTime getHolidayTill();
+	ZonedDateTime getHolidayTill();
 
-	void setHolidayTill(LocalDateTime holidayTill);
+	void setHolidayTill(ZonedDateTime holidayTill);
 
 	Collection<DayOfWeek> getDaysOfRest();
 

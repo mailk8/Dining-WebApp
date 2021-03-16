@@ -4,16 +4,16 @@ import de.marcel.restaurant.ejb.model.*;
 
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Set;
 
 public interface IRestaurantVisit extends IBaseEntity, Serializable
 {
 	@PostConstruct void initializeState();
 
-	LocalDateTime getVisitingDateTime();
+	ZonedDateTime getVisitingDateTime();
 
-	void setVisitingDateTime(LocalDateTime visitingDateTime);
+	void setVisitingDateTime(ZonedDateTime visitingDateTime);
 
 	String getMemo();
 
@@ -57,6 +57,7 @@ public interface IRestaurantVisit extends IBaseEntity, Serializable
 	Culinary getChosenCulinary();
 
 	void setChosenCulinary(Culinary chosenCulinary);
+
 
 	Address getAddressVisit();
 
