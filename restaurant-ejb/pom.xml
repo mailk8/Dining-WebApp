@@ -72,7 +72,7 @@
 
     <build>
 
-<!--        <defaultGoal>clean package install</defaultGoal>-->
+        <defaultGoal>clean package install</defaultGoal>
 
         <plugins>
             <plugin>

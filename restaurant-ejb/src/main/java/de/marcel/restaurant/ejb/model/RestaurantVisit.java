@@ -5,7 +5,9 @@ import de.marcel.restaurant.ejb.interfaces.IRestaurantVisit;
 import javax.annotation.PostConstruct;
 import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -39,7 +41,7 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 //					name="users_restaurantvisit",
 //					joinColumns=@JoinColumn(name="participants_prim", referencedColumnName="prim"),
 //					inverseJoinColumns=@JoinColumn(name="visitedRestaurants_prim", referencedColumnName="prim"))
-	private Set<User> participants = new HashSet<>();
+	private List<User> participants = new ArrayList<>();
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address addressVisit = new Address();
@@ -102,7 +104,7 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 		this.memo = memo.trim();
 	}
 
-	@Override public Set<User> getParticipants()
+	@Override public List<User> getParticipants()
 	{
 		return participants;
 	}
@@ -114,7 +116,7 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 		return s.toString().trim();
 	}
 
-	@Override public void setParticipants(Set<User> participants)
+	@Override public void setParticipants(List<User> participants)
 	{
 		this.participants = participants;
 	}

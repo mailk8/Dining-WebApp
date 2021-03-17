@@ -5,6 +5,7 @@ import de.marcel.restaurant.ejb.model.*;
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Set;
 
 public interface IRestaurantVisit extends IBaseEntity, Serializable
@@ -19,11 +20,11 @@ public interface IRestaurantVisit extends IBaseEntity, Serializable
 
 	void setMemo(String memo);
 
-	Set<User> getParticipants();
+	List<User> getParticipants();
 
 	String getParticipantsAsString();
 
-	void setParticipants(Set<User> participants);
+	void setParticipants(List<User> participants);
 
 	Set<Rating> getRatingsVisit();
 
