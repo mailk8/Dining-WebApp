@@ -2,13 +2,15 @@ package de.marcel.restaurant.ejb.model;
 
 import de.marcel.restaurant.ejb.interfaces.IRestaurantVisit;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.*;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Entity
@@ -31,16 +33,20 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 	@Column(name = "id", columnDefinition = "INT", unique = true)
 	private Integer id;
 
-	@Column(name = "visitingDateTime", nullable = true)
-	private ZonedDateTime visitingDateTime; // Dinner DateTime
+	@Column(name = "visitingDate", nullable = true)
+	private LocalDate visitingDate;
+
+	@Column(name = "visitingTime", nullable = true)
+	private LocalTime visitingTime;
+
+	@Column(name = "timezoneString", columnDefinition = "VARCHAR(35)")
+	private String timezoneString;
+
 	@Column(name = "memo", nullable = true, length = 200)
 	private String memo;
 
-	@ManyToMany(cascade = CascadeType.MERGE)
-//	@JoinTable(
-//					name="users_restaurantvisit",
-//					joinColumns=@JoinColumn(name="participants_prim", referencedColumnName="prim"),
-//					inverseJoinColumns=@JoinColumn(name="visitedRestaurants_prim", referencedColumnName="prim"))
+	//// muss EAGER sein, damit er die User holt, wenn diese gerade keine Session offen haben.
+	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	private List<User> participants = new ArrayList<>();
 
 	@OneToOne(cascade = CascadeType.ALL)
@@ -52,47 +58,32 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 	@Column(name = "averageRating", nullable = true, columnDefinition = "TINYINT")
 	private byte averageRating;
 
-	@ManyToOne
-	private Restaurant restaurantChosen;
+	@ManyToOne private Restaurant restaurantChosen;
 
-	// In die Bean ?
-	@Transient private Set<Restaurant> restaurantSuggestions;
-	@Transient private Set<Restaurant> restaurantSearchHits;
-	@Transient private Set<Culinary> culinaryMatchingBucket;
-
-	//@OneToOne(cascade = CascadeType.ALL) // gar keinen Cascade Type, weil keine Kulinarik gelöscht oder geupdatet werden soll
-	@OneToOne
-	private Culinary chosenCulinary;
-
+	@OneToOne private Culinary chosenCulinary;
 
 	@Column(name = "stateVisit", nullable = true, columnDefinition = "TINYINT")
 	private State stateVisit;
 
 	// CONSTRUCTORS
-
 	public RestaurantVisit()
 	{
 		stateVisit = State.OBJEKT_ERZ;
 		//Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+# RestaurantVisit Entity: Konsturktor läuft und setzt " + stateVisit);
 	}
 
-	@Override @PostConstruct
-	public void initializeState()
-	{
-		stateVisit = State.OBJEKT_ERZ;
-		//Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+# RestaurantVisit Entity: PostConstruct läuft und setzt " + stateVisit);
-	}
 	// GETTER SETTER
-
-	@Override public ZonedDateTime getVisitingDateTime()
+	@Override public LocalDate getVisitingDate()
 	{
-		return visitingDateTime;
+		return visitingDate;
 	}
 
-	@Override public void setVisitingDateTime(ZonedDateTime visitingDateTime)
+	@Override public void setVisitingDate(LocalDate visitingDateTime)
 	{
-		this.visitingDateTime = visitingDateTime;
+		this.visitingDate = visitingDateTime;
 	}
+
+	@Override public LocalDateTime getVisitingDateTime(){ return LocalDateTime.of(visitingDate, visitingTime);}
 
 	@Override public String getMemo()
 	{
@@ -111,14 +102,16 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 
 	@Override public String getParticipantsAsString()
 	{
+		participants.size(); // Fetching of the Users
 		StringBuffer s = new StringBuffer(participants.stream().map(e -> e.getFirstname()).collect(Collectors.joining(", ")));
 
 		return s.toString().trim();
 	}
 
-	@Override public void setParticipants(List<User> participants)
+	@Override public void setParticipants(List<User> users)
 	{
-		this.participants = participants;
+		Logger.getLogger(getClass().getSimpleName()).severe("+# setParticipants aufgerufen mit " + users);
+		this.participants = users;
 	}
 
 	@Override public Set<Rating> getRatingsVisit()
@@ -151,26 +144,6 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 		this.restaurantChosen = restaurantChosen;
 	}
 
-	@Override public Set<Restaurant> getRestaurantSuggestions()
-	{
-		return restaurantSuggestions;
-	}
-
-	@Override public void setRestaurantSuggestions(Set<Restaurant> restaurantSuggestions)
-	{
-		this.restaurantSuggestions = restaurantSuggestions;
-	}
-
-	@Override public Set<Restaurant> getRestaurantSearchHits()
-	{
-		return restaurantSearchHits;
-	}
-
-	@Override public void setRestaurantSearchHits(Set<Restaurant> restaurantSearchHits)
-	{
-		this.restaurantSearchHits = restaurantSearchHits;
-	}
-
 	@Override public Enum getStateVisit()
 	{
 		return stateVisit;
@@ -179,16 +152,6 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 	@Override public void setStateVisit(State stateVisit)
 	{
 		this.stateVisit = stateVisit;
-	}
-
-	@Override public Set<Culinary> getCulinaryMatchingBucket()
-	{
-		return culinaryMatchingBucket;
-	}
-
-	@Override public void setCulinaryMatchingBucket(Set<Culinary> culinaryMatchingBucket)
-	{
-		this.culinaryMatchingBucket = culinaryMatchingBucket;
 	}
 
 	@Override public Culinary getChosenCulinary()
@@ -209,6 +172,26 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 	@Override public void setAddressVisit(Address addressVisit)
 	{
 		this.addressVisit = addressVisit;
+	}
+
+	@Override public LocalTime getVisitingTime()
+	{
+		return visitingTime;
+	}
+
+	@Override public void setVisitingTime(LocalTime visitingTime)
+	{
+		this.visitingTime = visitingTime;
+	}
+
+	@Override public String getTimezone()
+	{
+		return timezoneString;
+	}
+
+	@Override public void setTimezone(String timezone)
+	{
+		this.timezoneString = timezone;
 	}
 
 	@Override public Integer getPrim()
@@ -235,10 +218,8 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 
 
 
-
-
 	@Override public String toString()
 	{
-		return "RestaurantVisit{" + "prim=" + prim + ", id=" + id + ", visitingDateTime=" + visitingDateTime + ", memo='" + memo + '\'' + ", participants=" + participants + ", addressVisit=" + addressVisit + ", ratingsVisit=" + ratingsVisit + ", averageRating=" + averageRating + ", restaurantChosen=" + restaurantChosen + ", restaurantSuggestions=" + restaurantSuggestions + ", restaurantSearchHits=" + restaurantSearchHits + ", culinaryMatchingBucket=" + culinaryMatchingBucket + ", chosenCulinary=" + chosenCulinary + ", stateVisit=" + stateVisit + '}';
+		return "RestaurantVisit{" + "prim=" + prim + ", id=" + id + ", visitingDateTime=" + visitingDate + ", memo='" + memo + '\'' + ", participants=" + participants + ", addressVisit=" + addressVisit + ", ratingsVisit=" + ratingsVisit + ", averageRating=" + averageRating + ", restaurantChosen=" + restaurantChosen + ", chosenCulinary=" + chosenCulinary + ", stateVisit=" + stateVisit + '}';
 	}
 }

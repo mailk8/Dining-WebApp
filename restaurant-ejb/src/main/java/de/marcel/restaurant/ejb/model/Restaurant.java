@@ -5,7 +5,7 @@ import de.marcel.restaurant.ejb.interfaces.IRestaurant;
 import javax.annotation.PostConstruct;
 import javax.persistence.*;
 import java.time.DayOfWeek;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,9 +50,9 @@ public class Restaurant extends BaseEntity implements IRestaurant
 	@Column(name = "openTill", nullable = true, columnDefinition="TIME NULL")
 	private LocalTime openTill;
 	@Column(name = "holidayFrom", nullable = true, columnDefinition="TIMESTAMP NULL")
-	private ZonedDateTime holidayFrom;
+	private LocalDate holidayFrom;
 	@Column(name = "holidayTill", nullable = true, columnDefinition="TIMESTAMP NULL")
-	private ZonedDateTime holidayTill;
+	private LocalDate holidayTill;
 
 	@Lob
 	@Basic(fetch=FetchType.LAZY)
@@ -158,22 +158,22 @@ public class Restaurant extends BaseEntity implements IRestaurant
 		this.openTill = openTill;
 	}
 
-	@Override public ZonedDateTime getHolidayFrom()
+	@Override public LocalDate getHolidayFrom()
 	{
 		return holidayFrom;
 	}
 
-	@Override public void setHolidayFrom(ZonedDateTime holidayFrom)
+	@Override public void setHolidayFrom(LocalDate holidayFrom)
 	{
 		this.holidayFrom = holidayFrom;
 	}
 
-	@Override public ZonedDateTime getHolidayTill()
+	@Override public LocalDate getHolidayTill()
 	{
 		return holidayTill;
 	}
 
-	@Override public void setHolidayTill(ZonedDateTime holidayTill)
+	@Override public void setHolidayTill(LocalDate holidayTill)
 	{
 		this.holidayTill = holidayTill;
 	}

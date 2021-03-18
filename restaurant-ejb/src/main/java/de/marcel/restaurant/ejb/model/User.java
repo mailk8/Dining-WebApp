@@ -3,6 +3,7 @@ package de.marcel.restaurant.ejb.model;
 import de.marcel.restaurant.ejb.interfaces.IUser;
 
 import javax.persistence.*;
+import java.time.ZoneId;
 import java.util.Set;
 import java.util.logging.Logger;
 

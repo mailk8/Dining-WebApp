@@ -1,20 +1,23 @@
 package de.marcel.restaurant.ejb.interfaces;
 
+import de.marcel.restaurant.ejb.interfaces.IBaseEntity;
 import de.marcel.restaurant.ejb.model.*;
 
-import javax.annotation.PostConstruct;
-import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Set;
 
-public interface IRestaurantVisit extends IBaseEntity, Serializable
+public interface IRestaurantVisit extends IBaseEntity
 {
-	@PostConstruct void initializeState();
+	// GETTER SETTER
+	LocalDate getVisitingDate();
 
-	ZonedDateTime getVisitingDateTime();
+	void setVisitingDate(LocalDate visitingDateTime);
 
-	void setVisitingDateTime(ZonedDateTime visitingDateTime);
+	LocalDateTime getVisitingDateTime();
 
 	String getMemo();
 
@@ -24,7 +27,7 @@ public interface IRestaurantVisit extends IBaseEntity, Serializable
 
 	String getParticipantsAsString();
 
-	void setParticipants(List<User> participants);
+	void setParticipants(List<User> users);
 
 	Set<Rating> getRatingsVisit();
 
@@ -38,29 +41,33 @@ public interface IRestaurantVisit extends IBaseEntity, Serializable
 
 	void setRestaurantChosen(Restaurant restaurantChosen);
 
-	Set<Restaurant> getRestaurantSuggestions();
-
-	void setRestaurantSuggestions(Set<Restaurant> restaurantSuggestions);
-
-	Set<Restaurant> getRestaurantSearchHits();
-
-	void setRestaurantSearchHits(Set<Restaurant> restaurantSearchHits);
-
 	Enum getStateVisit();
 
 	void setStateVisit(State stateVisit);
-
-
-	Set<Culinary> getCulinaryMatchingBucket();
-
-	void setCulinaryMatchingBucket(Set<Culinary> culinaryMatchingBucket);
 
 	Culinary getChosenCulinary();
 
 	void setChosenCulinary(Culinary chosenCulinary);
 
-
 	Address getAddressVisit();
 
 	void setAddressVisit(Address addressVisit);
+
+	LocalTime getVisitingTime();
+
+	void setVisitingTime(LocalTime visitingTime);
+
+	String getTimezone();
+
+	void setTimezone(String timezone);
+
+	@Override Integer getPrim();
+
+	@Override void setPrim(Integer prim);
+
+	@Override Integer getId();
+
+	@Override void setId(Integer id);
+
+	@Override String toString();
 }
