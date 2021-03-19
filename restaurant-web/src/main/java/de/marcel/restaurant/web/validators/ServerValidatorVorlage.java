@@ -16,14 +16,14 @@ import java.util.logging.Logger;
 
 @Named
 @RequestScoped
-@FacesValidator("ServerValidatorVorlage")
-public class ServerValidatorVorlage implements Validator {
+@FacesValidator("serverValidatorDate")
+public class ServerValidatorDate implements Validator {
 
 	private String severity = FacesMessage.SEVERITY_ERROR.toString();
 	private String errorMessage = "Bitte ein gültiges Datum wählen";
 
 	public String getValidatorId() {
-		return "ServerValidatorVorlage";
+		return "serverValidatorDate";
 	}
 
 	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException

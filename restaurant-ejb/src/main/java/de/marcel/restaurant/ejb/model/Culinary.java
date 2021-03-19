@@ -14,7 +14,8 @@ To be filled by Database Table.
 @Table(name = "culinaries")
 @NamedQueries
 				({
-								@NamedQuery(name = "Culinary.findAll", query = "SELECT u FROM Culinary u")
+								@NamedQuery(name = "Culinary.findAll", query = "SELECT u FROM Culinary u"),
+								@NamedQuery(name = "Culinary.findMaxId", query = "SELECT MAX(u.id) FROM Culinary u")
 				})
 public class Culinary extends BaseEntity implements ICulinary
 {

@@ -3,10 +3,7 @@ package de.marcel.restaurant.ejb.model;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantVisit;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.LocalDate;
+import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -19,7 +16,8 @@ import java.util.stream.Collectors;
 				({
 								@NamedQuery(name = "RestaurantVisit.findAll", query = "SELECT u FROM RestaurantVisit u"),
 								@NamedQuery(name = "RestaurantVisit.findAllForUser", query = "SELECT u FROM RestaurantVisit u WHERE u.restaurantChosen = :attribute"),
-								@NamedQuery(name = "RestaurantVisit.findAllForRestaurant", query = "SELECT u FROM RestaurantVisit u WHERE u.restaurantChosen = :attribute")
+								@NamedQuery(name = "RestaurantVisit.findAllForRestaurant", query = "SELECT u FROM RestaurantVisit u WHERE u.restaurantChosen = :attribute"),
+								@NamedQuery(name = "RestaurantVisit.findMaxId", query = "SELECT MAX(u.id) FROM RestaurantVisit u")
 				})
 public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 {
@@ -68,7 +66,7 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 	// CONSTRUCTORS
 	public RestaurantVisit()
 	{
-		stateVisit = State.OBJEKT_ERZ;
+		stateVisit = State.UNVOLLSTÄNDIG;
 		//Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+# RestaurantVisit Entity: Konsturktor läuft und setzt " + stateVisit);
 	}
 
@@ -184,15 +182,24 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 		this.visitingTime = visitingTime;
 	}
 
-	@Override public String getTimezone()
+	@Override public String getTimezoneString()
 	{
 		return timezoneString;
 	}
 
-	@Override public void setTimezone(String timezone)
+	@Override public void setTimezoneString(String timezone)
 	{
 		this.timezoneString = timezone;
 	}
+
+	@Override public ZonedDateTime getVisitingZonedDateTime() {
+		return ZonedDateTime.of(visitingDate, visitingTime, ZoneId.of(timezoneString));
+	}
+
+	@Override public LocalDateTime getVisitingLocalDateTime() {
+		return LocalDateTime.of(visitingDate, visitingTime);
+	}
+
 
 	@Override public Integer getPrim()
 	{

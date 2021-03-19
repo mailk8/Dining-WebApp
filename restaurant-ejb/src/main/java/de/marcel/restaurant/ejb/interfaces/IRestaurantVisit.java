@@ -3,10 +3,7 @@ package de.marcel.restaurant.ejb.interfaces;
 import de.marcel.restaurant.ejb.interfaces.IBaseEntity;
 import de.marcel.restaurant.ejb.model.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.List;
 import java.util.Set;
 
@@ -57,9 +54,13 @@ public interface IRestaurantVisit extends IBaseEntity
 
 	void setVisitingTime(LocalTime visitingTime);
 
-	String getTimezone();
+	String getTimezoneString();
 
-	void setTimezone(String timezone);
+	void setTimezoneString(String timezone);
+
+	ZonedDateTime getVisitingZonedDateTime();
+
+	LocalDateTime getVisitingLocalDateTime();
 
 	@Override Integer getPrim();
 

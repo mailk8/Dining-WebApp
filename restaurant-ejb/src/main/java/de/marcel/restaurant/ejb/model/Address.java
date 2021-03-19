@@ -9,7 +9,8 @@ import java.net.URI;
 @Table(name = "addresses")
 @NamedQueries
 				({
-								@NamedQuery(name = "Address.findAll", query = "SELECT u FROM Address u")
+								@NamedQuery(name = "Address.findAll", query = "SELECT u FROM Address u"),
+								@NamedQuery(name = "Address.findMaxId", query = "SELECT MAX(u.id) FROM Address u")
 				})
 public class Address extends BaseEntity implements IAddress
 {

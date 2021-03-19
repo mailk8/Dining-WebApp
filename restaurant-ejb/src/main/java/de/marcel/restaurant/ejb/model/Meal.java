@@ -13,7 +13,8 @@ To be filled by Database Table.
 @Table(name = "meals")
 @NamedQueries
 				({
-								@NamedQuery(name = "Meal.findAll", query = "SELECT u FROM Meal u")
+								@NamedQuery(name = "Meal.findAll", query = "SELECT u FROM Meal u"),
+								@NamedQuery(name = "Meal.findMaxId", query = "SELECT MAX(u.id) FROM Meal u")
 				})
 public class Meal extends BaseEntity implements IMeal
 {

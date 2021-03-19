@@ -16,7 +16,8 @@ import java.util.Set;
 @Table(name = "restaurants")
 @NamedQueries
 				({
-								@NamedQuery(name = "Restaurant.findAll", query = "SELECT u FROM Restaurant u")
+								@NamedQuery(name = "Restaurant.findAll", query = "SELECT u FROM Restaurant u"),
+								@NamedQuery(name = "Restaurant.findMaxId", query = "SELECT MAX(u.id) FROM Restaurant u")
 				})
 public class Restaurant extends BaseEntity implements IRestaurant
 {

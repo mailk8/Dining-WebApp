@@ -9,7 +9,8 @@ import java.time.LocalDate;
 @Table(name = "ratings")
 @NamedQueries
 				({
-								@NamedQuery(name = "Rating.findAll", query = "SELECT u FROM User u")
+								@NamedQuery(name = "Rating.findAll", query = "SELECT u FROM User u"),
+								@NamedQuery(name = "Rating.findMaxId", query = "SELECT MAX(u.id) FROM Rating u")
 				})
 public class Rating extends BaseEntity implements IRating
 {

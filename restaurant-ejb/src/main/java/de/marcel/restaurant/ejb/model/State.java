@@ -4,5 +4,5 @@ import de.marcel.restaurant.ejb.interfaces.IState;
 
 public enum State implements IState
 {
-	OBJEKT_ERZ, ERWÜNSCHT, GEPLANT, ERFOLGT, BEWERTUNG_OFFEN, BEWERTET
+	UNVOLLSTÄNDIG, ANGELEGT, GEPLANT, ERFOLGT, BEWERTUNG_OFFEN, BEWERTET
 }
