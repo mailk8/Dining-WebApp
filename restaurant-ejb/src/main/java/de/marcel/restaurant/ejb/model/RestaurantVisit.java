@@ -12,13 +12,19 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "restaurantVisit")
-@NamedQueries
-				({
-								@NamedQuery(name = "RestaurantVisit.findAll", query = "SELECT u FROM RestaurantVisit u"),
-								@NamedQuery(name = "RestaurantVisit.findAllForUser", query = "SELECT u FROM RestaurantVisit u WHERE u.restaurantChosen = :attribute"),
-								@NamedQuery(name = "RestaurantVisit.findAllForRestaurant", query = "SELECT u FROM RestaurantVisit u WHERE u.restaurantChosen = :attribute"),
-								@NamedQuery(name = "RestaurantVisit.findMaxId", query = "SELECT MAX(u.id) FROM RestaurantVisit u")
+@NamedQueries({
+		@NamedQuery(name = "RestaurantVisit.findAll", query = "SELECT u FROM RestaurantVisit u"),
+		@NamedQuery(name = "RestaurantVisit.findAllForUser", query = "SELECT u FROM RestaurantVisit u WHERE u.restaurantChosen = :attribute"),
+		@NamedQuery(name = "RestaurantVisit.findAllForRestaurant", query = "SELECT u FROM RestaurantVisit u WHERE u.restaurantChosen = :attribute"),
+		@NamedQuery(name = "RestaurantVisit.findMaxId", query = "SELECT MAX(u.id) FROM RestaurantVisit u")
+
+
 				})
+
+@NamedNativeQueries({
+		@NamedNativeQuery(name = "RestaurantVisit.findAllVisitsForUser", query = "SELECT visitedRestaurants_prim FROM restaurantvisit_users WHERE participants_prim = :user.prim;")
+})
+
 public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 {
 	private static final long serialVersionUID = 1L;

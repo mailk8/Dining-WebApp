@@ -10,6 +10,7 @@ import javax.ejb.Remote;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -21,6 +22,8 @@ public interface IRestaurantEJB extends Serializable
 	@TransactionAttribute(TransactionAttributeType.REQUIRED) <IBaseEntity> Integer update(de.marcel.restaurant.ejb.interfaces.IBaseEntity t);
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED) <IBaseEntity> void delete(de.marcel.restaurant.ejb.interfaces.IBaseEntity t);
+
+	HashSet<Integer> findAllVisitsForUser(User participant);
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED) Integer persistCredentials(ICredentials ic);
 

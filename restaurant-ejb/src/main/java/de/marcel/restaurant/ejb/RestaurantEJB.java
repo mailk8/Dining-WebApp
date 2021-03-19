@@ -3,7 +3,10 @@ package de.marcel.restaurant.ejb;
 
 import de.marcel.restaurant.ejb.interfaces.IBaseEntity;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
+import de.marcel.restaurant.ejb.model.RestaurantVisit;
+import de.marcel.restaurant.ejb.model.User;
 import de.marcel.restaurant.web.security.ICredentials;
+import org.apache.shiro.crypto.hash.Hash;
 
 import javax.annotation.Priority;
 import javax.ejb.*;
@@ -12,8 +15,11 @@ import javax.faces.context.FacesContext;
 import javax.persistence.*;
 import javax.transaction.UserTransaction;
 import java.sql.Connection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Startup()
 @Priority(1)
@@ -123,6 +129,19 @@ public class RestaurantEJB implements IRestaurantEJB
 		Integer i = (Integer) query.getSingleResult();
 		Logger.getLogger(getClass().getSimpleName()).severe("+# findMaxId aufgerufen, Result " + i + " appServer Objekt " + this);
 		return i;
+	}
+
+	@Override
+	public HashSet<Integer> findAllVisitsForUser(User participant)
+	{
+		TypedQuery<Integer> query = entityManager.createNamedQuery("RestaurantVisit.findAllVisitsForUser", Integer.class);
+		query.setParameter("user.prim", participant.getPrim());
+		HashSet<Integer> mySet = query.getResultStream().collect(
+			HashSet::new,
+			HashSet::add,
+			HashSet::addAll
+		);
+		return mySet;
 	}
 
 	@Override
