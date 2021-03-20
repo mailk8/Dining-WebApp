@@ -116,7 +116,7 @@ public class RestaurantEJB implements IRestaurantEJB
 		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findOneById", resultClazz);
 		query.setParameter("attribute", Integer.parseInt(id));
 		IBaseEntity result = (IBaseEntity) query.getSingleResult();
-//		Logger.getLogger(getClass().getSimpleName()).severe("+# findOneById aufgerufen, Result" + result + " appServer Objekt " + this);
+
 
 		return result;
 	}
@@ -134,13 +134,18 @@ public class RestaurantEJB implements IRestaurantEJB
 	@Override
 	public HashSet<Integer> findAllVisitsForUser(User participant)
 	{
+		Logger.getLogger(getClass().getSimpleName()).severe("+# findAllVisitsForUser aufgerufen");
+
 		TypedQuery<Integer> query = entityManager.createNamedQuery("RestaurantVisit.findAllVisitsForUser", Integer.class);
-		query.setParameter("user.prim", participant.getPrim());
+		query.setParameter(1, participant.getPrim());
 		HashSet<Integer> mySet = query.getResultStream().collect(
 			HashSet::new,
 			HashSet::add,
 			HashSet::addAll
 		);
+
+		Logger.getLogger(getClass().getSimpleName()).severe("+# findAllVisitsForUser, SQL ergab " + mySet);
+
 		return mySet;
 	}
 

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 				})
 
 @NamedNativeQueries({
-		@NamedNativeQuery(name = "RestaurantVisit.findAllVisitsForUser", query = "SELECT visitedRestaurants_prim FROM restaurantvisit_users WHERE participants_prim = :user.prim;")
+		@NamedNativeQuery(name = "RestaurantVisit.findAllVisitsForUser", query = "SELECT visitedRestaurants_prim FROM restaurantvisit_users WHERE participants_prim = ?;")
 })
 
 public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
