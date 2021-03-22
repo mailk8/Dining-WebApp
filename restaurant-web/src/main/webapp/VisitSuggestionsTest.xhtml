@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui"
+      >
+
+
+
+    <ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
+
+        <ui:param name="active" value="Visit" />
+        <ui:param name="title" value="Restaurantbesuch planen" />
+
+        <ui:define name="titleHeader">
+            <h2>#{title}</h2>
+        </ui:define>
+<!-- Userauswahl Liste -->
+        <ui:define name="subContent">
+
+            <h:form id="userForm">
+
+                <p:growl id="visitCreateGrowl" showDetail="false"  />
+
+
+
+                <p:dataTable id="dt-participants" widgetVar="dt-participants-var" var="user"  reflow="false" styleClass="products-table" stripedRows="true" size="medium"
+                             style="border: 0px solid transparent; outline: 1px solid lightgrey; padding-right: 0px"
+                             rows="10" paginator="false" paginatorPosition="bottom"
+                             value="#{backingBeanUser.getAllUsers()}" rowKey="#{user.id}"
+                             selection="#{backingBeanVisit.current.participants}" rowSelectMode="add">
+
+                    <p:ajax event="rowSelect" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />
+                    <p:ajax event="rowUnselect" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />
+                    <p:ajax event="rowSelectCheckbox" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />
+                    <p:ajax event="rowUnselectCheckbox" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />
+                    <p:ajax event="toggleSelect" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />
+
+                    <f:facet name="header">
+                        <div class="products-table-header">
+                            <span style="font-weight: normal">Welche Nutzer nehmen teil?</span>
+                        </div>
+                    </f:facet>
+
+                    <p:column headerText="Vorname" colspan="5" sortBy="#{user.firstname}" >
+                        <h:outputText value="#{user.firstname}"/>
+                    </p:column>
+
+                    <p:column headerText="Nachname" colspan="6" sortBy="#{user.lastname}" >
+                        <h:outputText value="#{user.lastname}"/>
+                    </p:column>
+
+                    <p:column headerText="Ort" colspan="5" sortBy="#{user.addressLiving.city}">
+                        <h:outputText value="#{user.addressLiving.city}"/>
+                    </p:column>
+
+                    <p:column selectionMode="multiple" colspan="3" exportable="false"></p:column>
+
+
+                </p:dataTable>
+            </h:form>
+
+<!-- Skripte -->
+            <script type="text/javascript">
+                function handleDrop(event, ui) {
+                    var droppedCar = ui.draggable;
+                    droppedCar.fadeOut('fast');
+                }
+                PrimeFaces.locales ['de'] = {
+                    closeText: 'Schließen',
+                    prevText: 'Zurück',
+                    nextText: 'Weiter',
+                    monthNames: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+                    monthNamesShort: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
+                    dayNames: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
+                    dayNamesShort: ['Son', 'Mon', 'Die', 'Mit', 'Don', 'Fre', 'Sam'],
+                    dayNamesMin: ['S', 'M', 'D', 'M ', 'D', 'F ', 'S'],
+                    weekHeader: 'Woche',
+                    firstDay: 1,
+                    isRTL: false,
+                    showMonthAfterYear: false,
+                    yearSuffix: '',
+                    timeOnlyTitle: 'Nur Zeit',
+                    timeText: 'Zeit',
+                    hourText: 'Stunde',
+                    minuteText: 'Minute',
+                    secondText: 'Sekunde',
+                    currentText: 'Aktuelles Datum',
+                    ampm: false,
+                    month: 'Monat',
+                    week: 'Woche',
+                    day: 'Tag',
+                    allDayText: 'Ganzer Tag',
+                    today: 'Heute',
+                    clear: 'Löschen'
+                };
+            </script>
+
+        </ui:define>
+
+<!--Visit Daten anlegen-->
+        <ui:define name="mainContent">
+
+            <h:form id="visitCreate">
+                <h:inputHidden value="#{backingBeanVisit.current.id}" />
+                <h:inputHidden id="sizeParticipants_Actual" value="#{backingBeanVisit.sizeParticipantsForValidator}" validator="serverValidatorParticipants"/>
+                <h:inputHidden id="sizeParticipants_Initial" value="#{backingBeanVisit.sizeParticipantsForValidator}" />
+
+<!-- Ort -->
+                <div class="row">
+                    <div class="col-4">
+                        <label for="place">PLZ und Ort: <h:message for="place" class="text-danger" /></label>
+                    </div>
+
+                    <div class="col-3">
+                        <h:inputText id="zip"  value="#{backingBeanVisit.current.addressVisit.zipCode}" class="form-control" required="false" />
+                    </div>
+
+                    <div class="col-5">
+                        <h:inputText id="place" value="#{backingBeanVisit.current.addressVisit.city}" class="form-control" required="false" >
+                            <!-- <f:validator validatorId="customValidator" />-->
+                        </h:inputText>
+                    </div>
+                </div>
+                <br/>
+
+<!-- Kulinarik -->
+                <div class="row">
+                    <div class="col-4">
+                        <label>Kulinarik Wunsch:</label>
+                    </div>
+
+                    <div class="col-8">
+                        <h:selectOneMenu value="#{backingBeanVisit.current.chosenCulinary}" select2="true" styleClass="form-control"  converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="Vorauswahl für Restaurantvorschläge" itemValue="" />
+                            <f:selectItems value="#{backingBeanRestaurant.getAllCulinaries()}" var="selCuli" itemValue="#{selCuli}" itemLabel="#{selCuli.getCategory()}"/>
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+                <br/>
+<!--Memo -->
+                <div class="row">
+                    <div class="col-4">
+                        <label>Memo: </label>
+                    </div>
+
+                    <div class="col-8">
+                        <h:inputText id="memo" value="#{backingBeanVisit.current.memo}" class="form-control" required="false" >
+                        </h:inputText>
+                    </div>
+                </div>
+                <br/>
+
+<!-- Datum -->
+                <div class="row">
+                    <div class="col-4">
+                        <label>Datum:</label>
+                    </div>
+                    <div class="col-8">
+                        <p:datePicker id="buttonbar" value="#{backingBeanVisit.current.visitingDate}" showButtonBar="true" locale="de" required="true"
+                            converterMessage="Bitte ein gültiges Datum wählen"
+                            requiredMessage="Bitte ein gültiges Datum wählen" />
+                    </div>
+                </div>
+                <br/>
+
+<!-- Uhrzeit -->
+                <div class="row">
+                    <div class="col-4">
+                        <label>Uhrzeit:</label>
+                    </div>
+                    <div class="col-8">
+                        <p:datePicker id="time" value="#{backingBeanVisit.current.visitingTime}" timeInput="true"  pattern="HH:mm"  required="true"
+                                      converterMessage="Bitte eine gültige Uhrzeit wählen"
+                                      requiredMessage="Bitte eine gültige Uhrzeit wählen" />
+                    </div>
+
+                </div>
+                <br/>
+<!--Zeitzone -->
+                <div class="row">
+                    <div class="col-4">
+                        <label>Zeitzone:</label>
+                    </div>
+                    <div class="col-8">
+                        <p:autoComplete id="fieldTimezone" dropdown="false" forceSelection="true"  autocomplete="on" required="true"
+                                        value="#{backingBeanVisit.current.timezoneString}" widgetVar="widgetVarTimezone"
+                                        completeMethod="#{backingBeanVisit.completeText}"
+                                        scrollHeight="250" style="width: 200px !important;"
+                                        requiredMessage="Bitte eine gültige Zeitzone wählen" />
+                    </div>
+                </div>
+                <br/>
+<!--TEST-->
+
+                <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true&amp;key=AIzaSyDtJoxBmEHGk8KsyyiBcynKz5NrdxnELvE"></script>
+
+                <div class="card">
+                    <p:gmap center="52.3973282, 9.744953" zoom="15" type="ROADMAP" style="width:100%;height:300px"/>
+                </div>
+
+<!-- Buttons -->
+                <h:commandButton action="#{backingBeanVisit.saveVisit}" value="Speichern und zurück" class="btn btn-success" />
+                <h:commandButton action="#{backingBeanVisit.createNew()}" value="neuen Besuch anlegen" class="btn btn-primary" />
+                <h:commandButton action="VisitSuggestions?faces-redirect=true" actionListener="#{backingBeanVisit.saveVisit}" value="Speichern und weiter" class="btn btn-warning" />
+            </h:form>
+
+            <script>
+                $(document).ready(function(){
+
+                    $('.input-daterange').datepicker({
+                        format: 'dd-mm-yyyy',
+                        autoclose: true,
+                        calendarWeeks : true,
+                        clearBtn: true,
+                        disableTouchKeyboard: true
+                    });
+
+                });
+            </script>
+
+        </ui:define>
+
+
+
+        <ui:define name="footer">
+        </ui:define>
+
+    </ui:composition>
+
+
+</html>
