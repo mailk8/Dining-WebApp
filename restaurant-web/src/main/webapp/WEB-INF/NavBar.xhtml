@@ -20,21 +20,25 @@
 
             <ul class="navbar-nav mr-auto">
 
-                <li class="nav-item #{active == 'User' ? 'active' : ''}">
-                    <h:link class="nav-link" outcome="UserList"><h:outputText value="User" /></h:link>
-                </li>
+                    <li class="nav-item #{active == 'User' ? 'active' : ''}">
+                        <h:link class="nav-link" outcome="UserList"><h:outputText value="User" /></h:link>
+                    </li>
 
-                <li class="nav-item #{active == 'Restaurants' ? 'active' : ''}">
-                    <h:link class="nav-link" outcome="RestaurantList"><h:outputText value="Restaurants" /></h:link>
-                </li>
+                    <li class="nav-item #{active == 'Restaurants' ? 'active' : ''}">
+                        <h:link class="nav-link" outcome="RestaurantList"><h:outputText value="Restaurants" /></h:link>
+                    </li>
 
-                <li class="nav-item #{active == 'Visit' ? 'active' : ''}">
-                    <h:link class="nav-link" outcome="VisitList"><h:outputText value="Restaurantbesuche" /></h:link>
-                </li>
+                    <li class="nav-item #{active == 'Visit' ? 'active' : ''}">
+                        <h:form>
+                            <h:commandLink class="nav-link" immediate="true" actionListener="#{backingBeanVisit.prepareGetAllVisits}" action="VisitList?faces-redirect=true"><h:outputText value="Restaurantbesuche"/></h:commandLink>
+                        </h:form>
+    <!--                    <h:link class="nav-link" outcome="VisitList"><h:outputText value="Restaurantbesuche"/></h:link>-->
+                    </li>
 
-                <li class="nav-item #{active == 'Auswertungen' ? 'active' : ''}">
-                    <h:link class="nav-link" outcome="Auswertungen"><h:outputText value="Auswertungen" /></h:link>
-                </li>
+                    <li class="nav-item #{active == 'Auswertungen' ? 'active' : ''}">
+                        <h:link class="nav-link" outcome="Auswertungen"><h:outputText value="Auswertungen" /></h:link>
+                    </li>
+
             </ul>
 
             <div class="dropdown" style="padding-right:10px;width:90px;height:30px">
@@ -52,7 +56,15 @@
             </div>
 
             <h:form>
-                <h:commandLink class="btn btn-warning" action="#{loginController.showContexts}">showContexts</h:commandLink>
+                <h:commandLink class="btn btn-warning" action="#{loginController.showCurrentVisit}">showCurrentVisit</h:commandLink>
+            </h:form>
+
+            <div style="padding-left:10px;padding-right:10px">
+                <p> </p>
+            </div>
+
+            <h:form>
+                <h:commandLink class="btn btn-warning" action="#{loginController.showCurrentRestaurant}">showCurrentRestaurant</h:commandLink>
             </h:form>
 
             <div style="padding-left:10px;padding-right:10px">

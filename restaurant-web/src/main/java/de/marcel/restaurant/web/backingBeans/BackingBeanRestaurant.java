@@ -15,6 +15,7 @@ import de.marcel.restaurant.ejb.model.User;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Named
 @SessionScoped
@@ -33,6 +34,10 @@ public class BackingBeanRestaurant implements Serializable
 	{
 		return appServer.findAll(Culinary.class);
 	}
+
+
+
+
 	public List<Restaurant> getAllRestaurants()
 	{
 		return appServer.findAll(Restaurant.class);
@@ -46,8 +51,6 @@ public class BackingBeanRestaurant implements Serializable
 
 	public String saveRestaurant()
 	{
-
-
 		if(null == current.getPrim())
 		{
 			Logger.getLogger(getClass().getSimpleName()).severe("+# Aufruf insert - current ist " + current);

@@ -40,6 +40,8 @@ public class LifeCycleListener implements PhaseListener
 				this.restoreMessages(facesContext);
 			}
 		}
+
+
 	}
 
 	public void afterPhase(PhaseEvent event) {
@@ -50,6 +52,7 @@ public class LifeCycleListener implements PhaseListener
 			FacesContext facesContext = event.getFacesContext();
 			this.saveMessages(facesContext);
 		}
+
 	}
 
 	private int saveMessages(final FacesContext facesContext)

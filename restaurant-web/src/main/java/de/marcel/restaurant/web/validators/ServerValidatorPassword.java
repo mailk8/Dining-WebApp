@@ -22,7 +22,6 @@ import java.util.logging.Logger;
 
 
 @Named
-//@SessionScoped
 @RequestScoped
 @FacesValidator("serverValidatorPassword")
 public class ServerValidatorPassword implements Validator {
@@ -35,7 +34,6 @@ public class ServerValidatorPassword implements Validator {
 	{
 
 		////// Neuanlage eines Users //////
-		//if(null == email || email.equals("") || email.isEmpty() || email.isBlank())
 		if(null == backingBeanUser.getCurrent().getPrim())
 		{
 			Logger.getLogger(this.getClass().getSimpleName()).severe("+# Neuanlage eines Users. validation failed ? " + context.isValidationFailed() + " JSF Phase " + context.getCurrentPhaseId());

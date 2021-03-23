@@ -1,8 +1,6 @@
 package de.marcel.restaurant.web.validators;
 
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -14,7 +12,6 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 
-import org.primefaces.validate.ClientValidator;
 
 @Named
 @RequestScoped

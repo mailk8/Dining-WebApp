@@ -1,7 +1,5 @@
 package de.marcel.restaurant.web.validators;
 
-import javax.ejb.Local;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
@@ -9,59 +7,54 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-import javax.inject.Named;
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.logging.Logger;
 
-@Named
-@RequestScoped
-@FacesValidator("ServerValidatorVorlage")
-public class ServerValidatorVorlage implements Validator {
+@FacesValidator("serverValidatorParticipants")
+public class ServerValidatorParticipants implements Validator {
 
-	private String severity = FacesMessage.SEVERITY_ERROR.toString();
-	private String errorMessage = "Bitte ein gültiges Datum wählen";
+	private FacesMessage.Severity severity = FacesMessage.SEVERITY_ERROR;
+	private String errorMessage = "Bitte mindestens einen Teilnehmer wählen";
 
 	public String getValidatorId() {
-		return "ServerValidatorVorlage";
+		return "serverValidatorParticipants";
 	}
 
 	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException
 	{
-		Logger.getLogger(this.getClass().getSimpleName()).severe("+# value ist vom Typ: "+value.getClass() +" toString ergibt " + value.toString() );
+		// validiert wird die aktuelle Anzahl der als Teilnehmer eingetragenen User. Übermittlung erfolgt mit Ajax.
+		Logger.getLogger(this.getClass().getSimpleName()).severe("+# serverValidatorParticipants" );
+		if( null != value )
+		{
+			Integer amount = Integer.parseInt(value.toString());
+			// ist mindestens ein Teilnehmer gewählt, ist alles okay, sonst: Validierung
 
-		if( null != value ){
-
-			String valueString = value.toString().trim();
-
-			if (valueString.equals(""))
+			if (amount <= 0)
 			{
-				throwFacesErrorMessage(context, component);
-				return;
+				String initialValue = ((UIInput)(component.getParent().getChildren().get(2))).getSubmittedValue().toString(); // hier wird das hiddenField 'sizeParticipants_Initial' ausgelesen
+				if(Integer.parseInt(initialValue) <= 0)
+				{
+					// war die initiale Anzahl 0: vermutlich Neuanlage, dann soll mindestens ein Teilnehmer gewählt werden
+					throwFacesErrorMessage(context, component);
+					return;
+				}
+				// war die initiale Anzahl > 0 und new Value = 0 bedeutet wohl, letzter Teilnehmer möchte sich aus Visit löschen. Das soll möglich sein.
 			}
-
-			try
-			{
-				LocalDate.parse(valueString);
-			}
-			catch (DateTimeParseException e)
-			{
-				throwFacesErrorMessage(context, component);
-				return;
-			}
-
 		}
 		else
 		{
 			throwFacesErrorMessage(context, component);
 			return;
 		}
+
+		Logger.getLogger(this.getClass().getSimpleName()).severe("+# serverValidatorParticipants,  " +
+						((UIInput)(component.getParent().getChildren().get(2))).getId() + " submittit war "  +// hier wird das hiddenField 'sizeParticipants_Initial' ausgelesen
+						((UIInput)(component.getParent().getChildren().get(2))).getSubmittedValue().toString()); // hier wird das hiddenField 'sizeParticipants_Initial' ausgelesen
 	}
 
 	private void throwFacesErrorMessage(FacesContext context, UIComponent component)
 	{
 		((UIInput)component).setValid(false);
-		context.addMessage(null, new FacesMessage(severity, errorMessage)); // null means Global Message: Multi View Support
+		context.addMessage(null, new FacesMessage(severity, errorMessage, null)); // null means Global Message: Multi View Support
 	}
 
 

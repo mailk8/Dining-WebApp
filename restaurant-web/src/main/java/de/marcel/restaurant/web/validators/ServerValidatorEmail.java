@@ -20,23 +20,12 @@ public class ServerValidatorEmail implements Validator
 		Logger.getLogger(this.getClass().getSimpleName()).severe("+# Validator Anfang ######################### validation failed ? " + context.isValidationFailed());
 
 		Iterator<FacesMessage> it = context.getMessages();
+
 		while ( it.hasNext() ) {
 			it.next();
 			it.remove();
 		}
-
 		String input = value.toString().trim();
-
-//		UIComponent parent = component.getParent();
-//		Logger.getLogger(this.getClass().getSimpleName()).severe("+# Validator grab parent field id " + parent.getClientId());
-//		Logger.getLogger(this.getClass().getSimpleName()).severe("+# Validator grab parent Children " + parent.getChildren().toString());
-//
-//
-//
-//		Logger.getLogger(this.getClass().getSimpleName()).severe("+# Validator grab hidden field id " + component.getParent().getChildren().get(0).getClientId());
-//		Logger.getLogger(this.getClass().getSimpleName()).severe("+# Validator grab hidden Inhalt " + ((UIInput)(component.getParent().getChildren().get(0))).getValue().toString());
-//		Logger.getLogger(this.getClass().getSimpleName()).severe("+# Validator grab hidden Inhalt " + ((UIInput)(component.getParent().getChildren().get(0))).getValue().getClass().getName());
-
 
 		if(input.isEmpty() || input.isEmpty())
 		{
@@ -45,8 +34,6 @@ public class ServerValidatorEmail implements Validator
 			FacesContext.getCurrentInstance().renderResponse();
 			return;
 		}
-
-
 
 		UIInput hiddenField = (UIInput) component.getParent().getChildren().get(0);
 
@@ -62,17 +49,12 @@ public class ServerValidatorEmail implements Validator
 		context.addMessage("email", new FacesMessage(FacesMessage.SEVERITY_INFO, "OK, diese E-Mail wird noch nicht benutzt", ""));
 		((UIInput)component).setValid(true);
 
-
-
 //		context.setProcessingEvents(false);
 //		context.release();
 //		context.renderResponse();
-		//context.setCurrentPhaseId(PhaseId.INVOKE_APPLICATION);
-
+		// context.setCurrentPhaseId(PhaseId.INVOKE_APPLICATION);
 
 		Logger.getLogger(this.getClass().getSimpleName()).severe("+# Validator läuft bis Ende ################ validation failed ? " + context.isValidationFailed());
-
-
 
 	}
 }

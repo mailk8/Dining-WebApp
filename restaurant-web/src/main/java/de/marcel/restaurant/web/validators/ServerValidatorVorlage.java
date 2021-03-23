@@ -16,14 +16,14 @@ import java.util.logging.Logger;
 
 @Named
 @RequestScoped
-@FacesValidator("serverValidatorDate")
-public class ServerValidatorDate implements Validator {
+@FacesValidator("ServerValidatorVorlage")
+public class ServerValidatorVorlage implements Validator {
 
-	private String severity = FacesMessage.SEVERITY_ERROR.toString();
-	private String errorMessage = "Bitte ein gültiges Datum wählen";
+	private FacesMessage.Severity severity = FacesMessage.SEVERITY_ERROR;
+	private String errorMessage = "xxxxxxxxxxxxxxxxxxxxxxx";
 
 	public String getValidatorId() {
-		return "serverValidatorDate";
+		return "ServerValidatorVorlage";
 	}
 
 	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException
@@ -61,7 +61,7 @@ public class ServerValidatorDate implements Validator {
 	private void throwFacesErrorMessage(FacesContext context, UIComponent component)
 	{
 		((UIInput)component).setValid(false);
-		context.addMessage(null, new FacesMessage(severity, errorMessage)); // null means Global Message: Multi View Support
+		context.addMessage(null, new FacesMessage(severity, errorMessage, null)); // null means Global Message: Multi View Support
 	}
 
 

@@ -1,160 +1,116 @@
 package de.marcel.restaurant.web.backingBeans;
 
 
-import de.marcel.restaurant.ejb.interfaces.IBaseEntity;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.RestaurantVisit;
 import de.marcel.restaurant.ejb.model.State;
 import de.marcel.restaurant.ejb.model.User;
-import org.primefaces.event.DragDropEvent;
 
-import javax.ejb.EJB;
+import javax.enterprise.concurrent.ManagedExecutorService;
+import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
-
-@Named("backingBeanVisit")
+@Named()
 @SessionScoped
-//@ViewScoped
 public class BackingBeanVisit implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	private RestaurantVisit current = new RestaurantVisit();
-	private User currParticipant;
 
-	@Inject
-	private IRestaurantEJB appServer;
+	@Resource(name = "DefaultManagedExecutorService") ManagedExecutorService executor;
+	@Inject private IRestaurantEJB appServer;
+	@Inject private BackingBeanUser backingBeanUser;
+	private String sizeParticipantsForValidator;
+	private List<RestaurantVisit> visitList;
+	private List<Culinary> allCulinariesProxy;
+	private String zoneString;
+	private Future<HashSet<Integer>> userSetVisits;
+	private HashSet<Integer> set;
 
-	// findAll im "appServer" public <T> List<T> findAll(Class entitiyClass)
+	////////////////////////////////// Methods for Culinary Selection //////////////////////////////
+	public Culinary[] getCulinariesArray()
+	{
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# getCulinariesArray läuft, return : " + current.getChosenCulinaries() );
+		return current.getChosenCulinaries().stream().toArray(Culinary[]::new);
+	}
+
+	public void setCulinariesArray(Culinary[] culinariesArray)
+	{
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# setCulinariesArray läuft, return " + Arrays.toString(culinariesArray));
+		current.setChosenCulinaries(Arrays.asList(culinariesArray));
+	}
+
+	public List<Culinary> getAllCulinariesProxy()
+	{
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# getAllCulinariesProxy läuft ");
+		if(null == allCulinariesProxy)
+		{
+			allCulinariesProxy = getAllCulinaries();
+		}
+		return allCulinariesProxy;
+	}
+
+
+
+
+	//////////////////////////  Methods for Fetching & Performane //////////////////////////
+	public void fetchVisitsForUser()
+	{
+		// Asynchronous Callable-Job for Servers Default-ThreadPoolExecutor
+		// appServer and user CAN be passed as locale References
+		// BUT user CAN NOT be retrieved by 'backingBean.getCurrent()' !!
+
+		User user = backingBeanUser.getCurrent();
+		if( null != user )
+		{
+			userSetVisits = executor.submit(()-> appServer.findAllVisitsForUser(user));
+		}
+		else
+		{
+			userSetVisits = null;
+		}
+	}
+
+	public void prepareGetAllCulinaries()
+	{
+		allCulinariesProxy = getAllCulinaries();
+	}
 
 	public List<Culinary> getAllCulinaries()
 	{
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# getAllCulinaries läuft ");
 		return appServer.findAll(Culinary.class);
 	}
 
 	public List<RestaurantVisit> getAllVisits()
 	{
-		return appServer.findAll(RestaurantVisit.class);
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# getAllVisits läuft");
+		return  visitList;
 	}
 
-//	public List<RestaurantVisit> getVisitFor(Class<IBaseEntity> c, IBaseEntity e )
-//	{
-//
-//		return appServer.findAllFor(c, e);
-//	}
-
-
-	public void setCurrent(RestaurantVisit u)
+	public void prepareGetAllVisits()
 	{
-		this.current = u;
+		// https://stackoverflow.com/questions/2090033/why-jsf-calls-getters-multiple-times
+		// https://stackoverflow.com/questions/6609067/calling-a-method-multiple-times-when-using-hdatatable-in-jsf
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# PrepareGetAllVisits läuft");
+		visitList = appServer.findAll(RestaurantVisit.class);
+		visitList.forEach((e) -> updateVisitState(e));
+		fetchVisitsForUser();
 	}
 
-	public void setDateFromContext()
-	{
-		ExternalContext ectx = FacesContext.getCurrentInstance().getExternalContext();
-		String sessionId = ectx.getSession(false).toString();
-		LocalDateTime dinginAt = (LocalDateTime) ectx.getSessionMap().get(sessionId + "chosenDate");
-		current.setVisitingDateTime(dinginAt);
-	}
-
-	public String checkStateVisit()
-	{
-		setDateFromContext();
-		setStateVisit();
-		if(current.getStateVisit().ordinal() < 1)
-		{
-			return "";
-		}
-		else
-		{
-			saveVisit();
-			return "VisitList?faces-redirect=true";
-		}
-	}
-
-	public String checkStateVisitNext()
-	{
-		setDateFromContext();
-		setStateVisit();
-		if(current.getStateVisit().ordinal() < 1)
-		{
-			return "";
-		}
-		else
-		{
-			saveVisit();
-			return "VisitSuggestion?faces-redirect=true";
-		}
-	}
-
-	public String saveVisit()
-	{
-		if(current != null)
-		{
-				if(null == current.getId())
-				{
-					insert(current);
-				}
-
-				else
-				{
-					update(current);
-				}
-
-		}
-		current = new RestaurantVisit();
-		return "VisitList?faces-redirect=true";
-	}
-
-	public void insert(RestaurantVisit u)
-	{
-		appServer.persist(u);
-	}
-
-	public void update(RestaurantVisit u)
-	{
-		appServer.update(u);
-	}
-
-	public String edit(RestaurantVisit u)
-	{
-		this.current = u;
-		return "VisitCreateDateTime?faces-redirect=true";
-	}
-
-	public String delete(RestaurantVisit u)
-	{
-		appServer.delete(u);
-		return "VisitList?faces-redirect=true";
-	}
-
-	public RestaurantVisit getCurrent()
-	{
-		return current;
-	}
-
-	public String createNew()
-	{
-		current = new RestaurantVisit();
-
-		return "VisitCreateDateTime?faces-redirect=true";
-	}
-
-	// Ratings von 1 - 11 Punkten
-	// Rating mit 0 gibt es nicht, gilt als unbewertet.
+	//////////////////////////  Methods for Visit Functions //////////////////////////
 	public void calculateAvgRating(RestaurantVisit r)
 	{
 		if(r != null)
@@ -162,7 +118,7 @@ public class BackingBeanVisit implements Serializable
 			byte b = (byte) r.getRatingsVisit().stream()
 							.mapToInt((e)->e.getStars())
 							.filter(f -> {
-								if(f >= 11 || f <= 0)
+								if(f > 10 || f <= 0)
 									return false;
 								return true;})
 							.average()
@@ -172,7 +128,7 @@ public class BackingBeanVisit implements Serializable
 		}
 	}
 
-	public void setStateVisit()
+	public void updateVisitState(RestaurantVisit visit)
 	{
 		// Könnte man auch im Enum unterbringen, dann wäre alles zusammen.
 		// Mind 1 TN zum Speichern
@@ -186,105 +142,195 @@ public class BackingBeanVisit implements Serializable
 		// >= 1 Bewertung erteilt, bewertungen offen
 		// Alle Bewertungen aller Teilnehmer eingegangen, abgeschlossen
 
-		Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+# BackingBeanVisit: Current enthält als State " + current);
+		////Logger.getLogger(getClass().getSimpleName()).severe("+# BackingBeanVisit: visit ist " + visit);
 
-		int switchVar = current.getStateVisit().ordinal();
-		if (switchVar == 5) return;
+		int switchVar = visit.getStateVisit().ordinal();
 
 		switch (switchVar)
 		{
 			case 0: {
-				if((current.getParticipants().size() >= 1) &
-					(current.getVisitingDateTime().isAfter(LocalDateTime.of(2000,01,01,01,01))))
-					current.setStateVisit(State.ERWÜNSCHT);
+				if( (visit.getParticipants().size() >= 1) && (visit.getVisitingDateTime().isAfter(LocalDateTime.of(2000,01,01,01,01))))
+					visit.setStateVisit(State.ANGELEGT); // 1
 				else break;
 			}
 			case 1:{
-				if(current.getRestaurantChosen() != null)
-					current.setStateVisit(State.GEPLANT);
+				if(visit.getRestaurantChosen() != null)
+					visit.setStateVisit(State.GEPLANT); // 2
 				else break;
 			}
 			case 2:{
-				if(current.getVisitingDateTime().isAfter(LocalDateTime.now()))
-					current.setStateVisit(State.ERFOLGT);
+				if(ZonedDateTime.of(visit.getVisitingDateTime(), ZoneId.of(visit.getTimezoneString())).isAfter(ZonedDateTime.of(LocalDateTime.now(), ZoneId.systemDefault()))) //////////// SERVERZEIT, Vorsicht
+					visit.setStateVisit(State.ERFOLGT); // 3
 				else break;
 
 			}
 			case 3:{
-				if(current.getAverageRating() > 0)
-					current.setStateVisit(State.BEWERTUNG_OFFEN);
+				if(visit.getAverageRating() > 0)
+					visit.setStateVisit(State.BEWERTUNG_OFFEN); // 4
 				else break;
 			}
 			case 4:{
-				if(current.getParticipants().size() == current.getRatingsVisit().size())
-					current.setStateVisit(State.BEWERTET);
+				if(visit.getParticipants().size() == visit.getRatingsVisit().size())
+					visit.setStateVisit(State.BEWERTET);
 				else break;
 			}
 		}
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# updateVisitState, for " + visit.getVisitingDateTime());
 	}
 
-	public User getCurrParticipant()
+
+
+
+
+	//////////////////////////  Methods for Basic Crud & Navigation //////////////////////////
+	public String saveVisit()
 	{
-		return currParticipant;
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# begin save Visit -----------------------------");
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# vor update visitState, current.getPrim " + current.getPrim());
+		updateVisitState(current);
+		if(null == current.getPrim())
+		{
+			//Logger.getLogger(getClass().getSimpleName()).severe("+# insert zweig, current.getPrim " + current.getPrim());
+			insert(current);
+		}
+		else
+		{
+			update(current);
+		}
+		prepareGetAllVisits();
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# nach save und prepareAllVisits -------------------");
+
+
+		return "VisitList?faces-redirect=true";
 	}
 
-	public void setCurrParticipant(User currParticipant)
+	public String saveVisitNext()
 	{
-		this.currParticipant = currParticipant;
+		saveVisit();
+		return "VisitSuggestions?faces-redirect=true";
 	}
 
-	// Methods and Members for Drag and Drop Area
-
-	private Set<User> availableUsers;
-	private Set<User> droppedUsers = current.getParticipants();
-	private User selectedUser;
-
-	public Set<User> getDroppedUsers() {
-		return current.getParticipants();
-	}
-
-	public void fillUsers()
+	public void insert(RestaurantVisit u)
 	{
-		availableUsers = new HashSet<>(appServer.findAll(User.class));
-		// reset
-		//current.setParticipants(new HashSet<>());
-		//Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+# BackingBeanVisit: fillUsers holte " + availableUsers.size() + " " + availableUsers);
+		int result = appServer.persist(u);
+		u.setPrim(result);
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# nach insert, prim ist lt appServer " + result + " current hat prim " + current.getPrim());
 	}
 
-	public Set<User> getAvailableUsers() {
-
-		current.getParticipants().stream().forEach(e -> availableUsers.remove(e));
-
-		return availableUsers;
-	}
-
-	public User getSelectedUser() {
-
-
-		return selectedUser;
-	}
-
-	public void setSelectedUser(User s) {
-
-		this.selectedUser = s;
-	}
-
-	public void removeFromAvailableUsers(User u)
+	public void update(RestaurantVisit u)
 	{
-		availableUsers.remove(u);
+		appServer.update(u);
 	}
 
-	public void removeFromDroppedUsers(User u)
+	public String edit(RestaurantVisit u)
 	{
-		// TODO: Button remove selected User
+		this.current = u;
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# edit aufgerufen, von der Datalist wurde Visit übergeben " + u);
+		current.setStateVisit(State.UNVOLLSTÄNDIG);
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# edit current hat prim " + current.getPrim());
+		return "VisitCreate?faces-redirect=true";
 	}
 
-	public void onUserDrop(DragDropEvent ddEvent)
+	public String delete(RestaurantVisit u)
 	{
-		User u = (User) ddEvent.getData();
-		Set<User> set = current.getParticipants();
-		set.add(u);
-		current.setParticipants(set);
-		availableUsers.remove(u);
+		appServer.delete(u);
+		prepareGetAllVisits();
+		return "VisitList?faces-redirect=true";
 	}
+
+	public String createNew()
+	{
+		current = new RestaurantVisit();
+		current.setTimezoneString(zoneString);
+		return "VisitCreate?faces-redirect=true";
+	}
+
+	public void setCurrent(RestaurantVisit u)
+	{
+		this.current = u;
+	}
+
+	public RestaurantVisit getCurrent()
+	{
+		return current;
+	}
+
+
+
+
+
+	//////////////////////////  Methods for Participants Functions //////////////////////////
+	public String getSizeParticipantsForValidator()
+	{
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# getSizeParticipantsForValidator aufgerufen mit " + current.getParticipants().size());
+		sizeParticipantsForValidator = current.getParticipants().size()+"";
+		return sizeParticipantsForValidator;
+	}
+
+	public void setSizeParticipantsForValidator(String sizeParticipantsForValidator)
+	{
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# setSizeParticipantsForValidator aufgerufen mit " + sizeParticipantsForValidator);
+		this.sizeParticipantsForValidator = sizeParticipantsForValidator;
+
+	}
+
+
+	//////////////////////////  Methods for Date Time Functions //////////////////////////
+	public Set<String> getAllTimezones()
+	{
+		return new TreeSet<String>(ZoneId.getAvailableZoneIds());
+	}
+
+	public List<String> completeText(String query) {
+		String queryLowerCase = query.toLowerCase();
+
+		return getAllTimezones().stream().filter(t -> t.toLowerCase().startsWith(queryLowerCase)).collect(Collectors.toList());
+	}
+
+	public String getZoneString()
+	{
+		return zoneString;
+	}
+
+	public void setZoneString(String zoneString)
+	{
+		this.zoneString = zoneString;
+	}
+
+
+
+
+
+	//////////////////////////  Methods for View DataList All Visits //////////////////////////
+	public boolean isUnfinished(RestaurantVisit visit)
+	{
+		return visit.getStateVisit().ordinal() == 0; // State.UNVOLLSTÄNDIG
+	}
+
+	public boolean isUserParticipantOf(RestaurantVisit visit)
+	{
+		try
+		{
+			if( null != userSetVisits )
+			{
+				if ( null !=  (set = userSetVisits.get()) )
+				{
+					return set.contains(visit.getPrim());
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
+		catch (InterruptedException | ExecutionException e)
+		{
+			e.printStackTrace();
+			set = null;
+			return false;
+		}
+		set = null;
+		return false;
+	}
+
 }

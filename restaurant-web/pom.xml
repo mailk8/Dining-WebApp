@@ -17,6 +17,9 @@
     </properties>
 
     <dependencies>
+
+
+<!--        JAVA -->
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
@@ -24,7 +27,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/javax.faces/javax.faces-api -->
         <dependency>
             <groupId>javax.faces</groupId>
             <artifactId>javax.faces-api</artifactId>
@@ -33,12 +35,30 @@
         </dependency>
 
         <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>bootstrap</artifactId>
-            <version>4.5.2</version>
+            <groupId>org.jboss.weld.se</groupId>
+            <artifactId>weld-se-core</artifactId>
+            <version>4.0.0.Final</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.primefaces/primefaces -->
+        <dependency>
+            <groupId>javax.enterprise.concurrent</groupId>
+            <artifactId>javax.enterprise.concurrent-api</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+<!--        Soll es ermöglichen, Custom Parameter in der Expression Language zu übergeben. -->
+<!--        <dependency>-->
+<!--            <groupId>org.glassfish.web</groupId>-->
+<!--            <artifactId>javax.el</artifactId>-->
+<!--            <version>2.2.6</version>-->
+<!--        </dependency>-->
+
+
+
+
+        <!--        WEB FRAMEWORKS-->
+
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
@@ -58,14 +78,35 @@
             <version>2.7.7</version>
         </dependency>
 
+<!--        WEB JARS-->
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>4.5.2</version>
+        </dependency>
+
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>font-awesome</artifactId>
             <version>5.14.0</version>
         </dependency>
 
-        <!-- Lokale Dependencies aus dem .m2 Verzeichnis
-        (müssen mit mvn install dorthin geschafft werden)-->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>font-awesome</artifactId>
+            <version>5.14.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap-datepicker</artifactId>
+            <version>1.9.0</version>
+        </dependency>
+
+
+
+        <!--LOKALE DEPENDENCIES-->
         <dependency>
             <groupId>de.marcel.restaurant.restaurant-ejb</groupId>
             <artifactId>interfaces</artifactId>
@@ -78,13 +119,7 @@
             <version>1</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.jboss.weld.se</groupId>
-            <artifactId>weld-se-core</artifactId>
-            <version>4.0.0.Final</version>
-        </dependency>
-
-        <!-- Apache Shiro-->
+<!-- SECURITY -->
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-core</artifactId>
@@ -96,16 +131,11 @@
             <version>${shiro.version}</version>
         </dependency>
 
-        <!-- https://github.com/deluan/shiro-faces -->
-        <!-- https://techbeats.deluan.com/apache-shiro-tags-for-jsffacelets/ -->
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-faces</artifactId>
             <version>2.0</version>
         </dependency>
-
-<!--############################################ TEST AREA ####################################-->
-
 
     </dependencies>
 
@@ -127,6 +157,9 @@
     </repositories>
 
     <build>
+
+        <defaultGoal>clean package install</defaultGoal>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -156,6 +189,31 @@
                                 <include>**/security/Credentials.class</include>
                                 <include>**/security/ICredentials.class</include>
                             </includes>
+                        </configuration>
+                    </execution>
+
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <id>install-credentials</id>
+
+                        <goals> <goal>install-file</goal> </goals>
+
+                        <phase>install</phase>
+
+                        <configuration>
+                            <groupId>de.marcel.restaurant.restaurant-web</groupId>
+                            <artifactId>credentials-class-interface</artifactId>
+                            <packaging>jar</packaging>
+                            <version>1</version>
+                            <file>${basedir}/target/restaurant-web-1-credentials-class-interface.jar</file>
                         </configuration>
                     </execution>
 

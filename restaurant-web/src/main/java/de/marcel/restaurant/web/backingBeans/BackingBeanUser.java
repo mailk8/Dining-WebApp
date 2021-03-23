@@ -42,7 +42,6 @@ public class BackingBeanUser implements Serializable
 	private String sessionId;
 
 	@PostConstruct
-	// holt eingeloggte User und legt sie auf current
 	private void fetchLoggedInUser() {
 		sessionId = FacesContext.getCurrentInstance().getExternalContext().getSessionId(false);
 		logger.severe("+# fetchLoggedInUser läuft. BackingBeanUser unter SessionID " + sessionId + " erstellt.");
@@ -209,16 +208,16 @@ public class BackingBeanUser implements Serializable
 
 	public void requestWgsForAddress() {
 		//client.enqueueNewRequest(current.getAddressLiving(), appServer);
-			List<Address> ballern = appServer.findAll(Address.class).stream()
+			List<Address> list = appServer.findAll(Address.class).stream()
 							.map( e -> (Address) e)
 							.filter((Address d) -> (d.getPrim().intValue() >= 810))//.limit(1)
 							.collect(Collectors.toList());
-		System.out.println("+# Testliste mit Elementen " + ballern.size() + "\n" + ballern);
-		ballern.forEach(e->{
+		System.out.println("+# Testliste mit Elementen " + list.size() + "\n" + list);
+		list.forEach(e->{
 			System.out.println(e + " trys: " + e.getCounterApiCalls());
 		});
 //
-//		ballern.forEach(e->{
+//		list.forEach(e->{
 //			client.enqueueNewRequest(e, appServer);
 //		});
 	}

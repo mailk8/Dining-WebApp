@@ -8,8 +8,6 @@
       xmlns:o="http://omnifaces.org/ui"
       >
 
-
-
     <ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
 
         <ui:param name="active" value="Visit" />
@@ -19,45 +17,53 @@
             <h2>#{title}</h2>
         </ui:define>
 
+<!--Visit Daten anlegen-->
         <ui:define name="mainContent">
 
-            <h:form>
-                <h:inputHidden value="#{backingBeanVisit.current.id}" />
+            <h:form id="visitCreate">
+                <h:inputHidden value="#{backingBeanVisit.current.prim}" />
+                <h:inputHidden id="sizeParticipants_Actual" value="#{backingBeanVisit.sizeParticipantsForValidator}" validator="serverValidatorParticipants"/>
+                <h:inputHidden id="sizeParticipants_Initial" value="#{backingBeanVisit.sizeParticipantsForValidator}" />
 
-    <!--Ort -->
+<!-- Ort -->
                 <div class="row">
                     <div class="col-4">
                         <label for="place">PLZ und Ort: <h:message for="place" class="text-danger" /></label>
                     </div>
 
                     <div class="col-3">
-                        <h:inputText id="zip" value="#{backingBeanVisit.current.addressVisit.zipCode}" class="form-control" required="false" />
+                        <h:inputText id="zip"  value="#{backingBeanVisit.current.addressVisit.zipCode}" class="form-control" required="false" />
                     </div>
 
                     <div class="col-5">
-                        <h:inputText id="place" value="#{backingBeanVisit.current.addressVisit.street}" class="form-control" required="false" >
+                        <h:inputText id="place" value="#{backingBeanVisit.current.addressVisit.city}" class="form-control" required="false" >
                             <!-- <f:validator validatorId="customValidator" />-->
                         </h:inputText>
                     </div>
-
                 </div>
                 <br/>
 
-    <!--2-->
-                <div class="row">
+<!-- Kulinarik -->
+                <div class="row" >
                     <div class="col-4">
                         <label>Kulinarik Wunsch:</label>
                     </div>
 
                     <div class="col-8">
-                        <h:selectOneMenu value="#{backingBeanVisit.current.chosenCulinary}" select2="true" styleClass="form-control"  converter="omnifaces.SelectItemsConverter">
-                            <f:selectItem itemLabel="Vorauswahl für Vorschläge" itemValue="" />
-                            <f:selectItems value="#{backingBeanRestaurant.getAllCulinaries()}" var="selCuli" itemValue="#{selCuli}" itemLabel="#{selCuli.getCategory()}"/>
-                        </h:selectOneMenu>
+                        <p:selectCheckboxMenu id="multiple" value="#{backingBeanVisit.culinariesArray}" label="Label"
+                                              style="width:100%; !important;" converter="omnifaces.SelectItemsConverter"
+                                              multiple="true"  filter="true" filterMatchMode="startsWith" >
+
+                            <p:ajax event="change" immediate="true" async="true" />
+                            <p:ajax event="toggleSelect" immediate="true" async="true" />
+
+                            <f:selectItems value="#{backingBeanVisit.allCulinariesProxy}" style="width:100%; !important;"/>
+                        </p:selectCheckboxMenu>
+
                     </div>
                 </div>
                 <br/>
-    <!--3-->
+<!--Memo -->
                 <div class="row">
                     <div class="col-4">
                         <label>Memo: </label>
@@ -69,143 +75,151 @@
                     </div>
                 </div>
                 <br/>
-    <!--4 Template inserts Date (and Time) -->
 
-                <main class="container">
-
-                    <div class="row">
-                        <div class="col-4">
-                            <label>Datum: </label>
-                        </div>
-
-                        <div class="col-8">
-                            <ui:insert name="dateTemplate" />
-                        </div>
+<!-- Datum -->
+                <div class="row">
+                    <div class="col-4">
+                        <label>Datum:</label>
                     </div>
-                    <br/>
-
-    <!--5 Template inserts Date (and Time) -->
-
-                    <div class="row">
-                        <div class="col-4">
-                            <label>Uhrzeit: </label>
-                        </div>
-
-                        <div class="col-8">
-                            <ui:insert name="timeTemplate" />
-                        </div>
+                    <div class="col-8">
+                        <p:datePicker id="buttonbar" value="#{backingBeanVisit.current.visitingDate}" showButtonBar="true" locale="de" required="true"
+                                      converterMessage="Bitte ein gültiges Datum wählen"
+                                      requiredMessage="Bitte ein gültiges Datum wählen" />
                     </div>
-                    <br/>
+                </div>
+                <br/>
 
-                </main>
+ <!-- Uhrzeit -->
+                <div class="row">
+                    <div class="col-4">
+                        <label>Uhrzeit:</label>
+                    </div>
+                    <div class="col-8">
+                        <p:datePicker id="time" value="#{backingBeanVisit.current.visitingTime}" timeInput="true"  pattern="HH:mm"  required="true"
+                                      converterMessage="Bitte eine gültige Uhrzeit wählen"
+                                      requiredMessage="Bitte eine gültige Uhrzeit wählen" />
+                    </div>
 
-                <h:commandButton action="#{backingBeanVisit.checkStateVisit()}" value="Speichern und zurück" class="btn btn-success" />
-                <h:commandButton action="#{backingBeanVisit.createNew()}" value="neuen Besuch anlegen" class="btn btn-primary" />
-                <h:commandButton action="#{backingBeanVisit.checkStateVisitNext()}" value="Speichern und weiter" class="btn btn-warning" />
-            </h:form>
-        </ui:define>
+                </div>
+                <br/>
+<!--Zeitzone -->
+                <div class="row">
+                    <div class="col-4">
+                        <label>Zeitzone:</label>
+                    </div>
+                    <div class="col-8">
+                        <p:autoComplete id="fieldTimezone" dropdown="false" forceSelection="true"  autocomplete="on" required="true"
+                                        value="#{backingBeanVisit.current.timezoneString}" widgetVar="widgetVarTimezone"
+                                        completeMethod="#{backingBeanVisit.completeText}"
+                                        scrollHeight="250" style="width: 200px !important;"
+                                        requiredMessage="Bitte eine gültige Zeitzone wählen" />
+                    </div>
+                </div>
+                <br/>
 
-        <ui:define name="subContent">
-            <h:inputHidden value="#{backingBeanVisit.fillUsers()}" />
-
-            <h:form id="userForm">
-
-
-                <p:fieldset id="availableUsersField" legend="Verfügbare User">
-                    <p:dataTable id="availableUsers" var="dragUser" value="#{backingBeanVisit.getAvailableUsers()}">
-                        <p:column style="width:35px">
-                            <h:outputText id="dragIcon" styleClass="far fa-arrow-alt-circle-down" />
-                            <p:draggable for="dragIcon" revert="true" helper="clone"/>
-                        </p:column>
-
-                        <!--                    <p:column headerText="Id">-->
-                        <!--                        <h:outputText value="#{dragUser.getId()}" />-->
-                        <!--                    </p:column>-->
-
-
-                        <p:column headerText="Vorname">
-                            <h:outputText value="#{dragUser.getFirstname()}" />
-                        </p:column>
-
-                        <p:column headerText="Nachname">
-                            <h:outputText value="#{dragUser.getLastname()}" />
-                        </p:column>
-
-                        <p:column headerText="Ort">
-                            <h:outputText value="#{dragUser.addressLiving.getCity()}" />
-                        </p:column>
-                    </p:dataTable>
-                </p:fieldset>
-
-                <p:fieldset id="selectedUsers" legend="Teilnehmende User" style="margin-top:35px">
-                    <p:outputPanel id="dropArea">
-                        <h:outputText value="Hier hinein ziehen" rendered="#{empty backingBeanVisit.droppedUsers}" style="font-size:14px;" />
-                        <p:dataTable id="selectedUsersTable" var="dragUser" value="#{backingBeanVisit.droppedUsers}" rendered="#{not empty backingBeanVisit.droppedUsers}">
-
-                            <p:column headerText="Vorname">
-                                <h:outputText value="#{dragUser.firstname}" />
-                            </p:column>
-
-                            <p:column headerText="Nachname">
-                                <h:outputText value="#{dragUser.lastname}" />
-                            </p:column>
-
-                            <p:column headerText="Wohnort">
-                                <h:outputText value="#{dragUser.addressLiving.city}" />
-                            </p:column>
-
-                            <p:column style="width:35px">
-                                <p:commandButton update=":userForm:display" oncomplete="PF('userDialog').show()" icon="fas fa-search fa-sm">
-                                    <f:setPropertyActionListener value="#{dragUser}" target="#{backingBeanVisit.selectedUser}" />
-                                </p:commandButton>
-                            </p:column>
-                        </p:dataTable>
-                    </p:outputPanel>
-                </p:fieldset>
-
-                <p:droppable for="selectedUsers" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="availableUsers" onDrop="handleDrop">
-                    <p:ajax listener="#{backingBeanVisit.onUserDrop}" update="dropArea availableUsers" />
-                </p:droppable>
-
-
-                <p:dialog header="User Details" widgetVar="userDialog" resizable="false" draggable="false"
-                          showEffect="fade" hideEffect="fade" modal="true">
-
-                    <p:outputPanel id="display">
-                        <h:panelGrid columns="2" cellpadding="6" rendered="#{not empty backingBeanVisit.selectedUser}">
-
-                            <h:outputText value="Id:" />
-                            <h:outputText value="#{backingBeanVisit.selectedUser.getId()}" style="font-weight:bold"/>
-
-                            <h:outputText value="Vorname:" />
-                            <h:outputText value="#{backingBeanVisit.selectedUser.getFirstname()}" style="font-weight:bold"/>
-
-                            <h:outputText value="Nachname:" />
-                            <h:outputText value="#{backingBeanVisit.selectedUser.getLastname()}" style="font-weight:bold"/>
-
-                            <h:outputText value="Wohnort:" />
-                            <h:outputText value="#{backingBeanVisit.selectedUser.addressLiving.getCity()}" style="font-weight:bold"/>
-
-                            <h:outputText value="Aufenthaltsort:" />
-                            <h:outputText value="#{backingBeanVisit.selectedUser.addressActual.getCity()}" style="font-weight:bold"/>
-
-                            <h:outputText value="Kulinarische Ausrichtung:" />
-                            <h:outputText value="#{backingBeanVisit.selectedUser.getCulinaryLiking().toString()}" style="font-weight:bold"/>
-
-                        </h:panelGrid>
-                    </p:outputPanel>
-                </p:dialog>
+<!-- Buttons -->
+                <h:commandButton action="#{backingBeanVisit.saveVisit()}" actionListener="#{backingBeanVisit.prepareGetAllVisits}" value="Speichern und zurück" class="btn btn-success" />
+                <!--                <h:commandButton action="#{backingBeanVisit.createNew()}" value="neuen Besuch anlegen" class="btn btn-primary" />-->
+                <h:commandButton action="#{backingBeanVisit.saveVisitNext()}" actionListener="#{backingBeanVisit.prepareGetAllCulinaries}"   value="Speichern und weiter" class="btn btn-warning">
+                </h:commandButton>
             </h:form>
 
-            <script type="text/javascript">
-                function handleDrop(event, ui) {
-                    var droppedCar = ui.draggable;
+            <script>
+                $(document).ready(function(){
 
-                    droppedCar.fadeOut('fast');
-                }
+                    $('.input-daterange').datepicker({
+                        format: 'dd-mm-yyyy',
+                        autoclose: true,
+                        calendarWeeks : true,
+                        clearBtn: true,
+                        disableTouchKeyboard: true
+                    });
+
+                });
             </script>
 
         </ui:define>
+
+
+<!-- Userauswahl Liste -->
+        <ui:define name="subContent">
+
+            <h:form id="userForm">
+
+                <p:growl id="visitCreateGrowl" showDetail="false"  />
+
+                <p:dataTable id="dt-participants" widgetVar="dt-participants-var" var="user"  reflow="false" styleClass="products-table" stripedRows="true" size="medium"
+                             style="border: 0px solid transparent; outline: 1px solid lightgrey; padding-right: 0px"
+                             rows="10" paginator="false" paginatorPosition="bottom"
+                             value="#{backingBeanUser.getAllUsers()}" rowKey="#{user.id}"
+                             selection="#{backingBeanVisit.current.participants}" rowSelectMode="add">
+
+                    <p:ajax event="rowSelect" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />
+                    <p:ajax event="rowUnselect" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />
+                    <p:ajax event="rowSelectCheckbox" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />
+                    <p:ajax event="rowUnselectCheckbox" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />
+                    <p:ajax event="toggleSelect" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />
+
+                    <f:facet name="header">
+                        <div class="products-table-header">
+                            <span style="font-weight: normal">Welche Nutzer nehmen teil?</span>
+                        </div>
+                    </f:facet>
+
+                    <p:column headerText="Vorname" colspan="5" sortBy="#{user.firstname}" >
+                        <h:outputText value="#{user.firstname}"/>
+                    </p:column>
+
+                    <p:column headerText="Nachname" colspan="6" sortBy="#{user.lastname}" >
+                        <h:outputText value="#{user.lastname}"/>
+                    </p:column>
+
+                    <p:column headerText="Ort" colspan="5" sortBy="#{user.addressLiving.city}">
+                        <h:outputText value="#{user.addressLiving.city}"/>
+                    </p:column>
+
+                    <p:column selectionMode="multiple" colspan="3" exportable="false"></p:column>
+
+
+                </p:dataTable>
+            </h:form>
+
+<!-- Skripte -->
+            <script type="text/javascript">
+                PrimeFaces.locales ['de'] = {
+                    closeText: 'Schließen',
+                    prevText: 'Zurück',
+                    nextText: 'Weiter',
+                    monthNames: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+                    monthNamesShort: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
+                    dayNames: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
+                    dayNamesShort: ['Son', 'Mon', 'Die', 'Mit', 'Don', 'Fre', 'Sam'],
+                    dayNamesMin: ['S', 'M', 'D', 'M ', 'D', 'F ', 'S'],
+                    weekHeader: 'Woche',
+                    firstDay: 1,
+                    isRTL: false,
+                    showMonthAfterYear: false,
+                    yearSuffix: '',
+                    timeOnlyTitle: 'Nur Zeit',
+                    timeText: 'Zeit',
+                    hourText: 'Stunde',
+                    minuteText: 'Minute',
+                    secondText: 'Sekunde',
+                    currentText: 'Aktuelles Datum',
+                    ampm: false,
+                    month: 'Monat',
+                    week: 'Woche',
+                    day: 'Tag',
+                    allDayText: 'Ganzer Tag',
+                    today: 'Heute',
+                    clear: 'Löschen'
+                };
+            </script>
+
+        </ui:define>
+
+
+
 
         <ui:define name="footer">
         </ui:define>

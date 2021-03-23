@@ -4,9 +4,9 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-        >
+      xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
+    <ui:composition template="WEB-INF/DefaultTemplateOneColumn.xhtml">
 
         <ui:param name="active" value="Visit" />
         <ui:param name="title" value="Restaurantbesuche Übersicht" />
@@ -16,24 +16,26 @@
         </ui:define>
 
         <ui:define name="mainContent">
+
             <h:dataTable value="#{backingBeanVisit.getAllVisits()}" var="visitListEntry" class="table">
                 <h:column>
                     <f:facet name="header">Datum</f:facet>
                     #{visitListEntry.getVisitingDateTime()}
                 </h:column>
-                <h:column>
-                    <f:facet name="header">Restaurant</f:facet>
-                    #{visitListEntry.restaurantChosen.getName()}
-                </h:column>
 
                 <h:column>
-                    <f:facet name="header">Ort</f:facet>
-                    #{visitListEntry.restaurantChosen.addressRestaurant.getCity()}
+                    <f:facet name="header">Geplant in</f:facet>
+                    #{visitListEntry.getAddressVisit().getCity()}
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">Status</f:facet>
-                    #{visitListEntry.getStateVisit().name()}
+                    #{visitListEntry.stateVisit.name()}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Restaurant</f:facet>
+                    #{visitListEntry.restaurantChosen.getName()}
                 </h:column>
 
                 <h:column>
@@ -42,24 +44,35 @@
                 </h:column>
 
                 <h:column>
-                    <h:form>
-                        <h:commandLink action="#{backingBeanVisit.edit(visitListEntry)}" class="btn btn-warning"><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>
+                    <h:form rendered="#{backingBeanVisit.isUserParticipantOf(visitListEntry) || (backingBeanVisit.isUnfinished(visitListEntry))}">
+                    <h:commandLink action="#{backingBeanVisit.edit(visitListEntry)}" class="btn btn-warning"><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>
                         <h:commandLink action="#{backingBeanVisit.delete(visitListEntry)}" class="btn btn-danger"><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>
+                        <h:commandLink action="#{backingBeanVisit.edit(visitListEntry)}" class="btn btn-success"><i class="fas fa-star-half-alt" aria-hidden="true"></i></h:commandLink>
                     </h:form>
                 </h:column>
             </h:dataTable>
-            <h:form>
+
+            <h:form id="buttons" >
+                <h:inputHidden id="hidden" value="#{backingBeanVisit.zoneString}" />
                 <h:commandLink action="#{backingBeanUser.createNew()}" class="btn btn-success">User anlegen</h:commandLink>
                 <h:commandLink action="#{backingBeanRestaurant.createNew()}" class="btn btn-success">Restaurant anlegen</h:commandLink>
-                <h:commandLink action="#{backingBeanVisit.createNew()}" class="btn btn-success">Restaurantbesuch anlegen</h:commandLink>
+                <h:commandLink  action="#{backingBeanVisit.createNew()}" class="btn btn-success">Restaurantbesuch anlegen</h:commandLink >
             </h:form>
+
+<!--            <p:growl id="visitCreateGrowl" showDetail="true"  />-->
+
+            <script type="text/javascript">
+                jQuery(document).ready(function() { // läuft still nach dem Laden der Seite
+                    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                    document.getElementById("buttons:hidden").setAttribute("value", timeZone.toString());
+                })
+            </script>
+
         </ui:define>
 
         <ui:define name="subContent">
             <h1>sub</h1>
         </ui:define>
-
-
 
         <ui:define name="footer">
         </ui:define>

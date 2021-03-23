@@ -3,8 +3,10 @@ package de.marcel.restaurant.web.security;
 
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.User;
+import de.marcel.restaurant.web.backingBeans.BackingBeanRestaurant;
 import de.marcel.restaurant.web.backingBeans.BackingBeanUser;
 
+import de.marcel.restaurant.web.backingBeans.BackingBeanVisit;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
@@ -38,6 +40,8 @@ public class LoginController implements Serializable
 	private static final long serialVersionUID = 1L;
 
 	@Inject BackingBeanUser backingBeanUser;
+	@Inject BackingBeanRestaurant backingBeanRestaurant;
+	@Inject BackingBeanVisit backingBeanVisit;
 	private Credentials cred;
 
 	public void login() {
@@ -314,6 +318,16 @@ public class LoginController implements Serializable
 		{
 			Logger.getLogger(getClass().getSimpleName()).severe("+# BackingBeanUser enthält als current " + backingBeanUser.getCurrent());
 		}
+
+	}
+
+	public void showCurrentRestaurant() {
+			Logger.getLogger(getClass().getSimpleName()).severe("+# BackingBeanRestaurant enthält als current " + backingBeanRestaurant.getCurrent());
+
+	}
+
+	public void showCurrentVisit() {
+		Logger.getLogger(getClass().getSimpleName()).severe("+# BackingBeanVisit enthält als current " + backingBeanVisit.getCurrent());
 
 	}
 

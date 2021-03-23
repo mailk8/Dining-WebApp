@@ -65,11 +65,13 @@
                     <div class="col-3">
                         <h:inputText id="radius" value="50"  class="form-control" required="false" >
                         </h:inputText>
+                        <ui:remove>
 <!--                        <p:inputNumber  id="radius"  value="50" decimalPlaces="0"  required="false"-->
 <!--                                        symbol=" km" symbolPosition="s"-->
 <!--                                        size="8">-->
 <!--                            <p:ajax process="@this" />-->
 <!--                        </p:inputNumber>-->
+                        </ui:remove>
                     </div>
 
                     <div class="col-5" style="padding-top: 18px;">
@@ -79,8 +81,6 @@
                     </div>
                 <br/>
 
-
-
 <!-- Kulinarik -->
                 <div class="row" style="height: 135px; align-content: flex-start">
                     <div class="col-4">
@@ -88,11 +88,14 @@
                     </div>
 
                     <div class="col-8">
-                        <p:selectCheckboxMenu id="multiple" value="#{backingBeanVisit.culinariesArray}" label=""
-                                              style="width:100%; !important;"
+                        <p:selectCheckboxMenu id="multiple" value="#{backingBeanVisit.culinariesArray}" label="Label"
+                                              style="width:100%; !important;" converter="omnifaces.SelectItemsConverter"
                                               multiple="true"  filter="true" filterMatchMode="startsWith" >
-                                <p:ajax event="change" update="@this" />
-                            <f:selectItems value="#{backingBeanVisit.getAllCulinaries()}" style="width:100%; !important;"/>
+
+                                <p:ajax event="change" immediate="true" async="true" />
+                                <p:ajax event="toggleSelect" immediate="true" async="true" />
+
+                            <f:selectItems value="#{backingBeanVisit.allCulinariesProxy}" style="width:100%; !important;"/>
                         </p:selectCheckboxMenu>
 
                     </div>
@@ -100,65 +103,70 @@
                 <br/>
 
 <!-- Tabelle Visit Suggestions -->
-                <h:form id="userForm">
-                    <p:growl id="visitCreateGrowl" showDetail="false"  />
+                    <h:form id="suggestionsForm">
+<!--                    <p:growl id="visitCreateGrowl" showDetail="false"  />-->
 
-                    <p:dataTable id="dt-participants" widgetVar="dt-participants-var" var="user"  reflow="false" styleClass="products-table" stripedRows="true" size="medium"
+                    <p:dataTable id="dt-suggestions" widgetVar="dt-suggestions-var" var="suggestion"  reflow="false" styleClass="products-table" stripedRows="true" size="medium"
                                  style="border: 0px solid transparent; outline: 1px solid lightgrey; padding-right: 0px"
-                                 rows="10" paginator="false" paginatorPosition="bottom"
-                                 value="#{backingBeanUser.getAllUsers()}" rowKey="#{user.id}"
-                                 selection="#{backingBeanVisit.current.participants}" rowSelectMode="add">
+                                 value="#{backingBeanRestaurant.getAllRestaurants()}" rowKey="#{restaurant.id}"
+                                 selection="#{backingBeanVisit.current.restaurantChosen}" rowSelectMode="add">
 
-                        <p:ajax event="rowSelect" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />
-                        <p:ajax event="rowUnselect" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />
-                        <p:ajax event="rowSelectCheckbox" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />
-                        <p:ajax event="rowUnselectCheckbox" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />
-                        <p:ajax event="toggleSelect" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />
+<!--                        <p:ajax event="rowSelect" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />-->
+<!--                        <p:ajax event="rowUnselect" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />-->
+<!--                        <p:ajax event="rowSelectCheckbox" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />-->
+<!--                        <p:ajax event="rowUnselectCheckbox" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />-->
+<!--                        <p:ajax event="toggleSelect" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />-->
 
                         <f:facet name="header">
                             <div class="products-table-header">
-                                <span style="font-weight: normal">Welche Nutzer nehmen teil?</span>
+                                <span style="font-weight: normal">Wo soll gegessen werden?</span>
+                                <div>
+                                    <p:commandButton id="more" type="button" value="Mehr Vorschläge!" icon="pi search-plus"/>
+                                    <p:commandButton id="toggler" type="button" value="Columns" icon="pi pi-align-justify"/>
+                                    <p:columnToggler datasource="dt-suggestions" trigger="toggler"/>
+                                </div>
                             </div>
                         </f:facet>
 
-                        <p:column headerText="Vorname" colspan="5" sortBy="#{user.firstname}" >
-                            <h:outputText value="#{user.firstname}"/>
+                        <p:column selectionMode="single" colspan="3" exportable="false"></p:column>
+
+                        <p:column headerText="Name" colspan="5" >
+                            <h:outputText value="#{suggestion.name}"/>
+                        </p:column>
+                        <p:column headerText="Ort" colspan="5" >
+                            <h:outputText value="#{suggestion.address.city}"/>
+                        </p:column>
+                        <p:column headerText="Öffnet" colspan="5" >
+                            <h:outputText value="#{suggestion.openFrom}"/>
+                        </p:column>
+                        <p:column headerText="Schließt" colspan="5" >
+                            <h:outputText value="#{suggestion.openTill}"/>
+                        </p:column>
+                        <p:column headerText="Essen" colspan="5" >
+                            <h:outputText value="#{suggestion.culinary}"/>
+                        </p:column>
+                        <!-- Eventuell muss auf int umgestellt werden, siehe-->
+                        <!-- product.rating in https://www.primefaces.org/showcase/ui/data/datatable/crud.xhtml?jfwid=0d31e-->
+                        <p:column headerText="Bewertung" colspan="5" >
+                            <h:outputText value="#{suggestion.averageRating}"/>
+                        </p:column>
+                        <p:column headerText="Anzahl Besuche" colspan="5" >
+                            <h:outputText value="#{suggestion.visits.size()}"/>
                         </p:column>
 
-                        <p:column headerText="Nachname" colspan="6" sortBy="#{user.lastname}" >
-                            <h:outputText value="#{user.lastname}"/>
-                        </p:column>
 
-                        <p:column headerText="Ort" colspan="5" sortBy="#{user.addressLiving.city}">
-                            <h:outputText value="#{user.addressLiving.city}"/>
-                        </p:column>
 
-                        <p:column selectionMode="multiple" colspan="3" exportable="false"></p:column>
+                        
 
 
                     </p:dataTable>
                 </h:form>
 
-
 <!-- Buttons -->
-                <h:commandButton action="#{backingBeanVisit.saveVisit}" value="Speichern und zurück" class="btn btn-success" />
-                <h:commandButton action="#{backingBeanVisit.createNew()}" value="neuen Besuch anlegen" class="btn btn-primary" />
+                <h:commandButton action="#{backingBeanVisit.saveVisit()}" actionListener="#{backingBeanVisit.prepareGetAllVisits}" value="Speichern und zurück zur Liste" class="btn btn-success" />
+<!--                <h:commandButton action="#{backingBeanVisit.createNew()}" value="neuen Besuch anlegen" class="btn btn-primary" />-->
                 <h:commandButton action="VisitSuggestions?faces-redirect=true" actionListener="#{backingBeanVisit.saveVisit}" value="Speichern und weiter" class="btn btn-warning" />
             </h:form>
-
-            <script>
-                $(document).ready(function(){
-
-                    $('.input-daterange').datepicker({
-                        format: 'dd-mm-yyyy',
-                        autoclose: true,
-                        calendarWeeks : true,
-                        clearBtn: true,
-                        disableTouchKeyboard: true
-                    });
-
-                });
-            </script>
 
         </ui:define>
 
