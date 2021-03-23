@@ -1075,306 +1075,303 @@
     <table id="341" parent="6" name="ratings"/>
     <table id="342" parent="6" name="restaurants"/>
     <table id="343" parent="6" name="restaurantvisit"/>
-    <table id="344" parent="6" name="restaurantvisit_users"/>
-    <table id="345" parent="6" name="sequence"/>
-    <table id="346" parent="6" name="users"/>
-    <column id="347" parent="338" name="prim">
+    <table id="344" parent="6" name="restaurantvisit_culinaries"/>
+    <table id="345" parent="6" name="restaurantvisit_users"/>
+    <table id="346" parent="6" name="sequence"/>
+    <table id="347" parent="6" name="users"/>
+    <column id="348" parent="338" name="prim">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="348" parent="338" name="city">
+    <column id="349" parent="338" name="city">
       <Position>2</Position>
       <DataType>varchar(70)|0s</DataType>
     </column>
-    <column id="349" parent="338" name="houseNumber">
+    <column id="350" parent="338" name="houseNumber">
       <Position>3</Position>
       <DataType>varchar(10)|0s</DataType>
     </column>
-    <column id="350" parent="338" name="street">
+    <column id="351" parent="338" name="street">
       <Position>4</Position>
       <DataType>varchar(70)|0s</DataType>
     </column>
-    <column id="351" parent="338" name="wgs84Latitude">
+    <column id="352" parent="338" name="wgs84Latitude">
       <Position>5</Position>
       <DataType>double|0s</DataType>
     </column>
-    <column id="352" parent="338" name="wgs84Longitude">
+    <column id="353" parent="338" name="wgs84Longitude">
       <Position>6</Position>
       <DataType>double|0s</DataType>
     </column>
-    <column id="353" parent="338" name="zipCode">
+    <column id="354" parent="338" name="zipCode">
       <Position>7</Position>
       <DataType>varchar(10)|0s</DataType>
     </column>
-    <column id="354" parent="338" name="id">
+    <column id="355" parent="338" name="id">
       <Position>8</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <key id="355" parent="338" name="PRIMARY">
+    <key id="356" parent="338" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>prim</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="356" parent="339" name="prim">
+    <column id="357" parent="339" name="prim">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="357" parent="339" name="category">
+    <column id="358" parent="339" name="category">
       <Position>2</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="358" parent="339" name="id">
+    <column id="359" parent="339" name="id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <key id="359" parent="339" name="PRIMARY">
+    <key id="360" parent="339" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>prim</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="360" parent="340" name="prim">
+    <column id="361" parent="340" name="prim">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="361" parent="340" name="mealName">
+    <column id="362" parent="340" name="mealName">
       <Position>2</Position>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <column id="362" parent="340" name="MEALCATEGORY_prim">
+    <column id="363" parent="340" name="MEALCATEGORY_prim">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="363" parent="340" name="id">
+    <column id="364" parent="340" name="id">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <index id="364" parent="340" name="FK_meals_MEALCATEGORY_prim">
+    <index id="365" parent="340" name="FK_meals_MEALCATEGORY_prim">
       <ColNames>MEALCATEGORY_prim</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="365" parent="340" name="PRIMARY">
+    <key id="366" parent="340" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>prim</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="366" parent="340" name="FK_meals_MEALCATEGORY_prim">
+    <foreign-key id="367" parent="340" name="FK_meals_MEALCATEGORY_prim">
       <ColNames>MEALCATEGORY_prim</ColNames>
       <RefTableName>culinaries</RefTableName>
       <RefColNames>prim</RefColNames>
     </foreign-key>
-    <column id="367" parent="341" name="prim">
+    <column id="368" parent="341" name="prim">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="368" parent="341" name="mealDescription">
+    <column id="369" parent="341" name="mealDescription">
       <Position>2</Position>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <column id="369" parent="341" name="price">
+    <column id="370" parent="341" name="price">
       <Position>3</Position>
       <DataType>double|0s</DataType>
     </column>
-    <column id="370" parent="341" name="ratingDateTime">
+    <column id="371" parent="341" name="ratingDateTime">
       <Position>4</Position>
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>current_timestamp()</DefaultExpression>
       <OnUpdate>current_timestamp()</OnUpdate>
     </column>
-    <column id="371" parent="341" name="stars">
+    <column id="372" parent="341" name="stars">
       <Position>5</Position>
       <DataType>tinyint(4)|0s</DataType>
     </column>
-    <column id="372" parent="341" name="RATINGUSER_prim">
+    <column id="373" parent="341" name="RATINGUSER_prim">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="373" parent="341" name="VISIT_prim">
+    <column id="374" parent="341" name="VISIT_prim">
       <Position>7</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="374" parent="341" name="MEAL_prim">
+    <column id="375" parent="341" name="MEAL_prim">
       <Position>8</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="375" parent="341" name="RESTAURANTRATED_prim">
+    <column id="376" parent="341" name="RESTAURANTRATED_prim">
       <Position>9</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="376" parent="341" name="id">
+    <column id="377" parent="341" name="id">
       <Position>10</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <index id="377" parent="341" name="FK_ratings_RATINGUSER_prim">
+    <index id="378" parent="341" name="FK_ratings_RATINGUSER_prim">
       <ColNames>RATINGUSER_prim</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="378" parent="341" name="FK_ratings_VISIT_prim">
+    <index id="379" parent="341" name="FK_ratings_VISIT_prim">
       <ColNames>VISIT_prim</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="379" parent="341" name="FK_ratings_MEAL_prim">
+    <index id="380" parent="341" name="FK_ratings_MEAL_prim">
       <ColNames>MEAL_prim</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="380" parent="341" name="FK_ratings_RESTAURANTRATED_prim">
+    <index id="381" parent="341" name="FK_ratings_RESTAURANTRATED_prim">
       <ColNames>RESTAURANTRATED_prim</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="381" parent="341" name="PRIMARY">
+    <key id="382" parent="341" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>prim</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="382" parent="341" name="FK_ratings_RATINGUSER_prim">
+    <foreign-key id="383" parent="341" name="FK_ratings_RATINGUSER_prim">
       <ColNames>RATINGUSER_prim</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>prim</RefColNames>
     </foreign-key>
-    <foreign-key id="383" parent="341" name="FK_ratings_VISIT_prim">
+    <foreign-key id="384" parent="341" name="FK_ratings_VISIT_prim">
       <ColNames>VISIT_prim</ColNames>
       <RefTableName>restaurantvisit</RefTableName>
       <RefColNames>prim</RefColNames>
     </foreign-key>
-    <foreign-key id="384" parent="341" name="FK_ratings_MEAL_prim">
+    <foreign-key id="385" parent="341" name="FK_ratings_MEAL_prim">
       <ColNames>MEAL_prim</ColNames>
       <RefTableName>culinaries</RefTableName>
       <RefColNames>prim</RefColNames>
     </foreign-key>
-    <foreign-key id="385" parent="341" name="FK_ratings_RESTAURANTRATED_prim">
+    <foreign-key id="386" parent="341" name="FK_ratings_RESTAURANTRATED_prim">
       <ColNames>RESTAURANTRATED_prim</ColNames>
       <RefTableName>restaurants</RefTableName>
       <RefColNames>prim</RefColNames>
     </foreign-key>
-    <column id="386" parent="342" name="prim">
+    <column id="387" parent="342" name="prim">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="387" parent="342" name="averageRating">
+    <column id="388" parent="342" name="averageRating">
       <Position>2</Position>
       <DataType>tinyint(4)|0s</DataType>
     </column>
-    <column id="388" parent="342" name="dayOfRest">
+    <column id="389" parent="342" name="dayOfRest">
       <Position>3</Position>
       <DataType>blob|0s</DataType>
     </column>
-    <column id="389" parent="342" name="email">
+    <column id="390" parent="342" name="email">
       <Position>4</Position>
       <DataType>varchar(100)|0s</DataType>
     </column>
-    <column id="390" parent="342" name="holidayFrom">
+    <column id="391" parent="342" name="holidayFrom">
       <Position>5</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="391" parent="342" name="holidayTill">
+    <column id="392" parent="342" name="holidayTill">
       <Position>6</Position>
       <DataType>timestamp|0s</DataType>
     </column>
-    <column id="392" parent="342" name="linkMenu">
+    <column id="393" parent="342" name="linkMenu">
       <Position>7</Position>
       <DataType>varchar(500)|0s</DataType>
     </column>
-    <column id="393" parent="342" name="name">
+    <column id="394" parent="342" name="name">
       <Position>8</Position>
       <DataType>varchar(70)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="394" parent="342" name="openFrom">
+    <column id="395" parent="342" name="openFrom">
       <Position>9</Position>
       <DataType>time|0s</DataType>
     </column>
-    <column id="395" parent="342" name="openTill">
+    <column id="396" parent="342" name="openTill">
       <Position>10</Position>
       <DataType>time|0s</DataType>
     </column>
-    <column id="396" parent="342" name="phoneNumber">
+    <column id="397" parent="342" name="phoneNumber">
       <Position>11</Position>
       <DataType>varchar(30)|0s</DataType>
     </column>
-    <column id="397" parent="342" name="ADDRESSRESTAURANT_prim">
+    <column id="398" parent="342" name="ADDRESSRESTAURANT_prim">
       <Position>12</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="398" parent="342" name="CULINARY_prim">
+    <column id="399" parent="342" name="CULINARY_prim">
       <Position>13</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="399" parent="342" name="id">
+    <column id="400" parent="342" name="id">
       <Position>14</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <index id="400" parent="342" name="FK_restaurants_ADDRESSRESTAURANT_prim">
+    <index id="401" parent="342" name="FK_restaurants_ADDRESSRESTAURANT_prim">
       <ColNames>ADDRESSRESTAURANT_prim</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="401" parent="342" name="FK_restaurants_CULINARY_prim">
+    <index id="402" parent="342" name="FK_restaurants_CULINARY_prim">
       <ColNames>CULINARY_prim</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="402" parent="342" name="PRIMARY">
+    <key id="403" parent="342" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>prim</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="403" parent="342" name="FK_restaurants_ADDRESSRESTAURANT_prim">
+    <foreign-key id="404" parent="342" name="FK_restaurants_ADDRESSRESTAURANT_prim">
       <ColNames>ADDRESSRESTAURANT_prim</ColNames>
       <RefTableName>addresses</RefTableName>
       <RefColNames>prim</RefColNames>
     </foreign-key>
-    <foreign-key id="404" parent="342" name="FK_restaurants_CULINARY_prim">
+    <foreign-key id="405" parent="342" name="FK_restaurants_CULINARY_prim">
       <ColNames>CULINARY_prim</ColNames>
       <RefTableName>culinaries</RefTableName>
       <RefColNames>prim</RefColNames>
     </foreign-key>
-    <column id="405" parent="343" name="prim">
+    <column id="406" parent="343" name="prim">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="406" parent="343" name="averageRating">
+    <column id="407" parent="343" name="averageRating">
       <Position>2</Position>
       <DataType>tinyint(4)|0s</DataType>
     </column>
-    <column id="407" parent="343" name="memo">
+    <column id="408" parent="343" name="memo">
       <Position>3</Position>
       <DataType>varchar(200)|0s</DataType>
     </column>
-    <column id="408" parent="343" name="stateVisit">
+    <column id="409" parent="343" name="stateVisit">
       <Position>4</Position>
       <DataType>tinyint(4)|0s</DataType>
     </column>
-    <column id="409" parent="343" name="RESTAURANTCHOSEN_prim">
+    <column id="410" parent="343" name="RESTAURANTCHOSEN_prim">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="410" parent="343" name="ADDRESSVISIT_prim">
+    <column id="411" parent="343" name="ADDRESSVISIT_prim">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="411" parent="343" name="CHOSENCULINARY_prim">
+    <column id="412" parent="343" name="id">
       <Position>7</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="412" parent="343" name="id">
-      <Position>8</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
     <column id="413" parent="343" name="visitingDate">
-      <Position>9</Position>
+      <Position>8</Position>
       <DataType>date|0s</DataType>
     </column>
     <column id="414" parent="343" name="visitingTime">
-      <Position>10</Position>
+      <Position>9</Position>
       <DataType>time|0s</DataType>
     </column>
     <column id="415" parent="343" name="timezoneString">
-      <Position>11</Position>
+      <Position>10</Position>
       <DataType>varchar(35)|0s</DataType>
     </column>
     <index id="416" parent="343" name="FK_restaurantVisit_RESTAURANTCHOSEN_prim">
@@ -1385,144 +1382,165 @@
       <ColNames>ADDRESSVISIT_prim</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="418" parent="343" name="FK_restaurantVisit_CHOSENCULINARY_prim">
-      <ColNames>CHOSENCULINARY_prim</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="419" parent="343" name="PRIMARY">
+    <key id="418" parent="343" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>prim</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="420" parent="343" name="FK_restaurantVisit_RESTAURANTCHOSEN_prim">
+    <foreign-key id="419" parent="343" name="FK_restaurantVisit_RESTAURANTCHOSEN_prim">
       <ColNames>RESTAURANTCHOSEN_prim</ColNames>
       <RefTableName>restaurants</RefTableName>
       <RefColNames>prim</RefColNames>
     </foreign-key>
-    <foreign-key id="421" parent="343" name="FK_restaurantVisit_ADDRESSVISIT_prim">
+    <foreign-key id="420" parent="343" name="FK_restaurantVisit_ADDRESSVISIT_prim">
       <ColNames>ADDRESSVISIT_prim</ColNames>
       <RefTableName>addresses</RefTableName>
       <RefColNames>prim</RefColNames>
     </foreign-key>
-    <foreign-key id="422" parent="343" name="FK_restaurantVisit_CHOSENCULINARY_prim">
-      <ColNames>CHOSENCULINARY_prim</ColNames>
-      <RefTableName>culinaries</RefTableName>
-      <RefColNames>prim</RefColNames>
-    </foreign-key>
-    <column id="423" parent="344" name="visitedRestaurants_prim">
+    <column id="421" parent="344" name="RestaurantVisit_prim">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="424" parent="344" name="participants_prim">
+    <column id="422" parent="344" name="chosenCulinaries_prim">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="425" parent="344" name="FK_restaurantVisit_users_participants_prim">
+    <index id="423" parent="344" name="restaurantVisit_culinaries_chosenCulinaries_prim">
+      <ColNames>chosenCulinaries_prim</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="424" parent="344" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>RestaurantVisit_prim
+chosenCulinaries_prim</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="425" parent="344" name="FK_restaurantVisit_culinaries_RestaurantVisit_prim">
+      <ColNames>RestaurantVisit_prim</ColNames>
+      <RefTableName>restaurantvisit</RefTableName>
+      <RefColNames>prim</RefColNames>
+    </foreign-key>
+    <foreign-key id="426" parent="344" name="restaurantVisit_culinaries_chosenCulinaries_prim">
+      <ColNames>chosenCulinaries_prim</ColNames>
+      <RefTableName>culinaries</RefTableName>
+      <RefColNames>prim</RefColNames>
+    </foreign-key>
+    <column id="427" parent="345" name="visitedRestaurants_prim">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="428" parent="345" name="participants_prim">
+      <Position>2</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="429" parent="345" name="FK_restaurantVisit_users_participants_prim">
       <ColNames>participants_prim</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="426" parent="344" name="PRIMARY">
+    <key id="430" parent="345" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>visitedRestaurants_prim
 participants_prim</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="427" parent="344" name="FK_restaurantVisit_users_visitedRestaurants_prim">
+    <foreign-key id="431" parent="345" name="FK_restaurantVisit_users_visitedRestaurants_prim">
       <ColNames>visitedRestaurants_prim</ColNames>
       <RefTableName>restaurantvisit</RefTableName>
       <RefColNames>prim</RefColNames>
     </foreign-key>
-    <foreign-key id="428" parent="344" name="FK_restaurantVisit_users_participants_prim">
+    <foreign-key id="432" parent="345" name="FK_restaurantVisit_users_participants_prim">
       <ColNames>participants_prim</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>prim</RefColNames>
     </foreign-key>
-    <column id="429" parent="345" name="SEQ_NAME">
+    <column id="433" parent="346" name="SEQ_NAME">
       <Position>1</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="430" parent="345" name="SEQ_COUNT">
+    <column id="434" parent="346" name="SEQ_COUNT">
       <Position>2</Position>
       <DataType>int(19)|0s</DataType>
     </column>
-    <key id="431" parent="345" name="PRIMARY">
+    <key id="435" parent="346" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>SEQ_NAME</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="432" parent="346" name="prim">
+    <column id="436" parent="347" name="prim">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="433" parent="346" name="email">
+    <column id="437" parent="347" name="email">
       <Position>2</Position>
       <DataType>varchar(100)|0s</DataType>
     </column>
-    <column id="434" parent="346" name="firstname">
+    <column id="438" parent="347" name="firstname">
       <Position>3</Position>
       <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="435" parent="346" name="lastname">
+    <column id="439" parent="347" name="lastname">
       <Position>4</Position>
       <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="436" parent="346" name="phoneNumber">
+    <column id="440" parent="347" name="phoneNumber">
       <Position>5</Position>
       <DataType>varchar(30)|0s</DataType>
     </column>
-    <column id="437" parent="346" name="ADDRESSACTUAL_prim">
+    <column id="441" parent="347" name="ADDRESSACTUAL_prim">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="438" parent="346" name="ADDRESSLIVING_prim">
+    <column id="442" parent="347" name="ADDRESSLIVING_prim">
       <Position>7</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="439" parent="346" name="CULINARYLIKING_prim">
+    <column id="443" parent="347" name="CULINARYLIKING_prim">
       <Position>8</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="440" parent="346" name="id">
+    <column id="444" parent="347" name="id">
       <Position>9</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <index id="441" parent="346" name="FK_users_ADDRESSACTUAL_prim">
+    <index id="445" parent="347" name="FK_users_ADDRESSACTUAL_prim">
       <ColNames>ADDRESSACTUAL_prim</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="442" parent="346" name="FK_users_ADDRESSLIVING_prim">
+    <index id="446" parent="347" name="FK_users_ADDRESSLIVING_prim">
       <ColNames>ADDRESSLIVING_prim</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="443" parent="346" name="FK_users_CULINARYLIKING_prim">
+    <index id="447" parent="347" name="FK_users_CULINARYLIKING_prim">
       <ColNames>CULINARYLIKING_prim</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="444" parent="346" name="PRIMARY">
+    <key id="448" parent="347" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>prim</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="445" parent="346" name="FK_users_ADDRESSACTUAL_prim">
+    <foreign-key id="449" parent="347" name="FK_users_ADDRESSACTUAL_prim">
       <ColNames>ADDRESSACTUAL_prim</ColNames>
       <RefTableName>addresses</RefTableName>
       <RefColNames>prim</RefColNames>
     </foreign-key>
-    <foreign-key id="446" parent="346" name="FK_users_ADDRESSLIVING_prim">
+    <foreign-key id="450" parent="347" name="FK_users_ADDRESSLIVING_prim">
       <ColNames>ADDRESSLIVING_prim</ColNames>
       <RefTableName>addresses</RefTableName>
       <RefColNames>prim</RefColNames>
     </foreign-key>
-    <foreign-key id="447" parent="346" name="FK_users_CULINARYLIKING_prim">
+    <foreign-key id="451" parent="347" name="FK_users_CULINARYLIKING_prim">
       <ColNames>CULINARYLIKING_prim</ColNames>
       <RefTableName>culinaries</RefTableName>
       <RefColNames>prim</RefColNames>
     </foreign-key>
-    <trigger id="448" parent="346" name="remove_zombie_users">
+    <trigger id="452" parent="347" name="remove_zombie_users">
       <SourceTextLength>314</SourceTextLength>
       <Definer>root@localhost</Definer>
       <Turn>after-row</Turn>

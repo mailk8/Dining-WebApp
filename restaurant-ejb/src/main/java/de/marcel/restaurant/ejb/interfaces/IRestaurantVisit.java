@@ -3,7 +3,10 @@ package de.marcel.restaurant.ejb.interfaces;
 import de.marcel.restaurant.ejb.interfaces.IBaseEntity;
 import de.marcel.restaurant.ejb.model.*;
 
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -42,9 +45,9 @@ public interface IRestaurantVisit extends IBaseEntity
 
 	void setStateVisit(State stateVisit);
 
-	Culinary getChosenCulinary();
+	List<Culinary> getChosenCulinaries();
 
-	void setChosenCulinary(Culinary chosenCulinary);
+	void setChosenCulinaries(List<Culinary> ChosenCulinaries);
 
 	Address getAddressVisit();
 

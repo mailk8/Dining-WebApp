@@ -11,8 +11,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8b0350e6-03f9-48a3-938e-c238785f6e2c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitSuggestionsTest.xhtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitSuggestions.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/51288d87-b3b1-4483-80a0-e7ab91fc9239.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/51288d87-b3b1-4483-80a0-e7ab91fc9239.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/RestaurantEJB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/RestaurantEJB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IRestaurantVisit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IRestaurantVisit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/RestaurantVisit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/RestaurantVisit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/restaurant-web.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/restaurant-web.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanRestaurant.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanRestaurant.java" afterDir="false" />
@@ -28,6 +32,7 @@
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/Login.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/Login.xhtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitCreate.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitCreate.xhtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitList.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitList.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitSuggestionsTest.xhtml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/DefaultTemplateOneColumn.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/DefaultTemplateOneColumn.xhtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/DefaultTemplateTwoColumns.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/DefaultTemplateTwoColumns.xhtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/NavBar.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/NavBar.xhtml" afterDir="false" />
@@ -147,6 +152,7 @@
       <recent name="de.marcel.restaurant.ejb" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="de.marcel.restaurant.web.converters" />
       <recent name="de.marcel.restaurant.web.validators" />
       <recent name="de.marcel.restaurant.web.credentials" />
       <recent name="de.marcel.restaurant.ejb" />
@@ -167,6 +173,17 @@
     </option>
   </component>
   <component name="RunManager" selected="JBoss Server.JBoss 22.0.1.Final">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="GlassfishConfiguration" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment />
@@ -447,7 +464,8 @@
       <workItem from="1616145943715" duration="29453000" />
       <workItem from="1616235829969" duration="26523000" />
       <workItem from="1616337725730" duration="13827000" />
-      <workItem from="1616402819384" duration="11183000" />
+      <workItem from="1616402819384" duration="31776000" />
+      <workItem from="1616494693078" duration="7796000" />
     </task>
     <servers />
   </component>
@@ -475,12 +493,12 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanUser.java</url>
-          <line>85</line>
+          <line>84</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/RestaurantVisit.java</url>
-          <line>151</line>
+          <line>149</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>

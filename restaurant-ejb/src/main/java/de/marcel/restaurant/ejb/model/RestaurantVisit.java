@@ -17,8 +17,6 @@ import java.util.stream.Collectors;
 		@NamedQuery(name = "RestaurantVisit.findAllForUser", query = "SELECT u FROM RestaurantVisit u WHERE u.restaurantChosen = :attribute"),
 		@NamedQuery(name = "RestaurantVisit.findAllForRestaurant", query = "SELECT u FROM RestaurantVisit u WHERE u.restaurantChosen = :attribute"),
 		@NamedQuery(name = "RestaurantVisit.findMaxId", query = "SELECT MAX(u.id) FROM RestaurantVisit u")
-
-
 				})
 
 @NamedNativeQueries({
@@ -51,7 +49,7 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 
 	//// muss EAGER sein, damit er die User holt, wenn diese gerade keine Session offen haben.
 	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-	private List<User> participants = new ArrayList<>();
+	private List<User> participants;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address addressVisit = new Address();
@@ -64,7 +62,9 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 
 	@ManyToOne private Restaurant restaurantChosen;
 
-	@OneToOne private Culinary chosenCulinary;
+	@ManyToMany(fetch = FetchType.EAGER)
+	// referencedColumnName="bezeichnerPrimärschlüsselInParentTabelleVisit" name="FremdschlüsselSpalteDerChildTabelleCul"
+	private List<Culinary> chosenCulinaries = new ArrayList<>();
 
 	@Column(name = "stateVisit", nullable = true, columnDefinition = "TINYINT")
 	private State stateVisit;
@@ -73,7 +73,6 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 	public RestaurantVisit()
 	{
 		stateVisit = State.UNVOLLSTÄNDIG;
-		//Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+# RestaurantVisit Entity: Konsturktor läuft und setzt " + stateVisit);
 	}
 
 	// GETTER SETTER
@@ -101,14 +100,13 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 
 	@Override public List<User> getParticipants()
 	{
+		Logger.getLogger(getClass().getSimpleName()).severe("+# getParticipants aufgerufen, return  " + participants );
 		return participants;
 	}
 
 	@Override public String getParticipantsAsString()
 	{
-		participants.size(); // Fetching of the Users
 		StringBuffer s = new StringBuffer(participants.stream().map(e -> e.getFirstname()).collect(Collectors.joining(", ")));
-
 		return s.toString().trim();
 	}
 
@@ -158,14 +156,14 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 		this.stateVisit = stateVisit;
 	}
 
-	@Override public Culinary getChosenCulinary()
+	@Override public List<Culinary> getChosenCulinaries()
 	{
-		return chosenCulinary;
+		return chosenCulinaries;
 	}
 
-	@Override public void setChosenCulinary(Culinary chosenCulinary)
+	@Override public void setChosenCulinaries(List<Culinary> chosenCulinaries)
 	{
-		this.chosenCulinary = chosenCulinary;
+		this.chosenCulinaries = chosenCulinaries;
 	}
 
 	@Override public Address getAddressVisit()
@@ -233,6 +231,6 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 
 	@Override public String toString()
 	{
-		return "RestaurantVisit{" + "prim=" + prim + ", id=" + id + ", visitingDateTime=" + visitingDate + ", memo='" + memo + '\'' + ", participants=" + participants + ", addressVisit=" + addressVisit + ", ratingsVisit=" + ratingsVisit + ", averageRating=" + averageRating + ", restaurantChosen=" + restaurantChosen + ", chosenCulinary=" + chosenCulinary + ", stateVisit=" + stateVisit + '}';
+		return "RestaurantVisit{" + "prim=" + prim + ", id=" + id + ", visitingDateTime=" + visitingDate + ", memo='" + memo + "\n" + ", participants=" + participants +  "\n" + ", addressVisit=" + addressVisit + ", ratingsVisit=" + ratingsVisit + ", averageRating=" + averageRating + ", restaurantChosen=" + restaurantChosen + "\nChosenCulinaries =" + chosenCulinaries + ", stateVisit=" + stateVisit + '}';
 	}
 }

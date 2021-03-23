@@ -42,18 +42,16 @@ public class RestaurantEJB implements IRestaurantEJB
 	{
 		try
 		{
-			Logger.getLogger(getClass().getSimpleName()).severe("+# persist aufgerufen. PhaseId des Events ist " + FacesContext.getCurrentInstance().getCurrentPhaseId().getName()+ " appServer Objekt " + this);
 			// Persist takes an entity instance, adds it to the context and makes that instance managed (ie future updates to the entity will be tracked).
 			entityManager.persist(t);
 			entityManager.flush();
-			Logger.getLogger(getClass().getSimpleName()).severe("+# nach persist (INSERT) und flush. id des persistierten Objekts ist "  + t.getId() + " appServer Objekt " + this);
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 			return -1;
 		}
-		return t.getId();
+		return t.getPrim();
 	}
 
 	@Override @TransactionAttribute(TransactionAttributeType.REQUIRED)
