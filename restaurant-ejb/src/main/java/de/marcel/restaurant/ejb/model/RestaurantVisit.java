@@ -100,7 +100,7 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 
 	@Override public List<User> getParticipants()
 	{
-		Logger.getLogger(getClass().getSimpleName()).severe("+# getParticipants aufgerufen, return  " + participants );
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# getParticipants aufgerufen, return  " + participants );
 		return participants;
 	}
 
@@ -112,7 +112,7 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 
 	@Override public void setParticipants(List<User> users)
 	{
-		Logger.getLogger(getClass().getSimpleName()).severe("+# setParticipants aufgerufen mit " + users);
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# setParticipants aufgerufen mit " + users);
 		this.participants = users;
 	}
 

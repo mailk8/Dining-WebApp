@@ -44,7 +44,7 @@ public class BackingBeanUser implements Serializable
 	@PostConstruct
 	private void fetchLoggedInUser() {
 		sessionId = FacesContext.getCurrentInstance().getExternalContext().getSessionId(false);
-		logger.severe("+# fetchLoggedInUser läuft. BackingBeanUser unter SessionID " + sessionId + " erstellt.");
+		//logger.severe("+# fetchLoggedInUser läuft. BackingBeanUser unter SessionID " + sessionId + " erstellt.");
 
 		Subject s = SecurityUtils.getSubject();
 		if(s.isAuthenticated())
@@ -117,7 +117,7 @@ public class BackingBeanUser implements Serializable
 		if(result < 0)
 			return -1; // -1 = fail
 		current.setPrim(result);
-		Logger.getLogger(getClass().getSimpleName()).severe("+# Es wurde insert(User u) aufgerufen, result von proxyPersistUser " + result);
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# Es wurde insert(User u) aufgerufen, result von proxyPersistUser " + result);
 		return 3; // 3  = success
 	}
 
@@ -128,7 +128,7 @@ public class BackingBeanUser implements Serializable
 		int result = appServer.update(u); // -1 = fail 3 = success
 		UserMailController.deleteUserEmail(old.getEmail());
 	    UserMailController.putNewUserEmail(u);
-		Logger.getLogger(getClass().getSimpleName()).severe("+# Es wurde update(User u) aufgerufen, result von appServer.update(u) " + result);
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# Es wurde update(User u) aufgerufen, result von appServer.update(u) " + result);
 		return result;
 	}
 

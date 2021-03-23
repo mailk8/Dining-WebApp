@@ -54,8 +54,8 @@
                                               style="width:100%; !important;" converter="omnifaces.SelectItemsConverter"
                                               multiple="true"  filter="true" filterMatchMode="startsWith" >
 
-                            <p:ajax event="change" immediate="true" async="true" />
-                            <p:ajax event="toggleSelect" immediate="true" async="true" />
+                            <p:ajax event="change" />
+                            <p:ajax event="toggleSelect" />
 
                             <f:selectItems value="#{backingBeanVisit.allCulinariesProxy}" style="width:100%; !important;"/>
                         </p:selectCheckboxMenu>
@@ -118,8 +118,8 @@
                 <br/>
 
 <!-- Buttons -->
-                <h:commandButton action="#{backingBeanVisit.saveVisit()}" actionListener="#{backingBeanVisit.prepareGetAllVisits}" value="Speichern und zurück" class="btn btn-success" />
-                <!--                <h:commandButton action="#{backingBeanVisit.createNew()}" value="neuen Besuch anlegen" class="btn btn-primary" />-->
+                <h:commandButton action="#{backingBeanVisit.saveVisit()}"  value="Speichern und zurück" class="btn btn-success" />
+                
                 <h:commandButton action="#{backingBeanVisit.saveVisitNext()}" actionListener="#{backingBeanVisit.prepareGetAllCulinaries}"   value="Speichern und weiter" class="btn btn-warning">
                 </h:commandButton>
             </h:form>
@@ -154,11 +154,11 @@
                              value="#{backingBeanUser.getAllUsers()}" rowKey="#{user.id}"
                              selection="#{backingBeanVisit.current.participants}" rowSelectMode="add">
 
-                    <p:ajax event="rowSelect" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />
-                    <p:ajax event="rowUnselect" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />
-                    <p:ajax event="rowSelectCheckbox" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />
-                    <p:ajax event="rowUnselectCheckbox" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />
-                    <p:ajax event="toggleSelect" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />
+                    <p:ajax event="rowSelect"  update=":visitCreate:sizeParticipants_Actual" />
+                    <p:ajax event="rowUnselect" update=":visitCreate:sizeParticipants_Actual" />
+                    <p:ajax event="rowSelectCheckbox" update=":visitCreate:sizeParticipants_Actual" />
+                    <p:ajax event="rowUnselectCheckbox" update=":visitCreate:sizeParticipants_Actual" />
+                    <p:ajax event="toggleSelect" update=":visitCreate:sizeParticipants_Actual" />
 
                     <f:facet name="header">
                         <div class="products-table-header">

@@ -30,9 +30,8 @@
 
                     <li class="nav-item #{active == 'Visit' ? 'active' : ''}">
                         <h:form>
-                            <h:commandLink class="nav-link" immediate="true" actionListener="#{backingBeanVisit.prepareGetAllVisits}" action="VisitList?faces-redirect=true"><h:outputText value="Restaurantbesuche"/></h:commandLink>
+                            <h:commandLink class="nav-link" immediate="true"  action="VisitList?faces-redirect=true"><h:outputText value="Restaurantbesuche"/></h:commandLink>
                         </h:form>
-    <!--                    <h:link class="nav-link" outcome="VisitList"><h:outputText value="Restaurantbesuche"/></h:link>-->
                     </li>
 
                     <li class="nav-item #{active == 'Auswertungen' ? 'active' : ''}">

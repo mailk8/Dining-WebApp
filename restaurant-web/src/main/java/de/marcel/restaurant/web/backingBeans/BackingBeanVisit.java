@@ -97,18 +97,21 @@ public class BackingBeanVisit implements Serializable
 	public List<RestaurantVisit> getAllVisits()
 	{
 		//Logger.getLogger(getClass().getSimpleName()).severe("+# getAllVisits läuft");
-		return  visitList;
-	}
-
-	public void prepareGetAllVisits()
-	{
-		// https://stackoverflow.com/questions/2090033/why-jsf-calls-getters-multiple-times
-		// https://stackoverflow.com/questions/6609067/calling-a-method-multiple-times-when-using-hdatatable-in-jsf
-		//Logger.getLogger(getClass().getSimpleName()).severe("+# PrepareGetAllVisits läuft");
 		visitList = appServer.findAll(RestaurantVisit.class);
 		visitList.forEach((e) -> updateVisitState(e));
 		fetchVisitsForUser();
+		return  visitList;
 	}
+
+//	public void prepareGetAllVisits()
+//	{
+//		// https://stackoverflow.com/questions/2090033/why-jsf-calls-getters-multiple-times
+//		// https://stackoverflow.com/questions/6609067/calling-a-method-multiple-times-when-using-hdatatable-in-jsf
+//		//Logger.getLogger(getClass().getSimpleName()).severe("+# PrepareGetAllVisits läuft");
+//		visitList = appServer.findAll(RestaurantVisit.class);
+//		visitList.forEach((e) -> updateVisitState(e));
+//		fetchVisitsForUser();
+//	}
 
 	//////////////////////////  Methods for Visit Functions //////////////////////////
 	public void calculateAvgRating(RestaurantVisit r)
@@ -197,7 +200,7 @@ public class BackingBeanVisit implements Serializable
 		{
 			update(current);
 		}
-		prepareGetAllVisits();
+		//prepareGetAllVisits();
 		//Logger.getLogger(getClass().getSimpleName()).severe("+# nach save und prepareAllVisits -------------------");
 
 
@@ -234,7 +237,7 @@ public class BackingBeanVisit implements Serializable
 	public String delete(RestaurantVisit u)
 	{
 		appServer.delete(u);
-		prepareGetAllVisits();
+		//prepareGetAllVisits();
 		return "VisitList?faces-redirect=true";
 	}
 

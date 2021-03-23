@@ -51,6 +51,7 @@ public class RestaurantEJB implements IRestaurantEJB
 			e.printStackTrace();
 			return -1;
 		}
+		Logger.getLogger(getClass().getSimpleName()).severe("+# nach persist ");
 		return t.getPrim();
 	}
 
@@ -62,7 +63,7 @@ public class RestaurantEJB implements IRestaurantEJB
 			// Mit merge meldet der EntityManager keinen Erfolg.
 			// Jedes mal wird das Objekt zurückgegeben, egal ob es in die Tabelle gefügt wurde oder nicht!
 			entityManager.merge(t);
-			Logger.getLogger(getClass().getSimpleName()).severe("+# nach merge. Objekt ist " + t + " id ist " + t.getId());
+			//Logger.getLogger(getClass().getSimpleName()).severe("+# nach merge. Objekt ist " + t + " id ist " + t.getId());
 			entityManager.flush();
 			Logger.getLogger(getClass().getSimpleName()).severe("+# nach merge (UPDATE) und flush. id des persistierten Objekts ist "  + t.getId() + " appServer Objekt " + this);
 		}
@@ -88,6 +89,7 @@ public class RestaurantEJB implements IRestaurantEJB
 	{
 		TypedQuery<IBaseEntity> query = entityManager.createNamedQuery(entitiyClass.getSimpleName()+".findAll", entitiyClass);
 		List<IBaseEntity> result = (List<IBaseEntity>) query.getResultList();
+		Logger.getLogger(getClass().getSimpleName()).severe("+# nach findAll ");
 		return result;
 	}
 
@@ -104,7 +106,7 @@ public class RestaurantEJB implements IRestaurantEJB
 		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findOne", resultClazz);
 		query.setParameter(1, attributeClazz.cast(attributeFromNamedQuery));
 		IBaseEntity result = (IBaseEntity) query.getSingleResult();
-//		Logger.getLogger(getClass().getSimpleName()).severe("+# findOne aufgerufen, Result" + result + " appServer Objekt " + this);
+		Logger.getLogger(getClass().getSimpleName()).severe("+# nach findOne ");
 		return result;
 	}
 
@@ -114,8 +116,7 @@ public class RestaurantEJB implements IRestaurantEJB
 		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findOneById", resultClazz);
 		query.setParameter("attribute", Integer.parseInt(id));
 		IBaseEntity result = (IBaseEntity) query.getSingleResult();
-
-
+		Logger.getLogger(getClass().getSimpleName()).severe("+# nach findOneById ");
 		return result;
 	}
 
@@ -125,14 +126,14 @@ public class RestaurantEJB implements IRestaurantEJB
 
 		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findMaxId", resultClazz);
 		Integer i = (Integer) query.getSingleResult();
-		Logger.getLogger(getClass().getSimpleName()).severe("+# findMaxId aufgerufen, Result " + i + " appServer Objekt " + this);
+		Logger.getLogger(getClass().getSimpleName()).severe("+# nach findMaxId ");
 		return i;
 	}
 
 	@Override
 	public HashSet<Integer> findAllVisitsForUser(User participant)
 	{
-		Logger.getLogger(getClass().getSimpleName()).severe("+# findAllVisitsForUser aufgerufen");
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# findAllVisitsForUser aufgerufen");
 
 		TypedQuery<Integer> query = entityManager.createNamedQuery("RestaurantVisit.findAllVisitsForUser", Integer.class);
 		query.setParameter(1, participant.getPrim());
@@ -142,7 +143,7 @@ public class RestaurantEJB implements IRestaurantEJB
 			HashSet::addAll
 		);
 
-		Logger.getLogger(getClass().getSimpleName()).severe("+# findAllVisitsForUser, SQL ergab " + mySet);
+		Logger.getLogger(getClass().getSimpleName()).severe("+# findAllVisitsForUser");
 
 		return mySet;
 	}
@@ -150,7 +151,7 @@ public class RestaurantEJB implements IRestaurantEJB
 	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public synchronized Integer persistCredentials(ICredentials cred) {
-		Logger.getLogger(getClass().getSimpleName()).severe("+# persistCredentials aufgerufen, Parameterübergabe geht klar. Vor Cast." + " appServer Objekt " + this);
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# persistCredentials aufgerufen, Parameterübergabe geht klar. Vor Cast." + " appServer Objekt " + this);
 		Query q = null;
 		int result = 0;
 		try
@@ -161,7 +162,7 @@ public class RestaurantEJB implements IRestaurantEJB
 			q = q.setParameter(3, cred.getPassword());
 			q = q.setParameter(4, cred.getSalt());
 			result = q.executeUpdate();
-			Logger.getLogger(getClass().getSimpleName()).severe("+# persist credentials ergab eine Änderung von  " + result + " Elementen mit email " + cred.getEmail() + " appServer Objekt " + this);
+			//Logger.getLogger(getClass().getSimpleName()).severe("+# persist credentials ergab eine Änderung von  " + result + " Elementen mit email " + cred.getEmail() + " appServer Objekt " + this);
 			cred = null; cred = null;
 		}
 		catch (Exception e)
@@ -186,7 +187,7 @@ public class RestaurantEJB implements IRestaurantEJB
 			q = q.setParameter(1, email);
 			q = q.setParameter(2, id);
 			result = q.executeUpdate();
-			Logger.getLogger(getClass().getSimpleName()).severe("+# persist Email ergab eine Änderung von  " + result + " Elementen mit email " + email + " appServer Objekt " + this);
+			//Logger.getLogger(getClass().getSimpleName()).severe("+# persist Email ergab eine Änderung von  " + result + " Elementen mit email " + email + " appServer Objekt " + this);
 			email = null; id = null;
 		}
 		catch (Exception e)
@@ -202,14 +203,14 @@ public class RestaurantEJB implements IRestaurantEJB
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	@Override public synchronized void deleteCredentials(Integer id_prod_db) {
-		Logger.getLogger(getClass().getSimpleName()).severe("+# deleteCredentials mit id " + id_prod_db + "  " + this);
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# deleteCredentials mit id " + id_prod_db + "  " + this);
 
 		Query q = entityManagerAuth.createNativeQuery("DELETE FROM users WHERE id_prod_db=?");
 
 		q = q.setParameter(1, id_prod_db);
 		int i = q.executeUpdate();
 
-		Logger.getLogger(getClass().getSimpleName()).severe("+# deleteCredentials ergab eine Änderung von  " + i + " Elementen " + " appServer Objekt " + this);
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# deleteCredentials ergab eine Änderung von  " + i + " Elementen " + " appServer Objekt " + this);
 	}
 
 
