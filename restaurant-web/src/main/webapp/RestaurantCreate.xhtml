@@ -9,6 +9,15 @@
 
     <ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
 
+        <f:metadata>
+            <ui:remove>
+                <!-- KANN GET-PARAMETER ENTGEGENNEHMEN UND WEITERREICHEN    -->
+                <!-- <f:viewParam name="foo" value="#{bean.foo}" />-->
+                <!-- FÜHRT METHODEN BEI PAGELOAD AUS-->
+            </ui:remove>
+            <f:viewAction action="#{backingBeanRestaurant.getAllCulinaries()}" />
+        </f:metadata>
+
         <ui:param name="active" value="Restaurants" />
         <ui:param name="title" value="Restaurant anlegen" />
 
@@ -42,27 +51,28 @@
                         <!-- <f:validator validatorId="customValidator" />-->
                     </h:inputText>
                 </div>
-    <!--Adresse-->
+<!--Adresse-->
                 <div class="form-group">
                     <label for="street">Straße und Hausnummer<h:message for="street" class="text-danger" /></label>
-                    <h:inputText id="street" value="#{backingBeanRestaurant.current.addressRestaurant.street}" class="form-control" required="false" requiredMessage="Erforderlich!">
-                        <!-- <f:validator validatorId="customValidator" />-->
-                    </h:inputText>
-
-                    <h:inputText id="houseNumber" value="#{backingBeanRestaurant.current.addressRestaurant.houseNumber}" class="form-control" required="false" requiredMessage="Erforderlich!">
-                        <!-- <f:validator validatorId="customValidator" />-->
-                    </h:inputText>
+                    <div class="row">
+                        <div class="col-9">
+                            <h:inputText id="street" value="#{backingBeanRestaurant.current.addressRestaurant.street}" class="form-control" required="false" requiredMessage="Erforderlich!"><!-- <f:validator validatorId="customValidator" />--></h:inputText>
+                        </div>
+                        <div class="col-3">
+                            <h:inputText id="houseNumber" value="#{backingBeanRestaurant.current.addressRestaurant.houseNumber}" class="form-control" required="false" requiredMessage="Erforderlich!"><!-- <f:validator validatorId="customValidator" />--></h:inputText>
+                        </div>
+                    </div>
                 </div>
-
                 <div class="form-group">
                     <label for="zipCode">PLZ und Ort:<h:message for="zipCode" class="text-danger" /></label>
-                    <h:inputText id="zipCode" value="#{backingBeanRestaurant.current.addressRestaurant.zipCode}" class="form-control" required="false" requiredMessage="Erforderlich!">
-                        <!-- <f:validator validatorId="customValidator" />-->
-                    </h:inputText>
-
-                    <h:inputText id="city" value="#{backingBeanRestaurant.current.addressRestaurant.city}" class="form-control" required="false" requiredMessage="Erforderlich!">
-                        <!-- <f:validator validatorId="customValidator" />-->
-                    </h:inputText>
+                    <div class="row">
+                        <div class="col-3">
+                            <h:inputText id="zipCode" value="#{backingBeanRestaurant.current.addressRestaurant.zipCode}" class="form-control" required="false" requiredMessage="Erforderlich!"><!-- <f:validator validatorId="customValidator" />--></h:inputText>
+                        </div>
+                        <div class="col-9">
+                            <h:inputText id="city" value="#{backingBeanRestaurant.current.addressRestaurant.city}" class="form-control" required="false" requiredMessage="Erforderlich!"><!-- <f:validator validatorId="customValidator" />--></h:inputText>
+                        </div>
+                    </div>
                 </div>
 
 <!--Position-->
@@ -97,12 +107,12 @@
                 <div class="form-group">
                     <label for="linkMenu">Link zur Speisekarte: <h:message for="linkMenu" class="text-danger" />
                         <h:outputLink value="#{backingBeanRestaurant.current.linkMenu}" target="_blank">URL in neuem Tab</h:outputLink>
+                        <p:ajax event="keyup" update="@this" immediate="true"/>
                     </label>
 
                     <h:inputText id="linkMenu" value="#{backingBeanRestaurant.current.linkMenu}" class="form-control" required="false">
                         <f:converter converterId="urlStringConverter" />
-
-                        <ui:remove> <!--<f:converter converterId = "urlConverter" />--> </ui:remove>
+                        <p:ajax event="keyup" update="@this" immediate="true"/>
                     </h:inputText>
                 </div>
 
@@ -112,7 +122,7 @@
                 <div>
                     <h:selectOneMenu value="#{backingBeanRestaurant.current.culinary}" select2="true" styleClass="form-control"  converter="omnifaces.SelectItemsConverter">
                         <f:selectItem itemLabel="Gebotene Küche" itemValue="" />
-                        <f:selectItems value="#{backingBeanRestaurant.getAllCulinaries()}" var="culi" itemValue="#{culi}" itemLabel="#{culi.getCategory()}"/>
+                        <f:selectItems value="#{backingBeanRestaurant.getAllCulinariesProxy()}" var="culi" itemValue="#{culi}" itemLabel="#{culi.getCategory()}"/>
                     </h:selectOneMenu>
                 </div>
 

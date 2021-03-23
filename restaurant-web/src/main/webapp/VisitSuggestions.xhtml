@@ -34,7 +34,7 @@
         <ui:define name="mainContent">
 
             <h:form id="visitCreate">
-                <h:inputHidden value="#{backingBeanVisit.current.id}" />
+                <h:inputHidden value="#{backingBeanVisit.current.prim}" />
                 <h:inputHidden id="sizeParticipants_Actual" value="#{backingBeanVisit.sizeParticipantsForValidator}" validator="serverValidatorParticipants"/>
                 <h:inputHidden id="sizeParticipants_Initial" value="#{backingBeanVisit.sizeParticipantsForValidator}" />
 
@@ -50,7 +50,6 @@
 
                     <div class="col-5">
                         <h:inputText id="place" value="#{backingBeanVisit.current.addressVisit.city}" class="form-control" required="false" >
-                            <!-- <f:validator validatorId="customValidator" />-->
                         </h:inputText>
                     </div>
                 </div>
@@ -103,12 +102,11 @@
                 <br/>
 
 <!-- Tabelle Visit Suggestions -->
-                    <h:form id="suggestionsForm">
-<!--                    <p:growl id="visitCreateGrowl" showDetail="false"  />-->
-
+                <h:form id="suggestionsForm">
+                <!-- <p:growl id="visitCreateGrowl" showDetail="false"  />-->
                     <p:dataTable id="dt-suggestions" widgetVar="dt-suggestions-var" var="suggestion"  reflow="false" styleClass="products-table" stripedRows="true" size="medium"
                                  style="border: 0px solid transparent; outline: 1px solid lightgrey; padding-right: 0px"
-                                 value="#{backingBeanRestaurant.getAllRestaurants()}" rowKey="#{restaurant.id}"
+                                 value="#{backingBeanRestaurant.getAllRestaurants()}" rowKey="#{restaurant.prim}"
                                  selection="#{backingBeanVisit.current.restaurantChosen}" rowSelectMode="add">
 
 <!--                        <p:ajax event="rowSelect" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />-->
@@ -119,39 +117,57 @@
 
                         <f:facet name="header">
                             <div class="products-table-header">
-                                <span style="font-weight: normal">Wo soll gegessen werden?</span>
-                                <div>
-                                    <p:commandButton id="more" type="button" value="Mehr Vorschläge!" icon="pi search-plus"/>
-                                    <p:commandButton id="toggler" type="button" value="Columns" icon="pi pi-align-justify"/>
-                                    <p:columnToggler datasource="dt-suggestions" trigger="toggler"/>
+                                <div class="row">
+                                    <div class="col-6" >
+                                        <span style="font-weight: bold;">Wo soll gegessen werden?</span>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <p:commandButton id="toggler" type="button" value="Spalten" icon="pi pi-align-justify" style="margin-right: .5rem; float:right;"/>
+                                        <p:columnToggler datasource="dt-suggestions" trigger="toggler"  />
+
+                                        <p:commandButton id="more" type="button" value="Mehr Vorschläge!" icon="pi pi-search-plus" style="margin-right: .5rem; float:right;"/>
+                                    </div>
                                 </div>
                             </div>
                         </f:facet>
 
-                        <p:column selectionMode="single" colspan="3" exportable="false"></p:column>
+                        <p:column selectionMode="single" colspan="3" toggleable="false"></p:column>
 
                         <p:column headerText="Name" colspan="5" >
                             <h:outputText value="#{suggestion.name}"/>
                         </p:column>
+
                         <p:column headerText="Ort" colspan="5" >
-                            <h:outputText value="#{suggestion.address.city}"/>
+                            <h:outputText value="#{suggestion.addressRestaurant.city}"/>
                         </p:column>
-                        <p:column headerText="Öffnet" colspan="5" >
+
+                        <p:column headerText="Öffnet" colspan="5" visible="false">
                             <h:outputText value="#{suggestion.openFrom}"/>
                         </p:column>
-                        <p:column headerText="Schließt" colspan="5" >
+
+
+                        <p:column headerText="Schließt" colspan="5" visible="false">
                             <h:outputText value="#{suggestion.openTill}"/>
                         </p:column>
+
+
                         <p:column headerText="Essen" colspan="5" >
                             <h:outputText value="#{suggestion.culinary}"/>
                         </p:column>
+
+
+<!--                <ui:remove>-->
+
+                        <p:column headerText="Besuche" colspan="5" >
+                            <h:outputText value="#{suggestion.visits.size()}"/>
+                        </p:column>
+
+<!--                    </ui:remove>-->
                         <!-- Eventuell muss auf int umgestellt werden, siehe-->
                         <!-- product.rating in https://www.primefaces.org/showcase/ui/data/datatable/crud.xhtml?jfwid=0d31e-->
                         <p:column headerText="Bewertung" colspan="5" >
                             <h:outputText value="#{suggestion.averageRating}"/>
-                        </p:column>
-                        <p:column headerText="Anzahl Besuche" colspan="5" >
-                            <h:outputText value="#{suggestion.visits.size()}"/>
                         </p:column>
 
 
@@ -161,6 +177,7 @@
 
                     </p:dataTable>
                 </h:form>
+
 
 <!-- Buttons -->
                 <h:commandButton action="#{backingBeanVisit.saveVisit()}" value="Speichern und zurück zur Liste" class="btn btn-success" />

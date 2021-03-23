@@ -30,7 +30,7 @@
 
                     <li class="nav-item #{active == 'Visit' ? 'active' : ''}">
                         <h:form>
-                            <h:commandLink class="nav-link" immediate="true"  action="VisitList?faces-redirect=true"><h:outputText value="Restaurantbesuche"/></h:commandLink>
+                            <h:link class="nav-link" outcome="VisitList"><h:outputText value="Restaurantbesuche" /></h:link>
                         </h:form>
                     </li>
 

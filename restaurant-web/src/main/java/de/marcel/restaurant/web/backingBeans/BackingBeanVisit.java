@@ -103,15 +103,11 @@ public class BackingBeanVisit implements Serializable
 		return  visitList;
 	}
 
-//	public void prepareGetAllVisits()
-//	{
-//		// https://stackoverflow.com/questions/2090033/why-jsf-calls-getters-multiple-times
-//		// https://stackoverflow.com/questions/6609067/calling-a-method-multiple-times-when-using-hdatatable-in-jsf
-//		//Logger.getLogger(getClass().getSimpleName()).severe("+# PrepareGetAllVisits läuft");
-//		visitList = appServer.findAll(RestaurantVisit.class);
-//		visitList.forEach((e) -> updateVisitState(e));
-//		fetchVisitsForUser();
-//	}
+
+	public List<RestaurantVisit> getAllVisitsProxy()
+	{
+		return visitList;
+	}
 
 	//////////////////////////  Methods for Visit Functions //////////////////////////
 	public void calculateAvgRating(RestaurantVisit r)
@@ -230,7 +226,7 @@ public class BackingBeanVisit implements Serializable
 		this.current = u;
 		//Logger.getLogger(getClass().getSimpleName()).severe("+# edit aufgerufen, von der Datalist wurde Visit übergeben " + u);
 		current.setStateVisit(State.UNVOLLSTÄNDIG);
-		//Logger.getLogger(getClass().getSimpleName()).severe("+# edit current hat prim " + current.getPrim());
+		Logger.getLogger(getClass().getSimpleName()).severe("+# edit leitet weiter ----------------------------- ");
 		return "VisitCreate?faces-redirect=true";
 	}
 

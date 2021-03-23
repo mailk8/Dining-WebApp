@@ -89,7 +89,7 @@ public class RestaurantEJB implements IRestaurantEJB
 	{
 		TypedQuery<IBaseEntity> query = entityManager.createNamedQuery(entitiyClass.getSimpleName()+".findAll", entitiyClass);
 		List<IBaseEntity> result = (List<IBaseEntity>) query.getResultList();
-		Logger.getLogger(getClass().getSimpleName()).severe("+# nach findAll ");
+		Logger.getLogger(getClass().getSimpleName()).severe("+# nach findAll für " + entitiyClass.getSimpleName());
 		return result;
 	}
 
@@ -106,7 +106,7 @@ public class RestaurantEJB implements IRestaurantEJB
 		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findOne", resultClazz);
 		query.setParameter(1, attributeClazz.cast(attributeFromNamedQuery));
 		IBaseEntity result = (IBaseEntity) query.getSingleResult();
-		Logger.getLogger(getClass().getSimpleName()).severe("+# nach findOne ");
+		Logger.getLogger(getClass().getSimpleName()).severe("+# nach findOne für " + resultClazz.getSimpleName());
 		return result;
 	}
 
@@ -116,7 +116,7 @@ public class RestaurantEJB implements IRestaurantEJB
 		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findOneById", resultClazz);
 		query.setParameter("attribute", Integer.parseInt(id));
 		IBaseEntity result = (IBaseEntity) query.getSingleResult();
-		Logger.getLogger(getClass().getSimpleName()).severe("+# nach findOneById ");
+		Logger.getLogger(getClass().getSimpleName()).severe("+# nach findOneById für " + resultClazz.getSimpleName());
 		return result;
 	}
 
@@ -126,7 +126,7 @@ public class RestaurantEJB implements IRestaurantEJB
 
 		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findMaxId", resultClazz);
 		Integer i = (Integer) query.getSingleResult();
-		Logger.getLogger(getClass().getSimpleName()).severe("+# nach findMaxId ");
+		Logger.getLogger(getClass().getSimpleName()).severe("+# nach findMaxId für " + resultClazz.getSimpleName());
 		return i;
 	}
 

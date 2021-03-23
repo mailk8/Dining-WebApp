@@ -8,6 +8,15 @@
 
     <ui:composition template="WEB-INF/DefaultTemplateOneColumn.xhtml">
 
+        <f:metadata>
+            <ui:remove>
+                <!-- KANN GET-PARAMETER ENTGEGENNEHMEN UND WEITERREICHEN    -->
+                <!-- <f:viewParam name="foo" value="#{bean.foo}" />-->
+                <!-- FÜHRT METHODEN BEI PAGELOAD AUS-->
+            </ui:remove>
+            <f:viewAction action="#{backingBeanVisit.getAllVisits()}" />
+        </f:metadata>
+
         <ui:param name="active" value="Visit" />
         <ui:param name="title" value="Restaurantbesuche Übersicht" />
 
@@ -17,7 +26,7 @@
 
         <ui:define name="mainContent">
 
-            <h:dataTable value="#{backingBeanVisit.getAllVisits()}" var="visitListEntry" class="table">
+            <h:dataTable value="#{backingBeanVisit.getAllVisitsProxy()}" var="visitListEntry" class="table">
                 <h:column>
                     <f:facet name="header">Datum</f:facet>
                     #{visitListEntry.getVisitingDateTime()}
@@ -45,7 +54,7 @@
 
                 <h:column>
                     <h:form rendered="#{backingBeanVisit.isUserParticipantOf(visitListEntry) || (backingBeanVisit.isUnfinished(visitListEntry))}">
-                    <h:commandLink action="#{backingBeanVisit.edit(visitListEntry)}" class="btn btn-warning"><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>
+                    <h:commandLink action="#{backingBeanVisit.edit(visitListEntry)}" actionListener="#{backingBeanVisit.getAllVisits()}" class="btn btn-warning"><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>
                         <h:commandLink action="#{backingBeanVisit.delete(visitListEntry)}" class="btn btn-danger"><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>
                         <h:commandLink action="#{backingBeanVisit.edit(visitListEntry)}" class="btn btn-success"><i class="fas fa-star-half-alt" aria-hidden="true"></i></h:commandLink>
                     </h:form>

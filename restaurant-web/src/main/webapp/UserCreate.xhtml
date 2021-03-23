@@ -10,6 +10,15 @@
 
     <ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
 
+        <f:metadata>
+            <ui:remove>
+                <!-- KANN GET-PARAMETER ENTGEGENNEHMEN UND WEITERREICHEN    -->
+                <!-- <f:viewParam name="foo" value="#{bean.foo}" />-->
+                <!-- FÜHRT METHODEN BEI PAGELOAD AUS-->
+            </ui:remove>
+            <f:viewAction action="#{backingBeanUser.getAllCulinaries()}" />
+        </f:metadata>
+
         <ui:param name="active" value="User" />
         <ui:param name="param_Class_getVisitsFor" value="#{User.class}" />
         <ui:param name="param_Entity_getVisitsFor" value="#{backingBeanUser.current}" />
@@ -133,7 +142,7 @@
                 <div>
                     <h:selectOneMenu value="#{backingBeanUser.current.culinaryLiking}" select2="true" styleClass="form-control"  converter="omnifaces.SelectItemsConverter">
                         <f:selectItem itemLabel="Favorisierte Küche" itemValue="" />
-                        <f:selectItems value="#{backingBeanUser.getAllCulinaries()}" var="culi" itemValue="#{culi}" itemLabel="#{culi.getCategory()}"/>
+                        <f:selectItems value="#{backingBeanUser.getAllCulinariesProxy()}" var="culi" itemValue="#{culi}" itemLabel="#{culi.getCategory()}"/>
                     </h:selectOneMenu>
                 </div>
                 <br/>

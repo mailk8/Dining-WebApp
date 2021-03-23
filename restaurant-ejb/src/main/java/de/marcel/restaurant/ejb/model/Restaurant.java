@@ -7,10 +7,7 @@ import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "restaurants")
@@ -34,7 +31,7 @@ public class Restaurant extends BaseEntity implements IRestaurant
 	@Column(name = "name", nullable = false, length = 70)
 	private String name;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)//, fetch = FetchType.EAGER)
 	private Address addressRestaurant = new Address();
 
 	@Column(name = "phoneNumber", nullable = true, length = 30)
@@ -50,13 +47,15 @@ public class Restaurant extends BaseEntity implements IRestaurant
 	private LocalTime openFrom;
 	@Column(name = "openTill", nullable = true, columnDefinition="TIME NULL")
 	private LocalTime openTill;
+
+	// todo Besser Date nutzen
 	@Column(name = "holidayFrom", nullable = true, columnDefinition="TIMESTAMP NULL")
 	private LocalDate holidayFrom;
 	@Column(name = "holidayTill", nullable = true, columnDefinition="TIMESTAMP NULL")
 	private LocalDate holidayTill;
 
 	@Lob
-	@Basic(fetch=FetchType.LAZY)
+	@Basic//(fetch=FetchType.EAGER)
 	@Column(name = "dayOfRest", nullable = true)
 	private Set<DayOfWeek> daysOfRest;  // Impl Enum DayOfWeek
 
@@ -66,7 +65,7 @@ public class Restaurant extends BaseEntity implements IRestaurant
 	@Column(name = "averageRating", nullable = true, columnDefinition = "TINYINT")
 	private byte averageRating;
 
-	@OneToMany(mappedBy = "restaurantChosen")
+	@OneToMany(mappedBy = "restaurantChosen", fetch = FetchType.EAGER)
 	private Set<RestaurantVisit> visits;
 
 	// Constructors

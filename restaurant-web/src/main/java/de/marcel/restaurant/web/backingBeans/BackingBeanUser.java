@@ -1,19 +1,16 @@
 package de.marcel.restaurant.web.backingBeans;
 
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
-import de.marcel.restaurant.ejb.interfaces.IUser;
 import de.marcel.restaurant.ejb.model.Address;
 import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.User;
 import de.marcel.restaurant.web.httpClient.*;
-
 import de.marcel.restaurant.web.security.ICredentials;
 import de.marcel.restaurant.web.security.LoginController;
 import de.marcel.restaurant.web.security.UserMailController;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -40,6 +37,8 @@ public class BackingBeanUser implements Serializable
 	private String validateLon, validateLat;
 	private Logger logger = Logger.getLogger(getClass().getSimpleName());
 	private String sessionId;
+	private List<Culinary> allCulinariesProxy;
+	private List<User> allUsersProxy;
 
 	@PostConstruct
 	private void fetchLoggedInUser() {
@@ -64,13 +63,28 @@ public class BackingBeanUser implements Serializable
 
 	}
 
-	public List<Culinary> getAllCulinaries()
+	///////////////////////////// Methods for Performace Enhancement ////////////////////////////
+
+	public List<Culinary> getAllCulinariesProxy()
 	{
-		return appServer.findAll(Culinary.class);
+		return allCulinariesProxy;
 	}
 
-	public List<User> getAllUsers(){
-		return appServer.findAll(User.class);
+	public List<User> getAllUsersProxy()
+	{
+		return allUsersProxy;
+	}
+
+	///////////////////////////// Methods for Basic Crud /////////////////////////////////////////
+
+	public List<Culinary> getAllCulinaries() {
+		allCulinariesProxy = appServer.findAll(Culinary.class);
+		return allCulinariesProxy;
+	}
+
+	public List<User> getAllUsers() {
+		allUsersProxy = appServer.findAll(User.class);
+		return allUsersProxy;
 	}
 
 	public String edit(User u) {
@@ -146,6 +160,13 @@ public class BackingBeanUser implements Serializable
 		return "UserCreate?faces-redirect=true";
 	}
 
+	public void setCurrent(User u) {
+		this.current = u;
+		setCoordinatesBean(u);
+	}
+
+	///////////////////////////// Methods for WGS Coordinates /////////////////////////////////
+
 	public String getValidateLat()
 	{
 		return validateLat;
@@ -154,11 +175,6 @@ public class BackingBeanUser implements Serializable
 	public String getValidateLon()
 	{
 		return validateLon;
-	}
-
-	public void setCurrent(User u) {
-		this.current = u;
-		setCoordinatesBean(u);
 	}
 
 	public void setValidateLat(String validateLat) {
@@ -222,6 +238,7 @@ public class BackingBeanUser implements Serializable
 //		});
 	}
 
+	////////////////////////////// Methods for Credentials Persist //////////////////////////
 	// Proxy Methode dient dem Zweck, dass beim AppServer das selbe Objekt erreicht wird
 	public int proxyPersistEmail(String email, int id)
 	{

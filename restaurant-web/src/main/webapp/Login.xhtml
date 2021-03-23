@@ -38,15 +38,16 @@
                             <div class="form-group">
                                 <input class="form-control" placeholder="Passwort" name="password" type="password" value=""/>
                             </div>
-                            <div class="checkbox">
-                                <label>
-                                    <!-- DIE CHECKBOX KANN FOLGENDE WERTE ZURÜCKGEBEN: true, t, 1, enabled, y, yes, or on-->
-                                    <input type="checkbox" value="true" name="rememberMe"> Login merken!</input>
-                                    <!-- <p:selectBooleanCheckbox value="" name="rememberMe" itemLabel="Login merken"/>-->
-                                </label>
-                            </div>
+            <ui:remove>
+                        <div class="checkbox">
+                            <label>
+                                <!-- DIE CHECKBOX KANN FOLGENDE WERTE ZURÜCKGEBEN: true, t, 1, enabled, y, yes, or on-->
+                                <input type="checkbox" value="true" name="rememberMe"> Login merken!</input>
+                                <!-- <p:selectBooleanCheckbox value="" name="rememberMe" itemLabel="Login merken"/>-->
+                            </label>
+                        </div>
+            </ui:remove>
                             <input class="btn btn-lg btn-success btn-block" type="submit" value="Login"/>
-<!--                            <h:commandLink class="btn btn-lg btn-success btn-block" type="submit" value="Login"/>-->
                         </fieldset>
                     </h:form>
                 </p:panel>

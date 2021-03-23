@@ -1,7 +1,6 @@
 package de.marcel.restaurant.web.backingBeans;
 
 import javax.annotation.ManagedBean;
-import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -10,12 +9,9 @@ import java.io.Serializable;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.Restaurant;
-import de.marcel.restaurant.ejb.model.User;
-
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 @Named
 @SessionScoped
@@ -25,22 +21,38 @@ public class BackingBeanRestaurant implements Serializable
 	private static final long serialVersionUID = 1L;
 	private Restaurant current;
 	private String validateLon, validateLat;
+	private List<Culinary> allCulinariesProxy;
+	private List<Restaurant> allRestaurantsProxy;
 
 	@Inject
 	private IRestaurantEJB appServer;
 
 	// findAll im "appServer" public <T> List<T> findAll(Class entitiyClass)
-	public List<Culinary> getAllCulinaries()
+
+	///////////////////////////// Methods for Performace Enhancement ////////////////////////////
+
+	public List<Culinary> getAllCulinariesProxy()
 	{
-		return appServer.findAll(Culinary.class);
+		return allCulinariesProxy;
 	}
 
+	public List<Restaurant> getAllRestaurantsProxy()
+	{
+		return allRestaurantsProxy;
+	}
 
+	///////////////////////////// Methods for Basic Crud /////////////////////////////////////////
 
+	public List<Culinary> getAllCulinaries()
+	{
+		this.allCulinariesProxy = appServer.findAll(Culinary.class);
+		return allCulinariesProxy;
+	}
 
 	public List<Restaurant> getAllRestaurants()
 	{
-		return appServer.findAll(Restaurant.class);
+		this.allRestaurantsProxy = appServer.findAll(Restaurant.class);
+		return allRestaurantsProxy;
 	}
 
 	public void setCurrent(Restaurant u)
@@ -108,6 +120,7 @@ public class BackingBeanRestaurant implements Serializable
 		return "RestaurantCreate?faces-redirect=true";
 	}
 
+	///////////////////////////// Methods for WGS Coordinates /////////////////////////////////
 	public String getValidateLon()
 	{
 		return validateLon;
