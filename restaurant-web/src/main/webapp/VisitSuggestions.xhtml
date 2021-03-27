@@ -106,7 +106,7 @@
                 <!-- <p:growl id="visitCreateGrowl" showDetail="false"  />-->
                     <p:dataTable id="dt-suggestions" widgetVar="dt-suggestions-var" var="suggestion"  reflow="false" styleClass="products-table" stripedRows="true" size="medium"
                                  style="border: 0px solid transparent; outline: 1px solid lightgrey; padding-right: 0px"
-                                 value="#{backingBeanRestaurant.getAllRestaurants()}" rowKey="#{restaurant.prim}"
+                                 value="#{backingBeanRestaurant.getAllRestaurants()}" rowKey="#{restaurant.id}"
                                  selection="#{backingBeanVisit.current.restaurantChosen}" rowSelectMode="add">
 
 <!--                        <p:ajax event="rowSelect" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />-->

@@ -48,7 +48,8 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 	private String memo;
 
 	//// muss EAGER sein, damit er die User holt, wenn diese gerade keine Session offen haben.
-	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	//@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
 	private List<User> participants = new ArrayList<>();
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

@@ -22,6 +22,16 @@ import java.util.concurrent.Future;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+/*
+	Was passiert, wenn sich ein Teilnehmer löscht, der zu einem Visit gehört?
+		Es ist eine @manyToMany Beziehung zwischen User und Visit: Da gibt es kein orphanRemoval als Attribut, das hinter CascadeType angeführt werden könnte.
+		https://stackoverflow.com/questions/3055407/how-do-i-delete-orphan-entities-using-hibernate-and-jpa-on-a-many-to-many-relati 
+
+	Was passiert, wenn man ein Restaurant löscht, das in einem Visit verplant ist?
+		Wird neu gespeichert
+
+	Genau das gleiche bei Rating?
+ */
 @Named()
 @SessionScoped
 public class BackingBeanVisit implements Serializable

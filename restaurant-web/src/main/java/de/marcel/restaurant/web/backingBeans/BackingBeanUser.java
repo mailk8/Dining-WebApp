@@ -23,6 +23,11 @@ import java.util.Random;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+/*
+Was passiert wenn ein eingeloggter User seinen Account löscht?
+	-> Er ist weiterhin angemeldet. Sollte nicht sein.
+ */
+
 @Named
 @SessionScoped
 @ManagedBean
@@ -103,6 +108,7 @@ public class BackingBeanUser implements Serializable
 		UserMailController.deleteUserEmail(u.getEmail());
 		appServer.deleteCredentials(u.getId());
 		appServer.delete(u);
+		loginController.logout();
 		return "UserList?faces-redirect=true";
 	}
 

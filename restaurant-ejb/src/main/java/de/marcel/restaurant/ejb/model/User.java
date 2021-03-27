@@ -47,7 +47,8 @@ public class User extends BaseEntity implements IUser
 	@OneToMany(mappedBy = "ratingUser")
 	private Set<Rating> ratingsSubmitted;
 
-	@ManyToMany(mappedBy = "participants", cascade = CascadeType.MERGE)
+	//@ManyToMany(mappedBy = "participants", cascade = CascadeType.MERGE)
+	@ManyToMany(mappedBy = "participants", cascade = CascadeType.DETACH)
 	private Set<RestaurantVisit> visitedRestaurants;
 	// https://stackoverflow.com/questions/21985308/how-is-the-owning-side-of-this-many-to-many-relationship-determined
 	// https://en.wikibooks.org/wiki/Java_Persistence/ManyToMany

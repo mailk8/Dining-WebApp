@@ -32,6 +32,8 @@ import java.util.logging.Logger;
 Stellt Logoutfunktion bereit und
 steuert Änderung sowie Insert von Credentials (Email Passwort) sowie
 User Objekten in die normale DB und die AuthDB
+
+User Neuanlage mit Passworteingabe sollte automatisch login Zustand herbeiführen
  */
 @Named
 @SessionScoped
@@ -92,6 +94,7 @@ public class LoginController implements Serializable
 
 	public synchronized void clearSession()
 	{
+		SecurityUtils.getSubject().getSession().removeAttribute("loggedInUser");
 		SecurityUtils.getSubject().logout();
 		Logger.getLogger(getClass().getSimpleName()).severe("+# LogoutController logout entfernt User " + backingBeanUser.getCurrent() + " aus der BackingBean");
 		backingBeanUser.setCurrent(null);
