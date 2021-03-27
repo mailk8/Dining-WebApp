@@ -7,6 +7,7 @@ import de.marcel.restaurant.ejb.model.RestaurantVisit;
 import de.marcel.restaurant.ejb.model.State;
 import de.marcel.restaurant.ejb.model.User;
 
+import javax.annotation.ManagedBean;
 import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
@@ -25,15 +26,16 @@ import java.util.stream.Collectors;
 /*
 	Was passiert, wenn sich ein Teilnehmer löscht, der zu einem Visit gehört?
 		Es ist eine @manyToMany Beziehung zwischen User und Visit: Da gibt es kein orphanRemoval als Attribut, das hinter CascadeType angeführt werden könnte.
-		https://stackoverflow.com/questions/3055407/how-do-i-delete-orphan-entities-using-hibernate-and-jpa-on-a-many-to-many-relati 
+		https://stackoverflow.com/questions/3055407/how-do-i-delete-orphan-entities-using-hibernate-and-jpa-on-a-many-to-many-relati
 
 	Was passiert, wenn man ein Restaurant löscht, das in einem Visit verplant ist?
 		Wird neu gespeichert
 
 	Genau das gleiche bei Rating?
  */
-@Named()
+@Named
 @SessionScoped
+@ManagedBean
 public class BackingBeanVisit implements Serializable
 {
 	private static final long serialVersionUID = 1L;
@@ -85,7 +87,10 @@ public class BackingBeanVisit implements Serializable
 		User user = backingBeanUser.getCurrent();
 		if( null != user )
 		{
-			userSetVisits = executor.submit(()-> appServer.findAllVisitsForUser(user));
+			userSetVisits = executor.submit(()-> {
+				Logger.getLogger(getClass().getSimpleName()).severe("+# Executor führt asynchrone Methode aus: findAllVisitsForUser ");
+				return appServer.findAllVisitsForUser(user);
+			});
 		}
 		else
 		{
@@ -236,7 +241,6 @@ public class BackingBeanVisit implements Serializable
 		this.current = u;
 		//Logger.getLogger(getClass().getSimpleName()).severe("+# edit aufgerufen, von der Datalist wurde Visit übergeben " + u);
 		current.setStateVisit(State.UNVOLLSTÄNDIG);
-		Logger.getLogger(getClass().getSimpleName()).severe("+# edit leitet weiter ----------------------------- ");
 		return "VisitCreate?faces-redirect=true";
 	}
 
@@ -292,7 +296,6 @@ public class BackingBeanVisit implements Serializable
 
 	public List<String> completeText(String query) {
 		String queryLowerCase = query.toLowerCase();
-
 		return getAllTimezones().stream().filter(t -> t.toLowerCase().startsWith(queryLowerCase)).collect(Collectors.toList());
 	}
 

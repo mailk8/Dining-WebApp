@@ -26,6 +26,9 @@ import java.util.stream.Collectors;
 /*
 Was passiert wenn ein eingeloggter User seinen Account löscht?
 	-> Er ist weiterhin angemeldet. Sollte nicht sein.
+
+
+User MUSS eine Adresse oder WGS eingeben, sonst crasht die Treffpunktberechnung
  */
 
 @Named

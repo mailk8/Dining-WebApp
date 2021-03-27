@@ -13,6 +13,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
+/*
+	Link WGS jetzt ermitteln sollte auf den Http Client gehen
+	Außerdem ist eine Adresse ab jetzt überall ein Muss.
+ */
 @Named
 @SessionScoped
 @ManagedBean
@@ -51,6 +55,7 @@ public class BackingBeanRestaurant implements Serializable
 
 	public List<Restaurant> getAllRestaurants()
 	{
+		Logger.getLogger(getClass().getSimpleName()).severe("+# getAllRestaurants  läuft");
 		this.allRestaurantsProxy = appServer.findAll(Restaurant.class);
 		return allRestaurantsProxy;
 	}

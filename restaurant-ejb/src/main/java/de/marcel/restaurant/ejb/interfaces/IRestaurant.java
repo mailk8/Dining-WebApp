@@ -69,4 +69,7 @@ public interface IRestaurant extends IBaseEntity, Serializable
 
 	void setVisits(Set<RestaurantVisit> visits);
 
+	double getDistanceMeetingPoint();
+
+	void setDistanceMeetingPoint(double distanceMeetingPoint);
 }

@@ -119,24 +119,11 @@
 
 <!-- Buttons -->
                 <h:commandButton action="#{backingBeanVisit.saveVisit()}"  value="Speichern und zurück" class="btn btn-success" />
-                
-                <h:commandButton action="#{backingBeanVisit.saveVisitNext()}" actionListener="#{backingBeanVisit.prepareGetAllCulinaries}"   value="Speichern und weiter" class="btn btn-warning">
+                <h:commandButton action="#{backingBeanVisit.saveVisitNext()}" actionListener="#{suggestionsBean.proxyOnLoad()}"   value="Speichern und weiter" class="btn btn-warning">
                 </h:commandButton>
             </h:form>
 
-            <script>
-                $(document).ready(function(){
 
-                    $('.input-daterange').datepicker({
-                        format: 'dd-mm-yyyy',
-                        autoclose: true,
-                        calendarWeeks : true,
-                        clearBtn: true,
-                        disableTouchKeyboard: true
-                    });
-
-                });
-            </script>
 
         </ui:define>
 
@@ -214,6 +201,17 @@
                     today: 'Heute',
                     clear: 'Löschen'
                 };
+
+                $(document).ready(function(){
+                    $('.input-daterange').datepicker({
+                        format: 'dd-mm-yyyy',
+                        autoclose: true,
+                        calendarWeeks : true,
+                        clearBtn: true,
+                        disableTouchKeyboard: true
+                    });
+                });
+
             </script>
 
         </ui:define>

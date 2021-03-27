@@ -25,7 +25,23 @@
             <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true&amp;key=AIzaSyDtJoxBmEHGk8KsyyiBcynKz5NrdxnELvE"></script>
 
             <div class="card" style="width:100%; height:100%; align-content: flex-start">
-                <p:gmap center="52.3973282, 9.744953" zoom="15" type="ROADMAP" style="height: 900px"/>
+                <p:gmap center="52.3973282, 9.744953" zoom="13" type="ROADMAP" style="height: 900px"
+                        model="#{suggestionsBean.gmapModel}"  draggable="true" disableDefaultUI="false" streetView="false" mapTypeControl="false">
+
+                        <ui:remove>
+                        <!--                    <p:ajax event="overlaySelect" listener="#{infoWindowView.onMarkerSelect}"/>-->
+
+                        <!--                    <p:gmapInfoWindow id="infoWindow">-->
+                        <!--                        <p:outputPanel style="text-align: center; display: block; margin: auto">-->
+
+                        <!--                            <p:graphicImage name="/demo/images/antalya/#{infoWindowView.marker.data}" height="150"/>-->
+                        <!--                            <br/>-->
+                        <!--                            <h:outputText value="#{infoWindowView.marker.title}"/>-->
+
+                        <!--                        </p:outputPanel>-->
+                        <!--                    </p:gmapInfoWindow>-->
+                        </ui:remove>
+                </p:gmap>
             </div>
 
         </ui:define>
@@ -106,7 +122,7 @@
                 <!-- <p:growl id="visitCreateGrowl" showDetail="false"  />-->
                     <p:dataTable id="dt-suggestions" widgetVar="dt-suggestions-var" var="suggestion"  reflow="false" styleClass="products-table" stripedRows="true" size="medium"
                                  style="border: 0px solid transparent; outline: 1px solid lightgrey; padding-right: 0px"
-                                 value="#{backingBeanRestaurant.getAllRestaurants()}" rowKey="#{restaurant.id}"
+                                 value="#{suggestionsBean.restaurantsFiltered}" rowKey="#{restaurant.prim}"
                                  selection="#{backingBeanVisit.current.restaurantChosen}" rowSelectMode="add">
 
 <!--                        <p:ajax event="rowSelect" immediate="true" async="true" update=":visitCreate:sizeParticipants_Actual" />-->
@@ -140,6 +156,10 @@
 
                         <p:column headerText="Ort" colspan="5" >
                             <h:outputText value="#{suggestion.addressRestaurant.city}"/>
+                        </p:column>
+
+                        <p:column headerText="Entfernung" colspan="5" >
+                            <h:outputText value="#{suggestion.distanceMeetingPoint}"/>
                         </p:column>
 
                         <p:column headerText="Öffnet" colspan="5" visible="false">
