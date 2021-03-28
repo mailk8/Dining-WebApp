@@ -29,6 +29,8 @@ Was passiert wenn ein eingeloggter User seinen Account löscht?
 
 
 User MUSS eine Adresse oder WGS eingeben, sonst crasht die Treffpunktberechnung
+
+Culinary Preferences entfernen
  */
 
 @Named

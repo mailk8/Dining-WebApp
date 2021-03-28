@@ -11,6 +11,11 @@
 
 
     <ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
+        <ui:remove>
+<!--        <f:metadata>-->
+<!--            <f:viewAction action="#{suggestionsBean.proxyOnLoad()}" />-->
+<!--        </f:metadata>-->
+        </ui:remove>
 
         <ui:param name="active" value="Visit" />
         <ui:param name="title" value="Restaurantbesuch planen" />
@@ -25,22 +30,18 @@
             <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true&amp;key=AIzaSyDtJoxBmEHGk8KsyyiBcynKz5NrdxnELvE"></script>
 
             <div class="card" style="width:100%; height:100%; align-content: flex-start">
-                <p:gmap center="52.3973282, 9.744953" zoom="13" type="ROADMAP" style="height: 900px"
+                <p:gmap id="gmap" center="#{suggestionsBean.centerString}" zoom="#{suggestionsBean.googleZoomLevel}" type="ROADMAP" style="height: 900px"
                         model="#{suggestionsBean.gmapModel}"  draggable="true" disableDefaultUI="false" streetView="false" mapTypeControl="false">
 
-                        <ui:remove>
-                        <!--                    <p:ajax event="overlaySelect" listener="#{infoWindowView.onMarkerSelect}"/>-->
+                        <p:ajax event="overlaySelect" listener="#{suggestionsBean.onMarkerSelect}"/>
 
-                        <!--                    <p:gmapInfoWindow id="infoWindow">-->
-                        <!--                        <p:outputPanel style="text-align: center; display: block; margin: auto">-->
-
-                        <!--                            <p:graphicImage name="/demo/images/antalya/#{infoWindowView.marker.data}" height="150"/>-->
-                        <!--                            <br/>-->
-                        <!--                            <h:outputText value="#{infoWindowView.marker.title}"/>-->
-
-                        <!--                        </p:outputPanel>-->
-                        <!--                    </p:gmapInfoWindow>-->
-                        </ui:remove>
+                        <p:gmapInfoWindow id="infoWindow">
+                            <p:outputPanel style="text-align: center; display: block; margin: auto">
+                                <!-- <p:graphicImage name="/demo/images/antalya/#{infoWindowView.marker.data}" height="150"/>-->
+                                <!-- <br/>-->
+                                <h:outputText value="#{suggestionsBean.marker.title}"/>
+                            </p:outputPanel>
+                        </p:gmapInfoWindow>
                 </p:gmap>
             </div>
 
@@ -74,23 +75,27 @@
 <!-- Umkreis -->
                 <div class="row">
                     <div class="col-4">
-                        <label for="radius">Umkreis für Suche:</label>
+                        <label for="radius">Suchradius:</label>
                     </div>
 
                     <div class="col-3">
-                        <h:inputText id="radius" value="50"  class="form-control" required="false" >
+                        <h:inputText id="radius" value="#{suggestionsBean.distanceSearchRadius}" valueChangeListener="#{suggestionsBean.proxyRadiusChangedText}" class="form-control" required="false" >
+                            <p:ajax event="keyup" immediate="true" async="true" delay="100" />
+                            <p:ajax event="keyup" update="gmap @this slider suggestionsForm" delay="3000" />
                         </h:inputText>
                         <ui:remove>
 <!--                        <p:inputNumber  id="radius"  value="50" decimalPlaces="0"  required="false"-->
 <!--                                        symbol=" km" symbolPosition="s"-->
 <!--                                        size="8">-->
-<!--                            <p:ajax process="@this" />-->
 <!--                        </p:inputNumber>-->
                         </ui:remove>
                     </div>
 
                     <div class="col-5" style="padding-top: 18px;">
-                            <p:slider for="radius" minValue="1" maxValue="100" step="1" range="max" style="margin: 0px auto;" />
+                        <p:slider id="slider" for="radius" minValue="1" maxValue="100" step="1" range="max" style="margin: 0px auto;" >
+                            <p:ajax event="slideEnd" immediate="true" async="true" listener="#{suggestionsBean.proxyRadiusChangedSlider}" />
+                            <p:ajax update="gmap radius suggestionsForm" />
+                        </p:slider>
                     </div>
 
                     </div>
@@ -159,31 +164,28 @@
                         </p:column>
 
                         <p:column headerText="Entfernung" colspan="5" >
-                            <h:outputText value="#{suggestion.distanceMeetingPoint}"/>
+                            <h:outputText value="#{suggestion.distanceMeetingPoint} ">
+<!--                                <f:convertNumber type="number" pattern="#0.0" />-->
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="3"/>
+                            </h:outputText>
                         </p:column>
 
                         <p:column headerText="Öffnet" colspan="5" visible="false">
                             <h:outputText value="#{suggestion.openFrom}"/>
                         </p:column>
 
-
                         <p:column headerText="Schließt" colspan="5" visible="false">
                             <h:outputText value="#{suggestion.openTill}"/>
                         </p:column>
-
 
                         <p:column headerText="Essen" colspan="5" >
                             <h:outputText value="#{suggestion.culinary}"/>
                         </p:column>
 
-
-<!--                <ui:remove>-->
-
-                        <p:column headerText="Besuche" colspan="5" >
+                        <p:column headerText="Besuche" colspan="5" visible="false">
                             <h:outputText value="#{suggestion.visits.size()}"/>
                         </p:column>
 
-<!--                    </ui:remove>-->
                         <!-- Eventuell muss auf int umgestellt werden, siehe-->
                         <!-- product.rating in https://www.primefaces.org/showcase/ui/data/datatable/crud.xhtml?jfwid=0d31e-->
                         <p:column headerText="Bewertung" colspan="5" >

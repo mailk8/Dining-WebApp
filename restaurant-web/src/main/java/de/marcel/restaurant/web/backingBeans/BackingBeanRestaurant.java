@@ -55,7 +55,7 @@ public class BackingBeanRestaurant implements Serializable
 
 	public List<Restaurant> getAllRestaurants()
 	{
-		Logger.getLogger(getClass().getSimpleName()).severe("+# getAllRestaurants  läuft");
+		//Logger.getLogger(getClass().getSimpleName()).severe("+# getAllRestaurants  läuft");
 		this.allRestaurantsProxy = appServer.findAll(Restaurant.class);
 		return allRestaurantsProxy;
 	}
