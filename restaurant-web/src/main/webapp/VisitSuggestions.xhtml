@@ -79,30 +79,26 @@
                     </div>
 
                     <div class="col-3">
-                        <h:inputText id="radius" value="#{suggestionsBean.distanceSearchRadius}" valueChangeListener="#{suggestionsBean.proxyRadiusChangedText}" class="form-control" required="false" >
-                            <p:ajax event="keyup" immediate="true" async="true" delay="100" />
-                            <p:ajax event="keyup" update="gmap @this slider suggestionsForm" delay="3000" />
+                        <h:inputText id="radius" value="#{suggestionsBean.distanceSearchRadius}" valueChangeListener="#{suggestionsBean.proxyRadiusChangedText}"
+                                     class="form-control" required="false" validatorMessage="Werte zwischen 0 und 20.000 sind erlaubt">
+                            <p:ajax event="keyup" immediate="true" async="true" delay="100" update="gmap @this slider visitCreate:suggestionsForm:dt-suggestions" />
+                            <f:validateLongRange minimum="0" maximum="20000" />
                         </h:inputText>
-                        <ui:remove>
-<!--                        <p:inputNumber  id="radius"  value="50" decimalPlaces="0"  required="false"-->
-<!--                                        symbol=" km" symbolPosition="s"-->
-<!--                                        size="8">-->
-<!--                        </p:inputNumber>-->
-                        </ui:remove>
+                        <p:messages id="messageForRadius" for="radius" display="icon" style="padding-left: 1px" />
                     </div>
-
+<!-- Umkreis Slider -->
                     <div class="col-5" style="padding-top: 18px;">
-                        <p:slider id="slider" for="radius" minValue="1" maxValue="100" step="1" range="max" style="margin: 0px auto;" >
-                            <p:ajax event="slideEnd" immediate="true" async="true" listener="#{suggestionsBean.proxyRadiusChangedSlider}" />
-                            <p:ajax update="gmap radius suggestionsForm" />
+                        <p:slider id="slider" for="radius" minValue="1" maxValue="200" step="1" range="max" style="margin: 0px auto;" >
+                            <p:ajax event="slideEnd" immediate="true" async="true" update="gmap radius visitCreate:suggestionsForm:dt-suggestions"
+                                    listener="#{suggestionsBean.proxyRadiusChangedSlider}" />
                         </p:slider>
                     </div>
 
-                    </div>
-                <br/>
+                </div>
+            <br/>
 
 <!-- Kulinarik -->
-                <div class="row" style="height: 135px; align-content: flex-start">
+                <div class="row" style="height: 65px; align-content: flex-start">
                     <div class="col-4">
                         <label>Kulinarik Wunsch:</label>
                     </div>
@@ -110,9 +106,10 @@
                     <div class="col-8">
                         <p:selectCheckboxMenu id="multiple" value="#{backingBeanVisit.culinariesArray}" label="Label"
                                               style="width:100%; !important;" converter="omnifaces.SelectItemsConverter"
-                                              multiple="true"  filter="true" filterMatchMode="startsWith" >
+                                              multiple="true"  filter="true" filterMatchMode="startsWith"
+                                              valueChangeListener="#{suggestionsBean.proxyCulinariesChanged}">
 
-                                <p:ajax event="change" immediate="true" async="true" />
+                                <p:ajax event="change" immediate="true" async="true" update="gmap visitCreate:suggestionsForm:dt-suggestions"/>
                                 <p:ajax event="toggleSelect" immediate="true" async="true" />
 
                             <f:selectItems value="#{backingBeanVisit.allCulinariesProxy}" style="width:100%; !important;"/>
@@ -120,7 +117,7 @@
 
                     </div>
                 </div>
-                <br/>
+            <br/>
 
 <!-- Tabelle Visit Suggestions -->
                 <h:form id="suggestionsForm">
@@ -153,7 +150,7 @@
                             </div>
                         </f:facet>
 
-                        <p:column selectionMode="single" colspan="3" toggleable="false"></p:column>
+                        <p:column headerText="Auswahl" selectionMode="single" colspan="2" toggleable="false"></p:column>
 
                         <p:column headerText="Name" colspan="5" >
                             <h:outputText value="#{suggestion.name}"/>
@@ -163,10 +160,9 @@
                             <h:outputText value="#{suggestion.addressRestaurant.city}"/>
                         </p:column>
 
-                        <p:column headerText="Entfernung" colspan="5" >
-                            <h:outputText value="#{suggestion.distanceMeetingPoint} ">
-<!--                                <f:convertNumber type="number" pattern="#0.0" />-->
-                                <f:convertNumber minFractionDigits="2" maxFractionDigits="3"/>
+                        <p:column headerText="Entfernung" colspan="4" style="align-content: center" >
+                            <h:outputText value="#{suggestion.distanceMeetingPoint}" style="text-align: center; align-self: center">                                                                     ">
+                                <f:convertNumber type="number" minFractionDigits="1" maxFractionDigits="1" />
                             </h:outputText>
                         </p:column>
 
@@ -186,10 +182,8 @@
                             <h:outputText value="#{suggestion.visits.size()}"/>
                         </p:column>
 
-                        <!-- Eventuell muss auf int umgestellt werden, siehe-->
-                        <!-- product.rating in https://www.primefaces.org/showcase/ui/data/datatable/crud.xhtml?jfwid=0d31e-->
-                        <p:column headerText="Bewertung" colspan="5" >
-                            <h:outputText value="#{suggestion.averageRating}"/>
+                        <p:column headerText="Bewertung" colspan="7" >
+                            <p:rating value="#{suggestion.averageRating}" stars="5" readonly="true" />
                         </p:column>
 
 
@@ -199,8 +193,9 @@
 
                     </p:dataTable>
                 </h:form>
-
-
+                <br/>
+                <hr/>
+                <br/>
 <!-- Buttons -->
                 <h:commandButton action="#{backingBeanVisit.saveVisit()}" value="Speichern und zurück zur Liste" class="btn btn-success" />
 <!--                <h:commandButton action="#{backingBeanVisit.createNew()}" value="neuen Besuch anlegen" class="btn btn-primary" />-->

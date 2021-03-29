@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -110,7 +111,6 @@ public class SuggestionsBean implements Serializable
 	private Circle circle;
 
 	/////////////////////////////////// On Load Methods //////////////////////////////////////////
-
 	public void proxyOnLoad() {
 		backingBeanRestaurant.getAllRestaurants();
 		gmapModel.getMarkers().clear();
@@ -146,17 +146,10 @@ public class SuggestionsBean implements Serializable
 
 
 	/////////////////////////////// Proxy Methods for Eventlisteners //////////////////////////////
-
 	public void proxyCentralPointChanged(double lat, double lon) {
 		// Auf dem UI wurde ein Neuer Treffpunkt gesetzt
 		// es soll NICHT aus Usern ermittelt werden
 
-	}
-
-	public void proxyRadiusChanged(SlideEndEvent event) {
-		distanceSearchRadius = (int) event.getValue();
-		reDrawCircle(currentVisit.getAddressVisit());
-		googleZoomLevel = calculateZoomLevel();
 	}
 
 	public void proxyRadiusChanged(int newValue) {
@@ -164,6 +157,8 @@ public class SuggestionsBean implements Serializable
 		reDrawCircle(currentVisit.getAddressVisit());
 		googleZoomLevel = calculateZoomLevel();
 		restaurantsRadius = filterByRadius(backingBeanRestaurant.getAllRestaurantsProxy(), newValue);
+		restaurantsFiltered.clear();
+		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyRadiusChanged Entity enthält  Culinaries " + backingBeanVisit.getCurrent().getChosenCulinaries());
 		restaurantsFiltered = filterByCulinary(restaurantsRadius, currentVisit.getChosenCulinaries());
 	}
 
@@ -175,7 +170,17 @@ public class SuggestionsBean implements Serializable
 		proxyRadiusChanged((int)event.getNewValue());
 	}
 
-	public void proxyCulinariesChanged() {}
+	public void proxyCulinariesChanged(ValueChangeEvent event) {
+
+		// ValueChangedEvent wird verarbeitet bevor die Setter für die Entity RestaurantVisit laufen.
+
+//		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyCulinariesChanged  event value " + Arrays.deepToString((Culinary[])event.getNewValue()));
+//		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyCulinariesChanged BeanVisit chosen Cul : " + backingBeanVisit.getCurrent().getChosenCulinaries());
+
+		//restaurantsFiltered.clear();
+		restaurantsFiltered = filterByCulinary(restaurantsRadius, Arrays.asList((Culinary[])event.getNewValue()));
+		drawMarkers(restaurantsFiltered);
+	}
 
 
 
@@ -279,22 +284,9 @@ public class SuggestionsBean implements Serializable
 	public void initMap(List<Restaurant> poiList) {
 
 		MapModel mapModel = getGmapModel();
-		mapModel.getMarkers().clear();
 		mapModel.getCircles().clear();
 
-		poiList.stream().forEach((e) ->
-				mapModel.addOverlay(
-						new Marker(
-								new LatLng(e.getAddressRestaurant().getWgs84Latitude(), e.getAddressRestaurant().getWgs84Longitude()),
-								e.getName()
-						))
-		);
-
-		mapModel.addOverlay(new Marker(
-						new LatLng(currentVisit.getAddressVisit().getWgs84Latitude(), currentVisit.getAddressVisit().getWgs84Longitude()),
-						"Zentrum der Suche", "Data-Feld",
-						"https://maps.google.com/mapfiles/ms/micons/blue-dot.png"
-		));
+		drawMarkers(poiList);
 
 		Address adr = currentVisit.getAddressVisit();
 		LatLng coord = new LatLng(adr.getWgs84Latitude(), adr.getWgs84Longitude());
@@ -314,7 +306,6 @@ public class SuggestionsBean implements Serializable
 		circle.setCenter(new LatLng(middle.getWgs84Latitude(), middle.getWgs84Longitude()));
 		circle.setRadius(distanceSearchRadius * 1000);
 	}
-
 
 	public void onMarkerSelect(OverlaySelectEvent event) {
 		marker = (Marker) event.getOverlay();
@@ -338,6 +329,30 @@ public class SuggestionsBean implements Serializable
 		return (int) Math.round(Math.log(earthCirc * ( regulator / (distanceSearchRadius * 1000) ) / googleTileSize ) / Math.log(2) );
 
 	}
+
+	public void drawMarkers(List<Restaurant> poiList) {
+
+		MapModel mapModel = getGmapModel();
+		mapModel.getMarkers().clear();
+
+		poiList.stream().forEach((e) ->
+						mapModel.addOverlay(
+										new Marker(
+														new LatLng(e.getAddressRestaurant().getWgs84Latitude(), e.getAddressRestaurant().getWgs84Longitude()),
+														e.getName()
+										))
+		);
+
+		mapModel.addOverlay(new Marker(
+						new LatLng(currentVisit.getAddressVisit().getWgs84Latitude(), currentVisit.getAddressVisit().getWgs84Longitude()),
+						"Zentrum der Suche", "Data-Feld",
+						"https://maps.google.com/mapfiles/ms/micons/blue-dot.png"
+		));
+	}
+
+
+
+
 
 	////////////////////////////////// Getter Setter //////////////////////////////////////////
 

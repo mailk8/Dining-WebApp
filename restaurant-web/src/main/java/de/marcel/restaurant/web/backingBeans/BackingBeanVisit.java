@@ -60,7 +60,7 @@ public class BackingBeanVisit implements Serializable
 
 	public void setCulinariesArray(Culinary[] culinariesArray)
 	{
-		//Logger.getLogger(getClass().getSimpleName()).severe("+# setCulinariesArray läuft, return " + Arrays.toString(culinariesArray));
+		Logger.getLogger(getClass().getSimpleName()).severe("+# setCulinariesArray  event value " + Arrays.deepToString(culinariesArray));
 		current.setChosenCulinaries(Arrays.asList(culinariesArray));
 	}
 
@@ -118,11 +118,15 @@ public class BackingBeanVisit implements Serializable
 		return  visitList;
 	}
 
-
 	public List<RestaurantVisit> getAllVisitsProxy()
 	{
 		return visitList;
 	}
+
+
+
+
+
 
 	//////////////////////////  Methods for Visit Functions //////////////////////////
 	public void calculateAvgRating(RestaurantVisit r)
