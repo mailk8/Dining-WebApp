@@ -110,7 +110,7 @@
                                               valueChangeListener="#{suggestionsBean.proxyCulinariesChanged}">
 
                                 <p:ajax event="change" immediate="true" async="true" update="gmap visitCreate:suggestionsForm:dt-suggestions"/>
-                                <p:ajax event="toggleSelect" immediate="true" async="true" />
+                                <p:ajax event="toggleSelect" immediate="true" async="true" update="gmap visitCreate:suggestionsForm:dt-suggestions" />
 
                             <f:selectItems value="#{backingBeanVisit.allCulinariesProxy}" style="width:100%; !important;"/>
                         </p:selectCheckboxMenu>

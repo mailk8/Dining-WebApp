@@ -8,8 +8,9 @@ import org.primefaces.event.SlideEndEvent;
 import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.*;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -17,7 +18,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -110,6 +110,15 @@ public class SuggestionsBean implements Serializable
 	int googleZoomLevel;
 	private Circle circle;
 
+	private StringBuilder resourcePath = new StringBuilder();
+
+	@PostConstruct
+	public void preparing() {
+		resourcePath.append(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath());
+		resourcePath.append("/resources/shapes/Pinoekel_grau60_43y_31x_px.svg");
+		//resourcePath.append("/resources/shapes/map-marker-alt-solid.svg");
+	}
+
 	/////////////////////////////////// On Load Methods //////////////////////////////////////////
 	public void proxyOnLoad() {
 		backingBeanRestaurant.getAllRestaurants();
@@ -174,11 +183,13 @@ public class SuggestionsBean implements Serializable
 
 		// ValueChangedEvent wird verarbeitet bevor die Setter für die Entity RestaurantVisit laufen.
 
-//		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyCulinariesChanged  event value " + Arrays.deepToString((Culinary[])event.getNewValue()));
-//		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyCulinariesChanged BeanVisit chosen Cul : " + backingBeanVisit.getCurrent().getChosenCulinaries());
+		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyCulinariesChanged  event value " + Arrays.deepToString((Culinary[])event.getNewValue()) + " currentThread " + Thread.currentThread().getName());
+		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyCulinariesChanged BeanVisit chosen Cul : " + backingBeanVisit.getCurrent().getChosenCulinaries() + " currentThread " + Thread.currentThread().getName());
 
-		//restaurantsFiltered.clear();
-		restaurantsFiltered = filterByCulinary(restaurantsRadius, Arrays.asList((Culinary[])event.getNewValue()));
+		restaurantsFiltered.clear();
+		List<Culinary> list = Arrays.asList((Culinary[])event.getNewValue());
+		currentVisit.setChosenCulinaries(list);
+		restaurantsFiltered = filterByCulinary(restaurantsRadius, list);
 		drawMarkers(restaurantsFiltered);
 	}
 
@@ -323,9 +334,7 @@ public class SuggestionsBean implements Serializable
 	public int calculateZoomLevel() {
 		// https://medium.com/google-design/google-maps-cb0326d165f5#:~:text=Google%20Maps%20has%20a%20varying,by%20256%20pixel%20square%20tile.
 		// Zoomstufe = log( Erdumfang * ( 150 / RadiusKreisMeter ) / TileSize )  /  log( 2 )
-
 		double googleTileSize = 256, earthCirc = 40075016, regulator = 150;
-
 		return (int) Math.round(Math.log(earthCirc * ( regulator / (distanceSearchRadius * 1000) ) / googleTileSize ) / Math.log(2) );
 
 	}
@@ -336,18 +345,33 @@ public class SuggestionsBean implements Serializable
 		mapModel.getMarkers().clear();
 
 		poiList.stream().forEach((e) ->
-						mapModel.addOverlay(
-										new Marker(
-														new LatLng(e.getAddressRestaurant().getWgs84Latitude(), e.getAddressRestaurant().getWgs84Longitude()),
-														e.getName()
-										))
+				mapModel.addOverlay(
+						new Marker(
+								new LatLng(e.getAddressRestaurant().getWgs84Latitude(), e.getAddressRestaurant().getWgs84Longitude()),
+								e.getName()
+						))
 		);
 
-		mapModel.addOverlay(new Marker(
+		mapModel.getMarkers().stream().forEach(e-> {
+			e.setAnimation(Animation.DROP);
+			//e.setShadow("");
+		});
+
+		// http://kml4earth.appspot.com/icons.html
+		// https://developers.google.com/maps/documentation/javascript/heatmaplayer
+
+		Marker center = new Marker(
 						new LatLng(currentVisit.getAddressVisit().getWgs84Latitude(), currentVisit.getAddressVisit().getWgs84Longitude()),
 						"Zentrum der Suche", "Data-Feld",
-						"https://maps.google.com/mapfiles/ms/micons/blue-dot.png"
-		));
+						resourcePath.toString()
+		);
+
+		center.setDraggable(true);
+		center.setId("Center");
+		mapModel.addOverlay(center);
+
+		//center.get
+
 	}
 
 

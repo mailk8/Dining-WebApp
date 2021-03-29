@@ -11,8 +11,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8b0350e6-03f9-48a3-938e-c238785f6e2c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/resources/shapes/Pinoekel_grau60_43y_31x_px.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/resources/shapes/Pinoekel_grau_60.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/resources/shapes/map-marker-alt-solid.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanVisit.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanVisit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/SuggestionsBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/SuggestionsBean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitSuggestions.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitSuggestions.xhtml" afterDir="false" />
     </list>
@@ -55,7 +57,7 @@
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="master" />
-                    <option name="lastUsedInstant" value="1614364413" />
+                    <option name="lastUsedInstant" value="1617016055" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="EJB_Komponente_Fix" />
@@ -98,7 +100,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../restaurant-web/src/main/webapp" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../restaurant-web/src/main/webapp/resources/shapes" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Artifacts" />
@@ -112,18 +114,18 @@
       <recent name="de.marcel.restaurant.ejb" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\webapp\resources\shapes" />
       <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\webapp" />
       <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\DOCU" />
       <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-ejb\src\main\java\de\marcel\restaurant\web\security" />
       <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\webapp\WEB-INF" />
-      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\webapp\resources\css" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\webapp\resources" />
       <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\webapp" />
       <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main" />
       <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-web\src\main\webapp" />
       <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-web\src" />
-      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-ejb\src\main\java\de\marcel\restaurant\ejb\model" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="de.marcel.restaurant.ejb.model" />
@@ -151,13 +153,15 @@
     </option>
   </component>
   <component name="RunManager" selected="JBoss Server.JBoss 22.0.1.Final">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -454,6 +458,7 @@
       <workItem from="1616840496421" duration="28872000" />
       <workItem from="1616922702711" duration="31410000" />
       <workItem from="1617001500796" duration="9301000" />
+      <workItem from="1617016070998" duration="8107000" />
     </task>
     <servers />
   </component>
