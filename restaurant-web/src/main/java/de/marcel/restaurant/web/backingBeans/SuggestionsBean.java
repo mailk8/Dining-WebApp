@@ -96,7 +96,7 @@ public class SuggestionsBean implements Serializable
 
 	@Inject BackingBeanRestaurant backingBeanRestaurant;
 	@Inject BackingBeanVisit backingBeanVisit;
-	private RestaurantVisit currentVisit;
+	
 
 	private List<Restaurant> restaurantsRadius = new ArrayList<>();     // Zwischenergebnis nach Entferungsfilter
 	private List<Restaurant> restaurantsFiltered;   // Endergebnis nach Culinaryfilter
@@ -114,10 +114,9 @@ public class SuggestionsBean implements Serializable
 	public void proxyOnLoad() {
 		backingBeanRestaurant.getAllRestaurants();
 		gmapModel.getMarkers().clear();
-		currentVisit = backingBeanVisit.getCurrent();
-		Address adr = currentVisit.getAddressVisit();
 
-		if( adr != null && adr.getWgs84Latitude() != null && (adr.getWgs84Latitude().equals(0.000) && adr.getWgs84Longitude().equals(0.000)) )
+
+		if( backingBeanVisit.getCurrent().getAddressVisit() != null && backingBeanVisit.getCurrent().getAddressVisit().getWgs84Latitude() != null && (backingBeanVisit.getCurrent().getAddressVisit().getWgs84Latitude().equals(0.000) && backingBeanVisit.getCurrent().getAddressVisit().getWgs84Longitude().equals(0.000)) )
 		{
 			// Überpringen der Treffpunktermittlung, falls eine Adresse vorhanden ist UND diese irgendwo liegt, außer an den Punkten 0.00 0.00
 			// Übersetzt: Es hat bereits jemand eine Treffpunkt eingegeben, es soll kein neuer ermittelt werden.
@@ -127,16 +126,20 @@ public class SuggestionsBean implements Serializable
 		else
 		{
 			// Berechnung eines Treffpunkts aus Addressen der User
-			adr.setWgs84Latitude(0.0); adr.setWgs84Longitude(0.0);
-			List<Address> locationParticipants = currentVisit.getParticipants().stream().map(e -> e.getAddressActual()).collect(Collectors.toList());
+			backingBeanVisit.getCurrent().getAddressVisit().setWgs84Latitude(0.0); backingBeanVisit.getCurrent().getAddressVisit().setWgs84Longitude(0.0);
+
+	Logger.getLogger(getClass().getSimpleName()).severe("+# proxyOnLoad setzte 0.0 in current Visit. Lat: " + backingBeanVisit.getCurrent().getAddressVisit().getWgs84Latitude() +
+					" Long: " + backingBeanVisit.getCurrent().getAddressVisit().getWgs84Longitude());
+
+			List<Address> locationParticipants = backingBeanVisit.getCurrent().getParticipants().stream().map(e -> e.getAddressActual()).collect(Collectors.toList());
 			Address ad = determineCentralPoint(locationParticipants);
-			currentVisit.setAddressVisit(ad);
+			backingBeanVisit.getCurrent().setAddressVisit(ad);
 			centerString = ad.getWgs84Latitude().toString()+", "+ad.getWgs84Longitude().toString();
-			Logger.getLogger(getClass().getSimpleName()).severe("+# proxyOnLoad setzt centerSTring: " + centerString);
+	Logger.getLogger(getClass().getSimpleName()).severe("+# proxyOnLoad setzt centerString: " + centerString + " Entity hat Adresse " + backingBeanVisit.getCurrent().getAddressVisit());
 		}
 
 		restaurantsRadius = filterByRadius(backingBeanRestaurant.getAllRestaurantsProxy(), distanceSearchRadius);
-		restaurantsFiltered = filterByCulinary(restaurantsRadius, currentVisit.getChosenCulinaries());
+		restaurantsFiltered = filterByCulinary(restaurantsRadius, backingBeanVisit.getCurrent().getChosenCulinaries());
 
 		googleZoomLevel = calculateZoomLevel();
 		initMap(restaurantsFiltered);
@@ -154,12 +157,12 @@ public class SuggestionsBean implements Serializable
 
 	public void proxyRadiusChanged(int newValue) {
 		distanceSearchRadius = newValue;
-		reDrawCircle(currentVisit.getAddressVisit());
+		reDrawCircle(backingBeanVisit.getCurrent().getAddressVisit());
 		googleZoomLevel = calculateZoomLevel();
 		restaurantsRadius = filterByRadius(backingBeanRestaurant.getAllRestaurantsProxy(), newValue);
 		restaurantsFiltered.clear();
 		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyRadiusChanged Entity enthält  Culinaries " + backingBeanVisit.getCurrent().getChosenCulinaries());
-		restaurantsFiltered = filterByCulinary(restaurantsRadius, currentVisit.getChosenCulinaries());
+		restaurantsFiltered = filterByCulinary(restaurantsRadius, backingBeanVisit.getCurrent().getChosenCulinaries());
 	}
 
 	public void proxyRadiusChangedSlider(SlideEndEvent event) {
@@ -178,7 +181,10 @@ public class SuggestionsBean implements Serializable
 //		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyCulinariesChanged BeanVisit chosen Cul : " + backingBeanVisit.getCurrent().getChosenCulinaries());
 
 		//restaurantsFiltered.clear();
-		restaurantsFiltered = filterByCulinary(restaurantsRadius, Arrays.asList((Culinary[])event.getNewValue()));
+
+		List<Culinary> list = Arrays.asList((Culinary[])event.getNewValue());
+		backingBeanVisit.getCurrent().setChosenCulinaries(list);
+		restaurantsFiltered = filterByCulinary(restaurantsRadius, list);
 		drawMarkers(restaurantsFiltered);
 	}
 
@@ -214,8 +220,8 @@ public class SuggestionsBean implements Serializable
 	public List<Restaurant> filterByRadius(List<Restaurant> list, int distance) {
 		// https://www.daniel-braun.com/technik/distanz-zwischen-zwei-gps-koordinaten-in-java-berchenen/
 		restaurantsRadius.clear();
-		double latitudeMeeting = currentVisit.getAddressVisit().getWgs84Latitude();
-		double longitudeMeeting = currentVisit.getAddressVisit().getWgs84Longitude();
+		double latitudeMeeting = backingBeanVisit.getCurrent().getAddressVisit().getWgs84Latitude();
+		double longitudeMeeting = backingBeanVisit.getCurrent().getAddressVisit().getWgs84Longitude();
 		double restaurantLatitude = 0;
 
 		Logger.getLogger(getClass().getSimpleName()).severe("+# filterByRadius für Treffpunkt " + latitudeMeeting +" " + longitudeMeeting);
@@ -288,7 +294,7 @@ public class SuggestionsBean implements Serializable
 
 		drawMarkers(poiList);
 
-		Address adr = currentVisit.getAddressVisit();
+		Address adr = backingBeanVisit.getCurrent().getAddressVisit();
 		LatLng coord = new LatLng(adr.getWgs84Latitude(), adr.getWgs84Longitude());
 		circle = new Circle(coord, distanceSearchRadius * 1000 );
 		circle.setStrokeColor("#d93c3c");
@@ -334,6 +340,14 @@ public class SuggestionsBean implements Serializable
 
 		MapModel mapModel = getGmapModel();
 		mapModel.getMarkers().clear();
+//
+//		Logger.getLogger(getClass().getSimpleName()).severe("+# drawMarkers hat erhalten als Restaurant Liste: " );
+//
+//		poiList.stream().forEach((e) -> Logger.getLogger(getClass().getSimpleName()).severe(e.getLinkMenu() + " Addresse: " + e.getAddressRestaurant()  ));
+
+
+
+
 
 		poiList.stream().forEach((e) ->
 						mapModel.addOverlay(
@@ -343,8 +357,11 @@ public class SuggestionsBean implements Serializable
 										))
 		);
 
+
+		Logger.getLogger(getClass().getSimpleName()).severe("+# drawMarkers Entity hat Addresse : " +backingBeanVisit.getCurrent().getAddressVisit() );
+
 		mapModel.addOverlay(new Marker(
-						new LatLng(currentVisit.getAddressVisit().getWgs84Latitude(), currentVisit.getAddressVisit().getWgs84Longitude()),
+						new LatLng(backingBeanVisit.getCurrent().getAddressVisit().getWgs84Latitude(), backingBeanVisit.getCurrent().getAddressVisit().getWgs84Longitude()),
 						"Zentrum der Suche", "Data-Feld",
 						"https://maps.google.com/mapfiles/ms/micons/blue-dot.png"
 		));
