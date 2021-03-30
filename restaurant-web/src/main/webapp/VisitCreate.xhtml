@@ -5,7 +5,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:o="http://omnifaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui" xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
 >
 
 <ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
@@ -23,7 +23,7 @@
 
 
 
-    <!--Visit Daten anlegen-->
+<!--Visit Daten anlegen-->
     <ui:define name="mainContent">
 
         <h:form id="visitCreate">
@@ -33,47 +33,34 @@
             <h:inputHidden id="sizeParticipants_Actual" value="#{backingBeanVisit.sizeParticipantsForValidator}" validator="serverValidatorParticipants"/>
             <h:inputHidden id="sizeParticipants_Initial" value="#{backingBeanVisit.sizeParticipantsForValidator}" />
 
-            <!-- Ort -->
+<!-- Ort -->
             <p:growl id="feedbackLocationSearch" for="place" showDetail="true" keepAlive="10000"/>
 
             <div class="row">
                 <div class="col-4">
-                    <label for="place">PLZ und Ort:</label>
+                    <label for="place">Wo soll gesucht werden?</label>
                 </div>
 
                 <div class="col-3">
-                    <h:inputText id="zip"  value="#{backingBeanVisit.current.addressVisit.zipCode}" class="form-control" required="false" />
+                    <h:inputText id="zip"  value="#{backingBeanVisit.current.addressVisit.zipCode}" a:placeholder="PLZ" class="form-control" required="false" />
                 </div>
 
                 <div class="col-5">
-                    <h:inputText id="place" value="#{backingBeanVisit.current.addressVisit.city}" class="form-control" required="false" >
-                        <p:ajax  event="change" process="googleMapsResult" delay="1000" />
+                    <h:inputText id="place" value="#{backingBeanVisit.current.addressVisit.city}" a:placeholder="Ort" class="form-control" required="false" >
+                        <p:ajax  event="change" process="googleMapsResult" immediate="false" async="false" delay="500" update="visitCreate:feedbackLocationSearch"/>
                     </h:inputText>
                 </div>
             </div>
             <br/>
 
-            <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true&amp;key=AIzaSyDtJoxBmEHGk8KsyyiBcynKz5NrdxnELvE"></script>
-            <ui:remove>
-
-
-                <!--                <div>-->
-                <!--                    <p:gmap id="geoMap" widgetVar="geoMap" center="41.381542, 2.122893" zoom="1" rendered="true"-->
-                <!--                            type="ROADMAP" model="#{backingBeanVisit.geoModel}" style="width:0%;height:0px">-->
-                <!--                             <p:ajax event="geocode" listener="#{backingBeanVisit.onGeocode}" immediate="true" update="visitCreate:feedbackLocationSearch"/>-->
-                <!--                    </p:gmap>-->
-                <!--                </div>-->
-
-            </ui:remove>
-
-            <div style="display: block">
+            <div style="display: none">
                 <h:inputText id="googleMapsResult" value="#{backingBeanVisit.googleMapsResult}" >
-                    <p:ajax  event="change" process="@this" immediate="true"  render="visitCreate:feedbackLocationSearch"/>
+                    <p:ajax  event="change" process="@this" immediate="true" async="true" render="visitCreate:feedbackLocationSearch"/>
                 </h:inputText>
             </div>
 
 
-            <!-- Kulinarik -->
+<!-- Kulinarik -->
             <div class="row" >
                 <div class="col-4">
                     <label>Kulinarik Wunsch:</label>
@@ -93,7 +80,7 @@
                 </div>
             </div>
             <br/>
-            <!--Memo -->
+<!--Memo -->
             <div class="row">
                 <div class="col-4">
                     <label>Memo: </label>
@@ -106,7 +93,7 @@
             </div>
             <br/>
 
-            <!-- Datum -->
+<!-- Datum -->
             <div class="row">
                 <div class="col-4">
                     <label>Datum:</label>
@@ -119,7 +106,7 @@
             </div>
             <br/>
 
-            <!-- Uhrzeit -->
+<!-- Uhrzeit -->
             <div class="row">
                 <div class="col-4">
                     <label>Uhrzeit:</label>
@@ -132,7 +119,7 @@
 
             </div>
             <br/>
-            <!--Zeitzone -->
+<!--Zeitzone -->
             <div class="row">
                 <div class="col-4">
                     <label>Zeitzone:</label>
@@ -147,18 +134,16 @@
             </div>
             <br/>
 
-            <!-- Buttons -->
+<!-- Buttons -->
             <h:commandButton action="#{backingBeanVisit.saveVisit()}"  value="Speichern und zurück" class="btn btn-success" />
             <h:commandButton action="#{backingBeanVisit.saveVisitNext()}" actionListener="#{suggestionsBean.proxyOnLoad()}" value="Speichern und weiter" class="btn btn-warning">
             </h:commandButton>
         </h:form>
 
-
-
     </ui:define>
 
 
-    <!-- Userauswahl Liste -->
+<!-- Userauswahl Liste -->
     <ui:define name="subContent">
 
         <h:form id="userForm">
@@ -201,72 +186,50 @@
             </p:dataTable>
         </h:form>
 
-        <!-- Skripte -->
+<!-- Skripte -->
+
+        <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true&amp;key=AIzaSyDtJoxBmEHGk8KsyyiBcynKz5NrdxnELvE"></script>
+
         <script type="text/javascript">
-
-            // document.getElementById("visitCreate:place").onblur = function() {
-            //     let field = document.getElementById("visitCreate:place");
-            //     let inputText = field.value;
-            //     if(!inputText)
-            //     {
-            //         document.getElementById("visitCreate:place").blur();
-            //         return;
-            //     }
-            //     else
-            //     {
-            //         document.getElementById("visitCreate:place").blur();
-            //         PF('geoMap').geocode(inputText);
-            //     }
-            // }
-
 
             document.getElementById("visitCreate:place").onblur = function()
             {
                 let fieldOrt = document.getElementById("visitCreate:place");
-
                 let varInputText = fieldOrt.value + " " + document.getElementById("visitCreate:zip").value;
+                let googleMapsResult = document.getElementById("visitCreate:googleMapsResult");
+                googleMapsResult.value = "";
+
                 if(!varInputText)
                 {
-                    // !doc.value ist true wenn nichts eingegeben wurde
-                    console.log("Text war " + varInputText + ". Methode endet.");
-                    document.getElementById("visitCreate:place").blur();
+                    fieldOrt.blur();
                     return;
                 }
                 else
                 {
-                    console.log("Text war " + varInputText + ". Geocode wird aufgerufen.");
-                    //document.getElementById("visitCreate:place").blur();
-                    ////////////////////////////////////////////////////////////////
                     var geocoder = new google.maps.Geocoder();
                     geocoder.geocode({'address': varInputText}, function (results, status)
                     {
+                        // console.log("Results Array");
+                        // console.log("address_components " +results[0].address_components);
+                        // console.log("address_components [0] " +results[0].address_components[0]);
+                        // console.log("address_components [0] long_name " +results[0].address_components[0].long_name);
+                        // console.log("address_components [0] types " +results[0].address_components[0].types);
+                        // console.log("address_components [0] types[0] " +results[0].address_components[0].types[0]);
+                        // console.log("results[0].formatted_address " +results[0].formatted_address);
                         if (status === 'OK')
                         {
-                            console.log("Status war OK");
                             // map.setCenter(results[0].geometry.location);
                             // var marker = new google.maps.Marker({ map: map,  position: results[0].geometry.location });
                             let stringResult = status+"+#"+results[0].geometry.location+"+#"+results[0].formatted_address;
-                            console.log("stringResult " + stringResult);
-
-
-                            document.getElementById("visitCreate:googleMapsResult").value = stringResult;
-
-                            //console.log("wert in hiden field" + document.getElementById("visitCreate:googleMapsResult").value);
-
-
+                            googleMapsResult.value = stringResult;
                         }
                         else
                         {
-                            // Wenn mann Müll eingibt, ist der Status nicht OK
-                            console.log('CUSTOMIZED ERROR MESSAGE');
+                            googleMapsResult.value = "Keine Einträge gefunden";
                         }
                     });
                 }
-                console.log("Skript endet.");
             }
-
-
-
 
 
             PrimeFaces.locales ['de'] = {
@@ -312,11 +275,7 @@
 
     </ui:define>
 
-
-
-
-    <ui:define name="footer">
-    </ui:define>
+    <ui:define name="footer"></ui:define>
 
 </ui:composition>
 

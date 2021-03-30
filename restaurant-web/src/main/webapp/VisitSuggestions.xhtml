@@ -57,21 +57,23 @@
                 <h:inputHidden id="sizeParticipants_Initial" value="#{backingBeanVisit.sizeParticipantsForValidator}" />
 
 <!-- Ort -->
-                <div class="row">
-                    <div class="col-4">
-                        <label for="place">PLZ und Ort: <h:message for="place" class="text-danger" /></label>
-                    </div>
+                <ui:remove>
+<!--                <div class="row">-->
+<!--                    <div class="col-4">-->
+<!--                        <label for="place">PLZ und Ort: <h:message for="place" class="text-danger" /></label>-->
+<!--                    </div>-->
 
-                    <div class="col-3">
-                        <h:inputText id="zip"  value="#{backingBeanVisit.current.addressVisit.zipCode}" class="form-control" required="false" />
-                    </div>
+<!--                    <div class="col-3">-->
+<!--                        <h:inputText id="zip"  value="#{backingBeanVisit.current.addressVisit.zipCode}" class="form-control" required="false" disabled="true"/>-->
+<!--                    </div>-->
 
-                    <div class="col-5">
-                        <h:inputText id="place" value="#{backingBeanVisit.current.addressVisit.city}" class="form-control" required="false" >
-                        </h:inputText>
-                    </div>
-                </div>
-                <br/>
+<!--                    <div class="col-5">-->
+<!--                        <h:inputText id="place" value="#{backingBeanVisit.current.addressVisit.city}" class="form-control" required="false" disabled="true">-->
+<!--                        </h:inputText>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <br/>-->
+                </ui:remove>
 
 <!-- Umkreis -->
                 <div class="row">

@@ -107,7 +107,7 @@ public class SuggestionsBean implements Serializable
 	private MapModel gmapModel = new DefaultMapModel();
 	private Marker marker;
 	private String centerString;
-	int googleZoomLevel;
+	private int googleZoomLevel;
 	private Circle circle;
 
 	private StringBuilder resourcePath = new StringBuilder();
@@ -123,13 +123,17 @@ public class SuggestionsBean implements Serializable
 		backingBeanRestaurant.getAllRestaurants();
 		gmapModel.getMarkers().clear();
 		currentVisit = backingBeanVisit.getCurrent();
-		Address adr = currentVisit.getAddressVisit();
+		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyOnLoad hat current Visit von BB erhalten: " + currentVisit);
 
-		if( adr != null && adr.getWgs84Latitude() != null && (adr.getWgs84Latitude().equals(0.000) && adr.getWgs84Longitude().equals(0.000)) )
+		Address adr = currentVisit.getAddressVisit();
+		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyOnLoad hat current Address Visit: " + adr);
+
+		if( adr != null && adr.getWgs84Latitude() != null && (!adr.getWgs84Latitude().equals(0.000) && !adr.getWgs84Longitude().equals(0.000)) )
 		{
 			// Überpringen der Treffpunktermittlung, falls eine Adresse vorhanden ist UND diese irgendwo liegt, außer an den Punkten 0.00 0.00
 			// Übersetzt: Es hat bereits jemand eine Treffpunkt eingegeben, es soll kein neuer ermittelt werden.
 
+			centerString = adr.getWgs84Latitude().toString()+", "+adr.getWgs84Longitude().toString();
 			Logger.getLogger(getClass().getSimpleName()).severe("+# proxyOnLoad Überpringen der Treffpunktermittlung ");
 		}
 		else
@@ -137,9 +141,9 @@ public class SuggestionsBean implements Serializable
 			// Berechnung eines Treffpunkts aus Addressen der User
 			adr.setWgs84Latitude(0.0); adr.setWgs84Longitude(0.0);
 			List<Address> locationParticipants = currentVisit.getParticipants().stream().map(e -> e.getAddressActual()).collect(Collectors.toList());
-			Address ad = determineCentralPoint(locationParticipants);
-			currentVisit.setAddressVisit(ad);
-			centerString = ad.getWgs84Latitude().toString()+", "+ad.getWgs84Longitude().toString();
+			Address center = determineCentralPoint(locationParticipants);
+			currentVisit.setAddressVisit(center);
+			centerString = center.getWgs84Latitude().toString()+", "+center.getWgs84Longitude().toString();
 			Logger.getLogger(getClass().getSimpleName()).severe("+# proxyOnLoad setzt centerSTring: " + centerString);
 		}
 
@@ -197,7 +201,6 @@ public class SuggestionsBean implements Serializable
 
 
 	/////////////////////////////// Methods for Restaurant Filtering ///////////////////////////////
-
 	public List<Restaurant> filterByCulinary(List<Restaurant> restaurants, List<Culinary> matchingBucket) {
 
 		Logger.getLogger(getClass().getSimpleName()).severe("+# filterByCulinary hat Liste erhalten  " + restaurants);
@@ -220,7 +223,6 @@ public class SuggestionsBean implements Serializable
 
 
 	/////////////////////////////// Methods for geospatial Means ///////////////////////////////
-
 	public List<Restaurant> filterByRadius(List<Restaurant> list, int distance) {
 		// https://www.daniel-braun.com/technik/distanz-zwischen-zwei-gps-koordinaten-in-java-berchenen/
 		restaurantsRadius.clear();
@@ -321,15 +323,6 @@ public class SuggestionsBean implements Serializable
 		marker = (Marker) event.getOverlay();
 	}
 
-	public Marker getMarker() {
-		return marker;
-	}
-
-	public MapModel getGmapModel()
-	{
-		return gmapModel;
-	}
-
 	public int calculateZoomLevel() {
 		// https://medium.com/google-design/google-maps-cb0326d165f5#:~:text=Google%20Maps%20has%20a%20varying,by%20256%20pixel%20square%20tile.
 		// Zoomstufe = log( Erdumfang * ( 150 / RadiusKreisMeter ) / TileSize )  /  log( 2 )
@@ -378,7 +371,6 @@ public class SuggestionsBean implements Serializable
 
 
 	////////////////////////////////// Getter Setter //////////////////////////////////////////
-
 	public List<Restaurant> getRestaurantsFiltered()
 	{
 		return restaurantsFiltered;
@@ -412,6 +404,15 @@ public class SuggestionsBean implements Serializable
 	public void setDistanceSearchRadius(int distanceSearchRadius)
 	{
 		this.distanceSearchRadius = distanceSearchRadius;
+	}
+
+	public Marker getMarker() {
+		return marker;
+	}
+
+	public MapModel getGmapModel()
+	{
+		return gmapModel;
 	}
 }
 

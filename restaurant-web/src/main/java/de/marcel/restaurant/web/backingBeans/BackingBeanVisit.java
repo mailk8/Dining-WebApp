@@ -89,63 +89,34 @@ public class BackingBeanVisit implements Serializable
 		return allCulinariesProxy;
 	}
 
+
+
+
 	////////////////////////////////// Methods for Location of Search //////////////////////////////
-	public void onGeocode(GeocodeEvent event) {
-		Logger.getLogger(getClass().getSimpleName()).severe("+# onGeocode läuft" );
-
-		List<GeocodeResult> results = event.getResults();
-
-		if (results != null && !results.isEmpty()) {
-			Logger.getLogger(getClass().getSimpleName()).severe("+# onGeocode result war != null " );
-
-			LatLng coordinatesLocation = results.get(0).getLatLng();
-			current.getAddressVisit().setWgs84Latitude(coordinatesLocation.getLat());
-			current.getAddressVisit().setWgs84Longitude(coordinatesLocation.getLng());
-
-			Logger.getLogger(getClass().getSimpleName()).severe("+# onGeocode event get WGS: " );
-			event.getResults().stream().forEach(e->Logger.getLogger(getClass().getSimpleName()).severe(e.getAddress() + "\n" ));
-			event.getResults().stream().forEach(e->Logger.getLogger(getClass().getSimpleName()).severe(e.getLatLng() + "\n" ));
-
-			FacesContext.getCurrentInstance().addMessage("place",
-							new FacesMessage(FacesMessage.SEVERITY_INFO, "Zu dieser Eingabe wurde die Location '" + results.get(0).getAddress() + "' gefunden.",  ""));
-		}
-		else
-		{
-			Logger.getLogger(getClass().getSimpleName()).severe("+# onGeocode results war leer oder null!" );
-			//FacesContext.getCurrentInstance().addMessage("visitCreate:place",
-			FacesContext.getCurrentInstance().addMessage("place",
-				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Zu dieser Eingabe wurde kein Ort gefunden.",  ""));
-		}
-	}
-
-
-	public void setGoogleMapsResult(String googleMapsResult)
+	public void setGoogleMapsResult(String googleApiReturn)
 	{
-		Logger.getLogger(getClass().getSimpleName()).severe("+# setGoogleMapsResult  mit " + googleMapsResult);
-
+		Logger.getLogger(getClass().getSimpleName()).severe("+# setGoogleMapsResult hat erhalten: " + googleApiReturn);
 		try
 		{
-			if( null != googleMapsResult )
+			if( null != googleApiReturn )
 			{
-				String[] resultSplit = googleMapsResult.split("(\\+#)");
+				String[] resultSplit = googleApiReturn.split("(\\+#)");
 				if( resultSplit[0].equals("OK") && resultSplit.length == 3 ) // http 200er Status der Google Api
 				{
 					String[] lat_lon = resultSplit[1].replaceAll("[)('\"]", "").split("[,]");
-
 					current.getAddressVisit().setWgs84Latitude(Double.parseDouble(lat_lon[0].trim()));
 					current.getAddressVisit().setWgs84Longitude(Double.parseDouble(lat_lon[1].trim()));
-
 					FacesContext.getCurrentInstance().addMessage("place",
-									new FacesMessage(FacesMessage.SEVERITY_INFO, "Zu dieser Eingabe wurde die Location '" + resultSplit[2] + "' gefunden.",  ""));
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "Zu dieser Eingabe wurde die Location '" + resultSplit[2] + " " + resultSplit[1] + "' gefunden.",  ""));
+					return;
 				}
 			}
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			Logger.getLogger(getClass().getSimpleName()).severe("+# Exception! " + e.getMessage() + e.getClass());
 		}
 
-		Logger.getLogger(getClass().getSimpleName()).severe("+# onGeocode results war leer oder null oder Exception!" );
 		FacesContext.getCurrentInstance().addMessage("place",
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Zu dieser Eingabe wurde kein Ort gefunden.",  ""));
 
@@ -201,7 +172,6 @@ public class BackingBeanVisit implements Serializable
 	{
 		return visitList;
 	}
-
 
 
 
@@ -402,7 +372,7 @@ public class BackingBeanVisit implements Serializable
 
 
 
-	//////////////////////////  Methods for View DataList All Visits //////////////////////////
+	//////////////////////////  Methods for DataList All Visits //////////////////////////
 	public boolean isUnfinished(RestaurantVisit visit)
 	{
 		return visit.getStateVisit().ordinal() == 0; // State.UNVOLLSTÄNDIG
