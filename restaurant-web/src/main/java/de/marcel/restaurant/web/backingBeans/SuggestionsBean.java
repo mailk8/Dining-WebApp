@@ -116,7 +116,6 @@ public class SuggestionsBean implements Serializable
 	public void preparing() {
 		resourcePath.append(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath());
 		resourcePath.append("/resources/shapes/Pinoekel_grau60_43y_31x_px.svg");
-		//resourcePath.append("/resources/shapes/map-marker-alt-solid.svg");
 	}
 
 	/////////////////////////////////// On Load Methods //////////////////////////////////////////

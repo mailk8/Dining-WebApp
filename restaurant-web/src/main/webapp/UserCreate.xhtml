@@ -192,7 +192,9 @@
                 {
                     document.getElementById("userInput:wgs84Lat").setAttribute("value", pos.coords.latitude.toPrecision(15));
                     document.getElementById("userInput:wgs84Lon").setAttribute("value", pos.coords.longitude.toPrecision(15));
-                    // console.log(pos.coords.accuracy);
+
+                    // Wenn kein Popup hochspringt, in F12 Console schauen ( LogLevels all einschalten )
+                    //console.log(pos.coords.accuracy);
                     // console.log(pos.coords.altitude);
                     // console.log(pos.coords.altitudeAccuracy);
                     // console.log(pos.coords.heading);

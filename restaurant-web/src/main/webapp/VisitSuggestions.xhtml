@@ -29,8 +29,9 @@
 
             <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true&amp;key=AIzaSyDtJoxBmEHGk8KsyyiBcynKz5NrdxnELvE"></script>
 
-            <div class="card" style="width:100%; height:100%; align-content: flex-start">
-                <p:gmap id="gmap" center="#{suggestionsBean.centerString}" zoom="#{suggestionsBean.googleZoomLevel}" type="ROADMAP" style="height: 900px"
+            <div class="card" style="width:100%; height:900px; align-content: flex-start">
+                <p:gmap id="gmap" center="#{suggestionsBean.centerString}" zoom="#{suggestionsBean.googleZoomLevel}" type="ROADMAP"
+                        style="width:100%;height:100%"
                         model="#{suggestionsBean.gmapModel}"  draggable="true" disableDefaultUI="false" streetView="false" mapTypeControl="false">
 
                         <p:ajax event="overlaySelect" listener="#{suggestionsBean.onMarkerSelect}"/>

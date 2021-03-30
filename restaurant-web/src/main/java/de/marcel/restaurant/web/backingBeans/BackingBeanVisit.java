@@ -6,11 +6,19 @@ import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.RestaurantVisit;
 import de.marcel.restaurant.ejb.model.State;
 import de.marcel.restaurant.ejb.model.User;
+import org.primefaces.event.map.GeocodeEvent;
+import org.primefaces.model.map.DefaultMapModel;
+import org.primefaces.model.map.GeocodeResult;
+import org.primefaces.model.map.LatLng;
+import org.primefaces.model.map.MapModel;
 
 import javax.annotation.ManagedBean;
+import javax.annotation.PostConstruct;
 import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -50,6 +58,13 @@ public class BackingBeanVisit implements Serializable
 	private String zoneString;
 	private Future<HashSet<Integer>> userSetVisits;
 	private HashSet<Integer> set;
+	private MapModel geoModel;
+	private String googleMapsResult;
+
+	public void init() {
+		Logger.getLogger(getClass().getSimpleName()).severe("+# init Map lääuft");
+		geoModel = new DefaultMapModel();
+	}
 
 	////////////////////////////////// Methods for Culinary Selection //////////////////////////////
 	public Culinary[] getCulinariesArray()
@@ -72,6 +87,70 @@ public class BackingBeanVisit implements Serializable
 			allCulinariesProxy = getAllCulinaries();
 		}
 		return allCulinariesProxy;
+	}
+
+	////////////////////////////////// Methods for Location of Search //////////////////////////////
+	public void onGeocode(GeocodeEvent event) {
+		Logger.getLogger(getClass().getSimpleName()).severe("+# onGeocode läuft" );
+
+		List<GeocodeResult> results = event.getResults();
+
+		if (results != null && !results.isEmpty()) {
+			Logger.getLogger(getClass().getSimpleName()).severe("+# onGeocode result war != null " );
+
+			LatLng coordinatesLocation = results.get(0).getLatLng();
+			current.getAddressVisit().setWgs84Latitude(coordinatesLocation.getLat());
+			current.getAddressVisit().setWgs84Longitude(coordinatesLocation.getLng());
+
+			Logger.getLogger(getClass().getSimpleName()).severe("+# onGeocode event get WGS: " );
+			event.getResults().stream().forEach(e->Logger.getLogger(getClass().getSimpleName()).severe(e.getAddress() + "\n" ));
+			event.getResults().stream().forEach(e->Logger.getLogger(getClass().getSimpleName()).severe(e.getLatLng() + "\n" ));
+
+			FacesContext.getCurrentInstance().addMessage("place",
+							new FacesMessage(FacesMessage.SEVERITY_INFO, "Zu dieser Eingabe wurde die Location '" + results.get(0).getAddress() + "' gefunden.",  ""));
+		}
+		else
+		{
+			Logger.getLogger(getClass().getSimpleName()).severe("+# onGeocode results war leer oder null!" );
+			//FacesContext.getCurrentInstance().addMessage("visitCreate:place",
+			FacesContext.getCurrentInstance().addMessage("place",
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Zu dieser Eingabe wurde kein Ort gefunden.",  ""));
+		}
+	}
+
+
+	public void setGoogleMapsResult(String googleMapsResult)
+	{
+		Logger.getLogger(getClass().getSimpleName()).severe("+# setGoogleMapsResult  mit " + googleMapsResult);
+
+		try
+		{
+			if( null != googleMapsResult )
+			{
+				String[] resultSplit = googleMapsResult.split("(\\+#)");
+				if( resultSplit[0].equals("OK") && resultSplit.length == 3 ) // http 200er Status der Google Api
+				{
+					String[] lat_lon = resultSplit[1].replaceAll("[)('\"]", "").split("[,]");
+
+					current.getAddressVisit().setWgs84Latitude(Double.parseDouble(lat_lon[0].trim()));
+					current.getAddressVisit().setWgs84Longitude(Double.parseDouble(lat_lon[1].trim()));
+
+					FacesContext.getCurrentInstance().addMessage("place",
+									new FacesMessage(FacesMessage.SEVERITY_INFO, "Zu dieser Eingabe wurde die Location '" + resultSplit[2] + "' gefunden.",  ""));
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		Logger.getLogger(getClass().getSimpleName()).severe("+# onGeocode results war leer oder null oder Exception!" );
+		FacesContext.getCurrentInstance().addMessage("place",
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Zu dieser Eingabe wurde kein Ort gefunden.",  ""));
+
+		//googleMapsResult = null;
+
 	}
 
 
@@ -292,6 +371,11 @@ public class BackingBeanVisit implements Serializable
 	}
 
 
+
+
+
+
+
 	//////////////////////////  Methods for Date Time Functions //////////////////////////
 	public Set<String> getAllTimezones()
 	{
@@ -312,6 +396,7 @@ public class BackingBeanVisit implements Serializable
 	{
 		this.zoneString = zoneString;
 	}
+
 
 
 
@@ -348,5 +433,27 @@ public class BackingBeanVisit implements Serializable
 		set = null;
 		return false;
 	}
+
+
+
+
+
+	////////////////////////////////// Getter Setter ////////////////////////////////////////
+
+	public MapModel getGeoModel()
+	{
+		return geoModel;
+	}
+
+	public void setGeoModel(MapModel geoModel)
+	{
+		this.geoModel = geoModel;
+	}
+
+	public String getGoogleMapsResult()
+	{
+		return googleMapsResult;
+	}
+
 
 }
