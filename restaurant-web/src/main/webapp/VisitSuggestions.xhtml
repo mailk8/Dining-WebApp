@@ -8,8 +8,6 @@
       xmlns:o="http://omnifaces.org/ui"
       >
 
-
-
     <ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
         <ui:remove>
 <!--        <f:metadata>-->
@@ -35,6 +33,7 @@
                         model="#{suggestionsBean.gmapModel}"  draggable="true" disableDefaultUI="false" streetView="false" mapTypeControl="false">
 
                         <p:ajax event="overlaySelect" listener="#{suggestionsBean.onMarkerSelect}"/>
+                         <p:ajax event="markerDrag" listener="#{suggestionsBean.proxyMarkerDrag}" update="gmap visitCreate:suggestionsForm:dt-suggestions" delay="500"/>
 
                         <p:gmapInfoWindow id="infoWindow">
                             <p:outputPanel style="text-align: center; display: block; margin: auto">
@@ -75,7 +74,7 @@
 <!--                <br/>-->
                 </ui:remove>
 
-<!-- Umkreis -->
+<!-- Umkreis Text -->
                 <div class="row">
                     <div class="col-4">
                         <label for="radius">Suchradius:</label>
@@ -89,6 +88,7 @@
                         </h:inputText>
                         <p:messages id="messageForRadius" for="radius" display="icon" style="padding-left: 1px" />
                     </div>
+
 <!-- Umkreis Slider -->
                     <div class="col-5" style="padding-top: 18px;">
                         <p:slider id="slider" for="radius" minValue="1" maxValue="200" step="1" range="max" style="margin: 0px auto;" >
@@ -211,6 +211,5 @@
         </ui:define>
 
     </ui:composition>
-
 
 </html>

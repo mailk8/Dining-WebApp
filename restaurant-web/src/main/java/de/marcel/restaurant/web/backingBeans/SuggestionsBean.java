@@ -5,11 +5,13 @@ import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.Restaurant;
 import de.marcel.restaurant.ejb.model.RestaurantVisit;
 import org.primefaces.event.SlideEndEvent;
+import org.primefaces.event.map.MarkerDragEvent;
 import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.*;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
@@ -158,12 +160,6 @@ public class SuggestionsBean implements Serializable
 
 
 	/////////////////////////////// Proxy Methods for Eventlisteners //////////////////////////////
-	public void proxyCentralPointChanged(double lat, double lon) {
-		// Auf dem UI wurde ein Neuer Treffpunkt gesetzt
-		// es soll NICHT aus Usern ermittelt werden
-
-	}
-
 	public void proxyRadiusChanged(int newValue) {
 		distanceSearchRadius = newValue;
 		reDrawCircle(currentVisit.getAddressVisit());
@@ -193,7 +189,27 @@ public class SuggestionsBean implements Serializable
 		List<Culinary> list = Arrays.asList((Culinary[])event.getNewValue());
 		currentVisit.setChosenCulinaries(list);
 		restaurantsFiltered = filterByCulinary(restaurantsRadius, list);
-		drawMarkers(restaurantsFiltered);
+		drawMarkers(restaurantsFiltered, true);
+	}
+
+	public void proxyMarkerDrag(MarkerDragEvent event) {
+		marker = event.getMarker();
+
+		LatLng coord = marker.getLatlng();
+		Address adr = currentVisit.getAddressVisit();
+		adr.setWgs84Latitude(coord.getLat());
+		adr.setWgs84Longitude(coord.getLng());
+		//centerString = coord.getLat() + ", " + coord.getLng();
+
+
+		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyMarkerDrag  event Lat " + marker.getLatlng().getLat() + " Lon " + marker.getLatlng().getLng());
+
+		reDrawCircle(adr);
+		//googleZoomLevel = calculateZoomLevel();
+		restaurantsRadius = filterByRadius(backingBeanRestaurant.getAllRestaurantsProxy(), distanceSearchRadius);
+		restaurantsFiltered.clear();
+		restaurantsFiltered = filterByCulinary(restaurantsRadius, currentVisit.getChosenCulinaries());
+
 	}
 
 
@@ -292,13 +308,13 @@ public class SuggestionsBean implements Serializable
 
 
 
-	//////////////////////////// Gmap Methods ///////////////////////////////////////////////////
+	//////////////////////////// Map Methods ///////////////////////////////////////////////////
 	public void initMap(List<Restaurant> poiList) {
 
 		MapModel mapModel = getGmapModel();
 		mapModel.getCircles().clear();
 
-		drawMarkers(poiList);
+		drawMarkers(poiList, true);
 
 		Address adr = currentVisit.getAddressVisit();
 		LatLng coord = new LatLng(adr.getWgs84Latitude(), adr.getWgs84Longitude());
@@ -315,8 +331,11 @@ public class SuggestionsBean implements Serializable
 	}
 
 	public void reDrawCircle(Address middle) {
+
+		getGmapModel().getCircles().clear();
 		circle.setCenter(new LatLng(middle.getWgs84Latitude(), middle.getWgs84Longitude()));
 		circle.setRadius(distanceSearchRadius * 1000);
+		getGmapModel().addOverlay(circle);
 	}
 
 	public void onMarkerSelect(OverlaySelectEvent event) {
@@ -331,7 +350,7 @@ public class SuggestionsBean implements Serializable
 
 	}
 
-	public void drawMarkers(List<Restaurant> poiList) {
+	public void drawMarkers(List<Restaurant> poiList, boolean effect) {
 
 		MapModel mapModel = getGmapModel();
 		mapModel.getMarkers().clear();
@@ -344,10 +363,11 @@ public class SuggestionsBean implements Serializable
 						))
 		);
 
-		mapModel.getMarkers().stream().forEach(e-> {
-			e.setAnimation(Animation.DROP);
-			//e.setShadow("");
-		});
+		if(effect)
+			mapModel.getMarkers().stream().forEach(e-> {
+				e.setAnimation(Animation.DROP);
+				//e.setShadow("");
+			});
 
 		// http://kml4earth.appspot.com/icons.html
 		// https://developers.google.com/maps/documentation/javascript/heatmaplayer
