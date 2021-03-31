@@ -7,11 +7,13 @@ import de.marcel.restaurant.ejb.model.RestaurantVisit;
 import org.primefaces.event.SlideEndEvent;
 import org.primefaces.event.map.MarkerDragEvent;
 import org.primefaces.event.map.OverlaySelectEvent;
+import org.primefaces.event.map.PointSelectEvent;
+import org.primefaces.event.map.StateChangeEvent;
 import org.primefaces.model.map.*;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
@@ -117,7 +119,7 @@ public class SuggestionsBean implements Serializable
 	@PostConstruct
 	public void preparing() {
 		resourcePath.append(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath());
-		resourcePath.append("/resources/shapes/Pinoekel_grau60_43y_31x_px.svg");
+		resourcePath.append("/resources/shapes/CenterMarker_grau60_43y_31x_px.svg");
 	}
 
 	/////////////////////////////////// On Load Methods //////////////////////////////////////////
@@ -143,7 +145,7 @@ public class SuggestionsBean implements Serializable
 			// Berechnung eines Treffpunkts aus Addressen der User
 			adr.setWgs84Latitude(0.0); adr.setWgs84Longitude(0.0);
 			List<Address> locationParticipants = currentVisit.getParticipants().stream().map(e -> e.getAddressActual()).collect(Collectors.toList());
-			Address center = determineCentralPoint(locationParticipants);
+			Address center = determineCentralPointSearch(locationParticipants);
 			currentVisit.setAddressVisit(center);
 			centerString = center.getWgs84Latitude().toString()+", "+center.getWgs84Longitude().toString();
 			Logger.getLogger(getClass().getSimpleName()).severe("+# proxyOnLoad setzt centerSTring: " + centerString);
@@ -194,21 +196,23 @@ public class SuggestionsBean implements Serializable
 
 	public void proxyMarkerDrag(MarkerDragEvent event) {
 		marker = event.getMarker();
-
 		LatLng coord = marker.getLatlng();
 		Address adr = currentVisit.getAddressVisit();
 		adr.setWgs84Latitude(coord.getLat());
 		adr.setWgs84Longitude(coord.getLng());
 		//centerString = coord.getLat() + ", " + coord.getLng();
 
-
 		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyMarkerDrag  event Lat " + marker.getLatlng().getLat() + " Lon " + marker.getLatlng().getLng());
-
 		reDrawCircle(adr);
 		//googleZoomLevel = calculateZoomLevel();
 		restaurantsRadius = filterByRadius(backingBeanRestaurant.getAllRestaurantsProxy(), distanceSearchRadius);
 		restaurantsFiltered.clear();
 		restaurantsFiltered = filterByCulinary(restaurantsRadius, currentVisit.getChosenCulinaries());
+		drawMarkers(restaurantsFiltered, false);
+
+		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyMarkerDrag getSource : " + event.getSource().toString());
+		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyMarkerDrag getBehavior: " + event.getBehavior());
+		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyMarkerDrag getComponent: " + event.getComponent());
 
 	}
 
@@ -274,7 +278,7 @@ public class SuggestionsBean implements Serializable
 		return restaurantsRadius;
 	}
 
-	public Address determineCentralPoint(List<Address> addressesParticipants) {
+	public Address determineCentralPointSearch(List<Address> addressesParticipants) {
 
 		// https://stackoverflow.com/questions/6671183/calculate-the-center-point-of-multiple-latitude-longitude-coordinate-pairs
 		// https://www.biancahoegel.de/wissen/navigation/kugelkoordinaten.html
@@ -326,11 +330,13 @@ public class SuggestionsBean implements Serializable
 		mapModel.addOverlay(circle);
 
 
+
 		//		//Icons and Data
 		//		advancedModel.addOverlay(new Marker(coord1, "Konyaalti", "BildInfoPopup.png", "Icon für Mapsdarstellung  https://maps.google.com/mapfiles/ms/micons/blue-dot.png"));
 	}
 
 	public void reDrawCircle(Address middle) {
+		// Circles sind nicht draggable. In mit JavaScript geht das http://jsfiddle.net/phpdeveloperrahul/rMy2B/
 
 		getGmapModel().getCircles().clear();
 		circle.setCenter(new LatLng(middle.getWgs84Latitude(), middle.getWgs84Longitude()));
@@ -363,6 +369,8 @@ public class SuggestionsBean implements Serializable
 						))
 		);
 
+
+
 		if(effect)
 			mapModel.getMarkers().stream().forEach(e-> {
 				e.setAnimation(Animation.DROP);
@@ -382,9 +390,8 @@ public class SuggestionsBean implements Serializable
 		center.setId("Center");
 		mapModel.addOverlay(center);
 
-		//center.get
-
 	}
+
 
 
 

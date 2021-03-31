@@ -29,10 +29,10 @@
 
             <div class="card" style="width:100%; height:900px; align-content: flex-start">
                 <p:gmap id="gmap" center="#{suggestionsBean.centerString}" zoom="#{suggestionsBean.googleZoomLevel}" type="ROADMAP"
-                        style="width:100%;height:100%"
+                        style="width:100%;height:100%" fitBounds="true"
                         model="#{suggestionsBean.gmapModel}"  draggable="true" disableDefaultUI="false" streetView="false" mapTypeControl="false">
 
-                        <p:ajax event="overlaySelect" listener="#{suggestionsBean.onMarkerSelect}"/>
+                         <p:ajax event="overlaySelect" listener="#{suggestionsBean.onMarkerSelect}"/>
                          <p:ajax event="markerDrag" listener="#{suggestionsBean.proxyMarkerDrag}" update="gmap visitCreate:suggestionsForm:dt-suggestions" delay="500"/>
 
                         <p:gmapInfoWindow id="infoWindow">
@@ -114,6 +114,9 @@
 
                                 <p:ajax event="change" immediate="true" async="true" update="gmap visitCreate:suggestionsForm:dt-suggestions"/>
                                 <p:ajax event="toggleSelect" immediate="true" async="true" update="gmap visitCreate:suggestionsForm:dt-suggestions" />
+
+
+
 
                             <f:selectItems value="#{backingBeanVisit.allCulinariesProxy}" style="width:100%; !important;"/>
                         </p:selectCheckboxMenu>

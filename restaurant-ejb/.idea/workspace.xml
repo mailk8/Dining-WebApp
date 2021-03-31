@@ -14,6 +14,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/SuggestionsBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/SuggestionsBean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitSuggestions.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitSuggestions.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/resources/shapes/Pinoekel_grau60_43y_31x_px.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/resources/shapes/CenterMarker_grau60_43y_31x_px.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/resources/shapes/Pinoekel_grau_60.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/resources/shapes/map-marker-alt-solid.svg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -150,17 +153,6 @@
     </option>
   </component>
   <component name="RunManager" selected="JBoss Server.JBoss 22.0.1.Final">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="GlassfishConfiguration" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment />
@@ -454,7 +446,8 @@
       <workItem from="1616922702711" duration="31410000" />
       <workItem from="1617001500796" duration="9301000" />
       <workItem from="1617016070998" duration="21319000" />
-      <workItem from="1617095129539" duration="28828000" />
+      <workItem from="1617095129539" duration="29929000" />
+      <workItem from="1617175807322" duration="11002000" />
     </task>
     <servers />
   </component>
@@ -493,7 +486,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitCreate.xhtml</url>
           <line>194</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
