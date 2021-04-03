@@ -394,7 +394,14 @@ public class SuggestionsBean implements Serializable
 
 
 
+	////////////////////////////////// Basic Crud //////////////////////////////////////////
+	public void saveVisitBackingBean() {
 
+		Logger.getLogger(getClass().getSimpleName()).severe("+# saveVisitBackingBean persistiert current mit chosen Rest. " + currentVisit.getRestaurantChosen());
+
+		backingBeanVisit.setCurrent(currentVisit);
+		backingBeanVisit.saveVisit();
+	}
 
 
 	////////////////////////////////// Getter Setter //////////////////////////////////////////
@@ -440,6 +447,16 @@ public class SuggestionsBean implements Serializable
 	public MapModel getGmapModel()
 	{
 		return gmapModel;
+	}
+
+	public RestaurantVisit getCurrentVisit()
+	{
+		return currentVisit;
+	}
+
+	public void setCurrentVisit(RestaurantVisit currentVisit)
+	{
+		this.currentVisit = currentVisit;
 	}
 }
 

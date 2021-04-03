@@ -135,9 +135,9 @@
             <br/>
 
 <!-- Buttons -->
-            <h:commandButton action="#{backingBeanVisit.saveVisit()}"  value="Speichern und zurück" class="btn btn-success" />
-            <h:commandButton action="#{backingBeanVisit.saveVisitNext()}" actionListener="#{suggestionsBean.proxyOnLoad()}" value="Speichern und weiter" class="btn btn-warning">
-            </h:commandButton>
+            <br/>
+            <h:commandButton action="#{backingBeanVisit.saveVisit()}"  value="Speichern und zur Übersicht" class="btn btn-primary" style="margin-left: .5rem; float:left;"/>
+            <h:commandButton action="#{backingBeanVisit.saveVisitNext()}" actionListener="#{suggestionsBean.proxyOnLoad()}" value="Speichern und weiter" class="btn btn-primary" style="margin-left: .5rem; "/>
         </h:form>
 
     </ui:define>
@@ -150,7 +150,8 @@
 
             <p:growl id="visitCreateGrowl" showDetail="false"  />
 
-            <p:dataTable id="dt-participants" widgetVar="dt-participants-var" var="user"  reflow="false" styleClass="products-table" stripedRows="true" size="medium"
+            <p:dataTable id="dt-participants" widgetVar="dt-participants-var" var="user"  reflow="false"
+                         styleClass="products-table" stripedRows="true" size="medium"
                          style="border: 0px solid transparent; outline: 1px solid lightgrey; padding-right: 0px"
                          rows="10" paginator="false" paginatorPosition="bottom"
                          value="#{backingBeanUser.getAllUsers()}" rowKey="#{user.id}"

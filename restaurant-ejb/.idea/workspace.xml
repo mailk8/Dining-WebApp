@@ -11,12 +11,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8b0350e6-03f9-48a3-938e-c238785f6e2c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitRating.xhtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/resources/css/starRating.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/RestaurantVisit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/RestaurantVisit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/State.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanVisit.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanVisit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/SuggestionsBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/SuggestionsBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/validators/ServerValidatorParticipants.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/validators/ServerValidatorParticipants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/UserCreate.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/UserCreate.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitCreate.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitCreate.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitList.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitList.xhtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitSuggestions.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitSuggestions.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/resources/shapes/Pinoekel_grau60_43y_31x_px.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/resources/shapes/CenterMarker_grau60_43y_31x_px.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/resources/shapes/Pinoekel_grau_60.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/resources/shapes/map-marker-alt-solid.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/DefaultTemplateOneColumn.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/DefaultTemplateOneColumn.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/DefaultTemplateTwoColumns.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/DefaultTemplateTwoColumns.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/resources/css/myOverwritingStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/resources/css/myOverwritingStyle.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,11 +38,11 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="JavaScript File" />
         <option value="XHTML File" />
         <option value="jsf" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -100,7 +111,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../restaurant-web/src/main/webapp/resources/shapes" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../restaurant-web/src/main/webapp/resources/css" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Artifacts" />
@@ -114,11 +125,11 @@
       <recent name="de.marcel.restaurant.ejb" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\webapp\resources\shapes" />
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\webapp\resources\css" />
       <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\webapp" />
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\webapp\resources\shapes" />
       <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\DOCU" />
       <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-ejb\src\main\java\de\marcel\restaurant\web\security" />
-      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\webapp\WEB-INF" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\webapp\resources" />
@@ -153,6 +164,17 @@
     </option>
   </component>
   <component name="RunManager" selected="JBoss Server.JBoss 22.0.1.Final">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="GlassfishConfiguration" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment />
@@ -279,6 +301,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="VisitRating.jsf" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:80/restaurant-web-1/VisitRating.jsf">
+      <method v="2" />
+    </configuration>
+    <configuration name="VisitSuggestions.jsf" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:80/restaurant-web-1/VisitSuggestions.jsf">
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
       <deployment />
       <server-settings />
@@ -293,8 +321,16 @@
     </configuration>
     <list>
       <item itemvalue="GlassFish Server.GlassFish 5.0.1 Oracle" />
+      <item itemvalue="JavaScript Debug.VisitSuggestions.jsf" />
       <item itemvalue="JBoss Server.JBoss 22.0.1.Final" />
+      <item itemvalue="JavaScript Debug.VisitRating.jsf" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.VisitRating.jsf" />
+        <item itemvalue="JavaScript Debug.VisitSuggestions.jsf" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -447,7 +483,11 @@
       <workItem from="1617001500796" duration="9301000" />
       <workItem from="1617016070998" duration="21319000" />
       <workItem from="1617095129539" duration="29929000" />
-      <workItem from="1617175807322" duration="11002000" />
+      <workItem from="1617175807322" duration="19876000" />
+      <workItem from="1617269056357" duration="14983000" />
+      <workItem from="1617354570216" duration="11348000" />
+      <workItem from="1617396736879" duration="639000" />
+      <workItem from="1617439124730" duration="8692000" />
     </task>
     <servers />
   </component>
@@ -475,18 +515,13 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/RestaurantVisit.java</url>
-          <line>150</line>
+          <line>151</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanUser.java</url>
           <line>181</line>
           <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitCreate.xhtml</url>
-          <line>194</line>
-          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

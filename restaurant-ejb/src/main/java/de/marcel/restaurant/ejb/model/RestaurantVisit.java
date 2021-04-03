@@ -55,7 +55,7 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Address addressVisit = new Address();
 
-	@OneToMany(mappedBy="visit", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="visit", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Rating> ratingsVisit;
 
 	@Column(name = "averageRating", nullable = true, columnDefinition = "TINYINT")
@@ -144,6 +144,7 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 
 	@Override public void setRestaurantChosen(Restaurant restaurantChosen)
 	{
+		Logger.getLogger(getClass().getSimpleName()).severe("+# setRestaurantChosen erhält  chosen Rest. " + restaurantChosen);
 		this.restaurantChosen = restaurantChosen;
 	}
 
@@ -205,7 +206,6 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 		return LocalDateTime.of(visitingDate, visitingTime);
 	}
 
-
 	@Override public Integer getPrim()
 	{
 		return prim;
@@ -232,6 +232,6 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 
 	@Override public String toString()
 	{
-		return "RestaurantVisit{" + "prim=" + prim + ", id=" + id + ", visitingDateTime=" + visitingDate + ", memo='" + memo + "\n" + ", participants=" + participants +  "\n" + ", addressVisit=" + addressVisit + ", ratingsVisit=" + ratingsVisit + ", averageRating=" + averageRating + ", restaurantChosen=" + restaurantChosen + "\nChosenCulinaries =" + chosenCulinaries + ", stateVisit=" + stateVisit + '}';
+		return "RestaurantVisit{" + "prim=" + prim + ", id=" + id + ", visitingDateTime=" + visitingDate + ", memo='" + memo + "\n" + ", participants=" + participants +  "\n" + ", addressVisit=" + addressVisit + ", ratingsVisit=" + ratingsVisit + ", averageRating=" + averageRating + ", restaurantChosen=" + (null != restaurantChosen ? restaurantChosen.getLinkMenu() : "leer") + "\nChosenCulinaries =" + chosenCulinaries + ", stateVisit=" + stateVisit + '}';
 	}
 }

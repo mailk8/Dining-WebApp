@@ -21,7 +21,7 @@ public class ServerValidatorParticipants implements Validator {
 
 	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException
 	{
-		// validiert wird die aktuelle Anzahl der als Teilnehmer eingetragenen User. Übermittlung erfolgt mit Ajax.
+		// validiert wird die aktuelle Anzahl der als Teilnehmer eingetragenen User. Übermittlung BEWERTBAR mit Ajax.
 		Logger.getLogger(this.getClass().getSimpleName()).severe("+# serverValidatorParticipants" );
 		if( null != value )
 		{

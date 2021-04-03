@@ -163,7 +163,7 @@ public class BackingBeanUser implements Serializable
 	}
 
 	public String createNew() {
-		// Nächste freie id wird antizipiert und per Zufall erhöht, falls die Aktion parallel erfolgt
+		// Nächste freie id wird antizipiert und per Zufall erhöht, falls die Aktion parallel BEWERTBAR
 		int nextId = (appServer.findMaxId(User.class) + 1 + (new Random().nextInt(2)));
 		current = new User();
 		current.setId(nextId);

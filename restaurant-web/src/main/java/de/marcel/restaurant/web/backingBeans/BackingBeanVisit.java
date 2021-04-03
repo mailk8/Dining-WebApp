@@ -19,6 +19,7 @@ import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -42,13 +43,12 @@ import java.util.stream.Collectors;
 	Genau das gleiche bei Rating?
  */
 @Named
-@SessionScoped
+@SessionScoped  // ViewScoped nicht ohne Weiteres möglich
 @ManagedBean
 public class BackingBeanVisit implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	private RestaurantVisit current = new RestaurantVisit();
-
 	@Resource(name = "DefaultManagedExecutorService") ManagedExecutorService executor;
 	@Inject private IRestaurantEJB appServer;
 	@Inject private BackingBeanUser backingBeanUser;
@@ -62,14 +62,12 @@ public class BackingBeanVisit implements Serializable
 	private String googleMapsResult;
 
 	public void init() {
-		Logger.getLogger(getClass().getSimpleName()).severe("+# init Map lääuft");
 		geoModel = new DefaultMapModel();
 	}
 
 	////////////////////////////////// Methods for Culinary Selection //////////////////////////////
 	public Culinary[] getCulinariesArray()
 	{
-		//Logger.getLogger(getClass().getSimpleName()).severe("+# getCulinariesArray läuft, return : " + current.getChosenCulinaries() );
 		return current.getChosenCulinaries().stream().toArray(Culinary[]::new);
 	}
 
@@ -226,14 +224,14 @@ public class BackingBeanVisit implements Serializable
 				else break;
 			}
 			case 2:{
-				if(ZonedDateTime.of(visit.getVisitingDateTime(), ZoneId.of(visit.getTimezoneString())).isAfter(ZonedDateTime.of(LocalDateTime.now(), ZoneId.systemDefault()))) //////////// SERVERZEIT, Vorsicht
-					visit.setStateVisit(State.ERFOLGT); // 3
+				if((ZonedDateTime.of(LocalDateTime.now(), ZoneId.systemDefault()))
+					.isAfter(ZonedDateTime.of(visit.getVisitingDateTime(), ZoneId.of(visit.getTimezoneString()))))
+					visit.setStateVisit(State.BEWERTBAR); // 3
 				else break;
-
 			}
 			case 3:{
-				if(visit.getAverageRating() > 0)
-					visit.setStateVisit(State.BEWERTUNG_OFFEN); // 4
+				if(visit.getParticipants().size() < visit.getRatingsVisit().size())
+					visit.setStateVisit(State.BEWERTUNG_AUSSTEHEND); // 4
 				else break;
 			}
 			case 4:{
@@ -252,8 +250,7 @@ public class BackingBeanVisit implements Serializable
 	//////////////////////////  Methods for Basic Crud & Navigation //////////////////////////
 	public String saveVisit()
 	{
-		//Logger.getLogger(getClass().getSimpleName()).severe("+# begin save Visit -----------------------------");
-		//Logger.getLogger(getClass().getSimpleName()).severe("+# vor update visitState, current.getPrim " + current.getPrim());
+		Logger.getLogger(getClass().getSimpleName()).severe("+# saveVisit persistiert current mit chosen Rest. " + current.getRestaurantChosen());
 		updateVisitState(current);
 		if(null == current.getPrim())
 		{

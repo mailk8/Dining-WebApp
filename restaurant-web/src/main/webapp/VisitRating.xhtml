@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui"
+>
+
+<ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
+    <ui:remove>
+        <!--        <f:metadata>-->
+        <!--            <f:viewAction action="#{suggestionsBean.proxyOnLoad()}" />-->
+        <!--        </f:metadata>-->
+    </ui:remove>
+
+    <ui:param name="active" value="Rating" />
+    <ui:param name="title" value="Restaurantbesuch bewerten" />
+
+    <ui:define name="titleHeader">
+        <h2>#{title}</h2>
+    </ui:define>
+
+    <ui:define name="head">
+            <h:outputStylesheet  library="css" name="starRating.css" />
+    </ui:define>
+
+    <ui:define name="mainContent">
+
+        <h:form id="visitRating">
+            <h:inputHidden value="#{backingBeanVisit.current.prim}" />
+
+            <div class="form-group">
+
+<!--ZUSAMMENFASSUNG VISIT-->
+                <div class="row" style="padding-bottom: 70px">
+                    <div class="col-12">
+                        <h:outputText value="Dein Restaurantbesuch im xxxxx mit TN1, TN2, TN3 und TN4 am 23.05.2020 um 20:00 Uhr. Wie war es?"></h:outputText>
+                    </div>
+                </div>
+
+<!--KATEGORIE ESSEN-->
+
+                <div class="row">
+                    <div class="col-4">
+                        <label for="category">Kategorie Gericht:</label>
+                    </div>
+                    <div class="col-8">
+                        <h:inputText id="category" value="placeholder" class="form-control" ></h:inputText>
+                    </div>
+                </div>
+                <br/>
+
+<!-- MEMO ESSEN-->
+                <div class="row">
+                    <div class="col-4">
+                        <label for="memoCuli">Bemerkung zum Gericht:</label>
+                    </div>
+                    <div class="col-8">
+                        <h:inputText id="memoCuli" value="placeholder" class="form-control" ></h:inputText>
+                    </div>
+                </div>
+                <br/>
+
+<!-- PREIS-->
+                <div class="row">
+                    <div class="col-4">
+                        <label for="price">Bezhalt:</label>
+                    </div>
+                    <div class="col-8">
+                        <h:inputText id="price" value="placeholder" class="form-control" ></h:inputText>
+                    </div>
+                </div>
+                <br/>
+
+<!-- MEMO VISIT-->
+                <div class="row">
+                    <div class="col-4">
+                        <label for="memoVisit">Memo zum Besuch:</label>
+                    </div>
+                    <div class="col-8">
+                        <h:inputText id="memoVisit" value="placeholder" class="form-control" cancel="true"></h:inputText>
+                    </div>
+                </div>
+                <br/>
+
+<!-- STERNE WERTUNG -->
+
+                <br/>
+                <div class="container">
+                    <div class="rating-wrap">
+                        <div class="center">
+                            <fieldset class="rating">
+                                <input type="radio" id="star6" name="rating" value="6"/><label for="star6" class="full"></label>
+                                <input type="radio" id="star5" name="rating" value="5"/><label for="star5" class="full"></label>
+                                <input type="radio" id="star4" name="rating" value="4"/><label for="star4" class="full"></label>
+                                <input type="radio" id="star3" name="rating" value="3"/><label for="star3" class="full"></label>
+                                <input type="radio" id="star2" name="rating" value="2"/><label for="star2" class="full"></label>
+                                <input type="radio" id="star1" name="rating" value="1"/><label for="star1" class="full"></label>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<!-- Buttons -->
+            <br/>
+            <h:commandButton action="VisitList?faces-redirect=true" actionListener="#{suggestionsBean.saveVisitBackingBean}" value="Speichern und zur Übersicht" class="btn btn-primary" style="margin-left: .5rem; float:left;"/>
+            <h:commandButton action="VisitCreate?faces-redirect=true" actionListener="#{suggestionsBean.saveVisitBackingBean}" value="Zurück zur Planung" class="btn btn-primary" style="margin-left: .5rem; "/>
+            <h:commandButton action="VisitSuggestions?faces-redirect=true" actionListener="#{suggestionsBean.saveVisitBackingBean}" value="#Speichern und weiter" class="btn btn-primary" style="margin-left: .5rem; "/>
+        </h:form>
+
+    </ui:define>
+
+    <ui:define name="subContent">
+
+<!--        Durchschnittliches Rating: Dieser User-->
+
+<!--        Durchschnittliches Rating: Dieses Restaurant-->
+
+<!--        Durchschnittliches Rating: Diser Visit-->
+
+<!--        -> alles als Float, sonst zuviele Sternchen.-->
+<!--        ODER Knob mit Werten von 1.0 (schlecht) bis 6.0 (top)-->
+
+<!--        -> Gefahr des Gegen-Ratings und letztlich hat man überall so mittelmäßige Werte.-->
+
+
+        <div class="card" style="width:100%; height:900px; align-content: flex-start">
+
+            <div class="row" style="padding-bottom: 30px; padding-left: 10px; padding-top: 30px; padding-right: 30px">
+                <div class="col-8" style="padding-top: 75px">
+                    <label for="knobRatingRestaurant" >Durchschnittliche Bewertung dieses Restaurants:</label>
+                </div>
+                <div class="col-4">
+                    <div class="knob-container ui-corner-all">
+                        <p:knob id="knobRatingRestaurant" foregroundColor="#2196F3" backgroundColor="#495057" labelTemplate="{value/3}" max="100" step="1" value="33" styleClass="float-right"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-bottom: 30px; padding-left: 10px; padding-top: 30px; padding-right: 30px">
+                <div class="col-8" style="padding-top: 75px">
+                    <label for="knobRatingVisit" >Durchschnittliche Bewertung dieses Visits:</label>
+                </div>
+                <div class="col-4">
+                    <div class="knob-container ui-corner-all">
+                        <p:knob id="knobRatingVisit" foregroundColor="#2196F3" backgroundColor="#495057" value="3,3" styleClass="float-right"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-bottom: 30px; padding-left: 10px; padding-top: 30px; padding-right: 30px">
+                <div class="col-8" style="padding-top: 75px">
+                    <label for="knobRatingUser" >Durchschnittliche Bewertung dieses Users:</label>
+                </div>
+                <div class="col-4">
+                    <div class="knob-container ui-corner-all">
+                        <p:knob id="knobRatingUser" foregroundColor="#2196F3" backgroundColor="#495057" value="3,3" styleClass="float-left"/>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+
+
+    </ui:define>
+
+    <ui:define name="footer">
+
+    </ui:define>
+
+</ui:composition>
+
+</html>
