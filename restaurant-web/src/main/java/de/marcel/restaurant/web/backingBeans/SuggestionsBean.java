@@ -127,11 +127,8 @@ public class SuggestionsBean implements Serializable
 		backingBeanRestaurant.getAllRestaurants();
 		gmapModel.getMarkers().clear();
 		currentVisit = backingBeanVisit.getCurrent();
-		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyOnLoad hat current Visit von BB erhalten: " + currentVisit);
 
 		Address adr = currentVisit.getAddressVisit();
-		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyOnLoad hat current Address Visit: " + adr);
-
 		if( adr != null && adr.getWgs84Latitude() != null && (!adr.getWgs84Latitude().equals(0.000) && !adr.getWgs84Longitude().equals(0.000)) )
 		{
 			// Überpringen der Treffpunktermittlung, falls eine Adresse vorhanden ist UND diese irgendwo liegt, außer an den Punkten 0.00 0.00

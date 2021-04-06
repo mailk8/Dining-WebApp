@@ -19,6 +19,10 @@
     align-items: center;
 }
 
+.ui-rating .ui-rating-star-on{
+    color: #ffc107; !important;
+}
+
 
 /*!*############### DatePicker #######################*!*/
 /*body {*/

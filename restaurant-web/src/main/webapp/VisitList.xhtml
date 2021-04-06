@@ -55,11 +55,13 @@
                 <h:column>
         <ui:remove>
 <!--            <h:form rendered="#{backingBeanVisit.isUserParticipantOf(visitListEntry) || (backingBeanVisit.isUnfinished(visitListEntry))}">-->
+<!--            NACH ABLAUF DER MEETING TIME DARF DER VISIT NICHT MEHR BEARBEITBAR SEIN, RATING DANN NUR ÜBER DEN GRÜNEN STERN AUS LIST HERAUS-->
+<!--            AUCH NICHT BEARBEITBAR ÜBER ANWÄHLEN DER URL VisitCreate VisitSuggestions-->
         </ui:remove>
                     <h:form>
                         <h:commandLink action="#{backingBeanVisit.edit(visitListEntry)}" actionListener="#{backingBeanVisit.getAllVisits()}" class="btn btn-warning"><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>
                         <h:commandLink action="#{backingBeanVisit.delete(visitListEntry)}" class="btn btn-danger" ><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>
-                        <h:commandLink action="#{backingBeanVisit.edit(visitListEntry)}" class="btn btn-success" ><i class="fas fa-star-half-alt" aria-hidden="true"></i></h:commandLink>
+                        <h:commandLink action="#{backingBeanVisit.rate(visitListEntry)}" class="btn btn-success" ><i class="fas fa-star-half-alt" aria-hidden="true"></i></h:commandLink>
                     </h:form>
                 </h:column>
             </h:dataTable>

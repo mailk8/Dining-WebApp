@@ -11,7 +11,7 @@
 
         <class>de.marcel.restaurant.ejb.model.Address</class>
         <class>de.marcel.restaurant.ejb.model.Culinary</class>
-        <class>de.marcel.restaurant.ejb.model.Meal</class>
+        <class>de.marcel.restaurant.ejb.model.Dish</class>
         <class>de.marcel.restaurant.ejb.model.Rating</class>
         <class>de.marcel.restaurant.ejb.model.Restaurant</class>
         <class>de.marcel.restaurant.ejb.model.RestaurantVisit</class>

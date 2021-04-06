@@ -11,7 +11,7 @@
 <ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
 
     <f:metadata>
-        <f:viewAction action="#{backingBeanVisit.init()}" />
+        <f:viewAction action="#{backingBeanUser.getAllUsers()}" />
     </f:metadata>
 
     <ui:param name="active" value="Visit" />
@@ -101,7 +101,7 @@
                 <div class="col-8">
                     <p:datePicker id="buttonbar" value="#{backingBeanVisit.current.visitingDate}" showButtonBar="true" locale="de" required="true"
                                   converterMessage="Bitte ein gültiges Datum wählen"
-                                  requiredMessage="Bitte ein gültiges Datum wählen" />
+                                  requiredMessage="Bitte ein gültiges Datum wählen." />
                 </div>
             </div>
             <br/>
@@ -113,8 +113,8 @@
                 </div>
                 <div class="col-8">
                     <p:datePicker id="time" value="#{backingBeanVisit.current.visitingTime}" timeInput="true"  pattern="HH:mm"  required="true"
-                                  converterMessage="Bitte eine gültige Uhrzeit wählen"
-                                  requiredMessage="Bitte eine gültige Uhrzeit wählen" />
+                                  converterMessage="Bitte eine gültige Uhrzeit wählen."
+                                  requiredMessage="Bitte eine gültige Uhrzeit wählen." />
                 </div>
 
             </div>
@@ -125,11 +125,11 @@
                     <label>Zeitzone:</label>
                 </div>
                 <div class="col-8">
-                    <p:autoComplete id="fieldTimezone" dropdown="false" forceSelection="true"  autocomplete="on" required="true"
+                    <p:autoComplete id="fieldTimezone" dropdown="false" forceSelection="true"  autocomplete="on"
                                     value="#{backingBeanVisit.current.timezoneString}" widgetVar="widgetVarTimezone"
                                     completeMethod="#{backingBeanVisit.completeText}"
                                     scrollHeight="250" style="width: 200px !important;"
-                                    requiredMessage="Bitte eine gültige Zeitzone wählen" />
+                                    required="true" requiredMessage="Bitte eine gültige Zeitzone wählen." />
                 </div>
             </div>
             <br/>
@@ -154,14 +154,14 @@
                          styleClass="products-table" stripedRows="true" size="medium"
                          style="border: 0px solid transparent; outline: 1px solid lightgrey; padding-right: 0px"
                          rows="10" paginator="false" paginatorPosition="bottom"
-                         value="#{backingBeanUser.getAllUsers()}" rowKey="#{user.id}"
-                         selection="#{backingBeanVisit.current.participants}" rowSelectMode="add">
+                         value="#{backingBeanUser.getAllUsersProxy()}" rowKey="#{user.id}"
+                         selection="#{backingBeanVisit.current.participants}" rowSelectMode="add" >
 
-                <p:ajax event="rowSelect"  update=":visitCreate:sizeParticipants_Actual" />
-                <p:ajax event="rowUnselect" update=":visitCreate:sizeParticipants_Actual" />
-                <p:ajax event="rowSelectCheckbox" update=":visitCreate:sizeParticipants_Actual" />
-                <p:ajax event="rowUnselectCheckbox" update=":visitCreate:sizeParticipants_Actual" />
-                <p:ajax event="toggleSelect" update=":visitCreate:sizeParticipants_Actual" />
+                <p:ajax event="rowSelect"  update=":visitCreate:sizeParticipants_Actual" listener="#{backingBeanVisit.rowSelect}" />
+                <p:ajax event="rowUnselect" update=":visitCreate:sizeParticipants_Actual" listener="#{backingBeanVisit.rowSelect}" />
+                <p:ajax event="rowSelectCheckbox" update=":visitCreate:sizeParticipants_Actual" listener="#{backingBeanVisit.rowSelect}" />
+                <p:ajax event="rowUnselectCheckbox" update=":visitCreate:sizeParticipants_Actual" listener="#{backingBeanVisit.rowSelect}" />
+                <p:ajax event="toggleSelect" update=":visitCreate:sizeParticipants_Actual" listener="#{backingBeanVisit.rowSelect}" />
 
                 <f:facet name="header">
                     <div class="products-table-header">
@@ -181,7 +181,7 @@
                     <h:outputText value="#{user.addressLiving.city}"/>
                 </p:column>
 
-                <p:column selectionMode="multiple" colspan="3" exportable="false"></p:column>
+                <p:column toggleable="false" selectionMode="multiple" colspan="3" exportable="false"></p:column>
 
 
             </p:dataTable>

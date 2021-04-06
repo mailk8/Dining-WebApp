@@ -5,7 +5,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:o="http://omnifaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui" xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
 >
 
 <ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
@@ -74,7 +74,7 @@
                 <!--                <br/>-->
             </ui:remove>
 
-            <!-- Umkreis Text -->
+<!-- Umkreis Text -->
             <div class="row">
                 <div class="col-4">
                     <label for="radius">Suchradius:</label>
@@ -82,7 +82,7 @@
 
                 <div class="col-3">
                     <h:inputText id="radius" value="#{suggestionsBean.distanceSearchRadius}" valueChangeListener="#{suggestionsBean.proxyRadiusChangedText}"
-                                 class="form-control" required="false" validatorMessage="Werte zwischen 0 und 20.000 sind erlaubt">
+                                 class="form-control" required="false" validatorMessage="Werte zwischen 0 und 20.000 sind erlaubt.">
                         <p:ajax event="keyup" immediate="true" async="true" delay="100" update="gmap @this slider visitCreate:dt-suggestions" />
                         <f:validateLongRange minimum="0" maximum="20000" />
                     </h:inputText>
@@ -100,22 +100,20 @@
             </div>
             <br/>
 
-            <!-- Kulinarik -->
+<!-- Kulinarik -->
             <div class="row" style="height: 65px; align-content: flex-start">
                 <div class="col-4">
                     <label>Kulinarik Wunsch:</label>
                 </div>
 
                 <div class="col-8">
-                    <p:selectCheckboxMenu id="multiple" value="#{backingBeanVisit.culinariesArray}" label="Label"
-                                          style="width:100%; !important;" converter="omnifaces.SelectItemsConverter"
+                    <p:selectCheckboxMenu id="multiple" value="#{backingBeanVisit.culinariesArray}" style="width:100%; !important;"
+                                          converter="omnifaces.SelectItemsConverter" label="Label"
                                           multiple="true"  filter="true" filterMatchMode="startsWith"
                                           valueChangeListener="#{suggestionsBean.proxyCulinariesChanged}">
 
                         <p:ajax event="change" immediate="true" async="true" update="gmap visitCreate:dt-suggestions"/>
                         <p:ajax event="toggleSelect" immediate="true" async="true" update="gmap visitCreate:dt-suggestions" />
-
-
 
 
                         <f:selectItems value="#{backingBeanVisit.allCulinariesProxy}" style="width:100%; !important;"/>
@@ -188,8 +186,8 @@
                     <h:outputText value="#{restaurant.visits.size()}"/>
                 </p:column>
 
-                <p:column headerText="Bewertung" colspan="7" >
-                    <p:rating value="#{restaurant.averageRating}" stars="6" readonly="true" />
+                <p:column headerText="Bewertung" colspan="8" >
+                    <p:rating value="#{restaurant.averageRating}" stars="#{ratingBean.numberOfStars}" readonly="true" />
                 </p:column>
 
             </p:dataTable>
@@ -198,7 +196,6 @@
             <br/>
             <h:commandButton action="VisitList?faces-redirect=true" actionListener="#{suggestionsBean.saveVisitBackingBean}" value="Zurück zur Übersicht" class="btn btn-primary" style="margin-left: .5rem; float:left;"/>
             <h:commandButton action="VisitCreate?faces-redirect=true" actionListener="#{suggestionsBean.saveVisitBackingBean}" value="Zurück zur Planung" class="btn btn-primary" style="margin-left: .5rem; "/>
-            <h:commandButton action="VisitRating?faces-redirect=true" actionListener="#{suggestionsBean.saveVisitBackingBean}" value="#zur Bewertung" class="btn btn-primary" style="margin-left: .5rem; "/>
         </h:form>
 
     </ui:define>

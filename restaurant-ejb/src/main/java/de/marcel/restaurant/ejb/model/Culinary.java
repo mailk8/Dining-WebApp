@@ -1,14 +1,10 @@
 package de.marcel.restaurant.ejb.model;
 
 import de.marcel.restaurant.ejb.interfaces.ICulinary;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-/*
-Holds Meal Categorys.
-To be filled by Database Table.
- */
+
 
 @Entity
 @Table(name = "culinaries")
@@ -32,23 +28,10 @@ public class Culinary extends BaseEntity implements ICulinary
 	@Column(name = "category", nullable = false, length = 50)
 	private String category;
 
-	@OneToMany(mappedBy = "mealCategory")
-	private Set<Meal> meals = new HashSet<>();
-
 	// Constructors
 	public Culinary(){}
 
 	// GETTER SETTER
-
-	@Override public Set<Meal> getMeals()
-	{
-		return meals;
-	}
-
-	@Override public void setMeals(Set<Meal> meals)
-	{
-		this.meals = meals;
-	}
 
 	@Override public String getCategory()
 	{

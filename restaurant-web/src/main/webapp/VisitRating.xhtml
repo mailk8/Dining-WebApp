@@ -5,15 +5,14 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:o="http://omnifaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 >
 
 <ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
-    <ui:remove>
-        <!--        <f:metadata>-->
-        <!--            <f:viewAction action="#{suggestionsBean.proxyOnLoad()}" />-->
-        <!--        </f:metadata>-->
-    </ui:remove>
+    <f:metadata>
+        <f:viewAction action="#{ratingBean.proxyOnLoad()}" />
+    </f:metadata>
 
     <ui:param name="active" value="Rating" />
     <ui:param name="title" value="Restaurantbesuch bewerten" />
@@ -23,20 +22,25 @@
     </ui:define>
 
     <ui:define name="head">
+            <!-- Konvertiert Radiobuttons in Sterne -->
             <h:outputStylesheet  library="css" name="starRating.css" />
     </ui:define>
 
     <ui:define name="mainContent">
 
+
         <h:form id="visitRating">
-            <h:inputHidden value="#{backingBeanVisit.current.prim}" />
+            <h:inputHidden value="#{ratingBean.currentRating.prim}" />
+
+            <p:growl id="dishSelection"  showDetail="false" keepAlive="10000"/>
 
             <div class="form-group">
-
 <!--ZUSAMMENFASSUNG VISIT-->
                 <div class="row" style="padding-bottom: 70px">
                     <div class="col-12">
-                        <h:outputText value="Dein Restaurantbesuch im xxxxx mit TN1, TN2, TN3 und TN4 am 23.05.2020 um 20:00 Uhr. Wie war es?"></h:outputText>
+                        <c:set var="newline" value='\\n' />
+                        <c:set var="break" value='&lt;br/&gt;' />
+                        <h:outputText value="#{fn:replace(ratingBean.retrospectVisit, newline, break)}" escape="false" />
                     </div>
                 </div>
 
@@ -44,10 +48,13 @@
 
                 <div class="row">
                     <div class="col-4">
-                        <label for="category">Kategorie Gericht:</label>
+                        <label for="dish">Kategorie des Gerichts:</label>
                     </div>
                     <div class="col-8">
-                        <h:inputText id="category" value="placeholder" class="form-control" ></h:inputText>
+                        <p:autoComplete id="dish" value="#{ratingBean.currentRating.dish}" a:style="width:100%; !important;" scrollHeight="250"
+                                        completeMethod="#{ratingBean.dishesAutocomplete}" var="dish" itemLabel="#{dish.dishName}" itemValue="#{dish}"
+                                        converter="#{dishConverter}" queryDelay="200"
+                                        forceSelection="true"  required="true" requiredMessage="Bitte eine Gerichtkategorie wählen." />
                     </div>
                 </div>
                 <br/>
@@ -55,24 +62,26 @@
 <!-- MEMO ESSEN-->
                 <div class="row">
                     <div class="col-4">
-                        <label for="memoCuli">Bemerkung zum Gericht:</label>
+                        <label for="dishMemo">Bemerkung zum Gericht:</label>
                     </div>
                     <div class="col-8">
-                        <h:inputText id="memoCuli" value="placeholder" class="form-control" ></h:inputText>
+                        <h:inputText id="dishMemo" value="#{ratingBean.currentRating.dishMemo}" class="form-control" ></h:inputText>
                     </div>
                 </div>
                 <br/>
 
+<ui:remove>
 <!-- PREIS-->
-                <div class="row">
-                    <div class="col-4">
-                        <label for="price">Bezhalt:</label>
-                    </div>
-                    <div class="col-8">
-                        <h:inputText id="price" value="placeholder" class="form-control" ></h:inputText>
-                    </div>
-                </div>
-                <br/>
+<!--                <div class="row">-->
+<!--                    <div class="col-4">-->
+<!--                        <label for="price">Bezhalt:</label>-->
+<!--                    </div>-->
+<!--                    <div class="col-8">-->
+<!--                        <h:inputText id="price" value="#{ratingBean.currentRating.price}" class="form-control" ></h:inputText>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <br/>-->
+</ui:remove>
 
 <!-- MEMO VISIT-->
                 <div class="row">
@@ -80,7 +89,7 @@
                         <label for="memoVisit">Memo zum Besuch:</label>
                     </div>
                     <div class="col-8">
-                        <h:inputText id="memoVisit" value="placeholder" class="form-control" cancel="true"></h:inputText>
+                        <h:inputText id="memoVisit" value="#{backingBeanVisit.current.memo}" class="form-control" ></h:inputText>
                     </div>
                 </div>
                 <br/>
@@ -92,81 +101,105 @@
                     <div class="rating-wrap">
                         <div class="center">
                             <fieldset class="rating">
-                                <input type="radio" id="star6" name="rating" value="6"/><label for="star6" class="full"></label>
-                                <input type="radio" id="star5" name="rating" value="5"/><label for="star5" class="full"></label>
-                                <input type="radio" id="star4" name="rating" value="4"/><label for="star4" class="full"></label>
-                                <input type="radio" id="star3" name="rating" value="3"/><label for="star3" class="full"></label>
-                                <input type="radio" id="star2" name="rating" value="2"/><label for="star2" class="full"></label>
-                                <input type="radio" id="star1" name="rating" value="1"/><label for="star1" class="full"></label>
+                                <ui:remove>
+                                    <!-- UI REPEAT ERZEUGT n RADIOBUTTONS, DIE DURCH DAS CSS AM LABEL IN EINEN STERN UMGEWANDELT WERDEN.-->
+                                    <!-- DER VALUE ENTSPRICHT DER WERTIGKEIT DES RADIOBUTTONS UND IST AUCH GLEICHZEITIG SEINE ID.-->
+                                    <!-- AUF DIESE ID BEZIEHEN SICH DIE LABELS.-->
+                                    <!-- DAS ATTRIBUT CHECKED PRÜFT HIER, OB DER VALUE DES RADIOBUTTONS GLEICH DEM WERT EINES (MÖGLICHERWEISE) -->
+                                    <!-- ABGEGEBENEN RATINGS IST UND SETZT DEN ENTSPRECHENDEN BUTTON.-->
+                                    <!-- https://balusc.omnifaces.org/2015/10/custom-layout-with-hselectoneradio-in.html -->
+                                </ui:remove>
+
+                                <ui:repeat value="#{ratingBean.getStarsString()}" var="item">
+                                    <input type="radio" id="#{item}" name="ratingRadio" value="#{item}" checked="#{item eq ratingBean.currentRating.stars ? 'checked' : null}" />
+                                    <label for="#{item}" class="full"/>
+                                </ui:repeat>
+
+                                <h:commandScript name="setStars" action="#{ratingBean.setStarRating}"  />
                             </fieldset>
                         </div>
                     </div>
                 </div>
             </div>
 
+
+
+
+
 <!-- Buttons -->
             <br/>
-            <h:commandButton action="VisitList?faces-redirect=true" actionListener="#{suggestionsBean.saveVisitBackingBean}" value="Speichern und zur Übersicht" class="btn btn-primary" style="margin-left: .5rem; float:left;"/>
-            <h:commandButton action="VisitCreate?faces-redirect=true" actionListener="#{suggestionsBean.saveVisitBackingBean}" value="Zurück zur Planung" class="btn btn-primary" style="margin-left: .5rem; "/>
-            <h:commandButton action="VisitSuggestions?faces-redirect=true" actionListener="#{suggestionsBean.saveVisitBackingBean}" value="#Speichern und weiter" class="btn btn-primary" style="margin-left: .5rem; "/>
+            <h:commandButton action="VisitList?faces-redirect=true" actionListener="#{ratingBean.saveVisitBackingBean}" value="Speichern und zur Übersicht" class="btn btn-primary" style="margin-left: .5rem; float:left;"/>
         </h:form>
 
     </ui:define>
 
     <ui:define name="subContent">
 
-<!--        Durchschnittliches Rating: Dieser User-->
-
-<!--        Durchschnittliches Rating: Dieses Restaurant-->
-
-<!--        Durchschnittliches Rating: Diser Visit-->
-
-<!--        -> alles als Float, sonst zuviele Sternchen.-->
-<!--        ODER Knob mit Werten von 1.0 (schlecht) bis 6.0 (top)-->
-
-<!--        -> Gefahr des Gegen-Ratings und letztlich hat man überall so mittelmäßige Werte.-->
-
-
         <div class="card" style="width:100%; height:900px; align-content: flex-start">
 
-            <div class="row" style="padding-bottom: 30px; padding-left: 10px; padding-top: 30px; padding-right: 30px">
-                <div class="col-8" style="padding-top: 75px">
-                    <label for="knobRatingRestaurant" >Durchschnittliche Bewertung dieses Restaurants:</label>
-                </div>
-                <div class="col-4">
-                    <div class="knob-container ui-corner-all">
-                        <p:knob id="knobRatingRestaurant" foregroundColor="#2196F3" backgroundColor="#495057" labelTemplate="{value/3}" max="100" step="1" value="33" styleClass="float-right"/>
-                    </div>
-                </div>
-            </div>
+            <ui:remove>
 
-            <div class="row" style="padding-bottom: 30px; padding-left: 10px; padding-top: 30px; padding-right: 30px">
-                <div class="col-8" style="padding-top: 75px">
-                    <label for="knobRatingVisit" >Durchschnittliche Bewertung dieses Visits:</label>
-                </div>
-                <div class="col-4">
-                    <div class="knob-container ui-corner-all">
-                        <p:knob id="knobRatingVisit" foregroundColor="#2196F3" backgroundColor="#495057" value="3,3" styleClass="float-right"/>
-                    </div>
-                </div>
-            </div>
+                <!--        Durchschnittliches Rating: Dieser User-->
 
-            <div class="row" style="padding-bottom: 30px; padding-left: 10px; padding-top: 30px; padding-right: 30px">
-                <div class="col-8" style="padding-top: 75px">
-                    <label for="knobRatingUser" >Durchschnittliche Bewertung dieses Users:</label>
-                </div>
-                <div class="col-4">
-                    <div class="knob-container ui-corner-all">
-                        <p:knob id="knobRatingUser" foregroundColor="#2196F3" backgroundColor="#495057" value="3,3" styleClass="float-left"/>
-                    </div>
-                </div>
-            </div>
+                <!--        Durchschnittliches Rating: Dieses Restaurant-->
 
+                <!--        Durchschnittliches Rating: Diser Visit-->
 
+                <!--        -> alles als Float, sonst zuviele Sternchen.-->
+                <!--        ODER Knob mit Werten von 1.0 (schlecht) bis 6.0 (top)-->
 
+                <!--        -> Gefahr des Gegen-Ratings und letztlich hat man überall so mittelmäßige Werte.-->
 
+<!--            <div class="row" style="padding-bottom: 30px; padding-left: 10px; padding-top: 30px; padding-right: 30px">-->
+<!--                <div class="col-8" style="padding-top: 75px">-->
+<!--                    <label for="knobRatingRestaurant" >Durchschnittliche Bewertung dieses Restaurants:</label>-->
+<!--                </div>-->
+<!--                <div class="col-4">-->
+<!--                    <div class="knob-container ui-corner-all">-->
+<!--                        <p:knob id="knobRatingRestaurant" foregroundColor="#2196F3" backgroundColor="#495057" labelTemplate="{value/3}" max="100" step="1" value="33" styleClass="float-right"/>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="row" style="padding-bottom: 30px; padding-left: 10px; padding-top: 30px; padding-right: 30px">-->
+<!--                <div class="col-8" style="padding-top: 75px">-->
+<!--                    <label for="knobRatingVisit" >Durchschnittliche Bewertung dieses Visits:</label>-->
+<!--                </div>-->
+<!--                <div class="col-4">-->
+<!--                    <div class="knob-container ui-corner-all">-->
+<!--                        <p:knob id="knobRatingVisit" foregroundColor="#2196F3" backgroundColor="#495057" value="3,3" styleClass="float-right"/>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="row" style="padding-bottom: 30px; padding-left: 10px; padding-top: 30px; padding-right: 30px">-->
+<!--                <div class="col-8" style="padding-top: 75px">-->
+<!--                    <label for="knobRatingUser" >Durchschnittliche Bewertung dieses Users:</label>-->
+<!--                </div>-->
+<!--                <div class="col-4">-->
+<!--                    <div class="knob-container ui-corner-all">-->
+<!--                        <p:knob id="knobRatingUser" foregroundColor="#2196F3" backgroundColor="#495057" value="3,3" styleClass="float-left"/>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+            </ui:remove>
 
         </div>
+
+
+        <script>
+            // Holt zunächst alle Radiobuttons (Stars) und fügt einen Eventlistener an.
+            // OnClick wird das CommandScript setStars aufgerufen, welches das Rating
+            // als http Parameter unter dem Namen "paramStarRating" ans Backend schickt.
+            // Im Backend wird druch außerdem die Methode setStarRating aufgerufen,
+            // die die Parameter wieder auspackt.
+            const radios = document.forms.visitRating.elements.ratingRadio;
+            for(let i=0; radios.length > i; i++) {
+                radios[i].addEventListener('click', function () {
+                    setStars({ paramStarRating: this.value});
+                })
+            }
+        </script>
 
 
     </ui:define>

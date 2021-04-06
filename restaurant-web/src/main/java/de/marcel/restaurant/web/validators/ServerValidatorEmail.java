@@ -30,7 +30,7 @@ public class ServerValidatorEmail implements Validator
 		if(input.isEmpty() || input.isEmpty())
 		{
 			((UIInput)component).setValid(false);
-			context.addMessage("email", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Eine E-Mail ist erforderlich",  ""));
+			context.addMessage("email", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Eine E-Mail ist erforderlich.",  ""));
 			FacesContext.getCurrentInstance().renderResponse();
 			return;
 		}
@@ -38,7 +38,7 @@ public class ServerValidatorEmail implements Validator
 		UIInput hiddenField = (UIInput) component.getParent().getChildren().get(0);
 
 		if(UserMailController.containsUserEmail(input, hiddenField.getValue())){
-			context.addMessage("email", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Diese E-Mail wird bereits benutzt",  ""));
+			context.addMessage("email", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Diese E-Mail wird bereits benutzt!",  ""));
 			((UIInput)component).setValid(false);
 			FacesContext.getCurrentInstance().renderResponse();
 			return;
@@ -46,7 +46,7 @@ public class ServerValidatorEmail implements Validator
 		}
 
 
-		context.addMessage("email", new FacesMessage(FacesMessage.SEVERITY_INFO, "OK, diese E-Mail wird noch nicht benutzt", ""));
+		context.addMessage("email", new FacesMessage(FacesMessage.SEVERITY_INFO, "OK, diese E-Mail wird noch nicht benutzt.", ""));
 		((UIInput)component).setValid(true);
 
 //		context.setProcessingEvents(false);

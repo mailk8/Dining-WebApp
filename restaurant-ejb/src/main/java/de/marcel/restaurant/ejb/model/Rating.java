@@ -4,6 +4,7 @@ import de.marcel.restaurant.ejb.interfaces.IRating;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.logging.Logger;
 
 @Entity
 @Table(name = "ratings")
@@ -43,11 +44,11 @@ public class Rating extends BaseEntity implements IRating
 
 	@OneToOne
 	//@JoinColumn(name="prim")
-	//@Column(name = "meal", nullable = true)
-	private	Culinary meal;
+	//@Column(name = "dish", nullable = true)
+	private	Dish dish;
 
-	@Column(name = "mealDescription", nullable = true, length = 50)
-	private	String	mealDescription;
+	@Column(name = "dishMemo", nullable = true, length = 50)
+	private	String	dishMemo;
 
 
 	@ManyToOne
@@ -166,24 +167,25 @@ public class Rating extends BaseEntity implements IRating
 		this.price = price;
 	}
 
-	@Override public Culinary getMeal()
+	@Override public Dish getDish()
 	{
-		return meal;
+		return dish;
 	}
 
-	@Override public void setMeal(Culinary meal)
+	@Override public void setDish(Dish dish)
 	{
-		this.meal = meal;
+		Logger.getLogger(getClass().getSimpleName()).severe("+# setDish mit: " + dish);
+		this.dish = dish;
 	}
 
-	@Override public String getMealDescription()
+	@Override public String getDishMemo()
 	{
-		return mealDescription;
+		return dishMemo;
 	}
 
-	@Override public void setMealDescription(String mealDescription)
+	@Override public void setDishMemo(String dishDescription)
 	{
-		this.mealDescription = mealDescription.trim();
+		this.dishMemo = dishDescription.trim();
 	}
 
 }

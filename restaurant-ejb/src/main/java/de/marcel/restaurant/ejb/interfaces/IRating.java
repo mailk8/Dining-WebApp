@@ -1,9 +1,6 @@
 package de.marcel.restaurant.ejb.interfaces;
 
-import de.marcel.restaurant.ejb.model.Culinary;
-import de.marcel.restaurant.ejb.model.Restaurant;
-import de.marcel.restaurant.ejb.model.RestaurantVisit;
-import de.marcel.restaurant.ejb.model.User;
+import de.marcel.restaurant.ejb.model.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -34,12 +31,12 @@ public interface IRating extends IBaseEntity, Serializable
 
 	void setPrice(double price);
 
-	Culinary getMeal();
+	Dish getDish();
 
-	void setMeal(Culinary meal);
+	void setDish(Dish dish);
 
-	String getMealDescription();
+	String getDishMemo();
 
-	void setMealDescription(String mealDescription);
+	void setDishMemo(String dishDescription);
 
 }

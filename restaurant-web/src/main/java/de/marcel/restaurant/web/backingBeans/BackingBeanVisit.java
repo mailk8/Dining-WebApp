@@ -6,20 +6,16 @@ import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.RestaurantVisit;
 import de.marcel.restaurant.ejb.model.State;
 import de.marcel.restaurant.ejb.model.User;
-import org.primefaces.event.map.GeocodeEvent;
+import org.primefaces.event.AbstractAjaxBehaviorEvent;
 import org.primefaces.model.map.DefaultMapModel;
-import org.primefaces.model.map.GeocodeResult;
-import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
 
 import javax.annotation.ManagedBean;
-import javax.annotation.PostConstruct;
 import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -56,13 +52,25 @@ public class BackingBeanVisit implements Serializable
 	private List<RestaurantVisit> visitList;
 	private List<Culinary> allCulinariesProxy;
 	private String zoneString;
-	private Future<HashSet<Integer>> userSetVisits;
+	private Future<HashSet<Integer>> allVisitsThisUser;
 	private HashSet<Integer> set;
 	private MapModel geoModel;
 	private String googleMapsResult;
 
 	public void init() {
 		geoModel = new DefaultMapModel();
+	}
+
+	public void proxyOnLoad() {
+
+	}
+
+	//////////////////////////// Test Area ///////////////////////
+
+	public void rowSelect(Object o ) {
+
+		AbstractAjaxBehaviorEvent ae = (AbstractAjaxBehaviorEvent) o;
+		Logger.getLogger(getClass().getSimpleName()).severe("+# rowSelect " + ae.getSource());
 	}
 
 	////////////////////////////////// Methods for Culinary Selection //////////////////////////////
@@ -135,14 +143,14 @@ public class BackingBeanVisit implements Serializable
 		User user = backingBeanUser.getCurrent();
 		if( null != user )
 		{
-			userSetVisits = executor.submit(()-> {
+			allVisitsThisUser = executor.submit(()-> {
 				Logger.getLogger(getClass().getSimpleName()).severe("+# Executor führt asynchrone Methode aus: findAllVisitsForUser ");
 				return appServer.findAllVisitsForUser(user);
 			});
 		}
 		else
 		{
-			userSetVisits = null;
+			allVisitsThisUser = null;
 		}
 	}
 
@@ -216,34 +224,38 @@ public class BackingBeanVisit implements Serializable
 			case 0: {
 				if( (visit.getParticipants().size() >= 1) && (visit.getVisitingDateTime().isAfter(LocalDateTime.of(2000,01,01,01,01))))
 					visit.setStateVisit(State.ANGELEGT); // 1
-				else break;
+				//else break;
 			}
 			case 1:{
 				if(visit.getRestaurantChosen() != null)
 					visit.setStateVisit(State.GEPLANT); // 2
-				else break;
+				//else break;
 			}
 			case 2:{
 				if((ZonedDateTime.of(LocalDateTime.now(), ZoneId.systemDefault()))
 					.isAfter(ZonedDateTime.of(visit.getVisitingDateTime(), ZoneId.of(visit.getTimezoneString()))))
 					visit.setStateVisit(State.BEWERTBAR); // 3
-				else break;
+				//else break;
 			}
 			case 3:{
 				if(visit.getParticipants().size() < visit.getRatingsVisit().size())
 					visit.setStateVisit(State.BEWERTUNG_AUSSTEHEND); // 4
-				else break;
+				//else break;
 			}
 			case 4:{
 				if(visit.getParticipants().size() == visit.getRatingsVisit().size())
 					visit.setStateVisit(State.BEWERTET);
-				else break;
+				//else break;
 			}
 		}
 		//Logger.getLogger(getClass().getSimpleName()).severe("+# updateVisitState, for " + visit.getVisitingDateTime());
 	}
 
-
+	public String rate(RestaurantVisit u)
+	{
+		this.current = u;
+		return "VisitRating?faces-redirect=true";
+	}
 
 
 
@@ -379,10 +391,13 @@ public class BackingBeanVisit implements Serializable
 	{
 		try
 		{
-			if( null != userSetVisits )
+			if( null != allVisitsThisUser)
 			{
-				if ( null !=  (set = userSetVisits.get()) )
+				// Abholen aus dem Future (async)
+				if ( null !=  (set = allVisitsThisUser.get()) )
 				{
+					// Prüft, ob das Set der Visits dieses Users den aktuell betrachteten Visit enthält.
+					// Der betrachtete Visit erhält dann in der List Buttons zum Bearbeiten (und Bewerten), oder eben nicht.
 					return set.contains(visit.getPrim());
 				}
 				else
