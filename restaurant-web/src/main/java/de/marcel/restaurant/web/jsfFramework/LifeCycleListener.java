@@ -1,5 +1,6 @@
 package de.marcel.restaurant.web.jsfFramework;
 
+import org.apache.shiro.crypto.hash.Hash;
 import org.omnifaces.util.Faces;
 
 import javax.enterprise.context.SessionScoped;
@@ -8,10 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 /*
@@ -63,7 +61,7 @@ public class LifeCycleListener implements PhaseListener
 			return 0;
 		}
 
-		List<FacesMessage> messages = new ArrayList<FacesMessage>();
+		Set<FacesMessage> messages = new HashSet<FacesMessage>();
 
 		while (iter.hasNext())
 		{
@@ -79,7 +77,7 @@ public class LifeCycleListener implements PhaseListener
 		}
 
 		Map<String, Object> sessionMap = facesContext.getExternalContext().getSessionMap();
-		List<FacesMessage> existingMessages = (List<FacesMessage>) sessionMap.get(sessionToken);
+		Set<FacesMessage> existingMessages = (Set<FacesMessage>) sessionMap.get(sessionToken);
 		if (existingMessages != null)
 		{
 			existingMessages.addAll(messages);
@@ -94,7 +92,7 @@ public class LifeCycleListener implements PhaseListener
 	private int restoreMessages(final FacesContext facesContext)
 	{
 		Map<String, Object> sessionMap = facesContext.getExternalContext().getSessionMap();
-		List<FacesMessage> messages = (List<FacesMessage>) sessionMap.remove(sessionToken);
+		Set<FacesMessage> messages = (Set<FacesMessage>) sessionMap.remove(sessionToken);
 
 		if (messages == null)
 		{

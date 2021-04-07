@@ -11,6 +11,7 @@
 
 <ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
     <f:metadata>
+        <f:viewAction action="#{backingBeanVisit.redirectIfWrongState(3, 4)}" />
         <f:viewAction action="#{ratingBean.proxyOnLoad()}" />
     </f:metadata>
 
@@ -41,6 +42,7 @@
                         <c:set var="newline" value='\\n' />
                         <c:set var="break" value='&lt;br/&gt;' />
                         <h:outputText value="#{fn:replace(ratingBean.retrospectVisit, newline, break)}" escape="false" />
+                        Es sind bisher x von y Bewertungen eingeangen.
                     </div>
                 </div>
 
@@ -129,60 +131,73 @@
 <!-- Buttons -->
             <br/>
             <h:commandButton action="VisitList?faces-redirect=true" actionListener="#{ratingBean.saveVisitBackingBean}" value="Speichern und zur Übersicht" class="btn btn-primary" style="margin-left: .5rem; float:left;"/>
+
         </h:form>
 
     </ui:define>
 
     <ui:define name="subContent">
 
-        <div class="card" style="width:100%; height:900px; align-content: flex-start">
+        <div class="card" style="width:100%; height:625px; ">
+            <h:outputScript>
+                function chartExtender() {
+                    //copy the config options into a variable
+                    var options = $.extend(true, {}, this.cfg.config);
 
-            <ui:remove>
+                    options = {
+                        options: {
+                            //remove the legend
+                            legend: {
+                                display: false
+                            },
+                            scales: {
+                                // xAxes: [{
+                                //     display: false,
+                                //     type: "time",
+                                //     time: {
+                                //         parser: 'h:mm:ss a',
+                                //         tooltipFormat: 'h:mm:ss a',
+                                //         unit: 'hour',
+                                //         displayFormats: {
+                                //             'hour': 'h:mm:ss a'
+                                //         }
+                                //     }
+                                // }],
+                                yAxes: [{
+                                    display: false,
+                                    scaleLabel: {
+                                        display: false,
+                                        labelString: 'Your Y Axis',
+                                        fontSize: 13,
+                                    }
+                                }]
+                            }
+                        }
+                    };
 
-                <!--        Durchschnittliches Rating: Dieser User-->
+                    //merge all options into the main chart options
+                    $.extend(true, this.cfg.config, options);
+                };
+            </h:outputScript>
 
-                <!--        Durchschnittliches Rating: Dieses Restaurant-->
-
-                <!--        Durchschnittliches Rating: Diser Visit-->
-
-                <!--        -> alles als Float, sonst zuviele Sternchen.-->
-                <!--        ODER Knob mit Werten von 1.0 (schlecht) bis 6.0 (top)-->
-
-                <!--        -> Gefahr des Gegen-Ratings und letztlich hat man überall so mittelmäßige Werte.-->
-
-<!--            <div class="row" style="padding-bottom: 30px; padding-left: 10px; padding-top: 30px; padding-right: 30px">-->
-<!--                <div class="col-8" style="padding-top: 75px">-->
-<!--                    <label for="knobRatingRestaurant" >Durchschnittliche Bewertung dieses Restaurants:</label>-->
-<!--                </div>-->
-<!--                <div class="col-4">-->
-<!--                    <div class="knob-container ui-corner-all">-->
-<!--                        <p:knob id="knobRatingRestaurant" foregroundColor="#2196F3" backgroundColor="#495057" labelTemplate="{value/3}" max="100" step="1" value="33" styleClass="float-right"/>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--            <div class="row" style="padding-bottom: 30px; padding-left: 10px; padding-top: 30px; padding-right: 30px">-->
-<!--                <div class="col-8" style="padding-top: 75px">-->
-<!--                    <label for="knobRatingVisit" >Durchschnittliche Bewertung dieses Visits:</label>-->
-<!--                </div>-->
-<!--                <div class="col-4">-->
-<!--                    <div class="knob-container ui-corner-all">-->
-<!--                        <p:knob id="knobRatingVisit" foregroundColor="#2196F3" backgroundColor="#495057" value="3,3" styleClass="float-right"/>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--            <div class="row" style="padding-bottom: 30px; padding-left: 10px; padding-top: 30px; padding-right: 30px">-->
-<!--                <div class="col-8" style="padding-top: 75px">-->
-<!--                    <label for="knobRatingUser" >Durchschnittliche Bewertung dieses Users:</label>-->
-<!--                </div>-->
-<!--                <div class="col-4">-->
-<!--                    <div class="knob-container ui-corner-all">-->
-<!--                        <p:knob id="knobRatingUser" foregroundColor="#2196F3" backgroundColor="#495057" value="3,3" styleClass="float-left"/>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-            </ui:remove>
+        <div class="row">
+            <div class="col-12" style="padding-top: 25px; padding-left: 49px; padding-right: 49px; padding-bottom: 60px;  width: 600px; float: left" >
+                <h:outputLabel style="padding-bottom: 20px">So wurde bei diesem Besuch im Durchschnitt bewertet</h:outputLabel>
+                <p:barChart model="#{ratingBean.myModelVisit}" style="width: 95% ; height: 53px ;"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12" style="padding-top: 25px; padding-left: 49px; padding-right: 49px; padding-bottom: 60px;  width: 600px;  float: left" >
+                <h:outputLabel style="padding-bottom: 20px">Das ### Restaurant Name ### hat jetzt eine durchschnittlie Bewertung von</h:outputLabel>
+                <p:barChart model="#{ratingBean.myModelRest}" style="width: 95% ; height: 53px ;"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12" style="padding-top: 25px; padding-left: 49px; padding-right: 49px; padding-bottom: 60px; width: 600px;  float: left" >
+                <h:outputLabel style="padding-bottom: 20px">Dies ist der Durchschnitt aller deiner Restaurantbewertungen</h:outputLabel>
+                <p:barChart model="#{ratingBean.myModelUser}" style="width: 95% ; height: 53px ;"/>
+            </div>
+        </div>
 
         </div>
 

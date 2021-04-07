@@ -34,12 +34,12 @@
                         </h:form>
                     </li>
 
-                    <li class="nav-item #{active == 'Auswertungen' ? 'active' : ''}">
-                        <h:link class="nav-link" outcome="Auswertungen"><h:outputText value="Auswertungen" /></h:link>
+                    <li class="nav-item #{active == 'QrCode' ? 'active' : ''}">
+                        <h:link class="nav-link" outcome="QrCode"><h:outputText value="QR-Code" /></h:link>
                     </li>
 
             </ul>
-
+<ui:remove>
             <div class="dropdown" style="padding-right:10px;width:90px;height:30px">
                 <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     #Sprache
@@ -96,11 +96,10 @@
                 <p> </p>
             </div>
 
+
+</ui:remove>
+
             <shiro:user>
-                <ui:remove>
-<!--                        <p:button href="https://localhost/restaurant-web-1/logout" value="Logout"-->
-<!--                                  actionListener="#{loginController.logout}"/>-->
-                </ui:remove>
                 <h:form>
                   <h:commandLink class="btn btn-warning" action="#{loginController.logout()}">Logout</h:commandLink>
                 </h:form>

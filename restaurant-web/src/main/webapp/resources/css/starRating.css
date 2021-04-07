@@ -1,5 +1,8 @@
 @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css);
 
+/*https://www.youtube.com/watch?v=zDHC4r5eCdY*/
+/*https://drive.google.com/file/d/19073O3I66c62ncNBSESLX0sIdd3xbGMN/view*/
+
 *{
     margin: 0;
     padding: 0;
@@ -98,6 +101,8 @@ Kann man mit 0 Margin etwas kaschieren.  */
 .rating:not(:checked) > label:hover,
 .rating:not(:checked) > label:hover ~ label{
     color: #ffc107;
+
+
 }
 
 /* Füllfarbe und Verhalten checked Sterne bei Mousehoovering */

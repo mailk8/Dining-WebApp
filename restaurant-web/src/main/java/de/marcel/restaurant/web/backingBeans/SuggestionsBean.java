@@ -100,6 +100,7 @@ public class SuggestionsBean implements Serializable
 
 	@Inject BackingBeanRestaurant backingBeanRestaurant;
 	@Inject BackingBeanVisit backingBeanVisit;
+
 	private RestaurantVisit currentVisit;
 
 	private List<Restaurant> restaurantsRadius = new ArrayList<>();     // Zwischenergebnis nach Entferungsfilter
@@ -277,6 +278,9 @@ public class SuggestionsBean implements Serializable
 
 	public Address determineCentralPointSearch(List<Address> addressesParticipants) {
 
+		Logger.getLogger(getClass().getSimpleName()).severe("+# determineCentralPointSearch hat Addressen erhalten");
+		addressesParticipants.stream().forEach(e -> Logger.getLogger(getClass().getSimpleName()).severe("+# Lon: " + e.getWgs84Longitude() +" Lat: " + e.getWgs84Latitude()));
+
 		// https://stackoverflow.com/questions/6671183/calculate-the-center-point-of-multiple-latitude-longitude-coordinate-pairs
 		// https://www.biancahoegel.de/wissen/navigation/kugelkoordinaten.html
 
@@ -301,6 +305,8 @@ public class SuggestionsBean implements Serializable
 		double centralLongitude = Math.atan2(y, x);
 		double r_new = Math.sqrt(x * x + y * y + z * z);
 		double centralLatitude = Math.asin(z / r_new);
+
+		Logger.getLogger(getClass().getSimpleName()).severe("+# Ermittelt wurde Suchort: Lon: " + Math.toDegrees(centralLongitude) + " Lat: " + Math.toDegrees(centralLatitude));
 
 		return new Address(Math.toDegrees(centralLatitude) , Math.toDegrees(centralLongitude));
 	}

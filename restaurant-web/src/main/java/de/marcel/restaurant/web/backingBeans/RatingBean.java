@@ -7,6 +7,13 @@ import de.marcel.restaurant.ejb.model.RestaurantVisit;
 import de.marcel.restaurant.ejb.model.User;
 import org.apache.shiro.SecurityUtils;
 import org.omnifaces.util.Faces;
+import org.primefaces.model.charts.ChartData;
+import org.primefaces.model.charts.axes.cartesian.CartesianScales;
+import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
+import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearTicks;
+import org.primefaces.model.charts.bar.BarChartOptions;
+import org.primefaces.model.charts.hbar.HorizontalBarChartDataSet;
+import org.primefaces.model.charts.hbar.HorizontalBarChartModel;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -41,19 +48,28 @@ public class RatingBean implements Serializable
 	private byte numberOfStars = 6;
 	private String rating;
 
+	private HorizontalBarChartModel myModelRest;
+	private HorizontalBarChartModel myModelVisit;
+	private HorizontalBarChartModel myModelUser;
+
 	////////////////////////// OnLoad ///////////////////////////////////
-	public void proxyOnLoad() {
-		currentUser = backingBeanUser.getCurrent();
+	public String proxyOnLoad() {
 		currentVisit = backingBeanVisit.getCurrent();
+		currentUser = backingBeanUser.getCurrent();
 		getAllDishes();
 		generateRetrospectVisit();
-
 		// Rating Objekt des angemeldeten Users aus dem Visit hervorholen. Falls es noch kein Rating gibt, wird eins angelegt.
 		currentRating =  currentVisit.getRatingsVisit().stream()
 						.filter(e -> e.getRatingUser().getPrim().equals(currentUser.getPrim()))
 						.findAny().orElse(new Rating(currentVisit, currentUser));
 
 		currentRating.setRestaurantRated(currentVisit.getRestaurantChosen());
+
+		myModelRest = produceHorizontalBarModel("Visit", 2.8,"007bff", 0.9);
+		myModelVisit = produceHorizontalBarModel("Restaurant", 2.8,"e53552", 0.9);
+		myModelUser = produceHorizontalBarModel("User", 2.8,"ffc107", 0.9);
+
+		return "";
 	}
 
 	private List<Dish> getAllDishes() {
@@ -137,7 +153,74 @@ public class RatingBean implements Serializable
 	}
 
 
+	/////////////////////// Statictics Diagram//////////////////////////////////
 
+	public HorizontalBarChartModel produceHorizontalBarModel(String label, double dataValue, String noHashHexStringColor, Double opacity) {
+
+		Integer redByte = Integer.parseInt(noHashHexStringColor.substring(0,2),16);
+		Integer greenByte = Integer.parseInt(noHashHexStringColor.substring(2,4),16);
+		Integer blueByte = Integer.parseInt(noHashHexStringColor.substring(4,6),16); // :)
+
+		///////////////////////////// Boilerplate //////////////////////////////
+		HorizontalBarChartModel model = new HorizontalBarChartModel();
+		ChartData data = new ChartData();
+		HorizontalBarChartDataSet hbarDataSet = new HorizontalBarChartDataSet();
+
+		///////////////////////////// Farb-Legende Bars ////////////////////////
+		hbarDataSet.setLabel(label); // u.a. Popup Label
+
+		///////////////////////////// Daten ////////////////////////////////////
+		List<Number> values = new ArrayList<>();
+		values.add(dataValue);
+		hbarDataSet.setData(values);
+
+		///////////////////////////// Farbe Bars //////////////////////////////
+		List<String> bgColor = new ArrayList<>();
+		bgColor.add("rgba("+redByte+", "+greenByte+", "+blueByte+", "+opacity+")"); // gelb
+		hbarDataSet.setBackgroundColor(bgColor);
+
+		///////////////////////////// Outline Bars //////////////////////////////
+		List<String> borderColor = new ArrayList<>();
+		borderColor.add("rgb(201, 203, 207)");
+		hbarDataSet.setBorderColor(borderColor);
+		hbarDataSet.setBorderWidth(0);
+
+		///////////////////////////// Labels Ordinate (Y) ////////////////////////
+		List<String> labels = new ArrayList<>();
+		labels.add("  ");
+
+		///////////////////////////// Zusammenfügen //////////////////////////////
+		data.addChartDataSet(hbarDataSet);
+		data.setLabels(labels);
+		model.setData(data);
+
+		///////////////////////////// Optionen //////////////////////////////
+		BarChartOptions options = new BarChartOptions();
+		CartesianScales cScales = new CartesianScales();
+
+		CartesianLinearAxes linearAxes = new CartesianLinearAxes();
+		linearAxes.setOffset(false);
+		//linearAxes.setStacked(true);
+
+		CartesianLinearTicks ticks = new CartesianLinearTicks();
+		ticks.setBeginAtZero(true);
+		ticks.setMax(6.0);
+		ticks.setMin(0.0);
+		ticks.setStepSize(1.0);
+
+		linearAxes.setTicks(ticks);
+		cScales.addXAxesData(linearAxes);
+		options.setScales(cScales);
+		//        Title title = new Title();
+		//        title.setDisplay(true);
+		//        title.setText("Horizontal Bar Chart");
+		//        options.setTitle(title);
+		model.setOptions(options);
+		// h:outputscript enthält weitere Einstellmöglichkeiten
+		model.setExtender("chartExtender");
+
+		return model;
+	}
 
 
 	//////////////////////// Getter Setter //////////////////////////////
@@ -217,5 +300,33 @@ public class RatingBean implements Serializable
 		this.numberOfStars = numberOfStars;
 	}
 
+	public HorizontalBarChartModel getMyModelRest()
+	{
+		return myModelRest;
+	}
 
+	public void setMyModelRest(HorizontalBarChartModel myModelRest)
+	{
+		this.myModelRest = myModelRest;
+	}
+
+	public HorizontalBarChartModel getMyModelVisit()
+	{
+		return myModelVisit;
+	}
+
+	public void setMyModelVisit(HorizontalBarChartModel myModelVisit)
+	{
+		this.myModelVisit = myModelVisit;
+	}
+
+	public HorizontalBarChartModel getMyModelUser()
+	{
+		return myModelUser;
+	}
+
+	public void setMyModelUser(HorizontalBarChartModel myModelUser)
+	{
+		this.myModelUser = myModelUser;
+	}
 }

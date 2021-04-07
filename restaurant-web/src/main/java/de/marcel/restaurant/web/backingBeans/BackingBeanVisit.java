@@ -6,6 +6,7 @@ import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.RestaurantVisit;
 import de.marcel.restaurant.ejb.model.State;
 import de.marcel.restaurant.ejb.model.User;
+import org.omnifaces.util.Faces;
 import org.primefaces.event.AbstractAjaxBehaviorEvent;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.MapModel;
@@ -45,9 +46,11 @@ public class BackingBeanVisit implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	private RestaurantVisit current = new RestaurantVisit();
+
 	@Resource(name = "DefaultManagedExecutorService") ManagedExecutorService executor;
 	@Inject private IRestaurantEJB appServer;
 	@Inject private BackingBeanUser backingBeanUser;
+
 	private String sizeParticipantsForValidator;
 	private List<RestaurantVisit> visitList;
 	private List<Culinary> allCulinariesProxy;
@@ -227,24 +230,27 @@ public class BackingBeanVisit implements Serializable
 				//else break;
 			}
 			case 1:{
-				if(visit.getRestaurantChosen() != null)
+				if(visit.getRestaurantChosen() != null && visit.getStateVisit().ordinal() == 1)
 					visit.setStateVisit(State.GEPLANT); // 2
 				//else break;
 			}
 			case 2:{
 				if((ZonedDateTime.of(LocalDateTime.now(), ZoneId.systemDefault()))
-					.isAfter(ZonedDateTime.of(visit.getVisitingDateTime(), ZoneId.of(visit.getTimezoneString()))))
+					.isAfter(ZonedDateTime.of(visit.getVisitingDateTime(), ZoneId.of(visit.getTimezoneString())))
+								&& visit.getStateVisit().ordinal() == 2)
 					visit.setStateVisit(State.BEWERTBAR); // 3
 				//else break;
 			}
 			case 3:{
-				if(visit.getParticipants().size() < visit.getRatingsVisit().size())
+				if(visit.getParticipants() != null && visit.getRatingsVisit() != null &&
+					(visit.getParticipants().size() > visit.getRatingsVisit().size()) && visit.getStateVisit().ordinal() == 3)
 					visit.setStateVisit(State.BEWERTUNG_AUSSTEHEND); // 4
 				//else break;
 			}
 			case 4:{
-				if(visit.getParticipants().size() == visit.getRatingsVisit().size())
-					visit.setStateVisit(State.BEWERTET);
+				if(visit.getParticipants() != null && visit.getRatingsVisit() != null &&
+					 visit.getParticipants().size() <= visit.getRatingsVisit().size() && visit.getStateVisit().ordinal() == 4)
+					visit.setStateVisit(State.BEWERTET); // 5
 				//else break;
 			}
 		}
@@ -256,6 +262,7 @@ public class BackingBeanVisit implements Serializable
 		this.current = u;
 		return "VisitRating?faces-redirect=true";
 	}
+
 
 
 
@@ -298,23 +305,26 @@ public class BackingBeanVisit implements Serializable
 		appServer.update(u);
 	}
 
-	public String edit(RestaurantVisit u)
-	{
-		this.current = u;
-		//Logger.getLogger(getClass().getSimpleName()).severe("+# edit aufgerufen, von der Datalist wurde Visit übergeben " + u);
-		current.setStateVisit(State.UNVOLLSTÄNDIG);
-		return "VisitCreate?faces-redirect=true";
-	}
+	public String edit(RestaurantVisit u) {
 
-	public String delete(RestaurantVisit u)
-	{
-		appServer.delete(u);
-		//prepareGetAllVisits();
+		if(redirectIfWrongState(u, 0,2) == null)
+		{
+			this.current = u;
+			current.setStateVisit(State.UNVOLLSTÄNDIG);
+			return "VisitCreate?faces-redirect=true";
+		}
 		return "VisitList?faces-redirect=true";
 	}
 
-	public String createNew()
-	{
+	public String delete(RestaurantVisit u) {
+
+		if(redirectIfWrongState(u, 0,2) == null)
+			appServer.delete(u);
+		return "VisitList?faces-redirect=true";
+	}
+
+	public String createNew() {
+
 		current = new RestaurantVisit();
 		current.setTimezoneString(zoneString);
 		return "VisitCreate?faces-redirect=true";
@@ -331,7 +341,26 @@ public class BackingBeanVisit implements Serializable
 	}
 
 
+	public String redirectIfWrongState(int allowedStateFrom, int allowedStateTill) {
+		return redirectIfWrongState(current, allowedStateFrom, allowedStateTill);
+	}
 
+	public String redirectIfWrongState(RestaurantVisit visit, int allowedStateFrom, int allowedStateTill) {
+		// Wird bei geschützte Aktionen in der OnLoad der Seite aufgerufen und bricht die Navigation ab,
+		// falls sich der betrachtete Visit nicht im richtigen Status befindet.
+
+		Logger.getLogger(getClass().getSimpleName()).severe("+# redirectIfWrongState aufgerufen mit Visit " + visit.getPrim());
+
+		if(visit.getStateVisit().ordinal() >= allowedStateFrom && visit.getStateVisit().ordinal() <= allowedStateTill)
+		{
+			return null; // OK, Weiterleitung darf erfolgen.
+		}
+
+		FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Diese Aktion ist im aktuellen Status des Restaurantbesuchs nicht erlaubt.", ""));
+
+		return "VisitList?faces-redirect-true"; // Anstatt Weiterleitung Umleitung auf VisitList
+	}
 
 
 	//////////////////////////  Methods for Participants Functions //////////////////////////
