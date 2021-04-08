@@ -85,11 +85,10 @@ public class RestaurantEJB implements IRestaurantEJB
 		entityManager.remove(t);
 	}
 
-	@Override public List<IBaseEntity> findAll(Class entitiyClass)
-	{
-		TypedQuery<IBaseEntity> query = entityManager.createNamedQuery(entitiyClass.getSimpleName()+".findAll", entitiyClass);
+	@Override public List<IBaseEntity> findAll(Class entitiyClass) {
+		TypedQuery<?> query = entityManager.createNamedQuery(entitiyClass.getSimpleName()+".findAll", entitiyClass);
 		List<IBaseEntity> result = (List<IBaseEntity>) query.getResultList();
-		Logger.getLogger(getClass().getSimpleName()).severe("+# nach findAll für " + entitiyClass.getSimpleName());
+		Logger.getLogger(getClass().getSimpleName()).severe("+# nach findAll für " + entitiyClass.getSimpleName() );
 		return result;
 	}
 

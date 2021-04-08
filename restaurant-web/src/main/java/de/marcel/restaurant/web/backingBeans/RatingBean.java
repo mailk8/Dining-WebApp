@@ -7,6 +7,7 @@ import de.marcel.restaurant.ejb.model.RestaurantVisit;
 import de.marcel.restaurant.ejb.model.User;
 import org.apache.shiro.SecurityUtils;
 import org.omnifaces.util.Faces;
+import org.primefaces.component.chart.Chart;
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
 import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Named
 @SessionScoped
@@ -65,9 +67,11 @@ public class RatingBean implements Serializable
 
 		currentRating.setRestaurantRated(currentVisit.getRestaurantChosen());
 
-		myModelRest = produceHorizontalBarModel("Visit", 2.8,"007bff", 0.9);
-		myModelVisit = produceHorizontalBarModel("Restaurant", 2.8,"e53552", 0.9);
-		myModelUser = produceHorizontalBarModel("User", 2.8,"ffc107", 0.9);
+		myModelRest = produceHorizontalBarModel("Restaurant", 0.0,"007bff", 0.9); // blau
+		myModelVisit = produceHorizontalBarModel("Visit", 0.0,"e53552", 0.9); // rot
+		myModelUser = produceHorizontalBarModel("User", 0.0,"ffc107", 0.9); // gelb
+
+		Logger.getLogger(getClass().getSimpleName()).severe("+# nach proxyOnLoad. currentVisit ist \n+# " + currentVisit + " currentUser ist \n+# " +currentUser + " currentRating ist \n+# " + currentRating);
 
 		return "";
 	}
@@ -133,13 +137,6 @@ public class RatingBean implements Serializable
 
 
 	/////////////////////// Star Rating //////////////////////////////////
-	public void setStarRating() {
-		// Hier die Klasse Faces von Omnifaces gewählt, da die Parameter in FacesContext.getExternalContext.getRequestParameterMap() nicht auftauchen.
-		String rating = Faces.getRequestParameterMap().get("paramStarRating");
-		Logger.getLogger(getClass().getSimpleName()).severe("+# setRating mit " + rating  );
-		currentRating.setStars(Byte.parseByte(rating));
-	}
-
 	public String[] getStarsString() {
 
 		String[] arr = new String[numberOfStars];
@@ -152,9 +149,20 @@ public class RatingBean implements Serializable
 		return arr;
 	}
 
+	public void setStarRating() {
+		// Hier die Klasse Faces von Omnifaces gewählt, da die Parameter in FacesContext.getExternalContext.getRequestParameterMap() nicht auftauchen.
+		String rating = Faces.getRequestParameterMap().get("paramStarRating");
+		Logger.getLogger(getClass().getSimpleName()).severe("+# setRating mit " + rating  );
+		currentRating.setStars(Byte.parseByte(rating));
+		currentVisit.getRatingsVisit().add(currentRating);
+		currentUser.getRatingsSubmitted().add(currentRating);
+		generateReport();
+	}
+
+
+
 
 	/////////////////////// Statictics Diagram//////////////////////////////////
-
 	public HorizontalBarChartModel produceHorizontalBarModel(String label, double dataValue, String noHashHexStringColor, Double opacity) {
 
 		Integer redByte = Integer.parseInt(noHashHexStringColor.substring(0,2),16);
@@ -166,6 +174,7 @@ public class RatingBean implements Serializable
 		ChartData data = new ChartData();
 		HorizontalBarChartDataSet hbarDataSet = new HorizontalBarChartDataSet();
 
+
 		///////////////////////////// Farb-Legende Bars ////////////////////////
 		hbarDataSet.setLabel(label); // u.a. Popup Label
 
@@ -173,11 +182,14 @@ public class RatingBean implements Serializable
 		List<Number> values = new ArrayList<>();
 		values.add(dataValue);
 		hbarDataSet.setData(values);
+		//hbarDataSet.getData()
+		//((HorizontalBarChartDataSet) model.getData().getDataSet().get(0)).getData().set(0, newValue);
 
-		///////////////////////////// Farbe Bars //////////////////////////////
+		///////////////////////////// Farbe Bars /////////////////////
 		List<String> bgColor = new ArrayList<>();
 		bgColor.add("rgba("+redByte+", "+greenByte+", "+blueByte+", "+opacity+")"); // gelb
 		hbarDataSet.setBackgroundColor(bgColor);
+
 
 		///////////////////////////// Outline Bars //////////////////////////////
 		List<String> borderColor = new ArrayList<>();
@@ -211,6 +223,7 @@ public class RatingBean implements Serializable
 		linearAxes.setTicks(ticks);
 		cScales.addXAxesData(linearAxes);
 		options.setScales(cScales);
+		options.setBarThickness(20); ////////////////// THICC NESS ////////////////
 		//        Title title = new Title();
 		//        title.setDisplay(true);
 		//        title.setText("Horizontal Bar Chart");
@@ -220,6 +233,44 @@ public class RatingBean implements Serializable
 		model.setExtender("chartExtender");
 
 		return model;
+	}
+
+	public void generateReport() {
+		Logger.getLogger(getClass().getSimpleName()).severe("+# generateReport läuft");
+		List<Byte> rest = new ArrayList<>();
+		List<Byte> user = new ArrayList<>();
+
+		// Alle historischen Ratings prüfen, hier als aktuelles Ergebnis von der DB (Wert vom Zeitpunkt onLoad wäre evtl. veraltet).
+		appServer.findAll(Rating.class).stream().map(e-> (Rating) e).forEach(e -> {
+			if(e.getRestaurantRated() == currentRating.getRestaurantRated())
+				rest.add(e.getStars());
+			if(e.getRatingUser() == currentRating.getRatingUser())
+				user.add(e.getStars());
+		});
+
+		// Aktuell gesetztes Rating ist noch nicht in der DB, daher nachträglich setzen
+		rest.add(currentRating.getStars());
+		user.add(currentRating.getStars());
+
+		Logger.getLogger(getClass().getSimpleName()).severe("+# generateReport nach findAll und Sortieren");
+
+		// Durchschnittswerte berechnen
+		double restMean = rest.stream().mapToInt(e->e).average().orElseGet(()->0.0);
+		double userMean = user.stream().mapToInt(e->e).average().orElseGet(()->0.0);
+		double visitMean = currentVisit.getRatingsVisit().stream().flatMapToInt(e -> IntStream.of(e.getStars())).average().orElseGet(()->0.0);
+
+		Logger.getLogger(getClass().getSimpleName()).severe("+# generateReport nach Average Streaming. restMean " + restMean +" userMean " + userMean +" visitMean "+visitMean );
+
+		// Durchschnittswerte in die Diagram-Modelle einsetzen
+		((HorizontalBarChartDataSet) getMyModelRest().getData().getDataSet().get(0)).getData().set(0, restMean);
+		((HorizontalBarChartDataSet) getMyModelUser().getData().getDataSet().get(0)).getData().set(0, userMean);
+		((HorizontalBarChartDataSet) getMyModelVisit().getData().getDataSet().get(0)).getData().set(0, visitMean);
+
+		Logger.getLogger(getClass().getSimpleName()).severe("+# generateReport getMyModelRest" + ((HorizontalBarChartDataSet) getMyModelRest().getData().getDataSet().get(0)).getData().get(0));
+		Logger.getLogger(getClass().getSimpleName()).severe("+# getMyModelUser getMyModelUser" +((HorizontalBarChartDataSet) getMyModelUser().getData().getDataSet().get(0)).getData().get(0));
+		Logger.getLogger(getClass().getSimpleName()).severe("+# generateReport getMyModelVisit" +((HorizontalBarChartDataSet) getMyModelVisit().getData().getDataSet().get(0)).getData().get(0));
+		Logger.getLogger(getClass().getSimpleName()).severe("+# generateReport nach Setting im Model");
+
 	}
 
 

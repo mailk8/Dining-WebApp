@@ -47,7 +47,6 @@
                 </div>
 
 <!--KATEGORIE ESSEN-->
-
                 <div class="row">
                     <div class="col-4">
                         <label for="dish">Kategorie des Gerichts:</label>
@@ -97,7 +96,6 @@
                 <br/>
 
 <!-- STERNE WERTUNG -->
-
                 <br/>
                 <div class="container">
                     <div class="rating-wrap">
@@ -117,7 +115,11 @@
                                     <label for="#{item}" class="full"/>
                                 </ui:repeat>
 
-                                <h:commandScript name="setStars" action="#{ratingBean.setStarRating}"  />
+                                <h:commandScript name="setStars" action="#{ratingBean.setStarRating}" render="formStatistics" >
+<!--                                    <f:ajax render="divRowVisit" delay="200"/>-->
+<!--                                    <f:ajax render="divRowRest" delay="400"/>-->
+<!--                                    <f:ajax render="divRowUser" delay="600"/>-->
+                                </h:commandScript>
                             </fieldset>
                         </div>
                     </div>
@@ -128,7 +130,7 @@
 
 
 
-<!-- Buttons -->
+<!-- BUTTONS -->
             <br/>
             <h:commandButton action="VisitList?faces-redirect=true" actionListener="#{ratingBean.saveVisitBackingBean}" value="Speichern und zur Übersicht" class="btn btn-primary" style="margin-left: .5rem; float:left;"/>
 
@@ -136,70 +138,72 @@
 
     </ui:define>
 
+<!-- STATISTIK -->
     <ui:define name="subContent">
 
-        <div class="card" style="width:100%; height:625px; ">
-            <h:outputScript>
-                function chartExtender() {
-                    //copy the config options into a variable
-                    var options = $.extend(true, {}, this.cfg.config);
+        <h:form id="formStatistics">
+            <div class="card" style="width:100%; height:625px; ">
+                <h:outputScript>
+                    function chartExtender() {
+                        //copy the config options into a variable
+                        var options = $.extend(true, {}, this.cfg.config);
 
-                    options = {
-                        options: {
-                            //remove the legend
-                            legend: {
-                                display: false
-                            },
-                            scales: {
-                                // xAxes: [{
-                                //     display: false,
-                                //     type: "time",
-                                //     time: {
-                                //         parser: 'h:mm:ss a',
-                                //         tooltipFormat: 'h:mm:ss a',
-                                //         unit: 'hour',
-                                //         displayFormats: {
-                                //             'hour': 'h:mm:ss a'
-                                //         }
-                                //     }
-                                // }],
-                                yAxes: [{
-                                    display: false,
-                                    scaleLabel: {
+                        options = {
+                            options: {
+                                //remove the legend
+                                legend: {
+                                    display: false
+                                },
+                                scales: {
+                                    // xAxes: [{
+                                    //     display: false,
+                                    //     type: "time",
+                                    //     time: {
+                                    //         parser: 'h:mm:ss a',
+                                    //         tooltipFormat: 'h:mm:ss a',
+                                    //         unit: 'hour',
+                                    //         displayFormats: {
+                                    //             'hour': 'h:mm:ss a'
+                                    //         }
+                                    //     }
+                                    // }],
+                                    yAxes: [{
                                         display: false,
-                                        labelString: 'Your Y Axis',
-                                        fontSize: 13,
-                                    }
-                                }]
+                                        scaleLabel: {
+                                            display: false,
+                                            labelString: 'Your Y Axis',
+                                            fontSize: 13,
+                                        }
+                                    }]
+                                }
                             }
-                        }
+                        };
+
+                        //merge all options into the main chart options
+                        $.extend(true, this.cfg.config, options);
                     };
+                </h:outputScript>
 
-                    //merge all options into the main chart options
-                    $.extend(true, this.cfg.config, options);
-                };
-            </h:outputScript>
-
-        <div class="row">
-            <div class="col-12" style="padding-top: 25px; padding-left: 49px; padding-right: 49px; padding-bottom: 60px;  width: 600px; float: left" >
-                <h:outputLabel style="padding-bottom: 20px">So wurde bei diesem Besuch im Durchschnitt bewertet</h:outputLabel>
-                <p:barChart model="#{ratingBean.myModelVisit}" style="width: 95% ; height: 53px ;"/>
+                <div class="row" id="divRowVisit">
+                    <div class="col-12" style="padding-top: 25px; padding-left: 49px; padding-right: 49px; padding-bottom: 60px;  width: 600px; float: left" >
+                        <h:outputLabel style="padding-bottom: 20px">So wurde bei diesem Besuch im Durchschnitt bewertet</h:outputLabel>
+                        <p:barChart model="#{ratingBean.myModelVisit}" style="width: 95% ; height: 53px ;"/>
+                    </div>
+                </div>
+                <div class="row" id="divRowRest">
+                    <div class="col-12" style="padding-top: 25px; padding-left: 49px; padding-right: 49px; padding-bottom: 60px;  width: 600px;  float: left" >
+                        <h:outputLabel style="padding-bottom: 20px">Das ### Restaurant Name ### hat jetzt eine durchschnittlie Bewertung von</h:outputLabel>
+                        <p:barChart model="#{ratingBean.myModelRest}" style="width: 95% ; height: 53px ;"/>
+                    </div>
+                </div>
+                <div class="row" id="divRowUser">
+                    <div class="col-12" style="padding-top: 25px; padding-left: 49px; padding-right: 49px; padding-bottom: 60px; width: 600px;  float: left" >
+                        <h:outputLabel style="padding-bottom: 20px">Dies ist der Durchschnitt aller deiner Restaurantbewertungen</h:outputLabel>
+                        <p:barChart model="#{ratingBean.myModelUser}" style="width: 95% ; height: 53px ;"/>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-12" style="padding-top: 25px; padding-left: 49px; padding-right: 49px; padding-bottom: 60px;  width: 600px;  float: left" >
-                <h:outputLabel style="padding-bottom: 20px">Das ### Restaurant Name ### hat jetzt eine durchschnittlie Bewertung von</h:outputLabel>
-                <p:barChart model="#{ratingBean.myModelRest}" style="width: 95% ; height: 53px ;"/>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12" style="padding-top: 25px; padding-left: 49px; padding-right: 49px; padding-bottom: 60px; width: 600px;  float: left" >
-                <h:outputLabel style="padding-bottom: 20px">Dies ist der Durchschnitt aller deiner Restaurantbewertungen</h:outputLabel>
-                <p:barChart model="#{ratingBean.myModelUser}" style="width: 95% ; height: 53px ;"/>
-            </div>
-        </div>
-
-        </div>
+        </h:form>
 
 
         <script>
