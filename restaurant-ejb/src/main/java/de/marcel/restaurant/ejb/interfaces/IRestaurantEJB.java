@@ -21,7 +21,7 @@ public interface IRestaurantEJB extends Serializable
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED) <IBaseEntity> Integer update(de.marcel.restaurant.ejb.interfaces.IBaseEntity t);
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRED) <IBaseEntity> void delete(de.marcel.restaurant.ejb.interfaces.IBaseEntity t);
+	@TransactionAttribute(TransactionAttributeType.REQUIRED) <IBaseEntity> Integer delete(de.marcel.restaurant.ejb.interfaces.IBaseEntity t);
 
 	HashSet<Integer> findAllVisitsForUser(User participant);
 

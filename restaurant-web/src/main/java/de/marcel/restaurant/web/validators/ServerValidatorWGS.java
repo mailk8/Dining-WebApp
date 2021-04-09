@@ -19,7 +19,7 @@ import javax.inject.Named;
 public class ServerValidatorWGS implements Validator {
 
 	private Pattern pattern;
-	private static final String WGS84_PATTERN = "^((?!((,|\\.)(.*)(,|\\.))|((\\+|\\-)(.*)(\\+|\\-))|([a-z])|(([0-9,\\.]\\+)|([0-9,\\.]\\-)|((\\+|\\-)$)|(.\\s.))).)*$";
+	private static final String WGS84_PATTERN = "^((?!((,|\\.)(.*)(,|\\.))|((\\+|\\-)(.*)(\\+|\\-))|([^0-9,\\.+-])|(([0-9,\\.]\\+)|([0-9,\\.]\\-)|((\\+|\\-)$)|(.\\s.))).)*$";
 
 	public ServerValidatorWGS() {
 		pattern = Pattern.compile(WGS84_PATTERN);
@@ -27,12 +27,10 @@ public class ServerValidatorWGS implements Validator {
 
 	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException
 	{
-		//Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, "+# ValidatorWGS: componentID ist  " + component.getId());
 
-
-		////// Bei keinem Eintrag nichts prüfen //////
-		if(value.equals(""))
-			return;
+//		////// Bei keinem Eintrag nichts prüfen //////
+//		if(value.equals(""))
+//			return;
 
 		String valueString = value.toString().trim();
 		valueString = valueString.replace(",", ".");

@@ -21,6 +21,7 @@ public class ServerValidatorVorlage implements Validator {
 
 	private FacesMessage.Severity severity = FacesMessage.SEVERITY_ERROR;
 	private String errorMessage = "xxxxxxxxxxxxxxxxxxxxxxx";
+	private String detail = "xxxxxxxxxxxxxxxxxxxxxxx";
 
 	public String getValidatorId() {
 		return "ServerValidatorVorlage";
@@ -36,7 +37,7 @@ public class ServerValidatorVorlage implements Validator {
 
 			if (valueString.equals(""))
 			{
-				throwFacesErrorMessage(context, component);
+				throwFacesErrorMessage(context, component, errorMessage, detail);
 				return;
 			}
 
@@ -46,22 +47,22 @@ public class ServerValidatorVorlage implements Validator {
 			}
 			catch (DateTimeParseException e)
 			{
-				throwFacesErrorMessage(context, component);
+				throwFacesErrorMessage(context, component, errorMessage, detail);
 				return;
 			}
 
 		}
 		else
 		{
-			throwFacesErrorMessage(context, component);
+			throwFacesErrorMessage(context, component, errorMessage, detail);
 			return;
 		}
 	}
 
-	private void throwFacesErrorMessage(FacesContext context, UIComponent component)
+	private void throwFacesErrorMessage(FacesContext context, UIComponent component, String message, String detail)
 	{
 		((UIInput)component).setValid(false);
-		context.addMessage(null, new FacesMessage(severity, errorMessage, null)); // null means Global Message: Multi View Support
+		context.addMessage(null, new FacesMessage(severity, message, detail)); // null means Global Message: Multi View Support
 	}
 
 

@@ -44,10 +44,9 @@ public class User extends BaseEntity implements IUser
 	@OneToOne
 	private Culinary culinaryLiking;
 
-	@OneToMany(mappedBy = "ratingUser")
+	@OneToMany(mappedBy = "ratingUser", fetch = FetchType.EAGER)
 	private Set<Rating> ratingsSubmitted;
 
-	//@ManyToMany(mappedBy = "participants", cascade = CascadeType.MERGE)
 	@ManyToMany(mappedBy = "participants", cascade = CascadeType.DETACH)
 	private Set<RestaurantVisit> visitedRestaurants;
 	// https://stackoverflow.com/questions/21985308/how-is-the-owning-side-of-this-many-to-many-relationship-determined
@@ -144,7 +143,6 @@ public class User extends BaseEntity implements IUser
 
 	@Override public void setEmail(String email)
 	{
-		Logger.getLogger(getClass().getSimpleName()).severe("+# Entity User: setEmail aufgerufen mit " + email);
 		this.email = email.trim();
 	}
 

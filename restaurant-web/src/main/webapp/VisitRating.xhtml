@@ -32,7 +32,6 @@
 
         <h:form id="visitRating">
             <h:inputHidden value="#{ratingBean.currentRating.prim}" />
-
             <p:growl id="dishSelection"  showDetail="false" keepAlive="10000"/>
 
             <div class="form-group">
@@ -60,7 +59,7 @@
                 </div>
                 <br/>
 
-<!-- MEMO ESSEN-->
+<!-- MEMO Gericht-->
                 <div class="row">
                     <div class="col-4">
                         <label for="dishMemo">Bemerkung zum Gericht:</label>
@@ -70,19 +69,6 @@
                     </div>
                 </div>
                 <br/>
-
-<ui:remove>
-<!-- PREIS-->
-<!--                <div class="row">-->
-<!--                    <div class="col-4">-->
-<!--                        <label for="price">Bezhalt:</label>-->
-<!--                    </div>-->
-<!--                    <div class="col-8">-->
-<!--                        <h:inputText id="price" value="#{ratingBean.currentRating.price}" class="form-control" ></h:inputText>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <br/>-->
-</ui:remove>
 
 <!-- MEMO VISIT-->
                 <div class="row">
@@ -95,8 +81,33 @@
                 </div>
                 <br/>
 
+<!-- KOSTEN -->
+                <div class="row" >
+                    <div class="col-4">
+                        <label for="price">Kosten</label>
+                    </div>
+                    <div class="col-8">
+                        <div class="input-group mb-auto">
+                            <h:inputText id="price" value="#{ratingBean.currentRating.price}" class="form-control"   converter="commaConverter"
+                                onkeydown="return myKeyboadFunction(event);" >
+                                <f:ajax event="blur" render="@this pricePopupMs" delay="0"/>
+                            </h:inputText>
+                            <div class="input-group-append">
+                                <span class="input-group-text">€</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" >
+                    <div class="col-4">
+                         
+                    </div>
+                    <div class="col-8">
+                        <p:messages id="pricePopupMs" for="price" display="text" style="padding-left: 0px; padding-top: 0px;" />
+                    </div>
+                </div>
+
 <!-- STERNE WERTUNG -->
-                <br/>
                 <div class="container">
                     <div class="rating-wrap">
                         <div class="center">
@@ -127,14 +138,12 @@
             </div>
 
 
-
-
-
 <!-- BUTTONS -->
             <br/>
             <h:commandButton action="VisitList?faces-redirect=true" actionListener="#{ratingBean.saveVisitBackingBean}" value="Speichern und zur Übersicht" class="btn btn-primary" style="margin-left: .5rem; float:left;"/>
-
         </h:form>
+        
+        <br/>
 
     </ui:define>
 
@@ -187,45 +196,75 @@
                 <div class="row" id="divRowVisit">
                     <div class="col-12" style="padding-top: 25px; padding-left: 49px; padding-right: 49px; padding-bottom: 60px;  width: 600px; float: left" >
                         <h:outputLabel style="padding-bottom: 20px">So wurde bei diesem Besuch im Durchschnitt bewertet</h:outputLabel>
-                        <p:barChart model="#{ratingBean.myModelVisit}" style="width: 95% ; height: 53px ;"/>
+                        <p:barChart model="#{ratingBean.myModelVisit}" style="width: 95% ; height: 60px ;"/>
                     </div>
                 </div>
                 <div class="row" id="divRowRest">
                     <div class="col-12" style="padding-top: 25px; padding-left: 49px; padding-right: 49px; padding-bottom: 60px;  width: 600px;  float: left" >
                         <h:outputLabel style="padding-bottom: 20px">Das ### Restaurant Name ### hat jetzt eine durchschnittlie Bewertung von</h:outputLabel>
-                        <p:barChart model="#{ratingBean.myModelRest}" style="width: 95% ; height: 53px ;"/>
+                        <p:barChart model="#{ratingBean.myModelRest}" style="width: 95% ; height: 60px ;"/>
                     </div>
                 </div>
                 <div class="row" id="divRowUser">
                     <div class="col-12" style="padding-top: 25px; padding-left: 49px; padding-right: 49px; padding-bottom: 60px; width: 600px;  float: left" >
                         <h:outputLabel style="padding-bottom: 20px">Dies ist der Durchschnitt aller deiner Restaurantbewertungen</h:outputLabel>
-                        <p:barChart model="#{ratingBean.myModelUser}" style="width: 95% ; height: 53px ;"/>
+                        <p:barChart model="#{ratingBean.myModelUser}" style="width: 95% ; height: 60px ;"/>
                     </div>
                 </div>
             </div>
         </h:form>
 
+        <script type="application/javascript">
 
-        <script>
-            // Holt zunächst alle Radiobuttons (Stars) und fügt einen Eventlistener an.
-            // OnClick wird das CommandScript setStars aufgerufen, welches das Rating
-            // als http Parameter unter dem Namen "paramStarRating" ans Backend schickt.
-            // Im Backend wird druch außerdem die Methode setStarRating aufgerufen,
-            // die die Parameter wieder auspackt.
+            // Verhindert unpassende Eingaben in Währungsfeld
+            function myKeyboadFunction(e) {
+                console.log("input war: " + String.fromCharCode(e.keyCode) + " " + e.key);
+                //  if (e.shiftKey === true ) {
+                //     if (e.keyCode  == 9) {
+                //         return true;
+                //     } return false;
+                // }
+
+                // Steuerzeichen 0 - 47 erlaubt
+
+                // Ziffern 48 - 57 erlaubt
+                if (58 > e.keyCode) { return true; }
+
+                // Ziffern Nummberblock erlaubt
+                if (e.keyCode  > 95 &amp; 106 > e.keyCode) { return true; }
+
+                // Punkt und Komma nur einfach
+                if (e.key == ',' || e.key == '.') {
+                    const duplicate = document.getElementById("visitRating:price").value;
+                    if (duplicate.includes('.') || duplicate.includes(',')) { return false; }
+                    else { return true; }
+                }
+
+                // Alles Weitere hinter Ziffern verboten
+                if (e.keyCode  > 57) { return false; }
+
+                // SpaceBar verboten
+                if (e.keyCode == 32) { return false; }
+            }
+
+            // Zeichnet Rating-Sterne
             const radios = document.forms.visitRating.elements.ratingRadio;
             for(let i=0; radios.length > i; i++) {
+                // Holt zunächst alle Radiobuttons (Stars) und fügt einen Eventlistener an.
+                // OnClick wird das CommandScript setStars aufgerufen, welches das Rating
+                // als http Parameter unter dem Namen "paramStarRating" ans Backend schickt.
+                // Im Backend wird druch außerdem die Methode setStarRating aufgerufen,
+                // die die Parameter wieder auspackt.
                 radios[i].addEventListener('click', function () {
-                    setStars({ paramStarRating: this.value});
+                    setStars({ paramStarRating: this.value}); // jeder Ratiobutton erhält einen Eventlistener, mit dem er seinen Value ans Backend senden kann
                 })
             }
+
         </script>
 
-
     </ui:define>
 
-    <ui:define name="footer">
-
-    </ui:define>
+    <ui:define name="footer"> </ui:define>
 
 </ui:composition>
 

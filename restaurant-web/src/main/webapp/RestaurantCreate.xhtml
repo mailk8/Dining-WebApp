@@ -86,14 +86,14 @@
                             <div class="col-6">
                                 <p:inputText id="wgs84Lat" value="#{backingBeanRestaurant.validateLat}" class="form-control" validator="#{serverValidatorWGS.validate}" >
                                     <p:clientValidator/>
-                                    <f:validateRegex pattern="^((?!((,|\.)(.*)(,|\.))|((\+|\-)(.*)(\+|\-))|([a-z])|(([0-9,\.]\+)|([0-9,\.]\-)|((\+|\-)$)|(.\s.))).)*$"/>
+                                    <f:validateRegex pattern="^((?!((,|\.)(.*)(,|\.))|((\+|\-)(.*)(\+|\-))|([^0-9,\.+-])|(([0-9,\.]\+)|([0-9,\.]\-)|((\+|\-)$)|(.\s.))).)*$"/>
                                 </p:inputText>
 
                             </div>
                             <div class="col-6">
                                 <p:inputText id="wgs84Lon" value="#{backingBeanRestaurant.validateLon}" class="form-control" validator="#{serverValidatorWGS.validate}" >
                                     <p:clientValidator/>
-                                    <f:validateRegex pattern="^((?!((,|\.)(.*)(,|\.))|((\+|\-)(.*)(\+|\-))|([a-z])|(([0-9,\.]\+)|([0-9,\.]\-)|((\+|\-)$)|(.\s.))).)*$"/>
+                                    <f:validateRegex pattern="^((?!((,|\.)(.*)(,|\.))|((\+|\-)(.*)(\+|\-))|([^0-9,\.+-])|(([0-9,\.]\+)|([0-9,\.]\-)|((\+|\-)$)|(.\s.))).)*$"/>
                                 </p:inputText>
                             </div>
                             <p:commandButton validateClient="true" ajax="false" rendered="#{false}" update="@form"/>

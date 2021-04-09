@@ -14,6 +14,7 @@ import org.apache.shiro.subject.Subject;
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -74,7 +75,6 @@ public class BackingBeanUser implements Serializable
 	}
 
 	///////////////////////////// Methods for Performace Enhancement ////////////////////////////
-
 	public List<Culinary> getAllCulinariesProxy()
 	{
 		return allCulinariesProxy;
@@ -85,8 +85,9 @@ public class BackingBeanUser implements Serializable
 		return allUsersProxy;
 	}
 
-	///////////////////////////// Methods for Basic Crud /////////////////////////////////////////
 
+
+	///////////////////////////// Methods for Basic Crud /////////////////////////////////////////
 	public List<Culinary> getAllCulinaries() {
 		allCulinariesProxy = appServer.findAll(Culinary.class);
 		return allCulinariesProxy;
@@ -108,23 +109,29 @@ public class BackingBeanUser implements Serializable
 
 	public String delete(User u) {
 		if(!loginController.isPermitted(u))
+		{
 			return "Login.jsf?faces-redirect=true";
-
-		UserMailController.deleteUserEmail(u.getEmail());
-		appServer.deleteCredentials(u.getId());
-		appServer.delete(u);
+		}
+		String mail = u.getEmail();
+		int id = u.getId();
+		if( appServer.delete(u) < 0 )
+		{
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fehler beim Lösches dieses Elements. Bitte den Entwickler kontaktieren." , ""));
+			return "UserList?faces-redirect=true";
+		}
+		appServer.deleteCredentials(id);
+		UserMailController.deleteUserEmail(mail);
 		loginController.logout();
 		return "UserList?faces-redirect=true";
 	}
 
-	public String saveUserProxy()
-	{
+	public String saveUserProxy() {
 		loginController.checkAndPersist(current);
 		return "UserList?faces-redirect=true";
 	}
 
-	public int saveUser(User u)
-	{
+	public int saveUser(User u) {
 		if(null == current.getPrim())
 		{
 			return insert(u);
@@ -135,7 +142,6 @@ public class BackingBeanUser implements Serializable
 		}
 	}
 
-	// Delegiert Persist new
 	public int insert(User u) {
 		setCoordinatesEntity();
 		int result = appServer.persist(u);
@@ -146,7 +152,6 @@ public class BackingBeanUser implements Serializable
 		return 3; // 3  = success
 	}
 
-	// Delegiert Persist update
 	public int update(User u) {
 		User old = (User) appServer.findOneById(u.getId().toString(), User.class);
 		setCoordinatesEntity();
@@ -176,8 +181,10 @@ public class BackingBeanUser implements Serializable
 		setCoordinatesBean(u);
 	}
 
-	///////////////////////////// Methods for WGS Coordinates /////////////////////////////////
 
+
+
+	///////////////////////////// Methods for WGS Coordinates /////////////////////////////////
 	public String getValidateLat()
 	{
 		return validateLat;
@@ -248,6 +255,8 @@ public class BackingBeanUser implements Serializable
 //			client.enqueueNewRequest(e, appServer);
 //		});
 	}
+
+
 
 	////////////////////////////// Methods for Credentials Persist //////////////////////////
 	// Proxy Methode dient dem Zweck, dass beim AppServer das selbe Objekt erreicht wird

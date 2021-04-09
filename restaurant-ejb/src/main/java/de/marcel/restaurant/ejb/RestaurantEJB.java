@@ -3,23 +3,15 @@ package de.marcel.restaurant.ejb;
 
 import de.marcel.restaurant.ejb.interfaces.IBaseEntity;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
-import de.marcel.restaurant.ejb.model.RestaurantVisit;
 import de.marcel.restaurant.ejb.model.User;
 import de.marcel.restaurant.web.security.ICredentials;
-import org.apache.shiro.crypto.hash.Hash;
 
 import javax.annotation.Priority;
 import javax.ejb.*;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.persistence.*;
-import javax.transaction.UserTransaction;
-import java.sql.Connection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 @Startup()
 @Priority(1)
@@ -38,8 +30,7 @@ public class RestaurantEJB implements IRestaurantEJB
 
 
 	@Override @TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public <IBaseEntity> Integer persist(de.marcel.restaurant.ejb.interfaces.IBaseEntity t)
-	{
+	public <IBaseEntity> Integer persist(de.marcel.restaurant.ejb.interfaces.IBaseEntity t) {
 		try
 		{
 			// Persist takes an entity instance, adds it to the context and makes that instance managed (ie future updates to the entity will be tracked).
@@ -56,8 +47,7 @@ public class RestaurantEJB implements IRestaurantEJB
 	}
 
 	@Override @TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public <IBaseEntity> Integer update(de.marcel.restaurant.ejb.interfaces.IBaseEntity t)
-	{
+	public <IBaseEntity> Integer update(de.marcel.restaurant.ejb.interfaces.IBaseEntity t) {
 		try
 		{
 			// Mit merge meldet der EntityManager keinen Erfolg.
@@ -77,12 +67,20 @@ public class RestaurantEJB implements IRestaurantEJB
 	}
 
 	@Override @TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public <IBaseEntity> void delete(de.marcel.restaurant.ejb.interfaces.IBaseEntity t)
-	{
+	public <IBaseEntity> Integer delete(de.marcel.restaurant.ejb.interfaces.IBaseEntity t) {
 		// Because merge returns managed entity instance, you can call remove with the object it returns, because it is managed by JPA
 		// Retourniert eine Kopie der Entity, diese wird durch die Kopie zur JPA-Managed Bean
-		t = entityManager.merge(t);
-		entityManager.remove(t);
+		try
+		{
+			t = entityManager.merge(t);
+			entityManager.remove(t);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return -1;
+		}
+		return 1;
 	}
 
 	@Override public List<IBaseEntity> findAll(Class entitiyClass) {
@@ -92,16 +90,8 @@ public class RestaurantEJB implements IRestaurantEJB
 		return result;
 	}
 
-//	@Override public <T extends IBaseEntity> List<IBaseEntity> findAllFor(Object attributeFromNamedQuery, Class attributeClazz, Class<T> resultClazz)
-//	{
-//		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findAllFor" + attributeClazz.getSimpleName(), resultClazz);
-//		List<IBaseEntity> result = (List<IBaseEntity>) query.getResultList();
-//		return result;
-//	}
-
 	@Override
-	public <T extends IBaseEntity> IBaseEntity findOne(Object attributeFromNamedQuery, Class attributeClazz, Class<T> resultClazz)
-	{
+	public <T extends IBaseEntity> IBaseEntity findOne(Object attributeFromNamedQuery, Class attributeClazz, Class<T> resultClazz) {
 		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findOne", resultClazz);
 		query.setParameter(1, attributeClazz.cast(attributeFromNamedQuery));
 		IBaseEntity result = (IBaseEntity) query.getSingleResult();
@@ -110,8 +100,7 @@ public class RestaurantEJB implements IRestaurantEJB
 	}
 
 	@Override
-	public <T extends IBaseEntity> IBaseEntity findOneById(String id, Class<T> resultClazz)
-	{
+	public <T extends IBaseEntity> IBaseEntity findOneById(String id, Class<T> resultClazz) {
 		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findOneById", resultClazz);
 		query.setParameter("attribute", Integer.parseInt(id));
 		IBaseEntity result = (IBaseEntity) query.getSingleResult();
@@ -120,8 +109,7 @@ public class RestaurantEJB implements IRestaurantEJB
 	}
 
 	@Override
-	public <T extends IBaseEntity> Integer findMaxId(Class<T> resultClazz)
-	{
+	public <T extends IBaseEntity> Integer findMaxId(Class<T> resultClazz) {
 
 		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findMaxId", resultClazz);
 		Integer i = (Integer) query.getSingleResult();
@@ -130,8 +118,7 @@ public class RestaurantEJB implements IRestaurantEJB
 	}
 
 	@Override
-	public HashSet<Integer> findAllVisitsForUser(User participant)
-	{
+	public HashSet<Integer> findAllVisitsForUser(User participant) {
 		//Logger.getLogger(getClass().getSimpleName()).severe("+# findAllVisitsForUser aufgerufen");
 
 		TypedQuery<Integer> query = entityManager.createNamedQuery("RestaurantVisit.findAllVisitsForUser", Integer.class);

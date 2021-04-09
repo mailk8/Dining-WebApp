@@ -164,6 +164,7 @@ public class Rating extends BaseEntity implements IRating
 
 	@Override public void setPrice(double price)
 	{
+		Logger.getLogger(this.getClass().getSimpleName()).severe("+# setPrice mit " + price);
 		this.price = price;
 	}
 

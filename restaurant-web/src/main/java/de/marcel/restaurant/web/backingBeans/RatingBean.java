@@ -223,7 +223,7 @@ public class RatingBean implements Serializable
 		linearAxes.setTicks(ticks);
 		cScales.addXAxesData(linearAxes);
 		options.setScales(cScales);
-		options.setBarThickness(20); ////////////////// THICC NESS ////////////////
+		options.setBarThickness(1);
 		//        Title title = new Title();
 		//        title.setDisplay(true);
 		//        title.setText("Horizontal Bar Chart");

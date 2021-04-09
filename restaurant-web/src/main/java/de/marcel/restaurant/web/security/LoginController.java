@@ -58,8 +58,7 @@ public class LoginController implements Serializable
 		return "UserList?faces-redirect=true";
 	}
 
-	public boolean isPermitted(User u)
-	{
+	public boolean isPermitted(User u) {
 		Subject sub = SecurityUtils.getSubject();
 		Session sessionAuth = sub.getSession();
 		String sessionIdActual = FacesContext.getCurrentInstance().getExternalContext().getSessionId(false);
@@ -73,8 +72,7 @@ public class LoginController implements Serializable
 		return true;
 	}
 
-	public boolean isLoggedInUser(User u)
-	{
+	public boolean isLoggedInUser(User u) {
 		// light Version für UserList, um Buttons nur für den eingeloggten User anzuzeigen
 		// Wird für den loggedIn User 6x aufgerufen.
 		// https://stackoverflow.com/questions/4281261/why-is-the-getter-called-so-many-times-by-the-rendered-attribute
@@ -92,8 +90,7 @@ public class LoginController implements Serializable
 		return ((User) SecurityUtils.getSubject().getSession().getAttribute("loggedInUser")).getPrim().equals(u.getPrim());
 	}
 
-	public synchronized void clearSession()
-	{
+	public synchronized void clearSession() {
 		SecurityUtils.getSubject().getSession().removeAttribute("loggedInUser");
 		SecurityUtils.getSubject().logout();
 		Logger.getLogger(getClass().getSimpleName()).severe("+# LogoutController logout entfernt User " + backingBeanUser.getCurrent() + " aus der BackingBean");
@@ -106,7 +103,6 @@ public class LoginController implements Serializable
 	}
 
 	/////////////// Änderung Passwort und UserDaten koordinieren /////////////////
-
 	public synchronized void passwordChanged(ValueChangeEvent e){
 		// als ValueChanged Listener, weil ein Validator kein Zugriff auf old und new Value hat
 		// checkPasswordQuality: Passwort Qualitätsprüfung übernimmt PrimeFaces Popup
@@ -253,8 +249,9 @@ public class LoginController implements Serializable
 		FacesContext.getCurrentInstance().renderResponse();
 	}
 
-	///////////////////// Encryption ////////////////////////////////////////////
 
+
+	///////////////////// Encryption ////////////////////////////////////////////
 	private synchronized byte[] generateSalt() {
 		RandomNumberGenerator rng = new SecureRandomNumberGenerator();
 		// Salz wird als Byte Array erstellt und in ein Object verpackt
@@ -267,6 +264,9 @@ public class LoginController implements Serializable
 		// Iterationen von Shiro holen? Die Liegen im (Hashed) CredentialsMatcher und der liegt als Member im Realm.
 		return new Sha256Hash(clearText[0], salt, 1).toBase64();
 	}
+
+
+
 
 	///////////////////////// Für Debugging Zwecke /////////////////////////
 	public void testSubject() {
