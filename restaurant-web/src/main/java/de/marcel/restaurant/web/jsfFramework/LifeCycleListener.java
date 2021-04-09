@@ -1,8 +1,6 @@
 package de.marcel.restaurant.web.jsfFramework;
 
-import org.apache.shiro.crypto.hash.Hash;
 import org.omnifaces.util.Faces;
-
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -38,8 +36,6 @@ public class LifeCycleListener implements PhaseListener
 				this.restoreMessages(facesContext);
 			}
 		}
-
-
 	}
 
 	public void afterPhase(PhaseEvent event) {
@@ -50,7 +46,6 @@ public class LifeCycleListener implements PhaseListener
 			FacesContext facesContext = event.getFacesContext();
 			this.saveMessages(facesContext);
 		}
-
 	}
 
 	private int saveMessages(final FacesContext facesContext)
@@ -103,9 +98,9 @@ public class LifeCycleListener implements PhaseListener
 		int restoredCount = messages.size();
 		for (Object entry : messages)
 		{
-			// fügt alle gefangenen Messages als globale (null) wieder in den Kontext ein !!
-			// Folge: Hatte die Message vorher eine ID mit Bezug auf den Darstell-Ort,
-			// hat sie den jetzt nicht mehr.
+			// fügt alle gefangenen Messages als globale (ClientId null) wieder in den Kontext ein.
+			// Wenn auch spzifische Meldungen gefangen werden, verliert die Message den Bezug
+			// auf den Darstell-Ort.
 
 			facesContext.addMessage("price", (FacesMessage) entry);
 //			FacesMessage m = (FacesMessage) entry;

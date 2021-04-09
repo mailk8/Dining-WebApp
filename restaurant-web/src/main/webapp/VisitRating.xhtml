@@ -233,14 +233,14 @@
                 // Ziffern Nummberblock erlaubt
                 if (e.keyCode  > 95 &amp; 106 > e.keyCode) { return true; }
 
-                // Punkt und Komma nur einfach
+                // Punkt bzw. Komma nur einfach
                 if (e.key == ',' || e.key == '.') {
                     const duplicate = document.getElementById("visitRating:price").value;
                     if (duplicate.includes('.') || duplicate.includes(',')) { return false; }
                     else { return true; }
                 }
 
-                // Alles Weitere hinter Ziffern verboten
+                // Alle Zeichen hinter Ziffern verboten
                 if (e.keyCode  > 57) { return false; }
 
                 // SpaceBar verboten

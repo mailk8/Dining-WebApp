@@ -61,13 +61,14 @@
           <element id="library" level="project" name="Maven: org.tukaani:xz:1.8" />
           <element id="library" level="project" name="Maven: org.codehaus.plexus:plexus-utils:3.3.0" />
           <element id="library" level="project" name="Maven: de.marcel.restaurant.restaurant-web:credentials-class-interface:1" />
-          <element id="library" level="project" name="Maven: org.webjars:bootstrap:4.5.2" />
-          <element id="library" level="project" name="Maven: org.webjars:jquery:3.5.1" />
-          <element id="library" level="project" name="Maven: org.webjars:popper.js:1.16.0" />
           <element id="library" level="project" name="Maven: org.primefaces:primefaces:10.0.0-RC2" />
           <element id="library" level="project" name="Maven: org.primefaces.themes:all-themes:1.0.10" />
           <element id="library" level="project" name="Maven: org.omnifaces:omnifaces:2.7.7" />
+          <element id="library" level="project" name="Maven: org.webjars:bootstrap:4.5.2" />
+          <element id="library" level="project" name="Maven: org.webjars:jquery:3.5.1" />
+          <element id="library" level="project" name="Maven: org.webjars:popper.js:1.16.0" />
           <element id="library" level="project" name="Maven: org.webjars:font-awesome:5.14.0" />
+          <element id="library" level="project" name="Maven: org.webjars:bootstrap-datepicker:1.9.0" />
           <element id="library" level="project" name="Maven: de.marcel.restaurant.restaurant-ejb:interfaces:1" />
           <element id="library" level="project" name="Maven: de.marcel.restaurant.restaurant-ejb:model-classes:1" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-core:1.7.1" />

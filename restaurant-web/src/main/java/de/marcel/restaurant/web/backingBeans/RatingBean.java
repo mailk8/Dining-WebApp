@@ -66,10 +66,11 @@ public class RatingBean implements Serializable
 						.findAny().orElse(new Rating(currentVisit, currentUser));
 
 		currentRating.setRestaurantRated(currentVisit.getRestaurantChosen());
+//currentVisit.getRestaurantChosen().getAverageRating()
 
-		myModelRest = produceHorizontalBarModel("Restaurant", 0.0,"007bff", 0.9); // blau
-		myModelVisit = produceHorizontalBarModel("Visit", 0.0,"e53552", 0.9); // rot
-		myModelUser = produceHorizontalBarModel("User", 0.0,"ffc107", 0.9); // gelb
+		myModelRest = produceHorizontalBarModel("Restaurant", 3.3f,"007bff", 0.9); // blau
+		myModelVisit = produceHorizontalBarModel("Visit", 6.0f,"e53552", 0.9); // rot
+		myModelUser = produceHorizontalBarModel("User", 1.46846138484183841545f,"ffc107", 0.9); // gelb
 
 		Logger.getLogger(getClass().getSimpleName()).severe("+# nach proxyOnLoad. currentVisit ist \n+# " + currentVisit + " currentUser ist \n+# " +currentUser + " currentRating ist \n+# " + currentRating);
 
@@ -163,11 +164,11 @@ public class RatingBean implements Serializable
 
 
 	/////////////////////// Statictics Diagram//////////////////////////////////
-	public HorizontalBarChartModel produceHorizontalBarModel(String label, double dataValue, String noHashHexStringColor, Double opacity) {
+	public HorizontalBarChartModel produceHorizontalBarModel(String label, double dataValue, String noHash_HexStringColor, Double opacity) {
 
-		Integer redByte = Integer.parseInt(noHashHexStringColor.substring(0,2),16);
-		Integer greenByte = Integer.parseInt(noHashHexStringColor.substring(2,4),16);
-		Integer blueByte = Integer.parseInt(noHashHexStringColor.substring(4,6),16); // :)
+		Integer redByte = Integer.parseInt(noHash_HexStringColor.substring(0,2),16);
+		Integer greenByte = Integer.parseInt(noHash_HexStringColor.substring(2,4),16);
+		Integer blueByte = Integer.parseInt(noHash_HexStringColor.substring(4,6),16); // :)
 
 		///////////////////////////// Boilerplate //////////////////////////////
 		HorizontalBarChartModel model = new HorizontalBarChartModel();

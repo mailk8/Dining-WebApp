@@ -45,7 +45,7 @@ public class Restaurant extends BaseEntity implements IRestaurant
 	private LocalTime openFrom;
 	@Column(name = "openTill", nullable = true, columnDefinition="TIME NULL")
 	private LocalTime openTill;
-///////////////// todo Besser Date nutzen //////////////////////////////
+///////////////// todo: Besser SQL Date nutzen //////////////////////////////
 	@Column(name = "holidayFrom", nullable = true, columnDefinition="TIMESTAMP NULL")
 	private LocalDate holidayFrom;
 	@Column(name = "holidayTill", nullable = true, columnDefinition="TIMESTAMP NULL")
