@@ -11,7 +11,7 @@ import javax.persistence.*;
 								@NamedQuery(name = "Dish.findAll", query = "SELECT u FROM Dish u"),
 								@NamedQuery(name = "Dish.findMaxId", query = "SELECT MAX(u.id) FROM Dish u")
 				})
-public class Dish extends BaseEntity implements IDish
+public class Dish extends BaseEntity implements IDish, Comparable<Dish>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -50,4 +50,8 @@ public class Dish extends BaseEntity implements IDish
 		return this.dishName;
 	}
 
+	@Override public int compareTo(Dish d)
+	{
+		return this.dishName.compareTo(d.getDishName());
+	}
 }

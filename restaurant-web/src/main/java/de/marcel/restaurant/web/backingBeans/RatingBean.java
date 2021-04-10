@@ -111,7 +111,9 @@ public class RatingBean implements Serializable
 	//////////////////////// Autocompletion Dishes ///////////////////////
 	public List<Dish> dishesAutocomplete(String query) {
 		String queryLowerCase = query.toLowerCase();
-		return allDishesProxy.stream().filter(t -> t.getDishName().toLowerCase().contains(queryLowerCase)).collect(Collectors.toList());
+		return allDishesProxy.stream().filter(t -> t.getDishName().toLowerCase().contains(queryLowerCase))
+						.sorted()
+						.collect(Collectors.toList());
 	}
 
 	private String dishString;
@@ -268,7 +270,7 @@ public class RatingBean implements Serializable
 		float visitMean = fetchAverageValue(currentVisit);
 
 		scheiß
-
+//todo
 		Logger.getLogger(getClass().getSimpleName()).severe("+# generateReport nach Average Streaming. restMean " + restMean +" userMean " + userMean +" visitMean "+visitMean );
 
 		// Durchschnittswerte in die Diagram-Modelle einsetzen
