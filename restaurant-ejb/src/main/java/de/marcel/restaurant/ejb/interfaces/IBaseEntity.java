@@ -1,5 +1,7 @@
 package de.marcel.restaurant.ejb.interfaces;
 
+import de.marcel.restaurant.ejb.model.BaseEntity;
+
 import java.io.Serializable;
 
 public interface IBaseEntity extends Serializable
@@ -17,4 +19,8 @@ public interface IBaseEntity extends Serializable
 
 	Integer getId();
 	void setId(Integer id);
+
+	float calculateAvgRating(BaseEntity dataObject);
+
+	float calculateAvgRating();
 }

@@ -5,7 +5,10 @@ import de.marcel.restaurant.ejb.interfaces.IBaseEntity;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.User;
 import de.marcel.restaurant.web.security.ICredentials;
+import org.eclipse.persistence.config.CascadePolicy;
+import org.eclipse.persistence.config.QueryHints;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Priority;
 import javax.ejb.*;
 import javax.persistence.*;
@@ -16,19 +19,55 @@ import java.util.logging.Logger;
 @Startup()
 @Priority(1)
 @Stateful
-//@SessionScoped
 @Remote(IRestaurantEJB.class)
 public class RestaurantEJB implements IRestaurantEJB
 {
 	private static final long serialVersionUID = 1L;
+
+	@PostConstruct
+	void infoCache() {
+		Logger.getLogger(getClass().getSimpleName()).severe("+# @PostConstruct: EntityManager benutzt Cache: " + entityManager.getEntityManagerFactory().getCache());
+	}
 
 	@PersistenceContext(unitName="restaurant_ejb")
 	private transient EntityManager entityManager;
 
 	@PersistenceContext(unitName="restaurant_auth")
 	private transient EntityManager entityManagerAuth;
+//#############################################################
 
+	@Override
+	public <T extends IBaseEntity> IBaseEntity findOneById(String id, Class<T> resultClazz) {
+		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findOneById", resultClazz);
+		query.setParameter("attribute", Integer.parseInt(id));
+		IBaseEntity result = (IBaseEntity) query.getSingleResult();
+		Logger.getLogger(getClass().getSimpleName()).severe("+# nach findOneById für " + resultClazz.getSimpleName());
+		return result;
+	}
 
+	@Override
+	public <T extends IBaseEntity> IBaseEntity findOneByPrim(Integer prim, Class<T> resultClazz, boolean withRefresh) {
+		Logger.getLogger(getClass().getSimpleName()).severe("+# vor refreshOneByPrim für " + resultClazz.getSimpleName());
+		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findOneByPrim", resultClazz);
+		query = query.setParameter("attribute", prim);
+		if(withRefresh)
+		{
+			Logger.getLogger(getClass().getSimpleName()).severe("+# EM Cache wird gelöscht");
+			invalidateCachesOne(resultClazz, prim);
+			// QueryHints.REFRESH_CASCADE = eclipselink.refresh.cascade -> Implementierungspezifisch
+			// https://www.eclipse.org/eclipselink/documentation/2.4/jpa/extensions/q_refresh_cache.htm
+			query = query.setHint("eclipselink.refresh.cascade", CascadePolicy.CascadeAllParts);
+		}
+
+		return (IBaseEntity) query.getSingleResult();
+	}
+
+	private void invalidateCachesOne(Class clazz, Object primKey)
+	{
+		// Löscht EntityManager Level2 Cache für eine Instanz
+		entityManager.getEntityManagerFactory().getCache().evict(clazz, primKey);
+	}
+//#############################################################
 	@Override @TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public <IBaseEntity> Integer persist(de.marcel.restaurant.ejb.interfaces.IBaseEntity t) {
 		try
@@ -96,15 +135,6 @@ public class RestaurantEJB implements IRestaurantEJB
 		query.setParameter(1, attributeClazz.cast(attributeFromNamedQuery));
 		IBaseEntity result = (IBaseEntity) query.getSingleResult();
 		Logger.getLogger(getClass().getSimpleName()).severe("+# nach findOne für " + resultClazz.getSimpleName());
-		return result;
-	}
-
-	@Override
-	public <T extends IBaseEntity> IBaseEntity findOneById(String id, Class<T> resultClazz) {
-		TypedQuery<?> query = entityManager.createNamedQuery(resultClazz.getSimpleName()+".findOneById", resultClazz);
-		query.setParameter("attribute", Integer.parseInt(id));
-		IBaseEntity result = (IBaseEntity) query.getSingleResult();
-		Logger.getLogger(getClass().getSimpleName()).severe("+# nach findOneById für " + resultClazz.getSimpleName());
 		return result;
 	}
 

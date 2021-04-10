@@ -1,13 +1,9 @@
 package de.marcel.restaurant.web.backingBeans;
 
+import de.marcel.restaurant.ejb.interfaces.IBaseEntity;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
-import de.marcel.restaurant.ejb.model.Dish;
-import de.marcel.restaurant.ejb.model.Rating;
-import de.marcel.restaurant.ejb.model.RestaurantVisit;
-import de.marcel.restaurant.ejb.model.User;
-import org.apache.shiro.SecurityUtils;
+import de.marcel.restaurant.ejb.model.*;
 import org.omnifaces.util.Faces;
-import org.primefaces.component.chart.Chart;
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
 import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
@@ -17,9 +13,6 @@ import org.primefaces.model.charts.hbar.HorizontalBarChartDataSet;
 import org.primefaces.model.charts.hbar.HorizontalBarChartModel;
 
 import javax.enterprise.context.SessionScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -60,22 +53,32 @@ public class RatingBean implements Serializable
 		currentUser = backingBeanUser.getCurrent();
 		getAllDishes();
 		generateRetrospectVisit();
+
 		// Rating Objekt des angemeldeten Users aus dem Visit hervorholen. Falls es noch kein Rating gibt, wird eins angelegt.
 		currentRating =  currentVisit.getRatingsVisit().stream()
 						.filter(e -> e.getRatingUser().getPrim().equals(currentUser.getPrim()))
 						.findAny().orElse(new Rating(currentVisit, currentUser));
 
 		currentRating.setRestaurantRated(currentVisit.getRestaurantChosen());
-//currentVisit.getRestaurantChosen().getAverageRating()
+		//currentVisit.getRestaurantChosen().getAvgRating()
 
-		myModelRest = produceHorizontalBarModel("Restaurant", 3.3f,"007bff", 0.9); // blau
-		myModelVisit = produceHorizontalBarModel("Visit", 6.0f,"e53552", 0.9); // rot
-		myModelUser = produceHorizontalBarModel("User", 1.46846138484183841545f,"ffc107", 0.9); // gelb
+		float rest=0, vis=0, user=0;
+		if(currentRating.getStars() != 0)
+		{
+			rest = fetchAverageValue(currentVisit);
+			vis = fetchAverageValue(currentVisit);
+			user = fetchAverageValue(currentUser);
+		}
+
+		myModelRest = produceHorizontalBarModel("Restaurant", rest,"007bff", 0.9); // blau
+		myModelVisit = produceHorizontalBarModel("Visit", vis,"e53552", 0.9); // rot
+		myModelUser = produceHorizontalBarModel("User", user,"ffc107", 0.9); // gelb
 
 		Logger.getLogger(getClass().getSimpleName()).severe("+# nach proxyOnLoad. currentVisit ist \n+# " + currentVisit + " currentUser ist \n+# " +currentUser + " currentRating ist \n+# " + currentRating);
 
 		return "";
 	}
+
 
 	private List<Dish> getAllDishes() {
 		allDishesProxy = appServer.findAll(Dish.class);
@@ -238,27 +241,33 @@ public class RatingBean implements Serializable
 
 	public void generateReport() {
 		Logger.getLogger(getClass().getSimpleName()).severe("+# generateReport läuft");
-		List<Byte> rest = new ArrayList<>();
-		List<Byte> user = new ArrayList<>();
+//		List<Byte> rest = new ArrayList<>();
+//		List<Byte> user = new ArrayList<>();
+//
+//		// Alle historischen Ratings prüfen, hier als aktuelles Ergebnis von der DB (Wert vom Zeitpunkt onLoad wäre evtl. veraltet).
+//		appServer.findAll(Rating.class).stream().map(e-> (Rating) e).forEach(e -> {
+//			if(e.getRestaurantRated() == currentRating.getRestaurantRated())
+//				rest.add(e.getStars());
+//			if(e.getRatingUser() == currentRating.getRatingUser())
+//				user.add(e.getStars());
+//		});
+//
+//		// Aktuell gesetztes Rating ist noch nicht in der DB, daher nachträglich setzen
+//		rest.add(currentRating.getStars());
+//		user.add(currentRating.getStars());
+//
+//		Logger.getLogger(getClass().getSimpleName()).severe("+# generateReport nach findAll und Sortieren");
+//
+//		// Durchschnittswerte berechnen
+//		double restMean = rest.stream().mapToInt(e->e).average().orElseGet(()->0.0);
+//		double userMean = user.stream().mapToInt(e->e).average().orElseGet(()->0.0);
+//		double visitMean = currentVisit.getRatingsVisit().stream().flatMapToInt(e -> IntStream.of(e.getStars())).average().orElseGet(()->0.0);
 
-		// Alle historischen Ratings prüfen, hier als aktuelles Ergebnis von der DB (Wert vom Zeitpunkt onLoad wäre evtl. veraltet).
-		appServer.findAll(Rating.class).stream().map(e-> (Rating) e).forEach(e -> {
-			if(e.getRestaurantRated() == currentRating.getRestaurantRated())
-				rest.add(e.getStars());
-			if(e.getRatingUser() == currentRating.getRatingUser())
-				user.add(e.getStars());
-		});
+		float restMean = fetchAverageValue(currentVisit.getRestaurantChosen());
+		float userMean = fetchAverageValue(currentUser);
+		float visitMean = fetchAverageValue(currentVisit);
 
-		// Aktuell gesetztes Rating ist noch nicht in der DB, daher nachträglich setzen
-		rest.add(currentRating.getStars());
-		user.add(currentRating.getStars());
-
-		Logger.getLogger(getClass().getSimpleName()).severe("+# generateReport nach findAll und Sortieren");
-
-		// Durchschnittswerte berechnen
-		double restMean = rest.stream().mapToInt(e->e).average().orElseGet(()->0.0);
-		double userMean = user.stream().mapToInt(e->e).average().orElseGet(()->0.0);
-		double visitMean = currentVisit.getRatingsVisit().stream().flatMapToInt(e -> IntStream.of(e.getStars())).average().orElseGet(()->0.0);
+		scheiß
 
 		Logger.getLogger(getClass().getSimpleName()).severe("+# generateReport nach Average Streaming. restMean " + restMean +" userMean " + userMean +" visitMean "+visitMean );
 
@@ -272,6 +281,12 @@ public class RatingBean implements Serializable
 		Logger.getLogger(getClass().getSimpleName()).severe("+# generateReport getMyModelVisit" +((HorizontalBarChartDataSet) getMyModelVisit().getData().getDataSet().get(0)).getData().get(0));
 		Logger.getLogger(getClass().getSimpleName()).severe("+# generateReport nach Setting im Model");
 
+	}
+
+	private float fetchAverageValue(IBaseEntity ent) {
+		// AppServer invalidiert Cache für das Objekt und lädt es neu von der DB
+		IBaseEntity updatedObject = appServer.findOneByPrim(ent.getPrim(), ent.getClass(), true);
+		return updatedObject.calculateAvgRating();
 	}
 
 

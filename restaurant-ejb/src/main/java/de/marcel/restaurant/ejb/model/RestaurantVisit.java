@@ -13,10 +13,14 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "restaurantVisit")
 @NamedQueries({
-		@NamedQuery(name = "RestaurantVisit.findAll", query = "SELECT u FROM RestaurantVisit u"),
-		@NamedQuery(name = "RestaurantVisit.findAllForUser", query = "SELECT u FROM RestaurantVisit u WHERE u.restaurantChosen = :attribute"),
-		@NamedQuery(name = "RestaurantVisit.findAllForRestaurant", query = "SELECT u FROM RestaurantVisit u WHERE u.restaurantChosen = :attribute"),
-		@NamedQuery(name = "RestaurantVisit.findMaxId", query = "SELECT MAX(u.id) FROM RestaurantVisit u")
+
+				@NamedQuery(name = "RestaurantVisit.findAllForUser", query = "SELECT u FROM RestaurantVisit u WHERE u.restaurantChosen = :attribute"),
+				@NamedQuery(name = "RestaurantVisit.findAllForRestaurant", query = "SELECT u FROM RestaurantVisit u WHERE u.restaurantChosen = :attribute"),
+					
+				@NamedQuery(name = "RestaurantVisit.findAll", query = "SELECT u FROM RestaurantVisit u"),
+				@NamedQuery(name = "RestaurantVisit.findMaxId", query = "SELECT MAX(u.id) FROM RestaurantVisit u"),
+				@NamedQuery(name = "RestaurantVisit.findOneById", query = "SELECT u FROM RestaurantVisit u WHERE u.id = :attribute"),
+				@NamedQuery(name = "RestaurantVisit.findOneByPrim", query = "SELECT u FROM RestaurantVisit u WHERE u.prim = :attribute")
 				})
 
 @NamedNativeQueries({
@@ -26,6 +30,9 @@ import java.util.stream.Collectors;
 public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 {
 	private static final long serialVersionUID = 1L;
+
+	@Transient
+	private static byte numberOfStars = 6;
 
 	@Id
 	@Column(name = "prim", nullable = false, columnDefinition = "INT")
@@ -54,13 +61,13 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Address addressVisit = new Address();
-
+//############################
 	@OneToMany(mappedBy="visit", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Rating> ratingsVisit;
 
-	@Column(name = "averageRating", nullable = true, columnDefinition = "TINYINT")
-	private byte averageRating;
-
+	@Column(name = "avgRating", nullable = true, columnDefinition = "FLOAT")
+	private float avgRating;
+//############################
 	@ManyToOne private Restaurant restaurantChosen;
 
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -74,6 +81,36 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 	public RestaurantVisit()
 	{
 		stateVisit = State.UNVOLLSTÄNDIG;
+	}
+
+	// FUNCTIONALITY METHODS
+	@Override public float calculateAvgRating() {
+		if(ratingsVisit != null)
+		{
+			avgRating = (float) this.ratingsVisit.stream().mapToInt((e) -> e.getStars()).filter(f -> (f <= numberOfStars && f > 0)).average().orElseGet(() -> 0.0);
+			return avgRating;
+		}
+		else
+		{
+			return Float.NaN;
+		}
+	}
+
+	@Override public float calculateAvgRating(RestaurantVisit newVisit) {
+		if(ratingsVisit != null)
+		{
+			ratingsVisit.add(newVisit.getRa);
+			return calculateAvgRating();
+		}
+		else
+		{
+			return Float.NaN;
+		}
+	}
+
+	@Override public void addRating(Rating r) {
+		this.ratingsVisit.add(r);
+		calculateAvgRating();
 	}
 
 	// GETTER SETTER
@@ -125,16 +162,17 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 	@Override public void setRatingsVisit(Set<Rating> ratingsVisit)
 	{
 		this.ratingsVisit = ratingsVisit;
+		calculateAvgRating();
 	}
 
-	@Override public byte getAverageRating()
+	@Override public float getAvgRating()
 	{
-		return averageRating;
+		return avgRating;
 	}
 
-	@Override public void setAverageRating(byte averageRating)
+	@Override public void setAvgRating(float avgRating)
 	{
-		this.averageRating = averageRating;
+		this.avgRating = avgRating;
 	}
 
 	@Override public Restaurant getRestaurantChosen()
@@ -232,6 +270,6 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 
 	@Override public String toString()
 	{
-		return "RestaurantVisit{" + "prim=" + prim + ", id=" + id + ", visitingDateTime=" + visitingDate + ", memo='" + memo + "\n" + ", participants=" + participants +  "\n" + ", addressVisit=" + addressVisit + ", ratingsVisit=" + ratingsVisit + ", averageRating=" + averageRating + ", restaurantChosen=" + (null != restaurantChosen ? restaurantChosen.getLinkMenu() : "leer") + "\nChosenCulinaries =" + chosenCulinaries + ", stateVisit=" + stateVisit + '}';
+		return "RestaurantVisit{" + "prim=" + prim + ", id=" + id + ", visitingDateTime=" + visitingDate + ", memo='" + memo + "\n" + ", participants=" + participants +  "\n" + ", addressVisit=" + addressVisit + ", ratingsVisit=" + ratingsVisit + ", avgRating=" + avgRating + ", restaurantChosen=" + (null != restaurantChosen ? restaurantChosen.getLinkMenu() : "leer") + "\nChosenCulinaries =" + chosenCulinaries + ", stateVisit=" + stateVisit + '}';
 	}
 }

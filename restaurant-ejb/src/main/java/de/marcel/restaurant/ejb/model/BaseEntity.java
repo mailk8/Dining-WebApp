@@ -2,6 +2,7 @@ package de.marcel.restaurant.ejb.model;
 
 import de.marcel.restaurant.ejb.interfaces.IBaseEntity;
 
+import javax.transaction.NotSupportedException;
 import java.lang.reflect.Field;
 import java.util.logging.Logger;
 
@@ -64,10 +65,23 @@ public class BaseEntity implements IBaseEntity
 		return id;
 	}
 
-	@Override public void setId(Integer id)
-	{
+	@Override public void setId(Integer id) {
 		Logger.getLogger(getClass().getSimpleName()).severe("+# setId aufgerufen vor set");
 		this.id = id;
 		Logger.getLogger(getClass().getSimpleName()).severe("+# setId nach set mit id " + id + "  Objekt id " + this.id +  " name " + this.getClass().getName());
+	}
+
+	@Override public float calculateAvgRating(BaseEntity dataObject) {
+
+		if(true)
+			throw new RuntimeException("+# calculateAvgRating nur in Restaurant, User, Visit!!");
+		return 0.0f;
+	}
+
+	@Override public float calculateAvgRating() {
+
+		if(true)
+			throw new RuntimeException("+# calculateAvgRating nur in Restaurant, User, Visit!!");
+		return 0.0f;
 	}
 }

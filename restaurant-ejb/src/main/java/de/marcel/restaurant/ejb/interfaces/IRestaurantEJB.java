@@ -17,6 +17,8 @@ import java.util.List;
 @Remote(IRestaurantEJB.class)
 public interface IRestaurantEJB extends Serializable
 {
+	<T extends IBaseEntity> IBaseEntity findOneByPrim(Integer prim, Class<T> resultClazz, boolean withRefresh);
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRED) <IBaseEntity> Integer persist(de.marcel.restaurant.ejb.interfaces.IBaseEntity  t);
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED) <IBaseEntity> Integer update(de.marcel.restaurant.ejb.interfaces.IBaseEntity t);

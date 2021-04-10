@@ -3,9 +3,7 @@ package de.marcel.restaurant.ejb.model;
 import de.marcel.restaurant.ejb.interfaces.IUser;
 
 import javax.persistence.*;
-import java.time.ZoneId;
 import java.util.Set;
-import java.util.logging.Logger;
 
 @Entity
 @Table(name = "users")
@@ -14,6 +12,7 @@ import java.util.logging.Logger;
 								@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
 								@NamedQuery(name = "User.findOne", query = "SELECT u FROM User u WHERE u.email = ?1"),
 								@NamedQuery(name = "User.findOneById", query = "SELECT u FROM User u WHERE u.id = :attribute"),
+								@NamedQuery(name = "User.findOneByPrim", query = "SELECT u FROM User u WHERE u.prim = :attribute"),
 								@NamedQuery(name = "User.findMaxId", query = "SELECT MAX(u.id) FROM User u")
 				}
 )
@@ -43,16 +42,18 @@ public class User extends BaseEntity implements IUser
 
 	@OneToOne
 	private Culinary culinaryLiking;
-
+//##############################
 	@OneToMany(mappedBy = "ratingUser", fetch = FetchType.EAGER)
 	private Set<Rating> ratingsSubmitted;
 
-	@ManyToMany(mappedBy = "participants", cascade = CascadeType.DETACH)
-	private Set<RestaurantVisit> visitedRestaurants;
+	@ManyToMany(mappedBy = "participants", cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+	private Set<RestaurantVisit> visits;
 	// https://stackoverflow.com/questions/21985308/how-is-the-owning-side-of-this-many-to-many-relationship-determined
 	// https://en.wikibooks.org/wiki/Java_Persistence/ManyToMany
 
-
+	@Column(name = "avgRating", nullable = true, columnDefinition = "FLOAT")
+	private float avgRating;
+//###############################
 	@Column(name = "phoneNumber", nullable = true, length = 30)
 	private String phoneNumber;
 
@@ -82,6 +83,22 @@ public class User extends BaseEntity implements IUser
 
 	public User()
 	{
+	}
+
+	// FUNCTIONALITY METHODS
+	@Override
+	public float calculateAvgRating(RestaurantVisit newVisit)
+	{
+		if(visits != null)
+		{
+			visits.add(newVisit);
+			avgRating = (float) this.visits.stream().mapToDouble(e -> e.getAvgRating()).average().orElseGet(() -> 0.0);
+			return avgRating;
+		}
+		else
+		{
+			return Float.NaN;
+		}
 	}
 
 	// GETTER SETTERS
@@ -166,8 +183,6 @@ public class User extends BaseEntity implements IUser
 		this.lastname = lastname.trim();
 	}
 
-
-
 	@Override public Integer getPrim()
 	{
 		return prim;
@@ -190,6 +205,6 @@ public class User extends BaseEntity implements IUser
 
 	@Override public String toString()
 	{
-		return "User{" + "prim=" + prim + ", id=" + id + ", firstname='" + firstname + '\'' + ", lastname='" + lastname + '\'' + ", addressLiving=" + addressLiving + ", addressActual=" + addressActual + ", culinaryLiking=" + culinaryLiking + ", ratingsSubmitted=" + ratingsSubmitted + ", visitedRestaurants=" + visitedRestaurants + ", phoneNumber='" + phoneNumber + '\'' + ", email='" + email + '\'' + '}';
+		return "User{" + "prim=" + prim + ", id=" + id + ", firstname='" + firstname + '\'' + ", lastname='" + lastname + '\'' + ", addressLiving=" + addressLiving + ", addressActual=" + addressActual + ", culinaryLiking=" + culinaryLiking + ", ratingsSubmitted=" + ratingsSubmitted + ", visitedRestaurants=" + visits + ", phoneNumber='" + phoneNumber + '\'' + ", email='" + email + '\'' + '}';
 	}
 }

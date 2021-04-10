@@ -14,7 +14,9 @@ import java.util.*;
 @NamedQueries
 				({
 								@NamedQuery(name = "Restaurant.findAll", query = "SELECT u FROM Restaurant u"),
-								@NamedQuery(name = "Restaurant.findMaxId", query = "SELECT MAX(u.id) FROM Restaurant u")
+								@NamedQuery(name = "Restaurant.findMaxId", query = "SELECT MAX(u.id) FROM Restaurant u"),
+								@NamedQuery(name = "Restaurant.findOneById", query = "SELECT u FROM Restaurant u WHERE u.id = :attribute"),
+								@NamedQuery(name = "Restaurant.findOneByPrim", query = "SELECT u FROM Restaurant u WHERE u.prim = :attribute")
 				})
 public class Restaurant extends BaseEntity implements IRestaurant
 {
@@ -24,6 +26,7 @@ public class Restaurant extends BaseEntity implements IRestaurant
 	@Column(name = "prim", nullable = false, columnDefinition = "INT")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer prim;
+	
 	@Column(name = "id", columnDefinition = "INT", unique = true)
 	private Integer id;
 
@@ -32,37 +35,44 @@ public class Restaurant extends BaseEntity implements IRestaurant
 
 	@OneToOne(cascade = CascadeType.ALL)//, fetch = FetchType.EAGER)
 	private Address addressRestaurant = new Address();
+	
 	@Column(name = "phoneNumber", nullable = true, length = 30)
 	private String phoneNumber;
+	
 	@Column(name = "email", nullable = true, length = 100)
 	private String email;
-
 
 	@Column(name = "linkMenu", nullable = true, columnDefinition = "VARCHAR(500)")
 	private String linkMenu;
 
 	@Column(name = "openFrom", nullable = true, columnDefinition="TIME NULL")
 	private LocalTime openFrom;
+	
 	@Column(name = "openTill", nullable = true, columnDefinition="TIME NULL")
 	private LocalTime openTill;
+	
 ///////////////// todo: Besser SQL Date nutzen //////////////////////////////
 	@Column(name = "holidayFrom", nullable = true, columnDefinition="TIMESTAMP NULL")
 	private LocalDate holidayFrom;
+	
 	@Column(name = "holidayTill", nullable = true, columnDefinition="TIMESTAMP NULL")
 	private LocalDate holidayTill;
+	
 	@Lob @Basic//(fetch=FetchType.EAGER)
 	@Column(name = "dayOfRest", nullable = true)
 	private Set<DayOfWeek> daysOfRest;  // Impl Enum DayOfWeek
 
 	@OneToOne
 	private Culinary culinary;
-	@Column(name = "averageRating", nullable = true, columnDefinition = "TINYINT")
-	private byte averageRating;
+	
+	@Column(name = "avgRating", nullable = true, columnDefinition = "FLOAT")
+	private float avgRating;
+	
 	@OneToMany(mappedBy = "restaurantChosen", fetch = FetchType.EAGER)
 	private Set<RestaurantVisit> visits;
+	
 	@Transient
 	private double distanceMeetingPoint;
-
 
 	// Constructors
 	public Restaurant(String name, Address a, Culinary culinary)
@@ -81,6 +91,22 @@ public class Restaurant extends BaseEntity implements IRestaurant
 
 	public Restaurant()
 	{
+	}
+
+	// FUNCTIONALITY METHODS
+	@Override
+	public float calculateAvgRating(RestaurantVisit newVisit)
+	{
+		if(visits != null)
+		{
+			visits.add(newVisit);
+			avgRating = (float) this.visits.stream().mapToDouble(e -> e.getAvgRating()).average().orElseGet(() -> 0.0);
+			return avgRating;
+		}
+		else
+		{
+			return Float.NaN;
+		}
 	}
 
 	// GETTER SETTER
@@ -194,14 +220,14 @@ public class Restaurant extends BaseEntity implements IRestaurant
 		this.culinary = culinary;
 	}
 
-	@Override public byte getAverageRating()
+	@Override public float getAvgRating()
 	{
-		return averageRating;
+		return avgRating;
 	}
 
-	@Override public void setAverageRating(byte averageRating)
+	@Override public void setAvgRating(float avgRating)
 	{
-		this.averageRating = averageRating;
+		this.avgRating = avgRating;
 	}
 
 	@Override public Set<RestaurantVisit> getVisits()
@@ -246,6 +272,6 @@ public class Restaurant extends BaseEntity implements IRestaurant
 
 	@Override public String toString()
 	{
-		return "Restaurant{" + "prim=" + prim + ", id=" + id + ", name='" + name + '\'' + ", addressRestaurant=" + addressRestaurant + ", phoneNumber='" + phoneNumber + '\'' + ", email='" + email + '\'' + ", linkMenu='" + linkMenu + '\'' + ", openFrom=" + openFrom + ", openTill=" + openTill + ", holidayFrom=" + holidayFrom + ", holidayTill=" + holidayTill + ", daysOfRest=" + daysOfRest + ", culinary=" + culinary + ", averageRating=" + averageRating + ", visits=" + visits + '}';
+		return "Restaurant{" + "prim=" + prim + ", id=" + id + ", name='" + name + '\'' + ", addressRestaurant=" + addressRestaurant + ", phoneNumber='" + phoneNumber + '\'' + ", email='" + email + '\'' + ", linkMenu='" + linkMenu + '\'' + ", openFrom=" + openFrom + ", openTill=" + openTill + ", holidayFrom=" + holidayFrom + ", holidayTill=" + holidayTill + ", daysOfRest=" + daysOfRest + ", culinary=" + culinary + ", avgRating=" + avgRating + ", visits=" + visits + '}';
 	}
 }

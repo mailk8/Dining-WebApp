@@ -187,22 +187,7 @@ public class BackingBeanVisit implements Serializable
 
 
 	//////////////////////////  Methods for Visit Functions //////////////////////////
-	public void calculateAvgRating(RestaurantVisit r)
-	{
-		if(r != null)
-		{
-			byte b = (byte) r.getRatingsVisit().stream()
-							.mapToInt((e)->e.getStars())
-							.filter(f -> {
-								if(f > 10 || f <= 0)
-									return false;
-								return true;})
-							.average()
-							.orElseGet(()-> 0.0);
 
-			r.setAverageRating(b);
-		}
-	}
 
 	public void updateVisitState(RestaurantVisit visit)
 	{

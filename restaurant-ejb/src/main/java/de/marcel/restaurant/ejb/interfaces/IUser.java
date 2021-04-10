@@ -3,12 +3,15 @@ package de.marcel.restaurant.ejb.interfaces;
 import de.marcel.restaurant.ejb.model.Address;
 import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.Rating;
+import de.marcel.restaurant.ejb.model.RestaurantVisit;
 
-import java.io.Serializable;
 import java.util.Set;
 
-public interface IUser extends IBaseEntity, Serializable
+public interface IUser extends IBaseEntity
 {
+	// FUNCTIONALITY METHODS
+	float calculateAvgRating(RestaurantVisit newVisit);
+
 	Address getAddressLiving();
 
 	void setAddressLiving(Address addressLiving);
@@ -41,10 +44,13 @@ public interface IUser extends IBaseEntity, Serializable
 
 	void setLastname(String lastname);
 
-	@Override String toString();
+	@Override Integer getPrim();
+
+	@Override void setPrim(Integer prim);
 
 	@Override Integer getId();
 
 	@Override void setId(Integer id);
 
+	@Override String toString();
 }

@@ -11,7 +11,9 @@ import java.util.logging.Logger;
 @NamedQueries
 				({
 								@NamedQuery(name = "Rating.findAll", query = "SELECT u FROM Rating u"),
-								@NamedQuery(name = "Rating.findMaxId", query = "SELECT MAX(u.id) FROM Rating u")
+								@NamedQuery(name = "Rating.findMaxId", query = "SELECT MAX(u.id) FROM Rating u"),
+								@NamedQuery(name = "Rating.findOneById", query = "SELECT u FROM Rating u WHERE u.id = :attribute"),
+								@NamedQuery(name = "Rating.findOneByPrim", query = "SELECT u FROM Rating u WHERE u.prim = :attribute")
 				})
 public class Rating extends BaseEntity implements IRating
 {
@@ -26,34 +28,24 @@ public class Rating extends BaseEntity implements IRating
 	private Integer id;
 
 	@OneToOne
-	//@JoinColumn(name="prim")
-	//@Column(name = "restaurantRated", nullable = false)
 	private	Restaurant restaurantRated;
 
-
 	@ManyToOne
-	//@JoinColumn(name="ratingsVisit")
-	//@Column(name = "visit", nullable = false)
 	private	RestaurantVisit visit;
 
 	@Column(name = "stars", nullable = true, columnDefinition = "TINYINT")
 	private	byte stars;
+
 	@Column(name = "price", nullable = true, columnDefinition = "DOUBLE")
 	private	double price;
 
-
 	@OneToOne
-	//@JoinColumn(name="prim")
-	//@Column(name = "dish", nullable = true)
 	private	Dish dish;
 
 	@Column(name = "dishMemo", nullable = true, length = 50)
 	private	String	dishMemo;
 
-
 	@ManyToOne
-	//@JoinColumn(name="ratingsSubmitted")
-	//@Column(name = "ratingUser", nullable = true)
 	private	User ratingUser;
 
 	@Column(name = "ratingDateTime", nullable = true)
@@ -162,8 +154,7 @@ public class Rating extends BaseEntity implements IRating
 		return price;
 	}
 
-	@Override public void setPrice(double price)
-	{
+	@Override public void setPrice(double price) {
 		Logger.getLogger(this.getClass().getSimpleName()).severe("+# setPrice mit " + price);
 		this.price = price;
 	}
@@ -173,8 +164,7 @@ public class Rating extends BaseEntity implements IRating
 		return dish;
 	}
 
-	@Override public void setDish(Dish dish)
-	{
+	@Override public void setDish(Dish dish) {
 		Logger.getLogger(getClass().getSimpleName()).severe("+# setDish mit: " + dish);
 		this.dish = dish;
 	}

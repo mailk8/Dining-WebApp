@@ -5,16 +5,18 @@ import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.RestaurantVisit;
 
 import javax.annotation.PostConstruct;
-import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Set;
 
-public interface IRestaurant extends IBaseEntity, Serializable
+public interface IRestaurant extends IBaseEntity
 {
 	@PostConstruct void standardOffDays();
+
+	// FUNCTIONALITY METHODS
+	float calculateAvgRating(RestaurantVisit newVisit);
 
 	// GETTER SETTER
 	String getName();
@@ -61,15 +63,25 @@ public interface IRestaurant extends IBaseEntity, Serializable
 
 	void setCulinary(Culinary culinary);
 
-	byte getAverageRating();
+	float getAvgRating();
 
-	void setAverageRating(byte averageRating);
+	void setAvgRating(float avgRating);
 
 	Set<RestaurantVisit> getVisits();
 
 	void setVisits(Set<RestaurantVisit> visits);
 
+	@Override Integer getPrim();
+
+	@Override void setPrim(Integer prim);
+
+	@Override Integer getId();
+
+	@Override void setId(Integer id);
+
 	double getDistanceMeetingPoint();
 
 	void setDistanceMeetingPoint(double distanceMeetingPoint);
+
+	@Override String toString();
 }

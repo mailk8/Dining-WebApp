@@ -1,6 +1,5 @@
 package de.marcel.restaurant.ejb.interfaces;
 
-import de.marcel.restaurant.ejb.interfaces.IBaseEntity;
 import de.marcel.restaurant.ejb.model.*;
 
 import java.time.LocalDate;
@@ -12,6 +11,13 @@ import java.util.Set;
 
 public interface IRestaurantVisit extends IBaseEntity
 {
+	// FUNCTIONALITY METHODS
+	float calculateAvgRating();
+
+	float calculateAvgRating(Rating newRating);
+
+	void addRating(Rating r);
+
 	// GETTER SETTER
 	LocalDate getVisitingDate();
 
@@ -33,9 +39,9 @@ public interface IRestaurantVisit extends IBaseEntity
 
 	void setRatingsVisit(Set<Rating> ratingsVisit);
 
-	byte getAverageRating();
+	float getAvgRating();
 
-	void setAverageRating(byte averageRating);
+	void setAvgRating(float avgRating);
 
 	Restaurant getRestaurantChosen();
 
@@ -47,7 +53,7 @@ public interface IRestaurantVisit extends IBaseEntity
 
 	List<Culinary> getChosenCulinaries();
 
-	void setChosenCulinaries(List<Culinary> ChosenCulinaries);
+	void setChosenCulinaries(List<Culinary> chosenCulinaries);
 
 	Address getAddressVisit();
 
