@@ -27,7 +27,7 @@ public class Rating extends BaseEntity implements IRating
 	@Column(name = "id", columnDefinition = "INT", unique = true)
 	private Integer id;
 
-	@OneToOne
+	@ManyToOne
 	private	Restaurant restaurantRated;
 
 	@ManyToOne
@@ -177,6 +177,16 @@ public class Rating extends BaseEntity implements IRating
 	@Override public void setDishMemo(String dishDescription)
 	{
 		this.dishMemo = dishDescription.trim();
+	}
+
+	@Override public Integer getPrim()
+	{
+		return prim;
+	}
+
+	@Override public void setPrim(Integer prim)
+	{
+		this.prim = prim;
 	}
 
 }

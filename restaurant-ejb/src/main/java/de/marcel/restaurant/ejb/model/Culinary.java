@@ -63,9 +63,6 @@ public class Culinary extends BaseEntity implements ICulinary
 		this.id = id;
 	}
 
-
-
-
 	@Override public String toString()
 	{
 		return category;

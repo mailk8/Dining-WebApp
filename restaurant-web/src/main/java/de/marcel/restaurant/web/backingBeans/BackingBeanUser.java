@@ -3,6 +3,7 @@ package de.marcel.restaurant.web.backingBeans;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.Address;
 import de.marcel.restaurant.ejb.model.Culinary;
+import de.marcel.restaurant.ejb.model.Rating;
 import de.marcel.restaurant.ejb.model.User;
 import de.marcel.restaurant.web.httpClient.*;
 import de.marcel.restaurant.web.security.ICredentials;
@@ -19,6 +20,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -148,7 +150,7 @@ public class BackingBeanUser implements Serializable
 		if(result < 0)
 			return -1; // -1 = fail
 		current.setPrim(result);
-		//Logger.getLogger(getClass().getSimpleName()).severe("+# Es wurde insert(User u) aufgerufen, result von proxyPersistUser " + result);
+		Logger.getLogger(getClass().getSimpleName()).severe("+# Es wurde insert(User u) aufgerufen, Prim vom appServer " + result);
 		return 3; // 3  = success
 	}
 
@@ -171,8 +173,10 @@ public class BackingBeanUser implements Serializable
 		// Nächste freie id wird antizipiert und per Zufall erhöht, falls die Aktion parallel BEWERTBAR
 		int nextId = (appServer.findMaxId(User.class) + 1 + (new Random().nextInt(2)));
 		current = new User();
+		//current.setRatings(new HashSet<Rating>());
 		current.setId(nextId);
 		setCoordinatesBean(current);
+
 		return "UserCreate?faces-redirect=true";
 	}
 

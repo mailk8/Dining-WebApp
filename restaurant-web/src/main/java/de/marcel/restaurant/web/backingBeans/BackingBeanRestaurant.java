@@ -8,7 +8,10 @@ import java.io.Serializable;
 
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.Culinary;
+import de.marcel.restaurant.ejb.model.Rating;
 import de.marcel.restaurant.ejb.model.Restaurant;
+
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -66,7 +69,7 @@ public class BackingBeanRestaurant implements Serializable
 		setCoordinatesBean(u);
 	}
 
-	public String saveRestaurant()
+	public String save()
 	{
 		if(null == current.getPrim())
 		{
@@ -120,6 +123,7 @@ public class BackingBeanRestaurant implements Serializable
 	{
 		int nextId = (appServer.findMaxId(Restaurant.class) + 1 + (new Random().nextInt(2)));
 		current = new Restaurant();
+		//current.setRatings(new HashSet<Rating>());
 		current.setId(nextId);
 		setCoordinatesBean(current);
 		return "RestaurantCreate?faces-redirect=true";

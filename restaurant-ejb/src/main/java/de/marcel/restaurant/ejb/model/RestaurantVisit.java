@@ -63,10 +63,7 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 	private Address addressVisit = new Address();
 //############################
 	@OneToMany(mappedBy="visit", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Set<Rating> ratingsVisit;
-
-	@Column(name = "avgRating", nullable = true, columnDefinition = "FLOAT")
-	private float avgRating;
+	private Set<Rating> ratings;
 //############################
 	@ManyToOne private Restaurant restaurantChosen;
 
@@ -83,35 +80,7 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 		stateVisit = State.UNVOLLSTÄNDIG;
 	}
 
-	// FUNCTIONALITY METHODS
-	@Override public float calculateAvgRating() {
-		if(ratingsVisit != null)
-		{
-			avgRating = (float) this.ratingsVisit.stream().mapToInt((e) -> e.getStars()).filter(f -> (f <= numberOfStars && f > 0)).average().orElseGet(() -> 0.0);
-			return avgRating;
-		}
-		else
-		{
-			return Float.NaN;
-		}
-	}
 
-	@Override public float calculateAvgRating(RestaurantVisit newVisit) {
-		if(ratingsVisit != null)
-		{
-			ratingsVisit.add(newVisit.getRa);
-			return calculateAvgRating();
-		}
-		else
-		{
-			return Float.NaN;
-		}
-	}
-
-	@Override public void addRating(Rating r) {
-		this.ratingsVisit.add(r);
-		calculateAvgRating();
-	}
 
 	// GETTER SETTER
 	@Override public LocalDate getVisitingDate()
@@ -142,9 +111,15 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 		return participants;
 	}
 
-	@Override public String getParticipantsAsString()
+	@Override public String getParticipantsAsString(User u)
 	{
-		StringBuffer s = new StringBuffer(participants.stream().map(e -> e.getFirstname()).collect(Collectors.joining(", ")));
+		List<User> list = participants;
+		if(u != null)
+		{
+			list = new ArrayList<>(participants);
+			list.remove(u);
+		}
+		StringBuffer s = new StringBuffer(list.stream().map(e -> e.getFirstname()).collect(Collectors.joining(", ")));
 		return s.toString().trim();
 	}
 
@@ -154,25 +129,14 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 		this.participants = users;
 	}
 
-	@Override public Set<Rating> getRatingsVisit()
+	public Set<Rating> getRatings()
 	{
-		return ratingsVisit;
+		return ratings;
 	}
 
-	@Override public void setRatingsVisit(Set<Rating> ratingsVisit)
+	public void setRatings(Set<Rating> ratings)
 	{
-		this.ratingsVisit = ratingsVisit;
-		calculateAvgRating();
-	}
-
-	@Override public float getAvgRating()
-	{
-		return avgRating;
-	}
-
-	@Override public void setAvgRating(float avgRating)
-	{
-		this.avgRating = avgRating;
+		this.ratings = ratings;
 	}
 
 	@Override public Restaurant getRestaurantChosen()
@@ -264,12 +228,8 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 		this.id = id;
 	}
 
-
-
-
-
 	@Override public String toString()
 	{
-		return "RestaurantVisit{" + "prim=" + prim + ", id=" + id + ", visitingDateTime=" + visitingDate + ", memo='" + memo + "\n" + ", participants=" + participants +  "\n" + ", addressVisit=" + addressVisit + ", ratingsVisit=" + ratingsVisit + ", avgRating=" + avgRating + ", restaurantChosen=" + (null != restaurantChosen ? restaurantChosen.getLinkMenu() : "leer") + "\nChosenCulinaries =" + chosenCulinaries + ", stateVisit=" + stateVisit + '}';
+		return "RestaurantVisit{" + "prim=" + prim + ", id=" + id + ", visitingDateTime=" + visitingDate + ", memo='" + memo +  ", addressVisit=" + addressVisit + ", restaurantChosen=" + (null != restaurantChosen ? restaurantChosen.getLinkMenu() : "leer") + "ChosenCulinaries =" + chosenCulinaries + ", stateVisit=" + stateVisit + '}';
 	}
 }

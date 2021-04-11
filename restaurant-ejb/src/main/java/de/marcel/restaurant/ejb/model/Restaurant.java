@@ -64,13 +64,16 @@ public class Restaurant extends BaseEntity implements IRestaurant
 
 	@OneToOne
 	private Culinary culinary;
-	
+//############################
 	@Column(name = "avgRating", nullable = true, columnDefinition = "FLOAT")
 	private float avgRating;
 	
 	@OneToMany(mappedBy = "restaurantChosen", fetch = FetchType.EAGER)
 	private Set<RestaurantVisit> visits;
-	
+
+	@OneToMany(mappedBy = "restaurantRated", fetch = FetchType.EAGER)
+	private Set<Rating> ratings = new HashSet<Rating>();
+//############################
 	@Transient
 	private double distanceMeetingPoint;
 
@@ -82,32 +85,11 @@ public class Restaurant extends BaseEntity implements IRestaurant
 		this.culinary = culinary;
 	}
 
-	@Override @PostConstruct
-	public void standardOffDays()
-	{
-		List<DayOfWeek> l = new ArrayList<>();
-		l.add(DayOfWeek.MONDAY);
-	}
-
 	public Restaurant()
 	{
 	}
 
-	// FUNCTIONALITY METHODS
-	@Override
-	public float calculateAvgRating(RestaurantVisit newVisit)
-	{
-		if(visits != null)
-		{
-			visits.add(newVisit);
-			avgRating = (float) this.visits.stream().mapToDouble(e -> e.getAvgRating()).average().orElseGet(() -> 0.0);
-			return avgRating;
-		}
-		else
-		{
-			return Float.NaN;
-		}
-	}
+
 
 	// GETTER SETTER
 	@Override public String getName()
@@ -228,6 +210,16 @@ public class Restaurant extends BaseEntity implements IRestaurant
 	@Override public void setAvgRating(float avgRating)
 	{
 		this.avgRating = avgRating;
+	}
+
+	@Override public Set<Rating> getRatings()
+	{
+		return ratings;
+	}
+
+	@Override public void setRatings(Set<Rating> ratings)
+	{
+		this.ratings = ratings;
 	}
 
 	@Override public Set<RestaurantVisit> getVisits()

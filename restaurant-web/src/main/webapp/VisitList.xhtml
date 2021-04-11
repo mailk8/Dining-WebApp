@@ -14,7 +14,7 @@
                 <!-- <f:viewParam name="foo" value="#{bean.foo}" />-->
                 <!-- FÜHRT METHODEN BEI PAGELOAD AUS-->
             </ui:remove>
-            <f:viewAction action="#{backingBeanVisit.getAllVisits()}" />
+            <f:viewAction action="#{backingBeanVisit.proxyOnLoad()}" />
         </f:metadata>
 
         <ui:param name="active" value="Visit" />
@@ -51,7 +51,12 @@
 
                 <h:column>
                     <f:facet name="header">Teilnehmer</f:facet>
-                    #{visitListEntry.getParticipantsAsString()}
+                    #{visitListEntry.getParticipantsAsString(null)}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Bewertungen</f:facet>
+                    #{visitListEntry.getRatings().size()}
                 </h:column>
 
                 <h:column>

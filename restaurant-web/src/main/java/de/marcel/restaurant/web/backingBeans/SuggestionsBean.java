@@ -7,13 +7,10 @@ import de.marcel.restaurant.ejb.model.RestaurantVisit;
 import org.primefaces.event.SlideEndEvent;
 import org.primefaces.event.map.MarkerDragEvent;
 import org.primefaces.event.map.OverlaySelectEvent;
-import org.primefaces.event.map.PointSelectEvent;
-import org.primefaces.event.map.StateChangeEvent;
 import org.primefaces.model.map.*;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
@@ -403,7 +400,7 @@ public class SuggestionsBean implements Serializable
 		Logger.getLogger(getClass().getSimpleName()).severe("+# saveVisitBackingBean persistiert current mit chosen Rest. " + currentVisit.getRestaurantChosen());
 
 		backingBeanVisit.setCurrent(currentVisit);
-		backingBeanVisit.saveVisit();
+		backingBeanVisit.save();
 	}
 
 

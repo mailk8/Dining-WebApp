@@ -41,7 +41,6 @@
                         <c:set var="newline" value='\\n' />
                         <c:set var="break" value='&lt;br/&gt;' />
                         <h:outputText value="#{fn:replace(ratingBean.retrospectVisit, newline, break)}" escape="false" />
-                        Es sind bisher x von y Bewertungen eingeangen.
                     </div>
                 </div>
 
@@ -84,7 +83,7 @@
 <!-- KOSTEN -->
                 <div class="row" >
                     <div class="col-4">
-                        <label for="price">Kosten</label>
+                        <label for="price">Kosten:</label>
                     </div>
                     <div class="col-8">
                         <div class="input-group mb-auto">
@@ -201,13 +200,13 @@
                 </div>
                 <div class="row" id="divRowRest">
                     <div class="col-12" style="padding-top: 25px; padding-left: 49px; padding-right: 49px; padding-bottom: 60px;  width: 600px;  float: left" >
-                        <h:outputLabel style="padding-bottom: 20px">Das ### Restaurant Name ### hat jetzt eine durchschnittlie Bewertung von</h:outputLabel>
+                        <h:outputLabel style="padding-bottom: 20px">#{ratingBean.nameRest} hat jetzt eine Bewertung von</h:outputLabel>
                         <p:barChart model="#{ratingBean.myModelRest}" style="width: 95% ; height: 60px ;"/>
                     </div>
                 </div>
                 <div class="row" id="divRowUser">
                     <div class="col-12" style="padding-top: 25px; padding-left: 49px; padding-right: 49px; padding-bottom: 60px; width: 600px;  float: left" >
-                        <h:outputLabel style="padding-bottom: 20px">Dies ist der Durchschnitt aller deiner Restaurantbewertungen</h:outputLabel>
+                        <h:outputLabel style="padding-bottom: 20px">Das ist der Durchschnitt aus deinen Restaurantbewertungen</h:outputLabel>
                         <p:barChart model="#{ratingBean.myModelUser}" style="width: 95% ; height: 60px ;"/>
                     </div>
                 </div>

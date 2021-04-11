@@ -11,12 +11,6 @@ import java.util.Set;
 
 public interface IRestaurantVisit extends IBaseEntity
 {
-	// FUNCTIONALITY METHODS
-	float calculateAvgRating();
-
-	float calculateAvgRating(Rating newRating);
-
-	void addRating(Rating r);
 
 	// GETTER SETTER
 	LocalDate getVisitingDate();
@@ -31,17 +25,13 @@ public interface IRestaurantVisit extends IBaseEntity
 
 	List<User> getParticipants();
 
-	String getParticipantsAsString();
+	String getParticipantsAsString(User u);
 
 	void setParticipants(List<User> users);
 
-	Set<Rating> getRatingsVisit();
+	Set<Rating> getRatings();
 
-	void setRatingsVisit(Set<Rating> ratingsVisit);
-
-	float getAvgRating();
-
-	void setAvgRating(float avgRating);
+	void setRatings(Set<Rating> ratings);
 
 	Restaurant getRestaurantChosen();
 

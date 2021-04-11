@@ -20,7 +20,4 @@ public interface IBaseEntity extends Serializable
 	Integer getId();
 	void setId(Integer id);
 
-	float calculateAvgRating(BaseEntity dataObject);
-
-	float calculateAvgRating();
 }

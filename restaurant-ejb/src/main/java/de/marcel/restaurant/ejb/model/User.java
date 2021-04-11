@@ -3,6 +3,7 @@ package de.marcel.restaurant.ejb.model;
 import de.marcel.restaurant.ejb.interfaces.IUser;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -44,15 +45,12 @@ public class User extends BaseEntity implements IUser
 	private Culinary culinaryLiking;
 //##############################
 	@OneToMany(mappedBy = "ratingUser", fetch = FetchType.EAGER)
-	private Set<Rating> ratingsSubmitted;
+	private Set<Rating> ratings = new HashSet<Rating>();
 
 	@ManyToMany(mappedBy = "participants", cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-	private Set<RestaurantVisit> visits;
+	private Set<RestaurantVisit> visitedRestaurants;
 	// https://stackoverflow.com/questions/21985308/how-is-the-owning-side-of-this-many-to-many-relationship-determined
 	// https://en.wikibooks.org/wiki/Java_Persistence/ManyToMany
-
-	@Column(name = "avgRating", nullable = true, columnDefinition = "FLOAT")
-	private float avgRating;
 //###############################
 	@Column(name = "phoneNumber", nullable = true, length = 30)
 	private String phoneNumber;
@@ -85,21 +83,7 @@ public class User extends BaseEntity implements IUser
 	{
 	}
 
-	// FUNCTIONALITY METHODS
-	@Override
-	public float calculateAvgRating(RestaurantVisit newVisit)
-	{
-		if(visits != null)
-		{
-			visits.add(newVisit);
-			avgRating = (float) this.visits.stream().mapToDouble(e -> e.getAvgRating()).average().orElseGet(() -> 0.0);
-			return avgRating;
-		}
-		else
-		{
-			return Float.NaN;
-		}
-	}
+
 
 	// GETTER SETTERS
 
@@ -133,14 +117,14 @@ public class User extends BaseEntity implements IUser
 		this.culinaryLiking = culinaryLiking;
 	}
 
-	@Override public Set<Rating> getRatingsSubmitted()
+	@Override public Set<Rating> getRatings()
 	{
-		return ratingsSubmitted;
+		return ratings;
 	}
 
-	@Override public void setRatingsSubmitted(Set<Rating> ratingsSubmitted)
+	@Override public void setRatings(Set<Rating> ratings)
 	{
-		this.ratingsSubmitted = ratingsSubmitted;
+		this.ratings = ratings;
 	}
 
 	@Override public String getPhoneNumber()
@@ -205,6 +189,6 @@ public class User extends BaseEntity implements IUser
 
 	@Override public String toString()
 	{
-		return "User{" + "prim=" + prim + ", id=" + id + ", firstname='" + firstname + '\'' + ", lastname='" + lastname + '\'' + ", addressLiving=" + addressLiving + ", addressActual=" + addressActual + ", culinaryLiking=" + culinaryLiking + ", ratingsSubmitted=" + ratingsSubmitted + ", visitedRestaurants=" + visits + ", phoneNumber='" + phoneNumber + '\'' + ", email='" + email + '\'' + '}';
+		return "User{" + "prim=" + prim + ", id=" + id + ", firstname='" + firstname + '\'' + ", lastname='" + lastname + '\'' + ", addressLiving=" + addressLiving + ", addressActual=" + addressActual + ", culinaryLiking=" + culinaryLiking + ", phoneNumber='" + phoneNumber + '\'' + ", email='" + email + '\'' + '}';
 	}
 }

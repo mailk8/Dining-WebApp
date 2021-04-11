@@ -71,17 +71,4 @@ public class BaseEntity implements IBaseEntity
 		Logger.getLogger(getClass().getSimpleName()).severe("+# setId nach set mit id " + id + "  Objekt id " + this.id +  " name " + this.getClass().getName());
 	}
 
-	@Override public float calculateAvgRating(BaseEntity dataObject) {
-
-		if(true)
-			throw new RuntimeException("+# calculateAvgRating nur in Restaurant, User, Visit!!");
-		return 0.0f;
-	}
-
-	@Override public float calculateAvgRating() {
-
-		if(true)
-			throw new RuntimeException("+# calculateAvgRating nur in Restaurant, User, Visit!!");
-		return 0.0f;
-	}
 }

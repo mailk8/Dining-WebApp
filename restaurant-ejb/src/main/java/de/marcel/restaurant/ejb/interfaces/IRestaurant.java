@@ -2,6 +2,7 @@ package de.marcel.restaurant.ejb.interfaces;
 
 import de.marcel.restaurant.ejb.model.Address;
 import de.marcel.restaurant.ejb.model.Culinary;
+import de.marcel.restaurant.ejb.model.Rating;
 import de.marcel.restaurant.ejb.model.RestaurantVisit;
 
 import javax.annotation.PostConstruct;
@@ -13,10 +14,6 @@ import java.util.Set;
 
 public interface IRestaurant extends IBaseEntity
 {
-	@PostConstruct void standardOffDays();
-
-	// FUNCTIONALITY METHODS
-	float calculateAvgRating(RestaurantVisit newVisit);
 
 	// GETTER SETTER
 	String getName();
@@ -66,6 +63,10 @@ public interface IRestaurant extends IBaseEntity
 	float getAvgRating();
 
 	void setAvgRating(float avgRating);
+
+	Set<Rating> getRatings();
+
+	void setRatings(Set<Rating> ratings);
 
 	Set<RestaurantVisit> getVisits();
 

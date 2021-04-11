@@ -229,6 +229,10 @@ public class RestaurantEJB implements IRestaurantEJB
 		//Logger.getLogger(getClass().getSimpleName()).severe("+# deleteCredentials ergab eine Änderung von  " + i + " Elementen " + " appServer Objekt " + this);
 	}
 
+	@Override public void clearCacheAllObjects() {
+		entityManager.getEntityManagerFactory().getCache().evictAll();
+	}
+
 
 }
 

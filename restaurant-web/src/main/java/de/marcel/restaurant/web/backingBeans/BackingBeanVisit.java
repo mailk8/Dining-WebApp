@@ -6,7 +6,6 @@ import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.RestaurantVisit;
 import de.marcel.restaurant.ejb.model.State;
 import de.marcel.restaurant.ejb.model.User;
-import org.omnifaces.util.Faces;
 import org.primefaces.event.AbstractAjaxBehaviorEvent;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.MapModel;
@@ -65,16 +64,11 @@ public class BackingBeanVisit implements Serializable
 	}
 
 	public void proxyOnLoad() {
-
+		getAllVisits().forEach(e -> e.setStateVisit(State.UNVOLLSTÄNDIG));
+		visitList.stream().forEach(e -> updateVisitState(e));
 	}
 
-	//////////////////////////// Test Area ///////////////////////
 
-	public void rowSelect(Object o ) {
-
-		AbstractAjaxBehaviorEvent ae = (AbstractAjaxBehaviorEvent) o;
-		Logger.getLogger(getClass().getSimpleName()).severe("+# rowSelect " + ae.getSource());
-	}
 
 	////////////////////////////////// Methods for Culinary Selection //////////////////////////////
 	public Culinary[] getCulinariesArray()
@@ -137,7 +131,7 @@ public class BackingBeanVisit implements Serializable
 
 
 	//////////////////////////  Methods for Fetching & Performane //////////////////////////
-	public void fetchVisitsForUser()
+	public void fetchVisitsForUser() // todo: warum native Query? Geht am Cache vorbei!
 	{
 		// Asynchronous Callable-Job for Servers Default-ThreadPoolExecutor
 		// appServer and user CAN be passed as locale References
@@ -172,7 +166,7 @@ public class BackingBeanVisit implements Serializable
 	{
 		//Logger.getLogger(getClass().getSimpleName()).severe("+# getAllVisits läuft");
 		visitList = appServer.findAll(RestaurantVisit.class);
-		visitList.forEach((e) -> updateVisitState(e));
+		//visitList.forEach((e) -> updateVisitState(e.ra));
 		fetchVisitsForUser();
 		return  visitList;
 	}
@@ -227,14 +221,14 @@ public class BackingBeanVisit implements Serializable
 				//else break;
 			}
 			case 3:{
-				if(visit.getParticipants() != null && visit.getRatingsVisit() != null &&
-					(visit.getParticipants().size() > visit.getRatingsVisit().size()) && visit.getStateVisit().ordinal() == 3)
+				if(visit.getParticipants() != null && visit.getRatings() != null && visit.getRatings().size() > 0 &&
+					(visit.getParticipants().size() >= visit.getRatings().size()) && visit.getStateVisit().ordinal() == 3)
 					visit.setStateVisit(State.BEWERTUNG_AUSSTEHEND); // 4
 				//else break;
 			}
 			case 4:{
-				if(visit.getParticipants() != null && visit.getRatingsVisit() != null &&
-					 visit.getParticipants().size() <= visit.getRatingsVisit().size() && visit.getStateVisit().ordinal() == 4)
+				if(visit.getParticipants() != null && visit.getRatings() != null &&
+					 visit.getParticipants().size() == visit.getRatings().size() && visit.getStateVisit().ordinal() == 4)
 					visit.setStateVisit(State.BEWERTET); // 5
 				//else break;
 			}
@@ -252,7 +246,7 @@ public class BackingBeanVisit implements Serializable
 
 
 	//////////////////////////  Methods for Basic Crud & Navigation //////////////////////////
-	public String saveVisit()
+	public String save()
 	{
 		Logger.getLogger(getClass().getSimpleName()).severe("+# saveVisit persistiert current mit chosen Rest. " + current.getRestaurantChosen());
 		updateVisitState(current);
@@ -274,7 +268,7 @@ public class BackingBeanVisit implements Serializable
 
 	public String saveVisitNext()
 	{
-		saveVisit();
+		save();
 		return "VisitSuggestions?faces-redirect=true";
 	}
 

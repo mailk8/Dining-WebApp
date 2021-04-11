@@ -44,6 +44,7 @@ public class LoginController implements Serializable
 	@Inject BackingBeanUser backingBeanUser;
 	@Inject BackingBeanRestaurant backingBeanRestaurant;
 	@Inject BackingBeanVisit backingBeanVisit;
+	@Inject IRestaurantEJB appServer;
 	private Credentials cred;
 
 	public void login() {
@@ -100,6 +101,9 @@ public class LoginController implements Serializable
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		String newId = FacesContext.getCurrentInstance().getExternalContext().getSessionId(true);
 		Logger.getLogger(getClass().getSimpleName()).severe("+# Session mit ID " + newId + " neu angelegt.");
+		// JPA-Objekt Cache löschen
+		appServer.clearCacheAllObjects();
+
 	}
 
 	/////////////// Änderung Passwort und UserDaten koordinieren /////////////////

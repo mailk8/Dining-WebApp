@@ -9,9 +9,6 @@ import java.util.Set;
 
 public interface IUser extends IBaseEntity
 {
-	// FUNCTIONALITY METHODS
-	float calculateAvgRating(RestaurantVisit newVisit);
-
 	Address getAddressLiving();
 
 	void setAddressLiving(Address addressLiving);
@@ -24,9 +21,9 @@ public interface IUser extends IBaseEntity
 
 	void setCulinaryLiking(Culinary culinaryLiking);
 
-	Set<Rating> getRatingsSubmitted();
+	Set<Rating> getRatings();
 
-	void setRatingsSubmitted(Set<Rating> ratingsSubmitted);
+	void setRatings(Set<Rating> ratings);
 
 	String getPhoneNumber();
 

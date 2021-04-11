@@ -41,4 +41,5 @@ public interface IRestaurantEJB extends Serializable
 
 	<T extends IBaseEntity> Integer findMaxId(Class<T> resultClazz);
 
+	void clearCacheAllObjects();
 }
