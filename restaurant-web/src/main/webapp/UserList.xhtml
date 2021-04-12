@@ -43,16 +43,17 @@
                 </h:column>
                 <h:column >
 
-                    <h:form rendered="#{loginController.isLoggedInUser(u)}">
-                        <h:commandLink  action="#{backingBeanUser.edit(u)}" class="btn btn-warning"><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>
-                        <h:commandLink  action="#{backingBeanUser.delete(u)}" class="btn btn-danger"><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>
+                    <h:form>
+<!--                        rendered="#{loginController.isLoggedInUser(u)}">-->
+                        <h:commandLink  action="#{backingBeanUser.edit(u)}"  disabled="#{not loginController.isLoggedInUser(u)}" style="opacity: 0.5; margin-right: .5rem; float:left;" class="btn btn-warning"><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>
+                        <h:commandLink  action="#{backingBeanUser.delete(u)}" disabled="#{not loginController.isLoggedInUser(u)}" style="opacity: 0.5; margin-right: .5rem;" class="btn btn-danger"><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>
                     </h:form>
 
                 </h:column>
             </h:dataTable>
             <h:form>
-                <h:commandLink action="#{backingBeanUser.createNew}" class="btn btn-warning">#Restaurantbesuch planen</h:commandLink>
-                <h:commandLink action="#{backingBeanUser.createNew}" class="btn btn-success">User anlegen</h:commandLink>
+                <h:commandLink action="#{backingBeanUser.createNew}" class="btn btn-primary" style="margin-right: .5rem; float:left;">#Restaurantbesuch planen</h:commandLink>
+                <h:commandLink action="#{backingBeanUser.createNew}" class="btn btn-primary" style="margin-right: .5rem;">User anlegen</h:commandLink>
             </h:form>
 
             <p:growl id="growlPassword" showDetail="true" />

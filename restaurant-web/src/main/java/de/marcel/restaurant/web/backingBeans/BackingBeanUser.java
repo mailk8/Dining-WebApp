@@ -20,6 +20,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -97,6 +98,7 @@ public class BackingBeanUser implements Serializable
 
 	public List<User> getAllUsers() {
 		allUsersProxy = appServer.findAll(User.class);
+		allUsersProxy.sort(Comparator.comparing(e -> e.getLastname()));
 		return allUsersProxy;
 	}
 

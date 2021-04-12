@@ -11,6 +11,7 @@ import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.MapModel;
 
 import javax.annotation.ManagedBean;
+import javax.ejb.Local;
 import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
@@ -64,7 +65,9 @@ public class BackingBeanVisit implements Serializable
 	}
 
 	public void proxyOnLoad() {
+
 		getAllVisits().forEach(e -> e.setStateVisit(State.UNVOLLSTÄNDIG));
+
 		visitList.stream().forEach(e -> updateVisitState(e));
 	}
 
@@ -165,7 +168,9 @@ public class BackingBeanVisit implements Serializable
 	public List<RestaurantVisit> getAllVisits()
 	{
 		//Logger.getLogger(getClass().getSimpleName()).severe("+# getAllVisits läuft");
+		appServer.clearCache(RestaurantVisit.class);
 		visitList = appServer.findAll(RestaurantVisit.class);
+		visitList.sort((a,b) -> b.getVisitingDateTime().compareTo(a.getVisitingDateTime()));
 		//visitList.forEach((e) -> updateVisitState(e.ra));
 		fetchVisitsForUser();
 		return  visitList;
@@ -297,7 +302,8 @@ public class BackingBeanVisit implements Serializable
 
 	public String delete(RestaurantVisit u) {
 
-		if(redirectIfWrongState(u, 0,2) == null)
+		// todo: Security einschalten für delete Visit
+		//if(redirectIfWrongState(u, 0,2) == null)
 			appServer.delete(u);
 		return "VisitList?faces-redirect=true";
 	}

@@ -116,16 +116,17 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 		List<User> list = participants;
 		if(u != null)
 		{
-			list = new ArrayList<>(participants);
+			list = new ArrayList<>();
+			list.addAll(participants);
 			list.remove(u);
 		}
 		StringBuffer s = new StringBuffer(list.stream().map(e -> e.getFirstname()).collect(Collectors.joining(", ")));
+
 		return s.toString().trim();
 	}
 
 	@Override public void setParticipants(List<User> users)
 	{
-		//Logger.getLogger(getClass().getSimpleName()).severe("+# setParticipants aufgerufen mit " + users);
 		this.participants = users;
 	}
 

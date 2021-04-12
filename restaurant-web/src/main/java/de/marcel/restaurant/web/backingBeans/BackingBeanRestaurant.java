@@ -11,6 +11,7 @@ import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.Rating;
 import de.marcel.restaurant.ejb.model.Restaurant;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -59,7 +60,8 @@ public class BackingBeanRestaurant implements Serializable
 	public List<Restaurant> getAllRestaurants()
 	{
 		//Logger.getLogger(getClass().getSimpleName()).severe("+# getAllRestaurants  läuft");
-		this.allRestaurantsProxy = appServer.findAll(Restaurant.class);
+		allRestaurantsProxy = appServer.findAll(Restaurant.class);
+		allRestaurantsProxy.sort(Comparator.comparing(e -> e.getName()));
 		return allRestaurantsProxy;
 	}
 

@@ -42,15 +42,15 @@
                 <h:column>
                     <span>
                         <h:form>
-                            <h:commandLink action="#{backingBeanRestaurant.edit(restList)}" class="btn btn-warning"><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>
-                            <h:commandLink action="#{backingBeanRestaurant.delete(restList)}" class="btn btn-danger"><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>
+                            <h:commandLink action="#{backingBeanRestaurant.edit(restList)}" class="btn btn-warning"  style="margin-right: .5rem; float:left;"><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>
+                            <h:commandLink action="#{backingBeanRestaurant.delete(restList)}" class="btn btn-danger"  style="margin-right: .5rem; float:left;"><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>
                         </h:form>
                     </span>
                 </h:column>
             </h:dataTable>
             <h:form>
-                <h:commandLink action="#{backingBeanRestaurant.createNew()}" class="btn btn-warning">#Restaurantbesuch planen</h:commandLink>
-                <h:commandLink action="#{backingBeanRestaurant.createNew()}" class="btn btn-success">Restaurant anlegen</h:commandLink>
+                <h:commandLink action="#{backingBeanRestaurant.createNew()}" class="btn btn-primary" style="margin-right: .5rem; float:left;">#Restaurantbesuch planen</h:commandLink>
+                <h:commandLink action="#{backingBeanRestaurant.createNew()}" class="btn btn-primary" style="margin-right: .5rem;">Restaurant anlegen</h:commandLink>
             </h:form>
         </ui:define>
 

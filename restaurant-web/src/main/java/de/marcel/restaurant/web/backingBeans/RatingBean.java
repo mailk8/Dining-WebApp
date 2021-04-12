@@ -50,13 +50,17 @@ public class RatingBean implements Serializable
 	private HorizontalBarChartModel myModelVisit;
 	private HorizontalBarChartModel myModelUser;
 
-	private String nameRest, namesUser, date, ratingsOutOf;
-
+	private String nameRest, namesUser, date, ratingsOutOf, numberRatings, ratingDone;
+	private float restMean, userMean, visitMean;
 	////////////////////////// OnLoad ///////////////////////////////////
 	public void proxyOnLoad() {
-		currentVisit = backingBeanVisit.getCurrent();
+
+		// Refresht Entities von der DB mit Cache invalidation
+		currentVisit = (RestaurantVisit) appServer.findOneByPrim(backingBeanVisit.getCurrent().getPrim(), RestaurantVisit.class, true);
+		currentRestaurant = (Restaurant) appServer.findOneByPrim(currentVisit.getRestaurantChosen().getPrim(), Restaurant.class, true);
+
 		currentUser = backingBeanUser.getCurrent();
-		currentRestaurant = currentVisit.getRestaurantChosen();
+
 		getAllDishes();
 		generateRetrospectVisit();
 
@@ -67,9 +71,9 @@ public class RatingBean implements Serializable
 
 		currentRating.setRestaurantRated(currentRestaurant);
 
-		myModelRest = produceHorizontalBarModel("Restaurant", 0,"007bff", 0.9); // blau
-		myModelVisit = produceHorizontalBarModel("Visit", 0,"e53552", 0.9); // rot
-		myModelUser = produceHorizontalBarModel("User", 0,"ffc107", 0.9); // gelb
+		myModelRest = produceHorizontalBarModel("Ratings: xx\nRestaurant", 0,"007bff", 0.9); // blau
+		myModelVisit = produceHorizontalBarModel("Ratings: xx\nVisit", 0,"e53552", 0.9); // rot
+		myModelUser = produceHorizontalBarModel("Ratings: xx\nUser", 0,"ffc107", 0.9); // gelb
 
 		if(currentRating.getStars() != 0)
 			generateReport();
@@ -93,21 +97,16 @@ public class RatingBean implements Serializable
 		namesUser = currentVisit.getParticipantsAsString(currentUser);
 		date = currentVisit.getVisitingDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG));
 
+		ratingDone = ( currentRating != null && currentRating.getStars() > 0 ) ? " hast du schon bewertet. Eine Änderung ist aber noch möglich" : " hast du noch nicht bewertet. Bitte bewerte jetzt dein Hauptgericht";
 
+	    numberRatings = ( currentVisit.getRatings().size() > 0 ) ? currentVisit.getRatings().size()+ " von "+currentVisit.getParticipants().size() : "bisher keine";
+		ratingsOutOf = ( currentVisit.getParticipants().size() >= 2 ) ? "Es sind " + numberRatings + " Bewertungen eingegangen." : "";
+		ratingsOutOf = ( currentVisit.getRatings().size() == 1 ) ?     "Es ist  " + numberRatings + " Bewertungen eingegangen." : "";
 
-		ratingsOutOf = currentVisit.getRatings().size()+ " von "+currentVisit.getParticipants().size();
+		int index = namesUser.lastIndexOf(",");
+		namesUser = ( index > 0 ) ? " mit " +namesUser.substring(0 , index) + " und " + namesUser.substring(index+1, namesUser.length()) + ". " : "";
 
-
-
-
-		retrospectVisit = "Zu deinem Besuch im Restaurant " + nameRest + namesUser + " am " + date + " " +
-						"sind "+ratingsOutOf+" Bewertungen eingegangen. \n" +
-						"Bitte bewerte jetzt dein Hauptgericht.";
-
-		int index = retrospectVisit.lastIndexOf(",");
-		if(index > 0)
-			retrospectVisit = " mit " +retrospectVisit.substring(0 , index) + " und " + retrospectVisit.substring(index+1, retrospectVisit.length()) + ". ";
-
+		retrospectVisit = "Deinen Besuch im Restaurant " + nameRest + " am " + date + namesUser + ratingDone + ". " + ratingsOutOf;
 
 		return retrospectVisit;
 	}
@@ -140,26 +139,34 @@ public class RatingBean implements Serializable
 	//////////////////////// Basic Crud //////////////////////////////////
 	public void saveVisitBackingBean() {
 
+		// Check auf konkurrierende Änderung
+		Restaurant possiblyChanged = (Restaurant) appServer.findOneByPrim(currentRestaurant.getPrim(), Restaurant.class, true);
+		if (possiblyChanged.getAvgRating() != restMean)
+		{
+			// Nach OnLoad und vor Save wurde ein weiteres Rating abgegeben und ein neuer Durchschnitt berechnet, daher muss dieser aktualisiert werden.
+			appServer.clearCache(Rating.class);
+			generateReport();
+		}
+
+
 		if(currentRating.getPrim() != null)
 		{
+			// Update, User ändert sein Rating
 			appServer.update(currentRating);
 			currentVisit.getRatings().remove(currentRating);
 			currentVisit.getRatings().add(currentRating);
 		}
 		else
 		{
+			// Rating wird erstmalig gespeichert
 			int i = appServer.persist(currentRating);
 			currentRating.setPrim(i);
-			currentVisit.getRatings().add(currentRating);
+			currentVisit.getRatings().add(currentRating); // mehrmals ??
 		}
 
-		/*
-		Vermutlich ist das Rating für den Entitymanager auch nach dem expliziten Persist oben immer noch ein neues Objekt.
-		Man muss evtl. den Primärschlüssel setzen, der von der DB zurückkommt, damit er es merkt, dass es kein neues o ist
-		und dies den backingBeans bekannt machen?
-		 */
 		backingBeanVisit.setCurrent(currentVisit);
 		backingBeanRestaurant.setCurrent(currentRestaurant);
+
 		backingBeanVisit.save();
 		backingBeanRestaurant.save();
 		backingBeanUser.saveUser(currentUser);
@@ -194,7 +201,7 @@ public class RatingBean implements Serializable
 
 
 
-	/////////////////////// Statictics Diagram//////////////////////////////////
+	/////////////////////// Statictics Diagram //////////////////////////////////
 	public HorizontalBarChartModel produceHorizontalBarModel(String label, double dataValue, String noHash_HexStringColor, Double opacity) {
 
 		Integer redByte = Integer.parseInt(noHash_HexStringColor.substring(0,2),16);
@@ -277,9 +284,9 @@ public class RatingBean implements Serializable
 		// Vorteil: Avg wird immer einzeln berechnet und stützt sich nicht auf alte Ergebnisse.
 
 		appServer.findAll(Rating.class).stream().map(e-> (Rating) e).forEach(e -> {
-			if(e.getRestaurantRated().getPrim() == currentRating.getRestaurantRated().getPrim())
+			if(e.getRestaurantRated().getPrim().equals(currentRating.getRestaurantRated().getPrim()))
 				rest.add(e);
-			if(e.getRatingUser().getPrim() == currentRating.getRatingUser().getPrim())
+			if(e.getRatingUser().getPrim().equals(currentRating.getRatingUser().getPrim()))
 				user.add(e);
 		});
 
@@ -301,15 +308,23 @@ public class RatingBean implements Serializable
 		}
 
 		// Durchschnittswerte berechnen
-		float restMean = (float) rest.stream().mapToInt(e->e.getStars()).average().orElseGet(()->0.0);
-		float userMean = (float) user.stream().mapToInt(e->e.getStars()).average().orElseGet(()->0.0);
-		float visitMean = (float) currentVisit.getRatings().stream().flatMapToInt(e -> IntStream.of(e.getStars())).average().orElseGet(()->0.0);
+		Logger.getLogger(getClass().getSimpleName()).severe("+# generateReport berechnet Mean für Rest aus Ratings: " + rest);
+		restMean = (float) rest.stream().mapToInt(e->e.getStars()).average().orElseGet(()->0.0);
+		Logger.getLogger(getClass().getSimpleName()).severe("+# generateReport Ergebnis für REst" + restMean);
+
+
+		userMean = (float) user.stream().mapToInt(e->e.getStars()).average().orElseGet(()->0.0);
+		visitMean = (float) currentVisit.getRatings().stream().flatMapToInt(e -> IntStream.of(e.getStars())).average().orElseGet(()->0.0);
 
 		// Durchschnittswerte in die Diagram-Modelle einsetzen
 		((HorizontalBarChartDataSet) getMyModelRest().getData().getDataSet().get(0)).getData().set(0, restMean);
 		((HorizontalBarChartDataSet) getMyModelUser().getData().getDataSet().get(0)).getData().set(0, userMean);
 		((HorizontalBarChartDataSet) getMyModelVisit().getData().getDataSet().get(0)).getData().set(0, visitMean);
 
+
+		((HorizontalBarChartDataSet) getMyModelRest().getData().getDataSet().get(0)).setLabel("# Ratings: "+currentRestaurant.getRatings().size()+"   Bewertung");
+		((HorizontalBarChartDataSet) getMyModelUser().getData().getDataSet().get(0)).setLabel("# Ratings: "+currentUser.getRatings().size()+"   Bewertung");
+		((HorizontalBarChartDataSet) getMyModelVisit().getData().getDataSet().get(0)).setLabel("# Ratings: "+currentVisit.getRatings().size()+"   Bewertung");
 		// Durchschnittswerte in Rest. setzen
 		currentRestaurant.setAvgRating(restMean);
 

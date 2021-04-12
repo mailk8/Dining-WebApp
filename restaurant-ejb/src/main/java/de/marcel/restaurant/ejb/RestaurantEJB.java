@@ -233,6 +233,8 @@ public class RestaurantEJB implements IRestaurantEJB
 		entityManager.getEntityManagerFactory().getCache().evictAll();
 	}
 
-
+	@Override public void clearCache(Class clazz) {
+		entityManager.getEntityManagerFactory().getCache().evict(clazz);
+	}
 }
 
