@@ -12,13 +12,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8b0350e6-03f9-48a3-938e-c238785f6e2c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/RestaurantEJB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/RestaurantEJB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IRestaurantEJB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IRestaurantEJB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/RestaurantVisit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/model/RestaurantVisit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanRestaurant.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanRestaurant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanVisit.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/BackingBeanVisit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/RatingBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/java/de/marcel/restaurant/web/backingBeans/RatingBean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/RestaurantCreate.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/RestaurantCreate.xhtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/RestaurantList.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/RestaurantList.xhtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/UserCreate.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/UserCreate.xhtml" afterDir="false" />
@@ -27,6 +20,7 @@
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitList.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitList.xhtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitRating.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitRating.xhtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitSuggestions.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitSuggestions.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/resources/css/myOverwritingStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/resources/css/myOverwritingStyle.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,19 +162,6 @@
     </option>
   </component>
   <component name="RunManager" selected="JBoss/WildFly Server.JBoss 22.0.1.Final">
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="GlassfishConfiguration" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment />
@@ -510,7 +491,8 @@
       <workItem from="1618087541112" duration="1221000" />
       <workItem from="1618135461799" duration="1359000" />
       <workItem from="1618137851645" duration="35853000" />
-      <workItem from="1618209722381" duration="33271000" />
+      <workItem from="1618209722381" duration="34044000" />
+      <workItem from="1618313512134" duration="4871000" />
     </task>
     <servers />
   </component>
