@@ -117,8 +117,7 @@
                 </div>
 
 
-<!--Culinaries            -->
-                <!-- equals, hashcode und toString müssen implementiert sein https://stackoverflow.com/questions/17343032/implement-converters-for-entities-with-java-generics/17343582#17343582-->
+<!--Culinaries-->
                 <div>
                     <h:selectOneMenu value="#{backingBeanRestaurant.current.culinary}" select2="true" styleClass="form-control"  converter="omnifaces.SelectItemsConverter">
                         <f:selectItem itemLabel="Gebotene Küche" itemValue="" />
@@ -129,8 +128,7 @@
 
 <!--Buttons-->
                 <hr/>
-                <h:commandButton action="#{backingBeanRestaurant.save()}" value="Speichern" class="btn btn-primary" style="float:left;"/>
-                <h:commandButton action="#{backingBeanRestaurant.createNew()}" value="Restaurant anlegen" class="btn btn-primary" />
+                <h:commandButton action="#{backingBeanRestaurant.saveRestaurantProxy()}" value="Speichern" class="btn btn-primary" style="float:left;"/>
                 <h:commandButton action="#{backingBeanRestaurant.createNew()}" value="#Restaurantbesuch planen" class="btn btn-primary" />
             </h:form>
         </ui:define>

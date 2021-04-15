@@ -35,7 +35,7 @@
             <h:inputHidden id="sizeParticipants_Initial" value="#{backingBeanVisit.sizeParticipantsForValidator}" />
 
 <!-- Ort -->
-            <p:growl id="feedbackLocationSearch" for="place" showDetail="true" keepAlive="10000"/>
+            <p:growl id="feedbackLocationSearch" for="place" showDetail="true" keepAlive="8000"/>
 
             <div class="row">
                 <div class="col-4">
@@ -56,7 +56,7 @@
 
             <div style="display: none">
                 <h:inputText id="googleMapsResult" value="#{backingBeanVisit.googleMapsResult}" >
-                    <p:ajax  event="change" process="@this" immediate="true" async="true" render="visitCreate:feedbackLocationSearch"/>
+                    <p:ajax  event="change" process="@this" immediate="false" async="true" delay="100" render="visitCreate:feedbackLocationSearch"/>
                 </h:inputText>
             </div>
 
@@ -64,11 +64,11 @@
 <!-- Kulinarik -->
             <div class="row" >
                 <div class="col-4">
-                    <label>Kulinarik Wunsch:</label>
+                    <label>Gewünschte Küche:</label>
                 </div>
 
                 <div class="col-8">
-                    <p:selectCheckboxMenu id="multiple" value="#{backingBeanVisit.culinariesArray}" label="Label"
+                    <p:selectCheckboxMenu id="multiple" value="#{backingBeanVisit.culinariesArray}" label=""
                                           style="width:100%; !important;" converter="omnifaces.SelectItemsConverter"
                                           multiple="true"  filter="true" filterMatchMode="startsWith" >
 
@@ -84,7 +84,7 @@
 <!--Memo -->
             <div class="row">
                 <div class="col-4">
-                    <label>Memo: </label>
+                    <label>Memo zum Restaurantbesuch:</label>
                 </div>
 
                 <div class="col-8">
@@ -129,17 +129,40 @@
                 </div>
                 <div class="col-8">
                     <p:autoComplete id="fieldTimezone" dropdown="false" forceSelection="true"  autocomplete="on"
-                                    value="#{backingBeanVisit.current.timezoneString}" widgetVar="widgetVarTimezone"
-                                    completeMethod="#{backingBeanVisit.completeText}"
-                                    scrollHeight="250" style="width: 200px !important;"
-                                    required="true" requiredMessage="Bitte eine gültige Zeitzone wählen." />
+                        value="#{backingBeanVisit.current.timezoneString}" widgetVar="widgetVarTimezone"
+                        completeMethod="#{backingBeanVisit.completeText}"
+                        scrollHeight="250" style="width: 200px !important;"
+                        required="true" requiredMessage="Bitte eine gültige Zeitzone wählen." />
                 </div>
             </div>
             <br/>
 
 <!-- Buttons -->
             <br/>
-            <h:commandButton action="#{backingBeanVisit.save()}"  value="Speichern und zur Übersicht" class="btn btn-primary" style="float:left;"/>
+            <script type="text/javascript">
+                function myclosefunction(code, channel, event)
+                {
+                    console.log('Onclose event is ' + event);
+                    console.log('Onclose code is ' + code);
+                    console.log('Onclose channel  is ' + channel);
+                }
+
+                function mymessagefunction(message, channel, event)
+                {
+                    console.log('OnMessage event is' + event);
+                    console.log('OnMessage channel is ' + channel);
+                    console.log('OnMessage message is ' + message);
+                }
+
+                function myopenfunction(channel)
+                {
+                    console.log('OnOpen channel is ' + channel);
+                }
+            </script>
+            <f:websocket channel="channelUser" connected="true" scope="application" onopen="myopenfunction" onmessage="mymessagefunction" onclose="myclosefunction" >
+                <f:ajax event="channelUser" immediate="true" listener="#{backingBeanUser.getAllUsers()}" render="userForm:dt-participants" onevent="console.log('Ajax am Websocket fing event channelUser')" />
+            </f:websocket>
+            <h:commandButton action="#{backingBeanVisit.proxySaveVisit()}" value="Speichern und zur Übersicht" class="btn btn-primary" style="float:left;"/>
             <h:commandButton action="#{backingBeanVisit.saveVisitNext()}" actionListener="#{suggestionsBean.proxyOnLoad()}" value="Speichern und weiter" class="btn btn-primary" style="margin-right: .5rem; "/>
         </h:form>
 
@@ -191,45 +214,47 @@
         </h:form>
 
 <!-- Skripte -->
-
-<!--        <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyDtJoxBmEHGk8KsyyiBcynKz5NrdxnELvE"/>-->
         <script async="async" src="https://maps.google.com/maps/api/js?key=AIzaSyDtJoxBmEHGk8KsyyiBcynKz5NrdxnELvE"/>
 
         <script type="text/javascript">
-
-
-        document.getElementById("visitCreate:place").onblur = function() {
-                let fieldOrt = document.getElementById("visitCreate:place");
-                let varInputText = fieldOrt.value + " " + document.getElementById("visitCreate:zip").value;
-                let googleMapsResult = document.getElementById("visitCreate:googleMapsResult");
-                googleMapsResult.value = "";
-                if(!varInputText)
-                {
-                    fieldOrt.blur();
-                    return;
-                }
-                for (let i = 0; 3 > i; i++) {
-                        //console.log('als Text für GoogleMaps-Abfrage erhalten: ' + fieldOrt.value);
-                        let geocoder = new window.google.maps.Geocoder();
-                        geocoder.geocode({'address': varInputText}, function (results, status)
-                        {
-                            if (status === 'OK')
-                            {
-                                //console.log('Versuch '+i+' OK');
-                                // map.setCenter(results[0].geometry.location);
-                                // var marker = new google.maps.Marker({ map: map,  position: results[0].geometry.location });
-                                let stringResult = status+"+#"+results[0].geometry.location+"+#"+results[0].formatted_address;
-                                googleMapsResult.value = stringResult;
-                                return;
-                            }
-                            else
-                            {
-                                //console.log('Versuch '+ i +' Fail, nächster Versuch');
-                            }
-                        });
-                }
-                googleMapsResult.value = "Keine Einträge gefunden";
+            document.getElementById("visitCreate:place").onblur = function() {
+                    let fieldOrt = document.getElementById("visitCreate:place");
+                    let varInputText = fieldOrt.value + " " + document.getElementById("visitCreate:zip").value;
+                    let googleMapsResult = document.getElementById("visitCreate:googleMapsResult");
+                    googleMapsResult.value = "";
+                    if(!varInputText)
+                    {
+                        fieldOrt.blur();
+                        return;
+                    }
+                    for (let i = 0; 5 > i; i++) {
+                            console.log('als Text für GoogleMaps-Abfrage erhalten: ' + fieldOrt.value);
+                            let geocoder;
+                            try {
+                                    geocoder= new window.google.maps.Geocoder();
+                                    geocoder.geocode({'address': varInputText}, function (results, status)
+                                    {
+                                        if (status === 'OK')
+                                        {
+                                            console.log('Versuch '+i+' OK');
+                                            // map.setCenter(results[0].geometry.location);
+                                            // var marker = new google.maps.Marker({ map: map,  position: results[0].geometry.location });
+                                            let stringResult = status+"+#"+results[0].geometry.location+"+#"+results[0].formatted_address;
+                                            googleMapsResult.value = stringResult;
+                                            return;
+                                        }
+                                        else
+                                        {
+                                            console.log('Versuch '+ i +' Fail, nächster Versuch');
+                                        }
+                                    });
+                            } catch (e) { continue; }
+                    }
+                    console.log('googleMapsResult.value = "Keine Einträge gefunden"; ');
+                    googleMapsResult.value = "Keine Einträge gefunden";
             }
+
+
 
             // Onload mit VanillaJS
             window.onload = function() {

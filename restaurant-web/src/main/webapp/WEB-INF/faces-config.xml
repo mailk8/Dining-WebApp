@@ -17,4 +17,10 @@
         <phase-listener>de.marcel.restaurant.web.jsfFramework.LifeCycleListener</phase-listener>
     </lifecycle>
 
+    <factory>
+        <exception-handler-factory>
+            de.marcel.restaurant.web.jsfFramework.CustomExceptionHandlerFactory
+        </exception-handler-factory>
+    </factory>
+
 </faces-config>

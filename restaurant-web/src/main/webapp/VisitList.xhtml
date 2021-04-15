@@ -26,9 +26,9 @@
 
         <ui:define name="mainContent">
 
-            <p:growl id="visitListGrowl" showDetail="false"  />
+            <p:growl id="visitListGrowl" showDetail="false" keepAlive="8000"/>
 
-            <h:dataTable value="#{backingBeanVisit.getAllVisitsProxy()}" var="visitListEntry" class="table">
+            <h:dataTable id="visitTable" value="#{backingBeanVisit.getAllVisitsProxy()}" var="visitListEntry" class="table">
                 <h:column>
                     <f:facet name="header">Datum</f:facet>
                     #{visitListEntry.getVisitingDateTime()}
@@ -60,22 +60,45 @@
                 </h:column>
 
                 <h:column>
-        <ui:remove>
-<!--            <h:form rendered="#{backingBeanVisit.isUserParticipantOf(visitListEntry) || (backingBeanVisit.isUnfinished(visitListEntry))}">-->
-<!--            NACH ABLAUF DER MEETING TIME DARF DER VISIT NICHT MEHR BEARBEITBAR SEIN, RATING DANN NUR ÜBER DEN GRÜNEN STERN AUS LIST HERAUS-->
-<!--            AUCH NICHT BEARBEITBAR ÜBER ANWÄHLEN DER URL VisitCreate VisitSuggestions-->
-        </ui:remove>
-                    <h:form>
+                    <h:form rendered="#{backingBeanVisit.isUserParticipantOf(visitListEntry)}">
                         <h:commandLink action="#{backingBeanVisit.edit(visitListEntry)}" actionListener="#{backingBeanVisit.getAllVisits()}" class="btn btn-warning"  style="float:left;"><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>
                         <h:commandLink action="#{backingBeanVisit.delete(visitListEntry)}" class="btn btn-danger"  style="float:left;"><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>
                         <h:commandLink action="#{backingBeanVisit.rate(visitListEntry)}" class="btn btn-success"  style="float:left;"><i class="fas fa-star-half-alt" aria-hidden="true"></i></h:commandLink>
                     </h:form>
+                    <h:form rendered="#{not backingBeanVisit.isUserParticipantOf(visitListEntry)}">
+                        <h:commandLink  class="btn btn-warning"  style="float:left; opacity: 0.1;"><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>
+                        <h:commandLink  class="btn btn-danger"  style="opacity: 0.1;"><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>
+                        <h:commandLink  class="btn btn-success"  style="opacity: 0.1;"><i class="fas fa-star-half-alt" aria-hidden="true"></i></h:commandLink>
+                    </h:form>
                 </h:column>
             </h:dataTable>
 
-
             <br/>
-            <h:form id="buttons" >
+            <h:form id="buttons">
+                <script type="text/javascript">
+                    function myclosefunction(code, channel, event)
+                    {
+                        console.log('Onclose event is ' + event);
+                        console.log('Onclose code is ' + code);
+                        console.log('Onclose channel  is ' + channel);
+                    }
+
+                    function mymessagefunction(message, channel, event)
+                    {
+                        console.log('OnMessage event is' + event);
+                        console.log('OnMessage channel is ' + channel);
+                        console.log('OnMessage message is ' + message);
+                    }
+
+                    function myopenfunction(channel)
+                    {
+                        console.log('OnOpen channel is ' + channel);
+                    }
+                </script>
+                <f:websocket channel="channelVisit" connected="true" scope="application" onopen="myopenfunction" onmessage="mymessagefunction" onclose="myclosefunction" >
+                    <f:ajax event="channelVisit" immediate="true" listener="#{backingBeanVisit.proxyOnLoad()}" render="visitTable" onevent="console.log('Ajax am Websocket fing event channelVisit')" />
+                </f:websocket>
+                
                 <h:inputHidden id="hidden" value="#{backingBeanVisit.zoneString}" />
                 <h:commandLink action="#{backingBeanUser.createNew()}" class="btn btn-primary" style="float:left;">User anlegen</h:commandLink>
                 <h:commandLink action="#{backingBeanRestaurant.createNew()}" class="btn btn-primary" >Restaurant anlegen</h:commandLink>

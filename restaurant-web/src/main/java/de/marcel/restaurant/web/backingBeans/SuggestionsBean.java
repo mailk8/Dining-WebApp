@@ -90,28 +90,24 @@ public class SuggestionsBean implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
-//  NOT WORKING
 //	@Resource private ManagedExecutorService executor;
 //	@Resource private ManagedThreadFactory managedThreadFactory;
 //	@Resource private ContextService contextService;
 
 	@Inject BackingBeanRestaurant backingBeanRestaurant;
+	@Inject BackingBeanUser backingBeanUser;
 	@Inject BackingBeanVisit backingBeanVisit;
 
 	private RestaurantVisit currentVisit;
-
 	private List<Restaurant> restaurantsRadius = new ArrayList<>();     // Zwischenergebnis nach Entferungsfilter
 	private List<Restaurant> restaurantsFiltered;   // Endergebnis nach Culinaryfilter
-
-	private int distanceSearchRadius = 20; // Standardentfernung
+	private int distanceSearchRadius = 20; // Standard Suchradius
 	private double radius = 6371.000785; // Erdradius
-
 	private MapModel gmapModel = new DefaultMapModel();
 	private Marker marker;
 	private String centerString;
 	private int googleZoomLevel;
 	private Circle circle;
-
 	private StringBuilder resourcePath = new StringBuilder();
 
 	@PostConstruct
@@ -244,25 +240,32 @@ public class SuggestionsBean implements Serializable
 		double latitudeMeeting = currentVisit.getAddressVisit().getWgs84Latitude();
 		double longitudeMeeting = currentVisit.getAddressVisit().getWgs84Longitude();
 		double restaurantLatitude = 0;
+		double resultUser = 0;
 
 		Logger.getLogger(getClass().getSimpleName()).severe("+# filterByRadius für Treffpunkt " + latitudeMeeting +" " + longitudeMeeting);
 
 		double latitude = 0, longitude = 0, sinLat = 0, sinLong = 0, a = 0, c = 0, result = 0;
 		for(Restaurant rest : list){
-			restaurantLatitude = rest.getAddressRestaurant().getWgs84Latitude();
-			latitude = Math.toRadians(restaurantLatitude - latitudeMeeting);
-			longitude = Math.toRadians(rest.getAddressRestaurant().getWgs84Longitude() - longitudeMeeting);
-			sinLat = Math.sin(latitude / 2);
-			sinLong = Math.sin(longitude / 2);
-			a = sinLat * sinLat + Math.cos(Math.toRadians(latitudeMeeting)) * Math.cos(Math.toRadians(restaurantLatitude)) * sinLong * sinLong;
-			c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-			result = radius * c;
+//			restaurantLatitude = rest.getAddressRestaurant().getWgs84Latitude();
+//			latitude = Math.toRadians(restaurantLatitude - latitudeMeeting);
+//			longitude = Math.toRadians(rest.getAddressRestaurant().getWgs84Longitude() - longitudeMeeting);
+//			sinLat = Math.sin(latitude / 2);
+//			sinLong = Math.sin(longitude / 2);
+//			a = sinLat * sinLat + Math.cos(Math.toRadians(latitudeMeeting)) * Math.cos(Math.toRadians(restaurantLatitude)) * sinLong * sinLong;
+//			c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+//			result = radius * c;
+
+			result = calculateDistance(rest, latitudeMeeting, longitudeMeeting);
+
 			Logger.getLogger(getClass().getSimpleName()).severe("+# filterByRadius Restaurant ermittelte Entfernung " + result);
 			if(result < distance)
 			{
 				Logger.getLogger(getClass().getSimpleName()).severe("+# filterByRadius Restaurant : " + rest.getName() + " liegt in " + distance + " km Umreis zu Treffpunkt");
 				rest.setDistanceMeetingPoint(result);
 				restaurantsRadius.add(rest);
+
+				resultUser = calculateDistance(rest, backingBeanUser.getCurrent().getAddressActual().getWgs84Latitude(), backingBeanUser.getCurrent().getAddressActual().getWgs84Longitude());
+				rest.setDistanceUser(resultUser);
 			}
 			else
 				Logger.getLogger(getClass().getSimpleName()).severe("+# filterByRadius Restaurant : " + rest.getName() + " liegt NICHT in " + distance + " km Umreis zu Treffpunkt");
@@ -309,7 +312,16 @@ public class SuggestionsBean implements Serializable
 	}
 
 
-
+	private double calculateDistance(Restaurant destination, double latitudeFrom, double longitudeFrom) {
+		double restaurantLatitude = destination.getAddressRestaurant().getWgs84Latitude();
+		double latitude = Math.toRadians(restaurantLatitude - latitudeFrom);
+		double longitude = Math.toRadians(destination.getAddressRestaurant().getWgs84Longitude() - longitudeFrom);
+		double sinLat = Math.sin(latitude / 2);
+		double sinLong = Math.sin(longitude / 2);
+		double a = sinLat * sinLat + Math.cos(Math.toRadians(latitudeFrom)) * Math.cos(Math.toRadians(restaurantLatitude)) * sinLong * sinLong;
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		return radius * c;
+	}
 
 
 	//////////////////////////// Map Methods ///////////////////////////////////////////////////

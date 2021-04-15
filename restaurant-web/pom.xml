@@ -78,6 +78,7 @@
             <version>2.7.7</version>
         </dependency>
 
+
 <!--        WEB JARS-->
 
         <dependency>
@@ -101,7 +102,7 @@
 
 
 
-        <!--LOKALE DEPENDENCIES-->
+<!-- LOKALE DEPENDENCIES-->
         <dependency>
             <groupId>de.marcel.restaurant.restaurant-ejb</groupId>
             <artifactId>interfaces</artifactId>

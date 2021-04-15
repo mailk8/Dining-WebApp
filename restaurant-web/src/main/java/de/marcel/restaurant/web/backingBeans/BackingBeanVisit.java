@@ -2,10 +2,8 @@ package de.marcel.restaurant.web.backingBeans;
 
 
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
-import de.marcel.restaurant.ejb.model.Culinary;
-import de.marcel.restaurant.ejb.model.RestaurantVisit;
-import de.marcel.restaurant.ejb.model.State;
-import de.marcel.restaurant.ejb.model.User;
+import de.marcel.restaurant.ejb.model.*;
+import de.marcel.restaurant.web.jsfFramework.WebSocketObserver;
 import org.primefaces.event.AbstractAjaxBehaviorEvent;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.MapModel;
@@ -20,6 +18,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -50,6 +49,7 @@ public class BackingBeanVisit implements Serializable
 	@Resource(name = "DefaultManagedExecutorService") ManagedExecutorService executor;
 	@Inject private IRestaurantEJB appServer;
 	@Inject private BackingBeanUser backingBeanUser;
+	@Inject private WebSocketObserver websocket;
 
 	private String sizeParticipantsForValidator;
 	private List<RestaurantVisit> visitList;
@@ -65,15 +65,11 @@ public class BackingBeanVisit implements Serializable
 	}
 
 	public void proxyOnLoad() {
-
 		getAllVisits().forEach(e -> e.setStateVisit(State.UNVOLLSTÄNDIG));
-
 		visitList.stream().forEach(e -> updateVisitState(e));
 	}
 
-
-
-	////////////////////////////////// Methods for Culinary Selection //////////////////////////////
+	////////////////////////////////// Methods for Restaurant & Culinary Selection //////////////////////////////
 	public Culinary[] getCulinariesArray()
 	{
 		return current.getChosenCulinaries().stream().toArray(Culinary[]::new);
@@ -95,7 +91,9 @@ public class BackingBeanVisit implements Serializable
 		return allCulinariesProxy;
 	}
 
-
+	public Integer getAvgRating(Restaurant r) {
+		return BigDecimal.valueOf(r.getAvgRating()).intValue();
+	}
 
 
 	////////////////////////////////// Methods for Location of Search //////////////////////////////
@@ -113,7 +111,7 @@ public class BackingBeanVisit implements Serializable
 					current.getAddressVisit().setWgs84Latitude(Double.parseDouble(lat_lon[0].trim()));
 					current.getAddressVisit().setWgs84Longitude(Double.parseDouble(lat_lon[1].trim()));
 					FacesContext.getCurrentInstance().addMessage("place",
-						new FacesMessage(FacesMessage.SEVERITY_INFO, "Zu dieser Eingabe wurde die Location '" + resultSplit[2] + " " + resultSplit[1] + "' gefunden.",  ""));
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "Restaurants werden gesucht in " + resultSplit[2] + " " + resultSplit[1] + ".",  ""));
 					return;
 				}
 			}
@@ -134,7 +132,7 @@ public class BackingBeanVisit implements Serializable
 
 
 	//////////////////////////  Methods for Fetching & Performane //////////////////////////
-	public void fetchVisitsForUser() // todo: warum native Query? Geht am Cache vorbei!
+	public void fetchVisitsForUser()
 	{
 		// Asynchronous Callable-Job for Servers Default-ThreadPoolExecutor
 		// appServer and user CAN be passed as locale References
@@ -186,8 +184,6 @@ public class BackingBeanVisit implements Serializable
 
 
 	//////////////////////////  Methods for Visit Functions //////////////////////////
-
-
 	public void updateVisitState(RestaurantVisit visit)
 	{
 		// Könnte man auch im Enum unterbringen, dann wäre alles zusammen.
@@ -251,34 +247,34 @@ public class BackingBeanVisit implements Serializable
 
 
 	//////////////////////////  Methods for Basic Crud & Navigation //////////////////////////
-	public String save()
-	{
-		Logger.getLogger(getClass().getSimpleName()).severe("+# saveVisit persistiert current mit chosen Rest. " + current.getRestaurantChosen());
+	public String save() {
 		updateVisitState(current);
 		if(null == current.getPrim())
 		{
-			//Logger.getLogger(getClass().getSimpleName()).severe("+# insert zweig, current.getPrim " + current.getPrim());
 			insert(current);
 		}
 		else
 		{
 			update(current);
 		}
-		//prepareGetAllVisits();
-		//Logger.getLogger(getClass().getSimpleName()).severe("+# nach save und prepareAllVisits -------------------");
 
 
 		return "VisitList?faces-redirect=true";
 	}
 
-	public String saveVisitNext()
-	{
+	public String proxySaveVisit() {
 		save();
+		websocket.sendMessage(RestaurantVisit.class);
+		return "VisitList?faces-redirect=true";
+	}
+
+	public String saveVisitNext() {
+		save();
+		websocket.sendMessage(RestaurantVisit.class);
 		return "VisitSuggestions?faces-redirect=true";
 	}
 
-	public void insert(RestaurantVisit u)
-	{
+	public void insert(RestaurantVisit u) {
 		int result = appServer.persist(u);
 		u.setPrim(result);
 		//Logger.getLogger(getClass().getSimpleName()).severe("+# nach insert, prim ist lt appServer " + result + " current hat prim " + current.getPrim());
@@ -324,7 +320,6 @@ public class BackingBeanVisit implements Serializable
 	{
 		return current;
 	}
-
 
 	public String redirectIfWrongState(int allowedStateFrom, int allowedStateTill) {
 		return redirectIfWrongState(current, allowedStateFrom, allowedStateTill);
@@ -405,7 +400,7 @@ public class BackingBeanVisit implements Serializable
 	{
 		try
 		{
-			if( null != allVisitsThisUser)
+			if( null != allVisitsThisUser )
 			{
 				// Abholen aus dem Future (async)
 				if ( null !=  (set = allVisitsThisUser.get()) )

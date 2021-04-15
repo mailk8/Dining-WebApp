@@ -12,7 +12,6 @@
             <ui:remove>
                 <!-- KANN GET-PARAMETER ENTGEGENNEHMEN UND WEITERREICHEN    -->
                 <!-- <f:viewParam name="foo" value="#{bean.foo}" />-->
-                <!-- FÜHRT METHODEN BEI PAGELOAD AUS-->
             </ui:remove>
             <f:viewAction action="#{backingBeanRestaurant.getAllRestaurants()}" />
         </f:metadata>
@@ -26,7 +25,7 @@
 
         <ui:define name="mainContent">
 
-            <h:dataTable value="#{backingBeanRestaurant.getAllRestaurantsProxy()}" var="restList" class="table">
+            <h:dataTable id="restTable" value="#{backingBeanRestaurant.getAllRestaurantsProxy()}" var="restList" class="table">
                 <h:column>
                     <f:facet name="header">Name</f:facet>
                     #{restList.name}
@@ -36,8 +35,12 @@
                     #{restList.addressRestaurant.city}
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Anzahl Bewertungen</f:facet>
-                    #{restList.addressRestaurant.city}
+                    <f:facet name="header">Küche</f:facet>
+                    #{restList.culinary}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Bewertungen</f:facet>
+                    #{restList.getRatings().size()}
                 </h:column>
                 <h:column>
                     <span>
@@ -49,6 +52,29 @@
                 </h:column>
             </h:dataTable>
             <h:form>
+                <script type="text/javascript">
+                    function myclosefunction(code, channel, event)
+                    {
+                        console.log('Onclose event is ' + event);
+                        console.log('Onclose code is ' + code);
+                        console.log('Onclose channel  is ' + channel);
+                    }
+
+                    function mymessagefunction(message, channel, event)
+                    {
+                        console.log('OnMessage event is' + event);
+                        console.log('OnMessage channel is ' + channel);
+                        console.log('OnMessage message is ' + message);
+                    }
+
+                    function myopenfunction(channel)
+                    {
+                        console.log('OnOpen channel is ' + channel);
+                    }
+                </script>
+                <f:websocket channel="channelRest" connected="true" scope="application" onopen="myopenfunction" onmessage="mymessagefunction" onclose="myclosefunction" >
+                    <f:ajax event="channelRest" immediate="true" listener="#{backingBeanRestaurant.getAllRestaurants()}" render="restTable" onevent="console.log('Ajax am Websocket fing event channelRest')" />
+                </f:websocket>
                 <h:commandLink action="#{backingBeanRestaurant.createNew()}" class="btn btn-primary" style="float:left;">#Restaurantbesuch planen</h:commandLink>
                 <h:commandLink action="#{backingBeanRestaurant.createNew()}" class="btn btn-primary" >Restaurant anlegen</h:commandLink>
             </h:form>

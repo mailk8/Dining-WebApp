@@ -118,7 +118,7 @@
                             </div>
 
                             <div class="col-5">
-                                <p:inputText id="wgs84Lon" value="#{backingBeanUser.validateLon}" class="form-control" validator="#{serverValidatorWGS.validate}" validatorMessage="Das Format passt nicht.">
+                                <p:inputText id="wgs84Lon" value="#{backingBeanUser.validateLon}" class="form-control" validator="#{serverValidatorWGS.validate}" >
                                     <f:validateRegex pattern="^((?!((,|\.)(.*)(,|\.))|((\+|\-)(.*)(\+|\-))|([^0-9,\.+-])|(([0-9,\.]\+)|([0-9,\.]\-)|((\+|\-)$)|(.\s.))).)*$"/>
                                     <p:clientValidator event="keyup" />
                                 </p:inputText>

@@ -28,9 +28,9 @@ public class ServerValidatorWGS implements Validator {
 	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException
 	{
 
-//		////// Bei keinem Eintrag nichts prüfen //////
-//		if(value.equals(""))
-//			return;
+		////// Bei keinem Eintrag nichts prüfen //////
+		if(value.equals(""))
+			return;
 
 		String valueString = value.toString().trim();
 		valueString = valueString.replace(",", ".");

@@ -4,7 +4,6 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
-
     <servlet>
         <servlet-name>FacesServlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -27,30 +26,18 @@
         <param-value>true</param-value>
     </context-param>
 
-<!--    Evtl. kann man damit die shiro.ini aus der Webapp herausnehmen.-->
-<!--    https://shiro.apache.org/web.html-->
-<!--    <context-param>-->
-<!--        <param-name>shiroConfigLocations</param-name>-->
-<!--        <param-value>classpath:main/META-INF</param-value>-->
-<!--    </context-param>-->
 
+<!-- WEBSOCKETS EINSCHALTEN -->
+    <context-param>
+        <param-name>javax.faces.ENABLE_WEBSOCKET_ENDPOINT</param-name>
+        <param-value>true</param-value>
+    </context-param>
 
-    <!--    <servlet-mapping>-->
-    <!--        <servlet-name>Faces Servlet</servlet-name>-->
-    <!--        <url-pattern>/faces/*</url-pattern>-->
-    <!--        <url-pattern>/javax.faces.resource/*</url-pattern>-->
-    <!--    </servlet-mapping>-->
-
-
-    <!--    Das Framework geht somit von Anfang an davon aus, dass er Cookies mit einer ID zuweisen kann und versucht es nicht-->
-    <!--    zunächst im Kompatibilitätsmodus über die URL Konkatenierung.-->
-
-
-<!--    SESSION KONFIGURATION-->
+<!-- SESSION KONFIGURATION-->
     <listener>
         <listener-class>de.marcel.restaurant.web.jsfFramework.SessionListenerWithMetrics</listener-class>
     </listener>
-<!--    Es darf nur ein Session Config Element geben?-->
+    <!-- Es darf nur ein Session Config Element geben-->
     <session-config>
         <tracking-mode>COOKIE</tracking-mode>
     </session-config>
@@ -60,7 +47,6 @@
 
 
 <!--    SHIRO SECURITY KONFIGURATION -->
-
     <listener>
         <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
     </listener>
@@ -68,13 +54,12 @@
     <filter>
         <filter-name>ShiroFilter</filter-name>
         <filter-class>org.apache.shiro.web.servlet.ShiroFilter</filter-class>
-<!--        <filter-class>de.marcel.restaurant.web.security.ModifiedAuthenticationFilter</filter-class>-->
+        <!-- <filter-class>de.marcel.restaurant.web.security.ModifiedAuthenticationFilter</filter-class>-->
         <init-param>
             <param-name>configPath</param-name>
             <param-value>/WEB-INF/shiro.ini</param-value>
         </init-param>
     </filter>
-
 
     <filter-mapping>
         <filter-name>ShiroFilter</filter-name>
@@ -85,7 +70,7 @@
         <dispatcher>ERROR</dispatcher>
     </filter-mapping>
 
-    <!--    SSL fordern-->
+<!-- SECURITY, SSL FORDERN -->
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>restaurant-web</web-resource-name>

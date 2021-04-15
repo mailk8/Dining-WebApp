@@ -75,7 +75,7 @@ public class Restaurant extends BaseEntity implements IRestaurant
 	private Set<Rating> ratings = new HashSet<Rating>();
 //############################
 	@Transient
-	private double distanceMeetingPoint;
+	private double distanceMeetingPoint, distanceUser;
 
 	// Constructors
 	public Restaurant(String name, Address a, Culinary culinary)
@@ -260,6 +260,16 @@ public class Restaurant extends BaseEntity implements IRestaurant
 	@Override public void setDistanceMeetingPoint(double distanceMeetingPoint)
 	{
 		this.distanceMeetingPoint = distanceMeetingPoint;
+	}
+
+	@Override public double getDistanceUser()
+	{
+		return distanceUser;
+	}
+
+	@Override public void setDistanceUser(double distanceUser)
+	{
+		this.distanceUser = distanceUser;
 	}
 
 	@Override public String toString()

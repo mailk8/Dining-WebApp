@@ -5,14 +5,11 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.Culinary;
-import de.marcel.restaurant.ejb.model.Rating;
 import de.marcel.restaurant.ejb.model.Restaurant;
-
+import de.marcel.restaurant.web.jsfFramework.WebSocketObserver;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -21,6 +18,7 @@ import java.util.logging.Logger;
 	Link WGS jetzt ermitteln sollte auf den Http Client gehen
 	Außerdem ist eine Adresse ab jetzt überall ein Muss.
  */
+
 @Named
 @SessionScoped
 @ManagedBean
@@ -32,13 +30,10 @@ public class BackingBeanRestaurant implements Serializable
 	private List<Culinary> allCulinariesProxy;
 	private List<Restaurant> allRestaurantsProxy;
 
-	@Inject
-	private IRestaurantEJB appServer;
-
-	// findAll im "appServer" public <T> List<T> findAll(Class entitiyClass)
+	@Inject private IRestaurantEJB appServer;
+	@Inject private WebSocketObserver websocket;
 
 	///////////////////////////// Methods for Performace Enhancement ////////////////////////////
-
 	public List<Culinary> getAllCulinariesProxy()
 	{
 		return allCulinariesProxy;
@@ -50,7 +45,6 @@ public class BackingBeanRestaurant implements Serializable
 	}
 
 	///////////////////////////// Methods for Basic Crud /////////////////////////////////////////
-
 	public List<Culinary> getAllCulinaries()
 	{
 		this.allCulinariesProxy = appServer.findAll(Culinary.class);
@@ -71,6 +65,12 @@ public class BackingBeanRestaurant implements Serializable
 		setCoordinatesBean(u);
 	}
 
+	public String saveRestaurantProxy() {
+		String redirect = save();
+		websocket.sendMessage(Restaurant.class);
+		return redirect;
+	}
+
 	public String save()
 	{
 		if(null == current.getPrim())
@@ -85,7 +85,6 @@ public class BackingBeanRestaurant implements Serializable
 			update(current);
 		}
 
-		//current = new Restaurant();
 		return "RestaurantList?faces-redirect=true";
 	}
 
@@ -113,6 +112,7 @@ public class BackingBeanRestaurant implements Serializable
 	public String delete(Restaurant u)
 	{
 		appServer.delete(u);
+		websocket.sendMessage(Restaurant.class);
 		return "RestaurantList?faces-redirect=true";
 	}
 

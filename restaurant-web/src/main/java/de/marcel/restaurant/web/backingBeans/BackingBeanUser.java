@@ -3,9 +3,9 @@ package de.marcel.restaurant.web.backingBeans;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.Address;
 import de.marcel.restaurant.ejb.model.Culinary;
-import de.marcel.restaurant.ejb.model.Rating;
 import de.marcel.restaurant.ejb.model.User;
 import de.marcel.restaurant.web.httpClient.*;
+import de.marcel.restaurant.web.jsfFramework.WebSocketObserver;
 import de.marcel.restaurant.web.security.ICredentials;
 import de.marcel.restaurant.web.security.LoginController;
 import de.marcel.restaurant.web.security.UserMailController;
@@ -21,9 +21,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -48,6 +48,7 @@ public class BackingBeanUser implements Serializable
 	@Inject private IRestaurantEJB appServer;
 	@Inject private HttpClientWGS client;
 	@Inject private LoginController loginController;
+	@Inject private WebSocketObserver websocket;
 	private String validateLon, validateLat;
 	private Logger logger = Logger.getLogger(getClass().getSimpleName());
 	private String sessionId;
@@ -127,11 +128,13 @@ public class BackingBeanUser implements Serializable
 		appServer.deleteCredentials(id);
 		UserMailController.deleteUserEmail(mail);
 		loginController.logout();
+		websocket.sendMessage(User.class);
 		return "UserList?faces-redirect=true";
 	}
 
 	public String saveUserProxy() {
 		loginController.checkAndPersist(current);
+		websocket.sendMessage(User.class);
 		return "UserList?faces-redirect=true";
 	}
 

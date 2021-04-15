@@ -84,5 +84,9 @@ public interface IRestaurant extends IBaseEntity
 
 	void setDistanceMeetingPoint(double distanceMeetingPoint);
 
+	double getDistanceUser();
+
+	void setDistanceUser(double distanceUser);
+
 	@Override String toString();
 }

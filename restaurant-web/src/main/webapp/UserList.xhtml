@@ -14,7 +14,6 @@
             <ui:remove>
                 <!-- KANN GET-PARAMETER ENTGEGENNEHMEN UND WEITERREICHEN    -->
                 <!-- <f:viewParam name="foo" value="#{bean.foo}" />-->
-                <!-- FÜHRT METHODEN BEI PAGELOAD AUS-->
             </ui:remove>
             <f:viewAction action="#{backingBeanUser.getAllUsers()}" />
         </f:metadata>
@@ -27,8 +26,8 @@
         </ui:define>
 
         <ui:define name="mainContent">
-
-            <h:dataTable value="#{backingBeanUser.getAllUsersProxy()}" var="u" class="table">
+            <p:growl id="growlPassword" showDetail="true" />
+            <h:dataTable id="userTable" value="#{backingBeanUser.getAllUsersProxy()}" var="u" class="table">
                 <h:column>
                     <f:facet name="header">Vorname</f:facet>
                     #{u.firstname}
@@ -43,22 +42,19 @@
                 </h:column>
                 <h:column>
                     <h:form rendered="#{loginController.isLoggedInUser(u)}">
-                        <ui:remove> <!--rendered="#{loginController.isLoggedInUser(u)}">-->
-<!--                        <h:commandLink  action="#{backingBeanUser.edit(u)}"  a:disabled="#{not loginController.isLoggedInUser(u)}" style="float:left; " class="btn btn-warning"><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>-->
-<!--                        <h:commandLink  action="#{backingBeanUser.delete(u)}" a:disabled="#{not loginController.isLoggedInUser(u)}" class="btn btn-danger"><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>-->
-<!--                                                    -->
-<!--                                FUNKTIONIERT NICHT-->
-<!--                            <c:choose>-->
-<!--                                <c:when test="#{loginController.isLoggedInUser(u)}">-->
-<!--                                    <h:commandLink  action="#{backingBeanUser.edit(u)}"   class="btn btn-warning" style="float:left; "><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>-->
-<!--                                </c:when>-->
-<!--                                <c:otherwise>-->
-<!--                                    <h:commandLink  class="btn btn-danger"  style="opacity: 0.5"><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>-->
-<!--                                </c:otherwise>-->
-<!--                            </c:choose>-->
-
+                        <ui:remove>
+                        <!-- <h:commandLink  action="#{backingBeanUser.edit(u)}"  a:disabled="#{not loginController.isLoggedInUser(u)}" style="float:left; " class="btn btn-warning"><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>-->
+                        <!-- <h:commandLink  action="#{backingBeanUser.delete(u)}" a:disabled="#{not loginController.isLoggedInUser(u)}" class="btn btn-danger"><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>-->
+                        <!-- FUNKTIONIERT NICHT-->
+                        <!-- <c:choose>-->
+                        <!-- <c:when test="#{loginController.isLoggedInUser(u)}">-->
+                        <!-- <h:commandLink  action="#{backingBeanUser.edit(u)}"   class="btn btn-warning" style="float:left; "><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>-->
+                        <!-- </c:when>-->
+                        <!-- <c:otherwise>-->
+                        <!-- <h:commandLink  class="btn btn-danger"  style="opacity: 0.5"><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>-->
+                        <!-- </c:otherwise>-->
+                        <!-- </c:choose>-->
                         </ui:remove>
-
                         <h:commandLink  action="#{backingBeanUser.edit(u)}"   style="float:left; " class="btn btn-warning"><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>
                         <h:commandLink  action="#{backingBeanUser.delete(u)}"  class="btn btn-danger"><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>
                     </h:form>
@@ -71,19 +67,38 @@
                 </h:column>
             </h:dataTable>
             <h:form>
+
+                <script type="text/javascript">
+                    function myclosefunction(code, channel, event)
+                    {
+                        console.log('Onclose event is ' + event);
+                        console.log('Onclose code is ' + code);
+                        console.log('Onclose channel  is ' + channel);
+                    }
+
+                    function mymessagefunction(message, channel, event)
+                    {
+                        console.log('OnMessage event is' + event);
+                        console.log('OnMessage channel is ' + channel);
+                        console.log('OnMessage message is ' + message);
+                    }
+
+                    function myopenfunction(channel)
+                    {
+                        console.log('OnOpen channel is ' + channel);
+                    }
+                </script>
+                <f:websocket channel="channelUser" connected="true" scope="application" onopen="myopenfunction" onmessage="mymessagefunction" onclose="myclosefunction" >
+                    <f:ajax event="channelUser" immediate="true" listener="#{backingBeanUser.getAllUsers()}" render="userTable" onevent="console.log('Ajax am Websocket fing event channelUser')" />
+                </f:websocket>
                 <h:commandLink action="#{backingBeanUser.createNew}" class="btn btn-primary" style="float:left;">#Restaurantbesuch planen</h:commandLink>
                 <h:commandLink action="#{backingBeanUser.createNew}" class="btn btn-primary" >User anlegen</h:commandLink>
             </h:form>
-
-            <p:growl id="growlPassword" showDetail="true" />
-
         </ui:define>
 
         <ui:define name="subContent">
             <h1>sub</h1>
         </ui:define>
-
-
 
         <ui:define name="footer">
         </ui:define>

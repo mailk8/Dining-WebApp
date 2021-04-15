@@ -10,9 +10,9 @@
 
 <ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
     <ui:remove>
-        <!--        <f:metadata>-->
-        <!--            <f:viewAction action="#{suggestionsBean.proxyOnLoad()}" />-->
-        <!--        </f:metadata>-->
+    <!--        <f:metadata>-->
+    <!--            <f:viewAction action="#{suggestionsBean.proxyOnLoad()}" />-->
+    <!--        </f:metadata>-->
     </ui:remove>
 
     <ui:param name="active" value="Visit" />
@@ -22,18 +22,16 @@
         <h2>#{title}</h2>
     </ui:define>
 
-    <!-- Map View -->
+<!-- GOOGLE MAP -->
     <ui:define name="subContent">
-
-        <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true&amp;key=AIzaSyDtJoxBmEHGk8KsyyiBcynKz5NrdxnELvE"></script>
-
+        <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyDtJoxBmEHGk8KsyyiBcynKz5NrdxnELvE"></script>
         <div class="card" style="width:100%; height:900px; align-content: flex-start">
             <p:gmap id="gmap" center="#{suggestionsBean.centerString}" zoom="#{suggestionsBean.googleZoomLevel}" type="ROADMAP"
                     style="width:100%;height:100%" fitBounds="true"
                     model="#{suggestionsBean.gmapModel}"  draggable="true" disableDefaultUI="false" streetView="false" mapTypeControl="false">
 
                 <p:ajax event="overlaySelect" listener="#{suggestionsBean.onMarkerSelect}"/>
-                <p:ajax event="markerDrag" listener="#{suggestionsBean.proxyMarkerDrag}" update="gmap visitCreate:dt-suggestions" delay="500"/>
+                <p:ajax event="markerDrag" listener="#{suggestionsBean.proxyMarkerDrag}" update="gmap visitSuggestions:dt-suggestions" delay="500"/>
 
                 <p:gmapInfoWindow id="infoWindow">
                     <p:outputPanel style="text-align: center; display: block; margin: auto">
@@ -44,37 +42,15 @@
                 </p:gmapInfoWindow>
             </p:gmap>
         </div>
-
     </ui:define>
 
-    <!--Visit Daten eingrenzen-->
+<!--Visit Daten eingrenzen-->
     <ui:define name="mainContent">
-
-        <h:form id="visitCreate">
+        <h:form id="visitSuggestions">
             <h:inputHidden value="#{backingBeanVisit.current.prim}" />
             <h:inputHidden id="sizeParticipants_Actual" value="#{backingBeanVisit.sizeParticipantsForValidator}" validator="serverValidatorParticipants"/>
             <h:inputHidden id="sizeParticipants_Initial" value="#{backingBeanVisit.sizeParticipantsForValidator}" />
-
-            <!-- Ort -->
-            <ui:remove>
-                <!--                <div class="row">-->
-                <!--                    <div class="col-4">-->
-                <!--                        <label for="place">PLZ und Ort: <h:message for="place" class="text-danger" /></label>-->
-                <!--                    </div>-->
-
-                <!--                    <div class="col-3">-->
-                <!--                        <h:inputText id="zip"  value="#{backingBeanVisit.current.addressVisit.zipCode}" class="form-control" required="false" disabled="true"/>-->
-                <!--                    </div>-->
-
-                <!--                    <div class="col-5">-->
-                <!--                        <h:inputText id="place" value="#{backingBeanVisit.current.addressVisit.city}" class="form-control" required="false" disabled="true">-->
-                <!--                        </h:inputText>-->
-                <!--                    </div>-->
-                <!--                </div>-->
-                <!--                <br/>-->
-            </ui:remove>
-
-<!-- Umkreis Text -->
+<!-- UMKREIS Text -->
             <div class="row">
                 <div class="col-4">
                     <label for="radius">Suchradius:</label>
@@ -83,7 +59,7 @@
                 <div class="col-3">
                     <h:inputText id="radius" value="#{suggestionsBean.distanceSearchRadius}" valueChangeListener="#{suggestionsBean.proxyRadiusChangedText}"
                                  class="form-control" required="false" validatorMessage="Werte zwischen 0 und 20.000 sind erlaubt.">
-                        <p:ajax event="keyup" immediate="true" async="true" delay="100" update="gmap @this slider visitCreate:dt-suggestions" />
+                        <p:ajax event="keyup" immediate="true" async="true" delay="100" update="gmap @this slider visitSuggestions:dt-suggestions" />
                         <f:validateLongRange minimum="0" maximum="20000" />
                     </h:inputText>
                     <p:messages id="messageForRadius" for="radius" display="icon" style="padding-left: 1px" />
@@ -92,7 +68,7 @@
                 <!-- Umkreis Slider -->
                 <div class="col-5" style="padding-top: 18px;">
                     <p:slider id="slider" for="radius" minValue="1" maxValue="50" step="1" range="max" style="margin: 0px auto;" >
-                        <p:ajax event="slideEnd" immediate="true" async="true" update="gmap radius visitCreate:dt-suggestions"
+                        <p:ajax event="slideEnd" immediate="true" async="true" update="gmap radius visitSuggestions:dt-suggestions"
                                 listener="#{suggestionsBean.proxyRadiusChangedSlider}" />
                     </p:slider>
                 </div>
@@ -100,20 +76,20 @@
             </div>
             <br/>
 
-<!-- Kulinarik -->
+<!-- KULINARIK -->
             <div class="row" style="height: 65px; align-content: flex-start">
                 <div class="col-4">
-                    <label>Kulinarik Wunsch:</label>
+                    <label>Gewünschte Küche:</label>
                 </div>
 
                 <div class="col-8">
                     <p:selectCheckboxMenu id="multiple" value="#{backingBeanVisit.culinariesArray}" style="width:100%; !important;"
-                                          converter="omnifaces.SelectItemsConverter" label="Label"
+                                          converter="omnifaces.SelectItemsConverter" label=""
                                           multiple="true"  filter="true" filterMatchMode="startsWith"
                                           valueChangeListener="#{suggestionsBean.proxyCulinariesChanged}">
 
-                        <p:ajax event="change" immediate="true" async="true" update="gmap visitCreate:dt-suggestions"/>
-                        <p:ajax event="toggleSelect" immediate="true" async="true" update="gmap visitCreate:dt-suggestions" />
+                        <p:ajax event="change" immediate="true" async="true" update="gmap visitSuggestions:dt-suggestions"/>
+                        <p:ajax event="toggleSelect" immediate="true" async="true" update="gmap visitSuggestions:dt-suggestions" />
 
 
                         <f:selectItems value="#{backingBeanVisit.allCulinariesProxy}" style="width:100%; !important;"/>
@@ -123,18 +99,14 @@
             </div>
             <br/>
 
-            <!-- DataTable Visit Suggestions -->
-            <!-- <p:growl id="visitCreateGrowl" showDetail="false"  />-->
-            <p:dataTable id="dt-suggestions" widgetVar="dt-suggestions-var" var="restaurant"  reflow="false"
+<!-- DATA TABLE Visit Suggestions -->
+            <div style="padding-top: 35px">
+                <p:dataTable id="dt-suggestions" widgetVar="dt-suggestions-var" var="restaurant"  reflow="false"
                          styleClass="products-table" stripedRows="true" size="medium"
-                         style="border: 0px solid transparent; outline: 1px solid lightgrey; padding-right: 0px"
+                         style="border: 0px solid transparent; outline: 1px solid lightgrey; padding-top: 0px"
                          rows="10" paginator="false" paginatorPosition="bottom"
                          value="#{suggestionsBean.getRestaurantsFiltered()}" rowKey="#{restaurant.prim}"
                          selection="#{suggestionsBean.currentVisit.restaurantChosen}" >
-
-                <!--                        <p:ajax event="rowSelect" update="@this" process="@this" immediate="false" async="true"/>-->
-
-                <!--                        <p:ajax event="rowSelectRadio" update="@this"  process="@this" immediate="false" async="true"/>-->
 
                 <f:facet name="header">
                     <div class="products-table-header">
@@ -147,7 +119,6 @@
                                 <p:commandButton id="toggler" type="button" value="Spalten" icon="pi pi-align-justify" style="margin-right: .5rem; float:right;"/>
                                 <p:columnToggler datasource="dt-suggestions" trigger="toggler"  />
                                 <ui:remove>
-                                    <!--                                        <p:commandButton id="more" type="button" value="Mehr Vorschläge!" icon="pi pi-search-plus" style="margin-right: .5rem; float:right;"/>-->
                                 </ui:remove>
                             </div>
                         </div>
@@ -160,12 +131,18 @@
                     <h:outputText value="#{restaurant.name}"/>
                 </p:column>
 
-                <p:column headerText="Ort" colspan="5" >
+                <p:column headerText="Ort" colspan="5" visible="false" >
                     <h:outputText value="#{restaurant.addressRestaurant.city}"/>
                 </p:column>
 
-                <p:column headerText="Entfernung" colspan="4" style="align-content: center" >
-                    <h:outputText value="#{restaurant.distanceMeetingPoint}" style="text-align: center; align-self: center">                                                                     ">
+                <p:column headerText="Entfernung Suchort" colspan="4" visible="false" style="align-content: center" >
+                    <h:outputText value="#{restaurant.distanceMeetingPoint}" style="text-align: center; align-self: center">
+                        <f:convertNumber type="currency" minFractionDigits="1" maxFractionDigits="1" currencySymbol="km"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Entfernung User" colspan="4" style="align-content: center" >
+                    <h:outputText value="#{restaurant.distanceUser}" style="text-align: center; align-self: center">
                         <f:convertNumber type="currency" minFractionDigits="1" maxFractionDigits="1" currencySymbol="km"/>
                     </h:outputText>
                 </p:column>
@@ -178,7 +155,7 @@
                     <h:outputText value="#{restaurant.openTill}"/>
                 </p:column>
 
-                <p:column headerText="Essen" colspan="5" >
+                <p:column headerText="Küche" colspan="5" >
                     <h:outputText value="#{restaurant.culinary}"/>
                 </p:column>
 
@@ -187,13 +164,44 @@
                 </p:column>
 
                 <p:column headerText="Bewertung" colspan="8" >
-                    <p:rating value="#{Float.floatToIntBits(restaurant.avgRating)}" stars="#{ratingBean.numberOfStars}" readonly="true" />
+                    <p:rating value="#{backingBeanVisit.getAvgRating(restaurant)}" stars="#{ratingBean.numberOfStars}" readonly="true" />
+                </p:column>
+
+                <p:column headerText="Bewertung genau" colspan="5" visible="false">
+                    <h:outputText value="#{restaurant.avgRating}" style="text-align: center; align-self: center">
+                        <f:convertNumber type="currency" minFractionDigits="2" maxFractionDigits="2" currencySymbol=""/>
+                    </h:outputText>
                 </p:column>
 
             </p:dataTable>
+            </div>
 
-            <!-- Buttons -->
+<!-- BUTTONS -->
             <br/>
+
+            <script type="text/javascript">
+                function myclosefunction(code, channel, event)
+                {
+                    console.log('Onclose event is ' + event);
+                    console.log('Onclose code is ' + code);
+                    console.log('Onclose channel  is ' + channel);
+                }
+
+                function mymessagefunction(message, channel, event)
+                {
+                    console.log('OnMessage event is' + event);
+                    console.log('OnMessage channel is ' + channel);
+                    console.log('OnMessage message is ' + message);
+                }
+
+                function myopenfunction(channel)
+                {
+                    console.log('OnOpen channel is ' + channel);
+                }
+            </script>
+            <f:websocket channel="channelRest" connected="true" scope="application" onopen="myopenfunction" onmessage="mymessagefunction" onclose="myclosefunction" >
+                <f:ajax event="channelRest" immediate="true" listener="#{suggestionsBean.proxyOnLoad()}" render="visitSuggestions:dt-suggestions gmap" onevent="console.log('Ajax am Websocket fing event channelRest')" />
+            </f:websocket>
             <h:commandButton action="VisitList?faces-redirect=true" actionListener="#{suggestionsBean.saveVisitBackingBean}" value="Speichern und zur Übersicht" class="btn btn-primary" style="float:left;"/>
             <h:commandButton action="VisitCreate?faces-redirect=true" actionListener="#{suggestionsBean.saveVisitBackingBean}" value="Zurück zur Planung" class="btn btn-primary" style="margin-right: .5rem; "/>
         </h:form>
