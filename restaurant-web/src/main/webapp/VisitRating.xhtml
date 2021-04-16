@@ -126,9 +126,6 @@
                                 </ui:repeat>
 
                                 <h:commandScript name="setStars" action="#{ratingBean.setStarRating}" render="formStatistics" >
-<!--                                    <f:ajax render="divRowVisit" delay="200"/>-->
-<!--                                    <f:ajax render="divRowRest" delay="400"/>-->
-<!--                                    <f:ajax render="divRowUser" delay="600"/>-->
                                 </h:commandScript>
                             </fieldset>
                         </div>
@@ -139,6 +136,29 @@
 
 <!-- BUTTONS -->
             <br/>
+            <script type="text/javascript">
+                function myclosefunction(code, channel, event)
+                {
+                    console.log('Onclose event is ' + event);
+                    console.log('Onclose code is ' + code);
+                    console.log('Onclose channel  is ' + channel);
+                }
+
+                function mymessagefunction(message, channel, event)
+                {
+                    console.log('OnMessage event is' + event);
+                    console.log('OnMessage channel is ' + channel);
+                    console.log('OnMessage message is ' + message);
+                }
+
+                function myopenfunction(channel)
+                {
+                    console.log('OnOpen channel is ' + channel);
+                }
+            </script>
+            <f:websocket channel="channelRating" connected="true" scope="application" onopen="myopenfunction" onmessage="mymessagefunction" onclose="myclosefunction" >
+                <f:ajax event="channelRating" immediate="true" listener="#{ratingBean.generateReport()}" render="formStatistics" onevent="console.log('Ajax am Websocket fing event channelRating')" />
+            </f:websocket>
             <h:commandButton action="VisitList?faces-redirect=true" actionListener="#{ratingBean.saveVisitBackingBean}" value="Speichern und zur Übersicht" class="btn btn-primary" style="float:left;"/>
         </h:form>
         

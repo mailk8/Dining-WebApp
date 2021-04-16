@@ -119,13 +119,13 @@ public class BackingBeanVisit implements Serializable
 		catch (Exception e)
 		{
 			Logger.getLogger(getClass().getSimpleName()).severe("+# Exception! " + e.getMessage() + e.getClass());
+			e.printStackTrace();
 		}
+
+		Logger.getLogger(getClass().getSimpleName()).severe("+# setGoogleMapsResult - End" );
 
 		FacesContext.getCurrentInstance().addMessage("place",
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Zu dieser Eingabe wurde kein Ort gefunden.",  ""));
-
-		//googleMapsResult = null;
-
 	}
 
 
@@ -207,31 +207,26 @@ public class BackingBeanVisit implements Serializable
 			case 0: {
 				if( (visit.getParticipants().size() >= 1) && (visit.getVisitingDateTime().isAfter(LocalDateTime.of(2000,01,01,01,01))))
 					visit.setStateVisit(State.ANGELEGT); // 1
-				//else break;
 			}
 			case 1:{
 				if(visit.getRestaurantChosen() != null && visit.getStateVisit().ordinal() == 1)
 					visit.setStateVisit(State.GEPLANT); // 2
-				//else break;
 			}
 			case 2:{
 				if((ZonedDateTime.of(LocalDateTime.now(), ZoneId.systemDefault()))
 					.isAfter(ZonedDateTime.of(visit.getVisitingDateTime(), ZoneId.of(visit.getTimezoneString())))
 								&& visit.getStateVisit().ordinal() == 2)
 					visit.setStateVisit(State.BEWERTBAR); // 3
-				//else break;
 			}
 			case 3:{
 				if(visit.getParticipants() != null && visit.getRatings() != null && visit.getRatings().size() > 0 &&
 					(visit.getParticipants().size() >= visit.getRatings().size()) && visit.getStateVisit().ordinal() == 3)
 					visit.setStateVisit(State.BEWERTUNG_AUSSTEHEND); // 4
-				//else break;
 			}
 			case 4:{
 				if(visit.getParticipants() != null && visit.getRatings() != null &&
 					 visit.getParticipants().size() == visit.getRatings().size() && visit.getStateVisit().ordinal() == 4)
 					visit.setStateVisit(State.BEWERTET); // 5
-				//else break;
 			}
 		}
 		//Logger.getLogger(getClass().getSimpleName()).severe("+# updateVisitState, for " + visit.getVisitingDateTime());
@@ -258,19 +253,18 @@ public class BackingBeanVisit implements Serializable
 			update(current);
 		}
 
+		websocket.sendMessage(RestaurantVisit.class);
 
 		return "VisitList?faces-redirect=true";
 	}
 
 	public String proxySaveVisit() {
 		save();
-		websocket.sendMessage(RestaurantVisit.class);
 		return "VisitList?faces-redirect=true";
 	}
 
 	public String saveVisitNext() {
 		save();
-		websocket.sendMessage(RestaurantVisit.class);
 		return "VisitSuggestions?faces-redirect=true";
 	}
 
@@ -300,7 +294,8 @@ public class BackingBeanVisit implements Serializable
 
 		// todo: Security einschalten für delete Visit
 		//if(redirectIfWrongState(u, 0,2) == null)
-			appServer.delete(u);
+		appServer.delete(u);
+		websocket.sendMessage(RestaurantVisit.class);
 		return "VisitList?faces-redirect=true";
 	}
 

@@ -35,7 +35,7 @@
             <h:inputHidden id="sizeParticipants_Initial" value="#{backingBeanVisit.sizeParticipantsForValidator}" />
 
 <!-- Ort -->
-            <p:growl id="feedbackLocationSearch" for="place" showDetail="true" keepAlive="8000"/>
+            <p:growl id="locationSearchGrowl" for="place" showDetail="true" keepAlive="8000"/>
 
             <div class="row">
                 <div class="col-4">
@@ -48,7 +48,7 @@
 
                 <div class="col-5">
                     <h:inputText id="place" value="#{backingBeanVisit.current.addressVisit.city}" a:placeholder="Ort" class="form-control" required="false" >
-                        <p:ajax  event="change" process="googleMapsResult" immediate="false" async="false" delay="500" update="visitCreate:feedbackLocationSearch"/>
+                        <p:ajax  event="change" process="googleMapsResult" immediate="false" async="false" delay="500" update="visitCreate:locationSearchGrowl"/>
                     </h:inputText>
                 </div>
             </div>
@@ -56,7 +56,8 @@
 
             <div style="display: none">
                 <h:inputText id="googleMapsResult" value="#{backingBeanVisit.googleMapsResult}" >
-                    <p:ajax  event="change" process="@this" immediate="false" async="true" delay="100" render="visitCreate:feedbackLocationSearch"/>
+<!--                    <p:ajax  event="change" process="@this" immediate="true" async="true" delay="2000" render="visitCreate:locationSearchGrowl"-->
+                    />
                 </h:inputText>
             </div>
 
@@ -250,8 +251,8 @@
                                     });
                             } catch (e) { continue; }
                     }
-                    console.log('googleMapsResult.value = "Keine Einträge gefunden"; ');
-                    googleMapsResult.value = "Keine Einträge gefunden";
+                    // console.log('googleMapsResult.value = "Keine Einträge gefunden"; ');
+                    // googleMapsResult.value = "Keine Einträge gefunden";
             }
 
 

@@ -2,6 +2,7 @@ package de.marcel.restaurant.web.backingBeans;
 
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.*;
+import de.marcel.restaurant.web.jsfFramework.WebSocketObserver;
 import org.omnifaces.util.Faces;
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
@@ -33,6 +34,7 @@ public class RatingBean implements Serializable
 	@Inject private BackingBeanVisit backingBeanVisit;
 	@Inject private BackingBeanUser backingBeanUser;
 	@Inject private BackingBeanRestaurant backingBeanRestaurant;
+	@Inject private WebSocketObserver websocket;
 
 	private List<Dish> allDishesProxy;
 
@@ -170,6 +172,8 @@ public class RatingBean implements Serializable
 		backingBeanVisit.save();
 		backingBeanRestaurant.save();
 		backingBeanUser.saveUser(currentUser);
+
+		websocket.sendMessage(Rating.class);
 	}
 
 
@@ -275,9 +279,13 @@ public class RatingBean implements Serializable
 	}
 
 	public void generateReport() {
+		if(currentRating.getStars() == 0)
+			return; // falls eine Änderung per Websocket eintrifft und der User noch nicht abgestimmt hat, sollen nicht gleich alle Ergebnisse aufgedeckt werden.
+
 		// Ermittelt Durchschnittswerte für Bar Model
 		Set<Rating> rest = new HashSet<>();
 		Set<Rating> user = new HashSet<>();
+		Set<Rating> visit = new HashSet<>();
 
 		// Alle historischen Ratings prüfen, hier als aktuelles Ergebnis von der DB
 		// Verzicht auf Rechnen mit aggregierten Werten.
@@ -288,7 +296,13 @@ public class RatingBean implements Serializable
 				rest.add(e);
 			if(e.getRatingUser().getPrim().equals(currentRating.getRatingUser().getPrim()))
 				user.add(e);
+			if(e.getVisit().getPrim().equals(currentRating.getVisit().getPrim()))
+				visit.add(e);
 		});
+
+		// Erneutes Laden der Current-Objekte, falls konkurrierende Änderung, am besten in eine Proxy Methode die nur für den WebSocket ist
+//		currentRestaurant = (Restaurant) appServer.findOneByPrim(currentRestaurant.getPrim(), Restaurant.class, true);
+//		currentVisit = (RestaurantVisit) appServer.findOneByPrim(currentVisit.getPrim(), RestaurantVisit.class, true);
 
 
 		if(user.add(currentRating))
@@ -296,35 +310,34 @@ public class RatingBean implements Serializable
 			// Aktuell gesetztes Rating ist noch nicht in der DB, daher nachträglich setzen
 			// (User will sein Rating erstmalig erstellen)
 			rest.add(currentRating);
+			visit.add(currentRating);
 		}
 		else
 		{
 			// currentRating ist bereits im Set, kommt also mit einem alten Wert von der DB
 			// (User will sein Rating ändern)
-			rest.remove(currentRating);
-			user.remove(currentRating);
-			rest.add(currentRating);
-			user.add(currentRating);
+			rest.remove(currentRating); user.remove(currentRating); visit.remove(currentRating);
+			rest.add(currentRating); user.add(currentRating); visit.remove(currentRating);
 		}
 
 		// Durchschnittswerte berechnen
-		Logger.getLogger(getClass().getSimpleName()).severe("+# generateReport berechnet Mean für Rest aus Ratings: " + rest);
 		restMean = (float) rest.stream().mapToInt(e->e.getStars()).average().orElseGet(()->0.0);
-		Logger.getLogger(getClass().getSimpleName()).severe("+# generateReport Ergebnis für REst" + restMean);
-
-
 		userMean = (float) user.stream().mapToInt(e->e.getStars()).average().orElseGet(()->0.0);
-		visitMean = (float) currentVisit.getRatings().stream().flatMapToInt(e -> IntStream.of(e.getStars())).average().orElseGet(()->0.0);
+		visitMean = (float) visit.stream().mapToInt(e->e.getStars()).average().orElseGet(()->0.0);
+//		visitMean = (float) currentVisit.getRatings().stream().flatMapToInt(e -> IntStream.of(e.getStars())).average().orElseGet(()->0.0);
 
 		// Durchschnittswerte in die Diagram-Modelle einsetzen
 		((HorizontalBarChartDataSet) getMyModelRest().getData().getDataSet().get(0)).getData().set(0, restMean);
 		((HorizontalBarChartDataSet) getMyModelUser().getData().getDataSet().get(0)).getData().set(0, userMean);
 		((HorizontalBarChartDataSet) getMyModelVisit().getData().getDataSet().get(0)).getData().set(0, visitMean);
 
+		((HorizontalBarChartDataSet) getMyModelRest().getData().getDataSet().get(0)).setLabel("# Ratings: "+rest.size()+"   Mit deiner Bewertung");
+		((HorizontalBarChartDataSet) getMyModelUser().getData().getDataSet().get(0)).setLabel("# Ratings: "+user.size()+"   Mit deiner Bewertung");
+		((HorizontalBarChartDataSet) getMyModelVisit().getData().getDataSet().get(0)).setLabel("# Ratings: "+visit.size()+"   Mit deiner Bewertung");
 
-		((HorizontalBarChartDataSet) getMyModelRest().getData().getDataSet().get(0)).setLabel("# Ratings: "+currentRestaurant.getRatings().size()+"   Bewertung");
-		((HorizontalBarChartDataSet) getMyModelUser().getData().getDataSet().get(0)).setLabel("# Ratings: "+currentUser.getRatings().size()+"   Bewertung");
-		((HorizontalBarChartDataSet) getMyModelVisit().getData().getDataSet().get(0)).setLabel("# Ratings: "+currentVisit.getRatings().size()+"   Bewertung");
+//		((HorizontalBarChartDataSet) getMyModelRest().getData().getDataSet().get(0)).setLabel("# Ratings: "+currentRestaurant.getRatings().size()+"   Mit deiner Bewertung");
+//		((HorizontalBarChartDataSet) getMyModelUser().getData().getDataSet().get(0)).setLabel("# Ratings: "+currentUser.getRatings().size()+"   Mit deiner Bewertung");
+//		((HorizontalBarChartDataSet) getMyModelVisit().getData().getDataSet().get(0)).setLabel("# Ratings: "+currentVisit.getRatings().size()+"   Mit deiner Bewertung");
 		// Durchschnittswerte in Rest. setzen
 		currentRestaurant.setAvgRating(restMean);
 
