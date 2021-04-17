@@ -95,14 +95,16 @@
                         </div>
                     </div>
                 </div>
-                <h:commandButton action="#{backingBeanUser.requestWgsForAddress()}" value="Hole WGS zu Adresse" class="btn btn-success" update="@form"/>
+                <h:commandButton action="#{backingBeanUser.requestWgsForAddress()}" value="Hole WGS zu Adresse" immediate="true" class="btn btn-success" update="userInput:wgs84Lat userInput:wgs84Lon"/>
 
 <!--Position-->
                 <p:growl id="growlLocation" showDetail="true"  />
-                <p:panel>
+                <div class="card" style="padding-top: 25px; padding-left: 25px; padding-right: 25px; padding-bottom: 15px; " >
                     <div class="form-group">
-                        <label for="wgs84Lat">Position auf Breiten- und Längengrad:
-                            <h:commandLink id="linkGrabPos" >jetzt ermitteln!</h:commandLink></label>
+                        <label for="wgs84Lat">Deine Position auf Breiten- und Längengrad, vom
+                            <h:commandLink id="linkGrabBrowser">Browser</h:commandLink> abfragen oder per
+                            <h:commandLink id="linkGrabRestApi" >REST-Api</h:commandLink> ermitteln?
+                        </label>
 
                         <div class="row">
                             <div class="col-5">
@@ -110,7 +112,6 @@
                                     <f:validateRegex pattern="^((?!((,|\.)(.*)(,|\.))|((\+|\-)(.*)(\+|\-))|([^0-9,\.+-])|(([0-9,\.]\+)|([0-9,\.]\-)|((\+|\-)$)|(.\s.))).)*$"/>
                                     <p:clientValidator event="keyup" />
                                 </p:inputText>
-
                             </div>
 
                             <div class="col-1" style="padding-left: 1px" >
@@ -122,7 +123,6 @@
                                     <f:validateRegex pattern="^((?!((,|\.)(.*)(,|\.))|((\+|\-)(.*)(\+|\-))|([^0-9,\.+-])|(([0-9,\.]\+)|([0-9,\.]\-)|((\+|\-)$)|(.\s.))).)*$"/>
                                     <p:clientValidator event="keyup" />
                                 </p:inputText>
-
                             </div>
 
                             <div class="col-1" style="padding-left: 1px" >
@@ -132,7 +132,7 @@
                             <p:commandButton validateClient="true" ajax="false" rendered="#{false}" update="@form"/>
                         </div>
                     </div>
-                </p:panel>
+                </div>
                 <br/>
 
 <!--Culinaries -->

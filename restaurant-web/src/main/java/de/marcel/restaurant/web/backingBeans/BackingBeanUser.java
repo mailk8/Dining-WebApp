@@ -1,7 +1,6 @@
 package de.marcel.restaurant.web.backingBeans;
 
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
-import de.marcel.restaurant.ejb.model.Address;
 import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.User;
 import de.marcel.restaurant.web.httpClient.*;
@@ -15,17 +14,17 @@ import org.apache.shiro.subject.Subject;
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Instance;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.beans.Transient;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 /*
 Was passiert wenn ein eingeloggter User seinen Account löscht?
@@ -46,7 +45,7 @@ public class BackingBeanUser implements Serializable
 
 	private User current;
 	@Inject private IRestaurantEJB appServer;
-	@Inject private HttpClientWGS client;
+	@Inject private Instance<HttpClientWGS> client; // cdi workaround
 	@Inject private LoginController loginController;
 	@Inject private WebSocketObserver websocket;
 	private String validateLon, validateLat;
@@ -251,18 +250,20 @@ public class BackingBeanUser implements Serializable
 
 	public void requestWgsForAddress() {
 		//client.enqueueNewRequest(current.getAddressLiving(), appServer);
-			List<Address> list = appServer.findAll(Address.class).stream()
-							.map( e -> (Address) e)
-							.filter((Address d) -> (d.getPrim().intValue() >= 810))//.limit(1)
-							.collect(Collectors.toList());
-		System.out.println("+# Testliste mit Elementen " + list.size() + "\n" + list);
-		list.forEach(e->{
-			System.out.println(e + " trys: " + e.getCounterApiCalls());
-		});
+//			List<Address> list = appServer.findAll(Address.class).stream()
+//							.map( e -> (Address) e)
+//							.filter((Address d) -> (d.getPrim().intValue() >= 810))//.limit(1)
+//							.collect(Collectors.toList());
+//		System.out.println("+# Testliste mit Elementen " + list.size() + "\n" + list);
+//		list.forEach(e->{
+//			System.out.println(e + " trys: " + e.getCounterApiCalls());
+//		});
 //
 //		list.forEach(e->{
 //			client.enqueueNewRequest(e, appServer);
 //		});
+
+		client.get().enqueueNewRequest(current.getAddressActual(), appServer);
 	}
 
 

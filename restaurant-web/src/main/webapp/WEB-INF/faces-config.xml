@@ -4,10 +4,6 @@
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
               http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd">
 
-<!--    <application>-->
-<!--        &lt;!&ndash; This supports resources referenced from within css files e.g. url(../fonts/glyphicons) &ndash;&gt;-->
-<!--        <resource-handler>org.omnifaces.resourcehandler.UnmappedResourceHandler</resource-handler>-->
-<!--    </application>-->
     <component>
         <component-type>org.apache.shiro.web.faces.tags.PrincipalTag</component-type>
         <component-class>org.apache.shiro.web.faces.tags.PrincipalTag</component-class>

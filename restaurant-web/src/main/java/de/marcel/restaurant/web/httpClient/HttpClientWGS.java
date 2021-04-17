@@ -1,12 +1,18 @@
 package de.marcel.restaurant.web.httpClient;
 
-
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.Address;
+import de.marcel.restaurant.web.jsfFramework.WebSocketObserver;
 
-import javax.annotation.ManagedBean;
-import javax.ejb.LocalBean;
-import javax.enterprise.context.ApplicationScoped;
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.ejb.ConcurrencyManagement;
+import javax.ejb.ConcurrencyManagementType;
+import javax.ejb.Lock;
+import javax.enterprise.concurrent.ManagedExecutorService;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
@@ -15,45 +21,48 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.logging.Logger;
 
-@ManagedBean
-@LocalBean
-@ApplicationScoped
-public class HttpClientWGS
+@Singleton
+@ConcurrencyManagement(ConcurrencyManagementType.BEAN)
+public class HttpClientWGS implements Serializable
 {
-	//@Inject nicht auf static Fields
-	private static IRestaurantEJB appServer;
-	// Anzahl Threads im Pool
-	private static int maxThreads = 20;
-	private static int maxApiCalls = 10;
-	private static int maxReqeuestTomtom = 5;
-	/////////
-	private static long start;
-	private static long temp;
-	private static byte allApiCalls;
-	////////
-	private static final ThreadPoolExecutor exec = new ThreadPoolExecutor(1,maxThreads,10,TimeUnit.SECONDS,
-					new ArrayBlockingQueue<>(100),
-					new ThreadPoolExecutor.AbortPolicy());
+	private static final long serialVersionUID = 1L;
 
-	private static final java.net.http.HttpClient client = HttpClient.newBuilder()
-											.connectTimeout(Duration.ofSeconds(3))
-											.executor(exec)
-					//						.followRedirects(HttpClient.Redirect.NEVER)
-					//						.priority(1) //HTTP/2 priority
-					//						.version(HttpClient.Version.HTTP_2)
-					//						.authenticator(Authenticator.getDefault())
-					//						.cookieHandler(CookieHandler.getDefault())
-					//						.proxy(ProxySelector.getDefault())
-					//						.sslContext(SSLContext.getDefault())
-					//						.sslParameters(new SSLParameters())
-											.build();
+	private  int maxApiCalls = 10;
+	private  int maxReqeuestTomtom = 5;
+	private  long start;
+	private  long temp;
+	private  byte allApiCalls;
 
-	private static final LinkedBlockingQueue<Address> myQueue = new LinkedBlockingQueue<>(1000);
+	private java.net.http.HttpClient client;
+	@Inject private  IRestaurantEJB appServer;
+	@Inject private WebSocketObserver websocket;
+	@Resource private  ManagedExecutorService executor;
+	private  final LinkedBlockingQueue<Address> addressQueue = new LinkedBlockingQueue<>(100);
+
+	@PostConstruct
+	private void prepare() {
+	// Der mit @Resource annotierte Executor darf erst spät bei @PostConstruct verwendet werden.
+	// Sonst gibt es eine NPE bei Objektinitialisierung.
+
+	client = HttpClient.newBuilder()
+					.connectTimeout(Duration.ofSeconds(3))
+					.executor(executor)
+					// .followRedirects(HttpClient.Redirect.NEVER)
+					// .priority(1) //HTTP/2 priority
+					// .version(HttpClient.Version.HTTP_2)
+					// .authenticator(Authenticator.getDefault())
+					// .cookieHandler(CookieHandler.getDefault())
+					// .proxy(ProxySelector.getDefault())
+					// .sslContext(SSLContext.getDefault())
+					// .sslParameters(new SSLParameters())
+					.build();
+	}
 
 	// Die Tom Tom Api akzeptiert bis zu 5 Anfragen pro Sekunde und bis zu 2.500 Anfragen pro Tag.
 	// Werden mehr als 5 Anfragen in einer Sekdunde gestellt, erhält man den Code 429 zurück.
-	private static final String REQUEST_URL ="https://api.tomtom.com/search/2/structuredGeocode.json?"
+	private  final String REQUEST_URL ="https://api.tomtom.com/search/2/structuredGeocode.json?"
 					+ "countryCode=CountryCodeLocation&"
 					+ "limit=5&"
 					+ "streetNumber=Housenumber&"
@@ -61,14 +70,13 @@ public class HttpClientWGS
 					+ "municipality=City&"
 					+ "postalCode=ZipCode&"
 					+ "language=en-US&"
-					+ "key=sVYA6qRCAQW0AKOmZQgLvFkQUs73xSfv";
+					+ "key=sVYA6qRCAQW0AKOmZQgLvFkQUs73xSfv"; // todo: Api-Key entfernen
 
 
 	public HttpClientWGS(){}
 
 	public void enqueueNewRequest(Address adr, IRestaurantEJB ref)
 	{
-		appServer = ref;
 
 		String uriString = REQUEST_URL.replace("CountryCodeLocation", "DE")
 						.replace("Housenumber", adr.getHouseNumber())
@@ -80,84 +88,77 @@ public class HttpClientWGS
 		try
 		{
 			URI uri = new URI(uriString);
-						////System.out.println("+# HttpClient: URL wird der Queue offeriert. Größe Q " + myQueue.size());
-			myQueue.offer(adr);
-			////System.out.println("+# HttpClient: Neue URI hinzugefügt " + uri + " Umfang der Queue " + myQueue.size());
+			adr.setWgsRestApiCall(uri);
+			Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# HttpClient: URL wird der Queue offeriert. Größe AddressQ " + addressQueue.size());
+			addressQueue.offer(adr);
+			Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# HttpClient: Neue URI hinzugefügt " + uri + " Umfang der AddressQ " + addressQueue.size());
 		}
 		catch (URISyntaxException e)
 		{
 			e.printStackTrace();
 		}
 
-		if(myQueue.size() == 1)
+		if(addressQueue.size() == 1)
 		{
-			new Thread(() -> runClient()).start();
+			executor.execute(()-> runClient());
 		}
 		return;
 	}
 
-	private static synchronized void runClient()
+
+	private synchronized void runClient()
 	{
-		System.out.println("+# HttpClient: Client gestartet!");
-
-
-		while(!myQueue.isEmpty())
+		Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# HttpClient: Client gestartet!");
+		while(!addressQueue.isEmpty())
 		{
-			Map<Address, CompletableFuture<Boolean>> futures = new HashMap<>();
+			Map<Address, CompletableFuture<Boolean>> mapAddressFuture = new HashMap<>();
 
 
-			start = System.currentTimeMillis();
+			// Erstellt 5 (maxRequest pro Sekunde) Sendeaufträge für den Http Client
 			for (int i = 0; i < maxReqeuestTomtom; i++)
 			{
 				Address adr = null;
-				if((adr = myQueue.poll()) == null)
+				if((adr = addressQueue.poll()) == null)
 					break;
-				int counterApi = adr.getCounterApiCalls() +1;
-				if(counterApi < maxApiCalls)
+				int counterApiCallsAdress = adr.getCounterApiCalls() +1;
+				if(counterApiCallsAdress < maxApiCalls)
 				{
 					// Ist die maximale Anzahl der Calls erreicht, wird davon ausgegangen,
 					// dass eine weitere Anfrage ebenfalls keinen Ergebnislos bleibt.
-					adr.setCounterApiCalls(counterApi);
-					futures.put(adr, sendRequest(adr));
+					adr.setCounterApiCalls(counterApiCallsAdress);
+					mapAddressFuture.put(adr, sendRequest(adr));
 				}
 			}
 
-			// nur zur Vermeidung von zweimal .entrySet
-			Set<Map.Entry<Address, CompletableFuture<Boolean>>> set = futures.entrySet();
 
-			////System.out.println("joining CFs");
+			Set<Map.Entry<Address, CompletableFuture<Boolean>>> set = mapAddressFuture.entrySet(); // nur zur Vermeidung von zweimal .entrySet
 
-			futures.entrySet().stream().forEach(e -> {
+			// Auftrags-Queue durchlaufen und warten, bis ALLE Aufträge fertig sind.
+			mapAddressFuture.entrySet().stream().forEach(e -> {
 				e.getValue().join();
 			});
 
-			////System.out.println("done with joining CFs");
 
-			// persistieren nachdem x jobs abgelaufen sind
-			// neuer Job beim Speichern, evtl. kurz vor regulärem persist
-			// letzerer muss aber auf jeden Fall erfolgen.
 
-			for (Map.Entry<Address, CompletableFuture<Boolean>> entry : set)
+			// Auftrags-Queue, Ergebnisabfrage
+			for (Map.Entry<Address, CompletableFuture<Boolean>> entry : set) // persistieren nachdem x jobs abgelaufen sind // neuer Job beim Speichern, evtl. kurz vor regulärem persist // letzerer muss aber auf jeden Fall erfolgen.
 			{
-
-				////System.out.println("CF in Loop " + entry.getValue());
-
-				if ( ! entry.getValue().getNow(null))
+				if ( ! entry.getValue().getNow(false)) // null -> false
 				{
 					// Etwas ist schiefgegangen, es wird erneut versucht bis maxApiCalls erreicht ist
-					//System.out.println("+# HttpClient: Exception für  " + entry.getKey() + " exceptionally beendet! ");
-					//System.out.println("neuer Auftrag wird erstellt  für " + entry.getKey());
-					myQueue.offer(entry.getKey());
+					// Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# HttpClient: Exception für  " + entry.getKey() + " exceptionally beendet! "+"neuer Auftrag wird erstellt  für " + entry.getKey());
+					addressQueue.offer(entry.getKey());
 				}
 				else
 				{
 					// Persistieren
-					System.out.println("+# HttpClient: CF für Adresse " + entry.getKey() + " erfolgreich!");
-					//System.out.println("Addresse würde gespeichert werden");
+					Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# HttpClient: CF für Adresse " + entry.getKey() + " erfolgreich!");
 
-					// Api Call war erfolgreich, daher kann für ein nächstes Mal der Counter zurückgesetzt werden
+					// Api Call war erfolgreich, daher in der Adresse der Counter zurückgesetzt werden
 					entry.getKey().setCounterApiCalls(0);
 					//appServer.persist(cf.getNow(null).getValue());}
+
+					// UPDATE VIEW ?
 				}
 			}
 //// In Abhängigkeit von der Queue und bereits abgearbeiteten Aufrägen schlafen gehen?
@@ -178,10 +179,10 @@ public class HttpClientWGS
 //			}
 		}
 		allApiCalls=0;
-		System.out.println("+# HttpClient: Exiting ...");
+		Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# HttpClient: Exiting ...");
 	}
 
-	private static CompletableFuture<Boolean> sendRequest(Address adr)
+	private synchronized CompletableFuture<Boolean> sendRequest(Address adr)
 	{
 		// HttpRequest asynch abschicken
 		HttpRequest request = HttpRequest.newBuilder()
@@ -189,7 +190,7 @@ public class HttpClientWGS
 						.uri(adr.getWgsRestApiCall())
 						.build();
 
-		////System.out.println("+# HttpClient: Request erstellt!");
+		Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# HttpClient: Request erstellt!");
 
 //		if(allApiCalls % maxReqeuestTomtom == 0)
 //		{
@@ -207,10 +208,12 @@ public class HttpClientWGS
 //			}
 //		}
 
-		allApiCalls++;
+//		allApiCalls++;
+
+
 		// Parsing veranlassen und CF zurück erhalten
 		return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-						.thenComposeAsync(response -> HttpResponseParser.parseResponse(response,adr), exec);
+						.thenComposeAsync(response -> HttpResponseParser.parseResponse(response,adr), executor);
 
 	}
 }

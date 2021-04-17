@@ -27,7 +27,7 @@
 
         <ui:define name="mainContent">
 
-            <h:form var="w">
+            <h:form id="restInput" var="w">
 
                 <h:inputHidden value="#{backingBeanRestaurant.current.id}" />
 
@@ -51,8 +51,8 @@
                         <!-- <f:validator validatorId="customValidator" />-->
                     </h:inputText>
                 </div>
-<!--Adresse-->
-                <div class="form-group">
+<!--ADDRESSE-->
+                <div class="form-group" >
                     <label for="street">Straße und Hausnummer<h:message for="street" class="text-danger" /></label>
                     <div class="row">
                         <div class="col-9">
@@ -75,38 +75,47 @@
                     </div>
                 </div>
 
-<!--Position-->
+<!--POSITION-->
                 <p:growl id="growlLocation" showDetail="true"  />
-                <p:panel>
+                <div class="card" style="padding-top: 25px; padding-left: 25px; padding-right: 25px; padding-bottom: 15px; " >
                     <div class="form-group">
-                        <label for="wgs84Lat">Position auf Breiten- und Längengrad:
-                            <h:commandLink id="linkGrabPos" >jetzt ermitteln!</h:commandLink></label>
-
+                        <label for="wgs84Lat">Position des Restaurants auf Breiten- und Längengrad, per
+                            <h:commandLink id="linkGrabRestApi" >REST-Api</h:commandLink>  ermitteln?
+                        </label>
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-5">
                                 <p:inputText id="wgs84Lat" value="#{backingBeanRestaurant.validateLat}" class="form-control" validator="#{serverValidatorWGS.validate}" >
-                                    <p:clientValidator/>
                                     <f:validateRegex pattern="^((?!((,|\.)(.*)(,|\.))|((\+|\-)(.*)(\+|\-))|([^0-9,\.+-])|(([0-9,\.]\+)|([0-9,\.]\-)|((\+|\-)$)|(.\s.))).)*$"/>
+                                    <p:clientValidator event="keyup" />
                                 </p:inputText>
+                            </div>
 
+                            <div class="col-1" style="padding-left: 1px" >
+                                <p:message for="wgs84Lat" display="icon" style="padding-left: 1px" />
                             </div>
-                            <div class="col-6">
+
+                            <div class="col-5">
                                 <p:inputText id="wgs84Lon" value="#{backingBeanRestaurant.validateLon}" class="form-control" validator="#{serverValidatorWGS.validate}" >
-                                    <p:clientValidator/>
                                     <f:validateRegex pattern="^((?!((,|\.)(.*)(,|\.))|((\+|\-)(.*)(\+|\-))|([^0-9,\.+-])|(([0-9,\.]\+)|([0-9,\.]\-)|((\+|\-)$)|(.\s.))).)*$"/>
+                                    <p:clientValidator event="keyup" />
                                 </p:inputText>
                             </div>
+
+                            <div class="col-1" style="padding-left: 1px" >
+                                <p:message for="wgs84Lon" display="icon" style="padding-left: 1px" />
+                            </div>
+
                             <p:commandButton validateClient="true" ajax="false" rendered="#{false}" update="@form"/>
                         </div>
                     </div>
-                </p:panel>
+                </div>
                 <br/>
 
 
-<!--Links            -->
+<!--LINK MENU-->
                 <div class="form-group">
-                    <label for="linkMenu">Link zur Speisekarte: <h:message for="linkMenu" class="text-danger" />
-                        <h:outputLink value="#{backingBeanRestaurant.current.linkMenu}" target="_blank">URL in neuem Tab</h:outputLink>
+                    <label for="linkMenu">Link zur Speisekarte <h:message for="linkMenu" class="text-danger" />
+                        <h:outputLink value="#{backingBeanRestaurant.current.linkMenu}" target="_blank">in neuem Tab öffnen</h:outputLink>
                         <p:ajax event="keyup" update="@this" immediate="true"/>
                     </label>
 
@@ -117,7 +126,7 @@
                 </div>
 
 
-<!--Culinaries-->
+<!--KÜCHE-->
                 <div>
                     <h:selectOneMenu value="#{backingBeanRestaurant.current.culinary}" select2="true" styleClass="form-control"  converter="omnifaces.SelectItemsConverter">
                         <f:selectItem itemLabel="Gebotene Küche" itemValue="" />
@@ -126,15 +135,44 @@
                 </div>
 
 
-<!--Buttons-->
+<!--BUTTONS-->
                 <hr/>
                 <h:commandButton action="#{backingBeanRestaurant.saveRestaurantProxy()}" value="Speichern" class="btn btn-primary" style="float:left;"/>
                 <h:commandButton action="#{backingBeanRestaurant.createNew()}" value="#Restaurantbesuch planen" class="btn btn-primary" />
             </h:form>
+
+<!--SKRIPTE-->
+            <script type="text/javascript">
+                document.getElementById("restInput:linkGrabBrowser").onclick = function()
+                {
+                    if (navigator.geolocation) // Abfrage ob Browser WGS-Koordinaten liefern kann
+                    {
+                        navigator.geolocation.getCurrentPosition(showPosition)
+                    }
+                    else
+                    {
+                        alert("Dein Browser lässt die Abfrage von Geolocations nicht zu.");
+                    }
+                }
+
+                function showPosition(pos)
+                {
+                    document.getElementById("restInput:wgs84Lat").setAttribute("value", pos.coords.latitude.toPrecision(15));
+                    document.getElementById("restInput:wgs84Lon").setAttribute("value", pos.coords.longitude.toPrecision(15));
+
+                    // Wenn kein Popup hochspringt, in F12 Console schauen ( LogLevels all einschalten )
+                    //console.log(pos.coords.accuracy);
+                    // console.log(pos.coords.altitude);
+                    // console.log(pos.coords.altitudeAccuracy);
+                    // console.log(pos.coords.heading);
+                    // console.log(pos.coords.speed);
+                }
+            </script>
+            
         </ui:define>
 
         <ui:define name="subContent">
-            <h1>sub</h1>
+
         </ui:define>
 
         <ui:define name="footer">

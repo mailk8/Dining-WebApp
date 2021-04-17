@@ -54,6 +54,8 @@ public class RatingBean implements Serializable
 
 	private String nameRest, namesUser, date, ratingsOutOf, numberRatings, ratingDone;
 	private float restMean, userMean, visitMean;
+
+
 	////////////////////////// OnLoad ///////////////////////////////////
 	public void proxyOnLoad() {
 
@@ -82,7 +84,6 @@ public class RatingBean implements Serializable
 
 
 	}
-
 
 	private List<Dish> getAllDishes() {
 		allDishesProxy = appServer.findAll(Dish.class);
@@ -175,7 +176,6 @@ public class RatingBean implements Serializable
 
 		websocket.sendMessage(Rating.class);
 	}
-
 
 
 
@@ -289,7 +289,6 @@ public class RatingBean implements Serializable
 
 		// Alle historischen Ratings prüfen, hier als aktuelles Ergebnis von der DB
 		// Verzicht auf Rechnen mit aggregierten Werten.
-		// Vorteil: Avg wird immer einzeln berechnet und stützt sich nicht auf alte Ergebnisse.
 
 		appServer.findAll(Rating.class).stream().map(e-> (Rating) e).forEach(e -> {
 			if(e.getRestaurantRated().getPrim().equals(currentRating.getRestaurantRated().getPrim()))
@@ -299,10 +298,6 @@ public class RatingBean implements Serializable
 			if(e.getVisit().getPrim().equals(currentRating.getVisit().getPrim()))
 				visit.add(e);
 		});
-
-		// Erneutes Laden der Current-Objekte, falls konkurrierende Änderung, am besten in eine Proxy Methode die nur für den WebSocket ist
-//		currentRestaurant = (Restaurant) appServer.findOneByPrim(currentRestaurant.getPrim(), Restaurant.class, true);
-//		currentVisit = (RestaurantVisit) appServer.findOneByPrim(currentVisit.getPrim(), RestaurantVisit.class, true);
 
 
 		if(user.add(currentRating))
@@ -324,7 +319,6 @@ public class RatingBean implements Serializable
 		restMean = (float) rest.stream().mapToInt(e->e.getStars()).average().orElseGet(()->0.0);
 		userMean = (float) user.stream().mapToInt(e->e.getStars()).average().orElseGet(()->0.0);
 		visitMean = (float) visit.stream().mapToInt(e->e.getStars()).average().orElseGet(()->0.0);
-//		visitMean = (float) currentVisit.getRatings().stream().flatMapToInt(e -> IntStream.of(e.getStars())).average().orElseGet(()->0.0);
 
 		// Durchschnittswerte in die Diagram-Modelle einsetzen
 		((HorizontalBarChartDataSet) getMyModelRest().getData().getDataSet().get(0)).getData().set(0, restMean);
@@ -335,10 +329,6 @@ public class RatingBean implements Serializable
 		((HorizontalBarChartDataSet) getMyModelUser().getData().getDataSet().get(0)).setLabel("# Ratings: "+user.size()+"   Mit deiner Bewertung");
 		((HorizontalBarChartDataSet) getMyModelVisit().getData().getDataSet().get(0)).setLabel("# Ratings: "+visit.size()+"   Mit deiner Bewertung");
 
-//		((HorizontalBarChartDataSet) getMyModelRest().getData().getDataSet().get(0)).setLabel("# Ratings: "+currentRestaurant.getRatings().size()+"   Mit deiner Bewertung");
-//		((HorizontalBarChartDataSet) getMyModelUser().getData().getDataSet().get(0)).setLabel("# Ratings: "+currentUser.getRatings().size()+"   Mit deiner Bewertung");
-//		((HorizontalBarChartDataSet) getMyModelVisit().getData().getDataSet().get(0)).setLabel("# Ratings: "+currentVisit.getRatings().size()+"   Mit deiner Bewertung");
-		// Durchschnittswerte in Rest. setzen
 		currentRestaurant.setAvgRating(restMean);
 
 	}

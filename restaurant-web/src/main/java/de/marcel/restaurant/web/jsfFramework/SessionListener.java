@@ -7,14 +7,14 @@ import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
-public class SessionListenerWithMetrics implements HttpSessionListener
+public class SessionListener implements HttpSessionListener
 {
 	private Logger logger = Logger.getLogger(getClass().getSimpleName());
 
 
 	private final AtomicInteger activeSessions;
 
-	public SessionListenerWithMetrics() {
+	public SessionListener() {
 		super();
 		activeSessions = new AtomicInteger();
 	}

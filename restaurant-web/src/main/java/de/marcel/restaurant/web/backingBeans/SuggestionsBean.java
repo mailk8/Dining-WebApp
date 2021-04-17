@@ -10,6 +10,8 @@ import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.*;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
@@ -118,6 +120,7 @@ public class SuggestionsBean implements Serializable
 
 	/////////////////////////////////// On Load Methods //////////////////////////////////////////
 	public void proxyOnLoad() {
+
 		backingBeanRestaurant.getAllRestaurants();
 		gmapModel.getMarkers().clear();
 		currentVisit = backingBeanVisit.getCurrent();
@@ -126,7 +129,7 @@ public class SuggestionsBean implements Serializable
 		if( adr != null && adr.getWgs84Latitude() != null && (!adr.getWgs84Latitude().equals(0.000) && !adr.getWgs84Longitude().equals(0.000)) )
 		{
 			// Überpringen der Treffpunktermittlung, falls eine Adresse vorhanden ist UND diese irgendwo liegt, außer an den Punkten 0.00 0.00
-			// Übersetzt: Es hat bereits jemand eine Treffpunkt eingegeben, es soll kein neuer ermittelt werden.
+			// ( Es hat bereits jemand eine Treffpunkt eingegeben, es soll kein neuer ermittelt werden. )
 
 			centerString = adr.getWgs84Latitude().toString()+", "+adr.getWgs84Longitude().toString();
 			Logger.getLogger(getClass().getSimpleName()).severe("+# proxyOnLoad Überpringen der Treffpunktermittlung ");

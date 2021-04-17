@@ -27,7 +27,7 @@
     </context-param>
 
 
-<!-- WEBSOCKETS EINSCHALTEN -->
+<!-- WEBSOCKETS  -->
     <context-param>
         <param-name>javax.faces.ENABLE_WEBSOCKET_ENDPOINT</param-name>
         <param-value>true</param-value>
@@ -35,7 +35,7 @@
 
 <!-- SESSION KONFIGURATION-->
     <listener>
-        <listener-class>de.marcel.restaurant.web.jsfFramework.SessionListenerWithMetrics</listener-class>
+        <listener-class>de.marcel.restaurant.web.jsfFramework.SessionListener</listener-class>
     </listener>
     <!-- Es darf nur ein Session Config Element geben-->
     <session-config>
