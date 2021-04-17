@@ -87,7 +87,7 @@
                     </div>
                     <div class="col-8">
                         <div class="input-group mb-auto">
-                            <h:inputText id="price" value="#{ratingBean.currentRating.price}" class="form-control"   converter="commaConverter"
+                            <h:inputText id="price" value="#{ratingBean.currentRating.price}" class="form-control" converter="commaConverterCurrency"
                                 onkeydown="return myKeyboadFunction(event);" >
                                 <f:ajax event="blur" render="@this pricePopupMs" delay="0"/>
                             </h:inputText>

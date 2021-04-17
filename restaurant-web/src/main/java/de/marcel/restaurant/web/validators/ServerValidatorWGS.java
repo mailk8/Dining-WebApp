@@ -1,12 +1,14 @@
 package de.marcel.restaurant.web.validators;
 
 import java.util.Map;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
@@ -25,15 +27,18 @@ public class ServerValidatorWGS implements Validator {
 		pattern = Pattern.compile(WGS84_PATTERN);
 	}
 
-	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException
+	public void validate(FacesContext context, UIComponent component, Object val) throws ValidatorException
 	{
+		Logger.getLogger(this.getClass().getSimpleName()).severe("+# validate anfang mit ");
+
+		String valueString = val.toString();
 
 		////// Bei keinem Eintrag nichts prüfen //////
-		if(value.equals(""))
+		if(valueString.equals(""))
 			return;
 
-		String valueString = value.toString().trim();
-		valueString = valueString.replace(",", ".");
+//		String valueString = value.toString().trim();
+//		valueString = valueString.replace(",", ".");
 
 
 		////// Keine fehlerhaften Zeichen oder mehrere Punkte bzw Kommata //////
@@ -75,13 +80,11 @@ public class ServerValidatorWGS implements Validator {
 			return;
 		}
 
+		Logger.getLogger(this.getClass().getSimpleName()).severe("+# validate ende");
+
+
 
 	}
-	public Map<String, Object> getMetadata() {
-		return null;
-	}
 
-	public String getValidatorId() {
-		return "serverValidatorWGS";
-	}
+
 }

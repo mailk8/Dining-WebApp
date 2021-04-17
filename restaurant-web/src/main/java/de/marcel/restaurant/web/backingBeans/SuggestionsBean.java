@@ -138,7 +138,7 @@ public class SuggestionsBean implements Serializable
 		{
 			// Berechnung eines Treffpunkts aus Addressen der User
 			adr.setWgs84Latitude(0.0); adr.setWgs84Longitude(0.0);
-			List<Address> locationParticipants = currentVisit.getParticipants().stream().map(e -> e.getAddressActual()).collect(Collectors.toList());
+			List<Address> locationParticipants = currentVisit.getParticipants().stream().map(e -> e.getAddressLiving()).collect(Collectors.toList());
 			Address center = determineCentralPointSearch(locationParticipants);
 			currentVisit.setAddressVisit(center);
 			centerString = center.getWgs84Latitude().toString()+", "+center.getWgs84Longitude().toString();
@@ -267,7 +267,7 @@ public class SuggestionsBean implements Serializable
 				rest.setDistanceMeetingPoint(result);
 				restaurantsRadius.add(rest);
 
-				resultUser = calculateDistance(rest, backingBeanUser.getCurrent().getAddressActual().getWgs84Latitude(), backingBeanUser.getCurrent().getAddressActual().getWgs84Longitude());
+				resultUser = calculateDistance(rest, backingBeanUser.getCurrent().getAddressLiving().getWgs84Latitude(), backingBeanUser.getCurrent().getAddressLiving().getWgs84Longitude());
 				rest.setDistanceUser(resultUser);
 			}
 			else

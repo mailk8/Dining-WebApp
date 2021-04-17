@@ -2,6 +2,7 @@ package de.marcel.restaurant.web.httpClient;
 
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.Address;
+import de.marcel.restaurant.ejb.model.User;
 import de.marcel.restaurant.web.jsfFramework.WebSocketObserver;
 
 import javax.annotation.PostConstruct;
@@ -24,16 +25,13 @@ import java.util.concurrent.*;
 import java.util.logging.Logger;
 
 @Singleton
-@ConcurrencyManagement(ConcurrencyManagementType.BEAN)
+@ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 public class HttpClientWGS implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
 	private  int maxApiCalls = 10;
 	private  int maxReqeuestTomtom = 5;
-	private  long start;
-	private  long temp;
-	private  byte allApiCalls;
 
 	private java.net.http.HttpClient client;
 	@Inject private  IRestaurantEJB appServer;
@@ -75,8 +73,9 @@ public class HttpClientWGS implements Serializable
 
 	public HttpClientWGS(){}
 
-	public void enqueueNewRequest(Address adr, IRestaurantEJB ref)
+	public void enqueueNewRequest(Address adr)
 	{
+		// Entities stellen ihre Anfrage hier mit Übergabe ihrer Adresse ein
 
 		String uriString = REQUEST_URL.replace("CountryCodeLocation", "DE")
 						.replace("Housenumber", adr.getHouseNumber())
@@ -100,120 +99,76 @@ public class HttpClientWGS implements Serializable
 
 		if(addressQueue.size() == 1)
 		{
+			// Start des Clients, falls er noch nicht läuft
 			executor.execute(()-> runClient());
 		}
 		return;
 	}
 
 
-	private synchronized void runClient()
+	private void runClient()
 	{
 		Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# HttpClient: Client gestartet!");
 		while(!addressQueue.isEmpty())
 		{
+			// Auftrag- und Result-Container für diese Iteration
 			Map<Address, CompletableFuture<Boolean>> mapAddressFuture = new HashMap<>();
 
 
-			// Erstellt 5 (maxRequest pro Sekunde) Sendeaufträge für den Http Client
+			// Erstellt maxRequest = 5 Sendeaufträge für den Http Client
 			for (int i = 0; i < maxReqeuestTomtom; i++)
 			{
 				Address adr = null;
 				if((adr = addressQueue.poll()) == null)
 					break;
+				// Für jede Adresse maximal 10 Requests pro Anfrage
 				int counterApiCallsAdress = adr.getCounterApiCalls() +1;
 				if(counterApiCallsAdress < maxApiCalls)
 				{
-					// Ist die maximale Anzahl der Calls erreicht, wird davon ausgegangen,
-					// dass eine weitere Anfrage ebenfalls keinen Ergebnislos bleibt.
 					adr.setCounterApiCalls(counterApiCallsAdress);
 					mapAddressFuture.put(adr, sendRequest(adr));
 				}
 			}
 
+			Set<Map.Entry<Address, CompletableFuture<Boolean>>> set = mapAddressFuture.entrySet(); // vermeidet von 2x .entrySet
 
-			Set<Map.Entry<Address, CompletableFuture<Boolean>>> set = mapAddressFuture.entrySet(); // nur zur Vermeidung von zweimal .entrySet
-
-			// Auftrags-Queue durchlaufen und warten, bis ALLE Aufträge fertig sind.
-			mapAddressFuture.entrySet().stream().forEach(e -> {
-				e.getValue().join();
-			});
+			// Auftrags-Container durchlaufen und warten, bis alle Aufträge (incl. Parsing) abgeschlossen sind.
+			mapAddressFuture.entrySet().stream().forEach(e -> e.getValue().join() );
 
 
-
-			// Auftrags-Queue, Ergebnisabfrage
+			// Auftrags-Container, Ergebnisabfrage
 			for (Map.Entry<Address, CompletableFuture<Boolean>> entry : set) // persistieren nachdem x jobs abgelaufen sind // neuer Job beim Speichern, evtl. kurz vor regulärem persist // letzerer muss aber auf jeden Fall erfolgen.
 			{
+				Address adr = entry.getKey();
+
 				if ( ! entry.getValue().getNow(false)) // null -> false
 				{
 					// Etwas ist schiefgegangen, es wird erneut versucht bis maxApiCalls erreicht ist
-					// Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# HttpClient: Exception für  " + entry.getKey() + " exceptionally beendet! "+"neuer Auftrag wird erstellt  für " + entry.getKey());
-					addressQueue.offer(entry.getKey());
+					 Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# HttpClient: Exception für  " + adr + " exceptionally beendet! "+"neuer Auftrag wird erstellt   " );
+					addressQueue.offer(adr);
+
+					// Faces Message ?
 				}
 				else
 				{
-					// Persistieren
-					Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# HttpClient: CF für Adresse " + entry.getKey() + " erfolgreich!");
-
-					// Api Call war erfolgreich, daher in der Adresse der Counter zurückgesetzt werden
+					Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# HttpClient: CF für Adresse " + adr + " erfolgreich!");
 					entry.getKey().setCounterApiCalls(0);
-					//appServer.persist(cf.getNow(null).getValue());}
 
+//todo Update view mit User id
 					// UPDATE VIEW ?
+					websocket.sendMessage(User.class);
 				}
 			}
-//// In Abhängigkeit von der Queue und bereits abgearbeiteten Aufrägen schlafen gehen?
-//			if(allApiCalls % 5 == 0)
-//			{
-//				if ((temp = (System.currentTimeMillis() - start)) < 1100)
-//				{
-//					//System.out.println("Client schläft für" + (1100 - temp ) + " Millisekunden");
-//					try
-//					{
-//						Thread.sleep(1100 - temp);
-//					}
-//					catch (InterruptedException e)
-//					{
-//						e.printStackTrace();
-//					}
-//				}
-//			}
 		}
-		allApiCalls=0;
 		Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# HttpClient: Exiting ...");
 	}
 
-	private synchronized CompletableFuture<Boolean> sendRequest(Address adr)
+	private CompletableFuture<Boolean> sendRequest(Address adr)
 	{
-		// HttpRequest asynch abschicken
-		HttpRequest request = HttpRequest.newBuilder()
-						.GET()
-						.uri(adr.getWgsRestApiCall())
-						.build();
-
+		// HttpRequest asynchron abschicken und Parsing veranlassen
+		HttpRequest request = HttpRequest.newBuilder().GET().uri(adr.getWgsRestApiCall()).build();
 		Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# HttpClient: Request erstellt!");
-
-//		if(allApiCalls % maxReqeuestTomtom == 0)
-//		{
-//			if ((temp = (System.currentTimeMillis() - start)) < 1100)
-//			{
-//				//System.out.println("Client schläft für" + (1100-temp) + " Millisekunden");
-//				try
-//				{
-//					Thread.sleep(1100 - temp);
-//				}
-//				catch (InterruptedException e)
-//				{
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-
-//		allApiCalls++;
-
-
-		// Parsing veranlassen und CF zurück erhalten
 		return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
 						.thenComposeAsync(response -> HttpResponseParser.parseResponse(response,adr), executor);
-
 	}
 }

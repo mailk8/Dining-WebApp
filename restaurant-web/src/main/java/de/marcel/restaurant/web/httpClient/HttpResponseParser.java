@@ -2,6 +2,8 @@ package de.marcel.restaurant.web.httpClient;
 
 import de.marcel.restaurant.ejb.model.Address;
 
+import javax.ejb.ConcurrencyManagement;
+import javax.ejb.ConcurrencyManagementType;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.json.Json;
@@ -13,20 +15,11 @@ import java.util.logging.Logger;
 
 @Named
 @ApplicationScoped
-
-/* 
-{ START_OBJECT
-   "firstName"KEY_NAME: "John"VALUE_STRING, "lastName"KEY_NAME: "Smith"VALUE_STRING, "age"KEY_NAME: 25VALUE_NUMBER,
-   "phoneNumber"KEY_NAME : [START_ARRAY
-       {START_OBJECT "type"KEY_NAME: "home"VALUE_STRING, "number"KEY_NAME: "212 555-1234"VALUE_STRING }END_OBJECT,
-       {START_OBJECT "type"KEY_NAME: "fax"VALUE_STRING, "number"KEY_NAME: "646 555-4567"VALUE_STRING }END_OBJECT
-    ]END_ARRAY
- }END_OBJECT
- */
+@ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 public class HttpResponseParser
 {
 
-	protected static synchronized CompletableFuture<Boolean> parseResponse(HttpResponse<String> response, Address adr)
+	protected static CompletableFuture<Boolean> parseResponse(HttpResponse<String> response, Address adr)
 	{
 		Logger.getLogger(HttpResponseParser.class.getSimpleName()).severe("+# Response erhalten mit Status " + response.statusCode());
 
@@ -76,7 +69,7 @@ public class HttpResponseParser
 						if(s.equals("numResults"))
 						{
 							parser.next();
-							if(parser.getInt() <= 0) // Keine Ergebnisse wurden geliefert
+							if(parser.getInt() <= 0) // Keine Ergebnisse geliefert
 							{
 								//Logger.getLogger(HttpResponseParser.class.getSimpleName()).severe("+# Parser: numResults war 0");
 								return exitExceptionally(response);
@@ -89,7 +82,7 @@ public class HttpResponseParser
 						{
 							parser.next();
 							//Logger.getLogger(HttpResponseParser.class.getSimpleName()).severe("+# Parser hat  Type gefunden" + parser.getString());
-							if(!parser.getString().equals("Point Address")) // Keine Ergebnisse wurden geliefert
+							if(!parser.getString().equals("Point Address")) // Keine Ergebnisse geliefert
 							{
 								//Logger.getLogger(HttpResponseParser.class.getSimpleName()).severe("+# Parser: in type war etwas anderes als Point Address");
 								return exitExceptionally(response);
@@ -119,7 +112,7 @@ public class HttpResponseParser
 		return exitExceptionally(response);
 	}
 
-	private static synchronized CompletableFuture<Boolean> exitExceptionally(HttpResponse<String> resp)
+	private static CompletableFuture<Boolean> exitExceptionally(HttpResponse<String> resp)
 	{
 		//resp.headers().map().put("+#+#fail", null);
 		CompletableFuture<Boolean> cfFail = new CompletableFuture<>();
@@ -129,7 +122,7 @@ public class HttpResponseParser
 		return cfFail;
 	}
 
-	private static synchronized CompletableFuture<Boolean> exitSuccessfully(HttpResponse<String> resp)
+	private static CompletableFuture<Boolean> exitSuccessfully(HttpResponse<String> resp)
 	{
 		CompletableFuture<Boolean> cfSucc = new CompletableFuture<>();
 		//resp.headers().map().put("+#+#success", null);

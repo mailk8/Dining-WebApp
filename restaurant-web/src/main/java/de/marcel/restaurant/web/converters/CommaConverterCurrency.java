@@ -8,16 +8,14 @@ import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.faces.validator.Validator;
-import javax.faces.validator.ValidatorException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.logging.Logger;
 
-@FacesConverter("commaConverter")
-public class CommaConverter implements Converter<Double>
+@FacesConverter("commaConverterCurrency")
+public class CommaConverterCurrency implements Converter<Double>
 {
 
 	@Override public Double getAsObject(FacesContext context, UIComponent component, String stringValue)

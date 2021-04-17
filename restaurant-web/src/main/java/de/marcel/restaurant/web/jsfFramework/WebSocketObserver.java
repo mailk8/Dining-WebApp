@@ -37,6 +37,9 @@ public class WebSocketObserver implements Serializable
 			channelRating.send("channelRating");
 		else
 			return;
+
+		// todo channelVisit.send("EntityÄnderungsChannel", "userIDals_Session#_oderMaxID");
+		channelVisit.send("EntityÄnderungsChannel", "userIDals_Session#_oderMaxID");
 	}
 
 	public void onOpen(@Observes @WebsocketEvent.Opened WebsocketEvent event) {

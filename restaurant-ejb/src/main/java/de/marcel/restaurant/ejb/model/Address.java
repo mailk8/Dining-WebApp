@@ -4,6 +4,7 @@ import de.marcel.restaurant.ejb.interfaces.IAddress;
 
 import javax.persistence.*;
 import java.net.URI;
+import java.util.logging.Logger;
 
 @Entity
 @Table(name = "addresses")
@@ -116,16 +117,6 @@ public class Address extends BaseEntity implements IAddress
 		this.city = city.trim();
 	}
 
-	@Override public String getGooglePlace()
-	{
-		return googlePlace;
-	}
-
-	@Override public void setGooglePlace(String googlePlace)
-	{
-		this.googlePlace = googlePlace.trim();
-	}
-
 	@Override public Double getWgs84Latitude()
 	{
 		return wgs84Latitude;
@@ -144,6 +135,16 @@ public class Address extends BaseEntity implements IAddress
 	@Override public void setWgs84Longitude(Double wgs84Longitude)
 	{
 		this.wgs84Longitude = wgs84Longitude;
+	}
+
+	@Override public void setWgs84Longitude(String wgs84Longitude)
+	{
+		this.wgs84Longitude = Double.parseDouble(wgs84Longitude);
+	}
+
+	@Override public void setWgs84Latitude(String wgs84Latitude)
+	{
+		this.wgs84Latitude = Double.parseDouble(wgs84Latitude);
 	}
 
 	@Override public int getCounterApiCalls()

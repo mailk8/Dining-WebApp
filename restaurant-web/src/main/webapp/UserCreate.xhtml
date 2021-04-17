@@ -77,25 +77,32 @@
                     <label for="street">Straße und Hausnummer<h:message for="street" class="text-danger" /></label>
                     <div class="row">
                         <div class="col-9">
-                            <h:inputText id="street" value="#{backingBeanUser.current.addressLiving.street}" class="form-control" required="false" requiredMessage="Erforderlich!"><!-- <f:validator validatorId="customValidator" />--></h:inputText>
+                            <h:inputText id="street" value="#{backingBeanUser.current.addressLiving.street}" class="form-control" required="false" requiredMessage="Erforderlich!">
+                                <f:ajax event="blur" immediate="true" process="@this"/>
+                            </h:inputText>
                         </div>
                         <div class="col-3">
-                            <h:inputText id="houseNumber" value="#{backingBeanUser.current.addressLiving.houseNumber}" class="form-control" required="false" requiredMessage="Erforderlich!"><!-- <f:validator validatorId="customValidator" />--></h:inputText>
+                            <h:inputText id="houseNumber" value="#{backingBeanUser.current.addressLiving.houseNumber}" class="form-control" required="false" requiredMessage="Erforderlich!">
+                                <f:ajax event="blur" immediate="true" process="@this"/>
+                            </h:inputText>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="zipCode">PLZ und Ort:<h:message for="zipCode" class="text-danger" /></label>
                     <div class="row">
-                        <div class="col-3">
-                            <h:inputText id="zipCode" value="#{backingBeanUser.current.addressLiving.zipCode}" class="form-control" required="false" requiredMessage="Erforderlich!"><!-- <f:validator validatorId="customValidator" />--></h:inputText>
+                        <div class="col-4">
+                            <h:inputText id="zipCode" value="#{backingBeanUser.current.addressLiving.zipCode}" class="form-control" required="false" requiredMessage="Erforderlich!">
+                                <f:ajax event="blur" immediate="true" process="@this"/>
+                            </h:inputText>
                         </div>
-                        <div class="col-9">
-                            <h:inputText id="city" value="#{backingBeanUser.current.addressLiving.city}" class="form-control" required="false" requiredMessage="Erforderlich!"><!-- <f:validator validatorId="customValidator" />--></h:inputText>
+                        <div class="col-8">
+                            <h:inputText id="city" value="#{backingBeanUser.current.addressLiving.city}" class="form-control" required="false" requiredMessage="Erforderlich!">
+                                <f:ajax event="blur" immediate="true" process="@this"/>
+                            </h:inputText>
                         </div>
                     </div>
                 </div>
-                <h:commandButton action="#{backingBeanUser.requestWgsForAddress()}" value="Hole WGS zu Adresse" immediate="true" class="btn btn-success" update="userInput:wgs84Lat userInput:wgs84Lon"/>
 
 <!--Position-->
                 <p:growl id="growlLocation" showDetail="true"  />
@@ -103,12 +110,12 @@
                     <div class="form-group">
                         <label for="wgs84Lat">Deine Position auf Breiten- und Längengrad, vom
                             <h:commandLink id="linkGrabBrowser">Browser</h:commandLink> abfragen oder per
-                            <h:commandLink id="linkGrabRestApi" >REST-Api</h:commandLink> ermitteln?
+                            <h:commandLink id="linkGrabRestApi" action="#{backingBeanUser.requestWgsForAddress()}" immediate="true">REST-Call</h:commandLink> ermitteln?
                         </label>
 
                         <div class="row">
                             <div class="col-5">
-                                <p:inputText id="wgs84Lat" value="#{backingBeanUser.validateLat}" class="form-control" validator="#{serverValidatorWGS.validate}" >
+                                <p:inputText id="wgs84Lat" value="#{backingBeanUser.current.addressLiving.wgs84Latitude}" class="form-control" validator="#{serverValidatorWGS.validate}" converter="commaConverterCoordinates" >
                                     <f:validateRegex pattern="^((?!((,|\.)(.*)(,|\.))|((\+|\-)(.*)(\+|\-))|([^0-9,\.+-])|(([0-9,\.]\+)|([0-9,\.]\-)|((\+|\-)$)|(.\s.))).)*$"/>
                                     <p:clientValidator event="keyup" />
                                 </p:inputText>
@@ -119,7 +126,7 @@
                             </div>
 
                             <div class="col-5">
-                                <p:inputText id="wgs84Lon" value="#{backingBeanUser.validateLon}" class="form-control" validator="#{serverValidatorWGS.validate}" >
+                                <p:inputText id="wgs84Lon" value="#{backingBeanUser.current.addressLiving.wgs84Longitude}" class="form-control" validator="#{serverValidatorWGS.validate}" converter="commaConverterCoordinates" >
                                     <f:validateRegex pattern="^((?!((,|\.)(.*)(,|\.))|((\+|\-)(.*)(\+|\-))|([^0-9,\.+-])|(([0-9,\.]\+)|([0-9,\.]\-)|((\+|\-)$)|(.\s.))).)*$"/>
                                     <p:clientValidator event="keyup" />
                                 </p:inputText>
@@ -169,13 +176,36 @@
 
 <!-- Buttons    -->
                 <hr/>
+                <script type="text/javascript">
+                    function myclosefunction(code, channel, event)
+                    {
+                        console.log('Onclose event is ' + event);
+                        console.log('Onclose code is ' + code);
+                        console.log('Onclose channel  is ' + channel);
+                    }
+
+                    function mymessagefunction(message, channel, event)
+                    {
+                        console.log('OnMessage event is' + event);
+                        console.log('OnMessage channel is ' + channel);
+                        console.log('OnMessage message is ' + message);
+                    }
+
+                    function myopenfunction(channel)
+                    {
+                        console.log('OnOpen channel is ' + channel);
+                    }
+                </script>
+                <f:websocket channel="channelUser" connected="true" scope="application" onopen="myopenfunction" onmessage="mymessagefunction" onclose="myclosefunction" >
+                    <f:ajax event="channelUser" immediate="true" render="userInput:wgs84Lat userInput:wgs84Lon" onevent="console.log('Ajax am Websocket fing event channelUser')" />
+                </f:websocket>
                 <h:commandButton action="#{backingBeanUser.saveUserProxy()}" value="Speichern" class="btn btn-primary" style="float:left;"/>
                 <h:commandButton action="#{backingBeanUser.createNew()}" value="#Restaurantbesuch mit diesem User" class="btn btn-primary" style="margin-right: .5rem; "/>
             </h:form>
 
 <!-- Skripte    -->
             <script type="text/javascript">
-                document.getElementById("userInput:linkGrabPos").onclick = function()
+                document.getElementById("userInput:linkGrabBrowser").onclick = function()
                 {
                     if (navigator.geolocation) // Abfrage ob Browser WGS-Koordinaten liefern kann
                     {
@@ -183,17 +213,17 @@
                     }
                     else
                     {
-                        document.getElementById("userInput:wgs84Lat").innerHTML = "Ihr Browser unterstützt keine Geo-Locations.";
+                        alert("Dein Browser lässt die Abfrage von Geolocations nicht zu.");
                     }
                 }
 
                 function showPosition(pos)
                 {
-                    document.getElementById("userInput:wgs84Lat").setAttribute("value", pos.coords.latitude.toPrecision(15));
-                    document.getElementById("userInput:wgs84Lon").setAttribute("value", pos.coords.longitude.toPrecision(15));
+                    document.getElementById("userInput:wgs84Lat").setAttribute("value", pos.coords.latitude.toPrecision(15).replace(".", ","));
+                    document.getElementById("userInput:wgs84Lon").setAttribute("value", pos.coords.longitude.toPrecision(15).replace(".", ","));
 
-                    // Wenn kein Popup hochspringt, in F12 Console schauen ( LogLevels all einschalten )
-                    //console.log(pos.coords.accuracy);
+                    // F12 Console ( LogLevels all einschalten )
+                    // console.log(pos.coords.accuracy);
                     // console.log(pos.coords.altitude);
                     // console.log(pos.coords.altitudeAccuracy);
                     // console.log(pos.coords.heading);

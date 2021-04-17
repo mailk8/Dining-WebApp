@@ -19,7 +19,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.beans.Transient;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
@@ -27,13 +26,7 @@ import java.util.Random;
 import java.util.logging.Logger;
 
 /*
-Was passiert wenn ein eingeloggter User seinen Account löscht?
-	-> Er ist weiterhin angemeldet. Sollte nicht sein.
-
-
-User MUSS eine Adresse oder WGS eingeben, sonst crasht die Treffpunktberechnung
-
-Culinary Preferences entfernen
+Culinary Preferences entfernen ?
  */
 
 @Named
@@ -45,10 +38,9 @@ public class BackingBeanUser implements Serializable
 
 	private User current;
 	@Inject private IRestaurantEJB appServer;
-	@Inject private Instance<HttpClientWGS> client; // cdi workaround
+	@Inject private Instance<HttpClientWGS> client; // weld cdi workaround
 	@Inject private LoginController loginController;
 	@Inject private WebSocketObserver websocket;
-	private String validateLon, validateLat;
 	private Logger logger = Logger.getLogger(getClass().getSimpleName());
 	private String sessionId;
 	private List<Culinary> allCulinariesProxy;
@@ -57,7 +49,6 @@ public class BackingBeanUser implements Serializable
 	@PostConstruct
 	private void fetchLoggedInUser() {
 		sessionId = FacesContext.getCurrentInstance().getExternalContext().getSessionId(false);
-		//logger.severe("+# fetchLoggedInUser läuft. BackingBeanUser unter SessionID " + sessionId + " erstellt.");
 
 		Subject s = SecurityUtils.getSubject();
 		if(s.isAuthenticated())
@@ -107,7 +98,7 @@ public class BackingBeanUser implements Serializable
 			return "Login.jsf?faces-redirect=true";
 
 		this.current = u;
-		setCoordinatesBean(u);
+		//setCoordinatesBean(u);
 		return "UserCreate?faces-redirect=true";
 	}
 
@@ -149,7 +140,7 @@ public class BackingBeanUser implements Serializable
 	}
 
 	public int insert(User u) {
-		setCoordinatesEntity();
+		//setCoordinatesEntity();
 		int result = appServer.persist(u);
 		if(result < 0)
 			return -1; // -1 = fail
@@ -160,7 +151,7 @@ public class BackingBeanUser implements Serializable
 
 	public int update(User u) {
 		User old = (User) appServer.findOneById(u.getId().toString(), User.class);
-		setCoordinatesEntity();
+		//setCoordinatesEntity();
 		int result = appServer.update(u); // -1 = fail 3 = success
 		UserMailController.deleteUserEmail(old.getEmail());
 	    UserMailController.putNewUserEmail(u);
@@ -179,91 +170,23 @@ public class BackingBeanUser implements Serializable
 		current = new User();
 		//current.setRatings(new HashSet<Rating>());
 		current.setId(nextId);
-		setCoordinatesBean(current);
+		//setCoordinatesBean(current);
 
 		return "UserCreate?faces-redirect=true";
 	}
 
 	public void setCurrent(User u) {
 		this.current = u;
-		setCoordinatesBean(u);
+		//setCoordinatesBean(u);
 	}
 
 
 
 
 	///////////////////////////// Methods for WGS Coordinates /////////////////////////////////
-	public String getValidateLat()
-	{
-		return validateLat;
-	}
-
-	public String getValidateLon()
-	{
-		return validateLon;
-	}
-
-	public void setValidateLat(String validateLat) {
-		validateLat = validateLat.replace(",", ".");
-		this.validateLat = validateLat;
-	}
-
-	public void setValidateLon(String validateLon) {
-		validateLon = validateLon.replace(",", ".");
-		this.validateLon = validateLon;
-	}
-
-	public void setCoordinatesBean(User u) {
-		try
-		{
-			// Ist der Wert null, also nicht gesetzt, soll ein empty String dargestellt werden
-			this.validateLat = u.getAddressActual().getWgs84Latitude().toString();
-			this.validateLon = u.getAddressActual().getWgs84Longitude().toString();
-		}
-		catch (NullPointerException e)
-		{
-			this.validateLat = "";
-			this.validateLon = "";
-		}
-	}
-
-	public void setCoordinatesEntity() {
-		// null soll erlaubt sein wenn kein Wert gesetzt ist
-		if(null == validateLat || validateLat.equals("") || validateLat.isEmpty() ||validateLat.isBlank())
-		{
-			current.getAddressActual().setWgs84Latitude(null);
-		}
-		else
-		{
-			current.getAddressActual().setWgs84Latitude(Double.parseDouble(validateLat));
-		}
-
-		if(null == validateLon || validateLon.equals("") || validateLon.isEmpty() ||validateLon.isBlank())
-		{
-			current.getAddressActual().setWgs84Longitude(null);
-		}
-		else
-		{
-			current.getAddressActual().setWgs84Longitude(Double.parseDouble(validateLon));
-		}
-	}
 
 	public void requestWgsForAddress() {
-		//client.enqueueNewRequest(current.getAddressLiving(), appServer);
-//			List<Address> list = appServer.findAll(Address.class).stream()
-//							.map( e -> (Address) e)
-//							.filter((Address d) -> (d.getPrim().intValue() >= 810))//.limit(1)
-//							.collect(Collectors.toList());
-//		System.out.println("+# Testliste mit Elementen " + list.size() + "\n" + list);
-//		list.forEach(e->{
-//			System.out.println(e + " trys: " + e.getCounterApiCalls());
-//		});
-//
-//		list.forEach(e->{
-//			client.enqueueNewRequest(e, appServer);
-//		});
-
-		client.get().enqueueNewRequest(current.getAddressActual(), appServer);
+		client.get().enqueueNewRequest(current.getAddressLiving());
 	}
 
 

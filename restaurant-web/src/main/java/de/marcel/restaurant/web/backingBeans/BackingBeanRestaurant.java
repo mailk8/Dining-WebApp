@@ -2,12 +2,14 @@ package de.marcel.restaurant.web.backingBeans;
 
 import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.Restaurant;
+import de.marcel.restaurant.web.httpClient.HttpClientWGS;
 import de.marcel.restaurant.web.jsfFramework.WebSocketObserver;
 import java.util.Comparator;
 import java.util.List;
@@ -26,12 +28,12 @@ public class BackingBeanRestaurant implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	private Restaurant current;
-	private String validateLon, validateLat;
 	private List<Culinary> allCulinariesProxy;
 	private List<Restaurant> allRestaurantsProxy;
 
 	@Inject private IRestaurantEJB appServer;
 	@Inject private WebSocketObserver websocket;
+	@Inject private Instance<HttpClientWGS> client; // weld cdi workaround
 
 	///////////////////////////// Methods for Performace Enhancement ////////////////////////////
 	public List<Culinary> getAllCulinariesProxy()
@@ -62,7 +64,7 @@ public class BackingBeanRestaurant implements Serializable
 	public void setCurrent(Restaurant u)
 	{
 		this.current = u;
-		setCoordinatesBean(u);
+		
 	}
 
 	public String saveRestaurantProxy() {
@@ -90,14 +92,12 @@ public class BackingBeanRestaurant implements Serializable
 
 	public void insert(Restaurant u)
 	{
-		setCoordinatesEntity();
 		int result = appServer.persist(u);
 		current.setPrim(result);
 	}
 
 	public void update(Restaurant u)
 	{
-		setCoordinatesEntity();
 		appServer.update(u);
 	}
 
@@ -105,7 +105,6 @@ public class BackingBeanRestaurant implements Serializable
 	{
 		Logger.getLogger(getClass().getSimpleName()).severe("+# Aufruf edit - current ist " + current +" zu editieren " + u);
 		this.current = u;
-		setCoordinatesBean(u);
 		return "RestaurantCreate?faces-redirect=true";
 	}
 
@@ -127,67 +126,11 @@ public class BackingBeanRestaurant implements Serializable
 		current = new Restaurant();
 		//current.setRatings(new HashSet<Rating>());
 		current.setId(nextId);
-		setCoordinatesBean(current);
 		return "RestaurantCreate?faces-redirect=true";
 	}
 
 	///////////////////////////// Methods for WGS Coordinates /////////////////////////////////
-	public String getValidateLon()
-	{
-		return validateLon;
+	public void requestWgsForAddress() {
+		client.get().enqueueNewRequest(current.getAddressRestaurant());
 	}
-
-	public void setValidateLon(String validateLon)
-	{
-		validateLon = validateLon.replace(",", ".");
-		this.validateLon = validateLon;
-	}
-
-	public String getValidateLat()
-	{
-		return validateLat;
-	}
-
-	public void setValidateLat(String validateLat)
-	{
-		validateLon = validateLon.replace(",", ".");
-		this.validateLat = validateLat;
-	}
-
-	public void setCoordinatesBean(Restaurant u)
-	{
-		try
-		{
-			this.validateLat = u.getAddressRestaurant().getWgs84Latitude().toString();
-			this.validateLon = u.getAddressRestaurant().getWgs84Longitude().toString();
-		}
-		catch (NullPointerException e)
-		{
-			this.validateLat = "";
-			this.validateLon = "";
-		}
-
-	}
-
-	public void setCoordinatesEntity() {
-		// null soll erlaubt sein wenn kein Wert gesetzt ist
-		if(null == validateLat || validateLat.equals("") || validateLat.isEmpty() ||validateLat.isBlank())
-		{
-			current.getAddressRestaurant().setWgs84Latitude(null);
-		}
-		else
-		{
-			current.getAddressRestaurant().setWgs84Latitude(Double.parseDouble(validateLat));
-		}
-
-		if(null == validateLon || validateLon.equals("") || validateLon.isEmpty() ||validateLon.isBlank())
-		{
-			current.getAddressRestaurant().setWgs84Longitude(null);
-		}
-		else
-		{
-			current.getAddressRestaurant().setWgs84Longitude(Double.parseDouble(validateLon));
-		}
-	}
-
 }
