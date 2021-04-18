@@ -4,6 +4,7 @@ import de.marcel.restaurant.ejb.model.Rating;
 import de.marcel.restaurant.ejb.model.Restaurant;
 import de.marcel.restaurant.ejb.model.RestaurantVisit;
 import de.marcel.restaurant.ejb.model.User;
+import de.marcel.restaurant.web.httpClient.HttpClientWGS;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
@@ -23,6 +24,7 @@ public class WebSocketObserver implements Serializable
 	@Inject @Push private PushContext channelRest;
 	@Inject @Push private PushContext channelVisit;
 	@Inject @Push private PushContext channelRating;
+	@Inject @Push private PushContext channelEdit;
 
 	public void sendMessage(Class channelEntity) {
 
@@ -37,20 +39,20 @@ public class WebSocketObserver implements Serializable
 			channelRating.send("channelRating");
 		else
 			return;
+	}
 
-		// todo channelVisit.send("EntityÄnderungsChannel", "userIDals_Session#_oderMaxID");
-		channelVisit.send("EntityÄnderungsChannel", "userIDals_Session#_oderMaxID");
+	public void sendMessage(String sessionId) {
+		Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# sendMessage mit SessionID : " + sessionId);
+		channelEdit.send("channelEdit", sessionId);
 	}
 
 	public void onOpen(@Observes @WebsocketEvent.Opened WebsocketEvent event) {
 		String channel = event.getChannel();
-		Logger.getLogger(getClass().getSimpleName()).severe("+# onOpen auf Channel: " + channel + " Event war: " + event + " Close Code " + event.getCloseCode());
+		Logger.getLogger(getClass().getSimpleName()).severe("+# onOpen auf Channel: " + channel + " Event war: " + event + " User Id " + event.getUser());
 	}
 
 	public void onClose(@Observes @WebsocketEvent.Closed WebsocketEvent event) {
-		Logger.getLogger(getClass().getSimpleName()).severe("+# onClose auf Channel: " + event.getChannel() + " Event war: " + event + " Close Code " + event.getCloseCode());
+		Logger.getLogger(getClass().getSimpleName()).severe("+# onClose auf Channel: " + event.getChannel() + " Event war: " + event + " Close Code " + event.getCloseCode() + " User Id " + event.getUser());
 	}
-
-
 
 }

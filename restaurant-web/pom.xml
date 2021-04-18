@@ -142,6 +142,8 @@
             <url>http://repository.primefaces.org</url>
         </repository>
 
+<!--        ohne findet er die shiro faces nicht-->
+<!--        https://github.com/deluan/shiro-faces-->
         <repository>
             <snapshots>
                 <enabled>false</enabled>

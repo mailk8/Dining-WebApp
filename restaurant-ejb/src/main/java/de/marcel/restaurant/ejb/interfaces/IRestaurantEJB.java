@@ -1,6 +1,7 @@
 package de.marcel.restaurant.ejb.interfaces;
 
-import de.marcel.restaurant.ejb.RestaurantEJB;
+//import de.marcel.restaurant.ejb.RestaurantEJB;
+//import de.marcel.restaurant.web.security.ICredentials;
 import de.marcel.restaurant.ejb.model.User;
 import de.marcel.restaurant.web.security.ICredentials;
 

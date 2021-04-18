@@ -5,179 +5,202 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-        >
+>
 
-    <ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
+<ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
 
-        <f:metadata>
-            <ui:remove>
-                <!-- KANN GET-PARAMETER ENTGEGENNEHMEN UND WEITERREICHEN    -->
-                <!-- <f:viewParam name="foo" value="#{bean.foo}" />-->
-                <!-- FÜHRT METHODEN BEI PAGELOAD AUS-->
-            </ui:remove>
-            <f:viewAction action="#{backingBeanRestaurant.getAllCulinaries()}" />
-        </f:metadata>
+    <f:metadata>
+        <ui:remove>
+            <!-- KANN GET-PARAMETER ENTGEGENNEHMEN UND WEITERREICHEN    -->
+            <!-- <f:viewParam name="foo" value="#{bean.foo}" />-->
+            <!-- FÜHRT METHODEN BEI PAGELOAD AUS-->
+        </ui:remove>
+        <f:viewAction action="#{backingBeanRestaurant.getAllCulinaries()}" />
+    </f:metadata>
 
-        <ui:param name="active" value="Restaurants" />
-        <ui:param name="title" value="Restaurant anlegen" />
+    <ui:param name="active" value="Restaurants" />
+    <ui:param name="title" value="Restaurant anlegen" />
 
-        <ui:define name="titleHeader">
-            <h2>#{title}</h2>
-        </ui:define>
+    <ui:define name="titleHeader">
+        <h2>#{title}</h2>
+    </ui:define>
 
-        <ui:define name="mainContent">
+    <ui:define name="mainContent">
 
-            <h:form id="restInput" var="w">
+        <h:form id="restInput" var="w">
 
-                <h:inputHidden value="#{backingBeanRestaurant.current.id}" />
+            <h:inputHidden value="#{backingBeanRestaurant.current.id}" />
 
-                <div class="form-group">
-                    <label for="name">Name:<h:message for="name" class="text-danger" /></label>
-                    <h:inputText id="name" value="#{backingBeanRestaurant.current.name}" class="form-control" required="false" requiredMessage="Erforderlich!">
-                        <!-- <f:validator validatorId="customValidator" />-->
-                    </h:inputText>
-                </div>
+            <div class="form-group">
+                <label for="name">Name:<h:message for="name" class="text-danger" /></label>
+                <h:inputText id="name" value="#{backingBeanRestaurant.current.name}" class="form-control" required="false" requiredMessage="Erforderlich!">
+                    <!-- <f:validator validatorId="customValidator" />-->
+                </h:inputText>
+            </div>
 
-                <div class="form-group">
-                    <label for="email">E-Mail:<h:message for="email" class="text-danger" /></label>
-                    <h:inputText id="email" value="#{backingBeanRestaurant.current.email}" class="form-control" required="false" requiredMessage="Erforderlich!">
-                        <!-- <f:validator validatorId="customValidator" />-->
-                    </h:inputText>
-                </div>
+            <div class="form-group">
+                <label for="email">E-Mail:<h:message for="email" class="text-danger" /></label>
+                <h:inputText id="email" value="#{backingBeanRestaurant.current.email}" class="form-control" required="false" requiredMessage="Erforderlich!">
+                    <!-- <f:validator validatorId="customValidator" />-->
+                </h:inputText>
+            </div>
 
-                <div class="form-group">
-                    <label for="phoneNumber">Telefon:<h:message for="phoneNumber" class="text-danger" /></label>
-                    <h:inputText id="phoneNumber" value="#{backingBeanRestaurant.current.phoneNumber}" class="form-control" required="false" requiredMessage="Erforderlich!">
-                        <!-- <f:validator validatorId="customValidator" />-->
-                    </h:inputText>
-                </div>
-<!--ADDRESSE-->
-                <div class="form-group" >
-                    <label for="street">Straße und Hausnummer<h:message for="street" class="text-danger" /></label>
-                    <div class="row">
-                        <div class="col-9">
-                            <h:inputText id="street" value="#{backingBeanRestaurant.current.addressRestaurant.street}" class="form-control" required="false" requiredMessage="Erforderlich!"><!-- <f:validator validatorId="customValidator" />--></h:inputText>
-                        </div>
-                        <div class="col-3">
-                            <h:inputText id="houseNumber" value="#{backingBeanRestaurant.current.addressRestaurant.houseNumber}" class="form-control" required="false" requiredMessage="Erforderlich!"><!-- <f:validator validatorId="customValidator" />--></h:inputText>
-                        </div>
+            <div class="form-group">
+                <label for="phoneNumber">Telefon:<h:message for="phoneNumber" class="text-danger" /></label>
+                <h:inputText id="phoneNumber" value="#{backingBeanRestaurant.current.phoneNumber}" class="form-control" required="false" requiredMessage="Erforderlich!">
+                    <!-- <f:validator validatorId="customValidator" />-->
+                </h:inputText>
+            </div>
+            <!--ADDRESSE-->
+            <div class="form-group" >
+                <label for="street">Straße und Hausnummer<h:message for="street" class="text-danger" /></label>
+                <div class="row">
+                    <div class="col-9">
+                        <h:inputText id="street" value="#{backingBeanRestaurant.current.addressRestaurant.street}" class="form-control" required="false" requiredMessage="Erforderlich!"><!-- <f:validator validatorId="customValidator" />--></h:inputText>
+                    </div>
+                    <div class="col-3">
+                        <h:inputText id="houseNumber" value="#{backingBeanRestaurant.current.addressRestaurant.houseNumber}" class="form-control" required="false" requiredMessage="Erforderlich!"><!-- <f:validator validatorId="customValidator" />--></h:inputText>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="zipCode">PLZ und Ort:<h:message for="zipCode" class="text-danger" /></label>
-                    <div class="row">
-                        <div class="col-4">
-                            <h:inputText id="zipCode" value="#{backingBeanRestaurant.current.addressRestaurant.zipCode}" class="form-control" required="false" requiredMessage="Erforderlich!"><!-- <f:validator validatorId="customValidator" />--></h:inputText>
-                        </div>
-                        <div class="col-8">
-                            <h:inputText id="city" value="#{backingBeanRestaurant.current.addressRestaurant.city}" class="form-control" required="false" requiredMessage="Erforderlich!"><!-- <f:validator validatorId="customValidator" />--></h:inputText>
-                        </div>
+            </div>
+            <div class="form-group">
+                <label for="zipCode">PLZ und Ort:<h:message for="zipCode" class="text-danger" /></label>
+                <div class="row">
+                    <div class="col-4">
+                        <h:inputText id="zipCode" value="#{backingBeanRestaurant.current.addressRestaurant.zipCode}" class="form-control" required="false" requiredMessage="Erforderlich!"><!-- <f:validator validatorId="customValidator" />--></h:inputText>
+                    </div>
+                    <div class="col-8">
+                        <h:inputText id="city" value="#{backingBeanRestaurant.current.addressRestaurant.city}" class="form-control" required="false" requiredMessage="Erforderlich!"><!-- <f:validator validatorId="customValidator" />--></h:inputText>
                     </div>
                 </div>
+            </div>
 
-<!--POSITION-->
-                <p:growl id="growlLocation" showDetail="true"  />
-                <div class="card" style="padding-top: 25px; padding-left: 25px; padding-right: 25px; padding-bottom: 15px; " >
-                    <div class="form-group">
-                        <label for="wgs84Lat">Position des Restaurants auf Breiten- und Längengrad, per
-                            <h:commandLink id="linkGrabRestApi" action="#{backingBeanRetaurant.requestWgsForAddress()}" immediate="true">REST-Call</h:commandLink> ermitteln?
-                        </label>
-                        <div class="row">
-                            <div class="col-5">
-                                <p:inputText id="wgs84Lat" value="#{backingBeanRestaurant.current.addressRestaurant.wgs84Latitude}" class="form-control" validator="#{serverValidatorWGS.validate}" converter="commaConverterCoordinates" >
-                                    <f:validateRegex pattern="^((?!((,|\.)(.*)(,|\.))|((\+|\-)(.*)(\+|\-))|([^0-9,\.+-])|(([0-9,\.]\+)|([0-9,\.]\-)|((\+|\-)$)|(.\s.))).)*$"/>
-                                    <p:clientValidator event="keyup" />
-                                </p:inputText>
-                            </div>
-
-                            <div class="col-1" style="padding-left: 1px" >
-                                <p:message for="wgs84Lat" display="icon" style="padding-left: 1px" />
-                            </div>
-
-                            <div class="col-5">
-                                <p:inputText id="wgs84Lon" value="#{backingBeanRestaurant.current.addressRestaurant.wgs84Longitude}" class="form-control" validator="#{serverValidatorWGS.validate}" converter="commaConverterCoordinates" >
-                                    <f:validateRegex pattern="^((?!((,|\.)(.*)(,|\.))|((\+|\-)(.*)(\+|\-))|([^0-9,\.+-])|(([0-9,\.]\+)|([0-9,\.]\-)|((\+|\-)$)|(.\s.))).)*$"/>
-                                    <p:clientValidator event="keyup" />
-                                </p:inputText>
-                            </div>
-
-                            <div class="col-1" style="padding-left: 1px" >
-                                <p:message for="wgs84Lon" display="icon" style="padding-left: 1px" />
-                            </div>
-
-                            <p:commandButton validateClient="true" ajax="false" rendered="#{false}" update="@form"/>
-                        </div>
-                    </div>
-                </div>
-                <br/>
-
-
-<!--LINK MENU-->
+            <!--POSITION-->
+            <p:growl id="growlLocation" showDetail="true"  />
+            <div class="card" style="padding-top: 25px; padding-left: 25px; padding-right: 25px; padding-bottom: 15px; " >
                 <div class="form-group">
-                    <label for="linkMenu">Link zur Speisekarte <h:message for="linkMenu" class="text-danger" />
-                        <h:outputLink value="#{backingBeanRestaurant.current.linkMenu}" target="_blank">in neuem Tab öffnen</h:outputLink>
-                        <p:ajax event="keyup" update="@this" immediate="true"/>
+                    <label for="wgs84Lat">Position des Restaurants auf Breiten- und Längengrad, per
+                        <h:commandLink id="linkGrabRestApi" action="#{backingBeanRetaurant.requestWgsForAddress()}" immediate="true">REST-Call</h:commandLink> ermitteln?
                     </label>
+                    <div class="row">
+                        <div class="col-5">
+                            <p:inputText id="wgs84Lat" value="#{backingBeanRestaurant.current.addressRestaurant.wgs84Latitude}" class="form-control" validator="#{serverValidatorWGS.validate}" converter="commaConverterCoordinates" >
+                                <f:validateRegex pattern="^((?!((,|\.)(.*)(,|\.))|((\+|\-)(.*)(\+|\-))|([^0-9,\.+-])|(([0-9,\.]\+)|([0-9,\.]\-)|((\+|\-)$)|(.\s.))).)*$"/>
+                                <p:clientValidator event="keyup" />
+                            </p:inputText>
+                        </div>
 
-                    <h:inputText id="linkMenu" value="#{backingBeanRestaurant.current.linkMenu}" class="form-control" required="false">
-                        <f:converter converterId="urlStringConverter" />
-                        <p:ajax event="keyup" update="@this" immediate="true"/>
-                    </h:inputText>
+                        <div class="col-1" style="padding-left: 1px" >
+                            <p:message for="wgs84Lat" display="icon" style="padding-left: 1px" />
+                        </div>
+
+                        <div class="col-5">
+                            <p:inputText id="wgs84Lon" value="#{backingBeanRestaurant.current.addressRestaurant.wgs84Longitude}" class="form-control" validator="#{serverValidatorWGS.validate}" converter="commaConverterCoordinates" >
+                                <f:validateRegex pattern="^((?!((,|\.)(.*)(,|\.))|((\+|\-)(.*)(\+|\-))|([^0-9,\.+-])|(([0-9,\.]\+)|([0-9,\.]\-)|((\+|\-)$)|(.\s.))).)*$"/>
+                                <p:clientValidator event="keyup" />
+                            </p:inputText>
+                        </div>
+
+                        <div class="col-1" style="padding-left: 1px" >
+                            <p:message for="wgs84Lon" display="icon" style="padding-left: 1px" />
+                        </div>
+
+                        <p:commandButton validateClient="true" ajax="false" rendered="#{false}" update="@form"/>
+                    </div>
                 </div>
+            </div>
+            <br/>
 
 
-<!--KÜCHE-->
-                <div>
-                    <h:selectOneMenu value="#{backingBeanRestaurant.current.culinary}" select2="true" styleClass="form-control"  converter="omnifaces.SelectItemsConverter">
-                        <f:selectItem itemLabel="Gebotene Küche" itemValue="" />
-                        <f:selectItems value="#{backingBeanRestaurant.getAllCulinariesProxy()}" var="culi" itemValue="#{culi}" itemLabel="#{culi.getCategory()}"/>
-                    </h:selectOneMenu>
-                </div>
+            <!--LINK MENU-->
+            <div class="form-group">
+                <label for="linkMenu">Link zur Speisekarte <h:message for="linkMenu" class="text-danger" />
+                    <h:outputLink value="#{backingBeanRestaurant.current.linkMenu}" target="_blank">in neuem Tab öffnen</h:outputLink>
+                    <p:ajax event="keyup" update="@this" immediate="true"/>
+                </label>
+
+                <h:inputText id="linkMenu" value="#{backingBeanRestaurant.current.linkMenu}" class="form-control" required="false">
+                    <f:converter converterId="urlStringConverter" />
+                    <p:ajax event="keyup" update="@this" immediate="true"/>
+                </h:inputText>
+            </div>
 
 
-<!--BUTTONS-->
-                <hr/>
-                <h:commandButton action="#{backingBeanRestaurant.saveRestaurantProxy()}" value="Speichern" class="btn btn-primary" style="float:left;"/>
-                <h:commandButton action="#{backingBeanRestaurant.createNew()}" value="#Restaurantbesuch planen" class="btn btn-primary" />
-            </h:form>
+            <!--KÜCHE-->
+            <div>
+                <h:selectOneMenu value="#{backingBeanRestaurant.current.culinary}" select2="true" styleClass="form-control"  converter="omnifaces.SelectItemsConverter">
+                    <f:selectItem itemLabel="Gebotene Küche" itemValue="" />
+                    <f:selectItems value="#{backingBeanRestaurant.getAllCulinariesProxy()}" var="culi" itemValue="#{culi}" itemLabel="#{culi.getCategory()}"/>
+                </h:selectOneMenu>
+            </div>
 
-<!--SKRIPTE-->
+
+            <!--BUTTONS-->
+            <hr/>
             <script type="text/javascript">
-                document.getElementById("restInput:linkGrabBrowser").onclick = function()
+                function myclosefunction(code, channel, event)
                 {
-                    if (navigator.geolocation) // Abfrage ob Browser WGS-Koordinaten liefern kann
-                    {
-                        navigator.geolocation.getCurrentPosition(showPosition)
-                    }
-                    else
-                    {
-                        alert("Dein Browser lässt die Abfrage von Geolocations nicht zu.");
-                    }
+                    console.log('Onclose event is ' + event);
+                    console.log('Onclose code is ' + code);
+                    console.log('Onclose channel  is ' + channel);
                 }
 
-                function showPosition(pos)
+                function mymessagefunction(message, channel, event)
                 {
-                    document.getElementById("restInput:wgs84Lat").setAttribute("value", pos.coords.latitude.toPrecision(15).replace(".", ","));
-                    document.getElementById("restInput:wgs84Lon").setAttribute("value", pos.coords.longitude.toPrecision(15).replace(".", ","));
+                    console.log('OnMessage event is' + event);
+                    console.log('OnMessage channel is ' + channel);
+                    console.log('OnMessage message is ' + message);
+                }
 
-                    // F12 Console ( LogLevels all einschalten )
-                    // console.log(pos.coords.accuracy);
-                    // console.log(pos.coords.altitude);
-                    // console.log(pos.coords.altitudeAccuracy);
-                    // console.log(pos.coords.heading);
-                    // console.log(pos.coords.speed);
+                function myopenfunction(channel)
+                {
+                    console.log('OnOpen channel is ' + channel);
                 }
             </script>
-            
-        </ui:define>
+            <f:websocket channel="channelEdit" user="#{backingBeanRestaurant.getSessionId()}" connected="true" onopen="myopenfunction" onmessage="mymessagefunction" onclose="myclosefunction" >
+                <f:ajax event="channelEdit" immediate="true" render="restInput:wgs84Lat restInput:wgs84Lon" onevent="console.log('Ajax am Websocket fing event channelEdit')" />
+            </f:websocket>
+            <h:commandButton action="#{backingBeanRestaurant.saveRestaurantProxy()}" value="Speichern" class="btn btn-primary" style="float:left;"/>
+            <h:commandButton action="#{backingBeanVisit.createNew()}" actionListener="#{backingBeanRestaurant.saveRestaurantProxy()}" value="Restaurantbesuch planen" class="btn btn-primary" />
+        </h:form>
 
-        <ui:define name="subContent">
+        <!--SKRIPTE-->
+        <script type="text/javascript">
+            document.getElementById("restInput:linkGrabBrowser").onclick = function()
+            {
+                if (navigator.geolocation) // Abfrage ob Browser WGS-Koordinaten liefern kann
+                {
+                    navigator.geolocation.getCurrentPosition(showPosition)
+                }
+                else
+                {
+                    alert("Dein Browser lässt die Abfrage von Geolocations nicht zu.");
+                }
+            }
 
-        </ui:define>
+            function showPosition(pos)
+            {
+                document.getElementById("restInput:wgs84Lat").setAttribute("value", pos.coords.latitude.toPrecision(15).replace(".", ","));
+                document.getElementById("restInput:wgs84Lon").setAttribute("value", pos.coords.longitude.toPrecision(15).replace(".", ","));
 
-        <ui:define name="footer">
-        </ui:define>
+                // F12 Console ( LogLevels all einschalten )
+                // console.log(pos.coords.accuracy);
+                // console.log(pos.coords.altitude);
+                // console.log(pos.coords.altitudeAccuracy);
+                // console.log(pos.coords.heading);
+                // console.log(pos.coords.speed);
+            }
+        </script>
+
+    </ui:define>
+
+    <ui:define name="subContent">
+
+    </ui:define>
+
+    <ui:define name="footer">
+    </ui:define>
 
 
-    </ui:composition>
+</ui:composition>
 </html>

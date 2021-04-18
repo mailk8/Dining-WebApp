@@ -6,7 +6,6 @@ import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.User;
 import de.marcel.restaurant.web.security.ICredentials;
 import org.eclipse.persistence.config.CascadePolicy;
-import org.eclipse.persistence.config.QueryHints;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Priority;

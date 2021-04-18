@@ -13,7 +13,6 @@
     <properties>
         <maven.compiler.target>15</maven.compiler.target>
         <maven.compiler.source>15</maven.compiler.source>
-<!--        <shiro.version>1.7.1</shiro.version>-->
     </properties>
 
     <dependencies>
@@ -54,7 +53,6 @@
             <groupId>de.marcel.restaurant.restaurant-web</groupId>
             <artifactId>credentials-class-interface</artifactId>
             <version>1</version>
-
         </dependency>
 
 

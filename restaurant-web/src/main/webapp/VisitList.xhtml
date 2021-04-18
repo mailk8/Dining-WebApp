@@ -6,122 +6,122 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="WEB-INF/DefaultTemplateOneColumn.xhtml">
+<ui:composition template="WEB-INF/DefaultTemplateOneColumn.xhtml">
 
-        <f:metadata>
-            <ui:remove>
-                <!-- KANN GET-PARAMETER ENTGEGENNEHMEN UND WEITERREICHEN    -->
-                <!-- <f:viewParam name="foo" value="#{bean.foo}" />-->
-                <!-- FÜHRT METHODEN BEI PAGELOAD AUS-->
-            </ui:remove>
-            <f:viewAction action="#{backingBeanVisit.proxyOnLoad()}" />
-        </f:metadata>
+    <f:metadata>
+        <ui:remove>
+            <!-- KANN GET-PARAMETER ENTGEGENNEHMEN UND WEITERREICHEN    -->
+            <!-- <f:viewParam name="foo" value="#{bean.foo}" />-->
+            <!-- FÜHRT METHODEN BEI PAGELOAD AUS-->
+        </ui:remove>
+        <f:viewAction action="#{backingBeanVisit.proxyOnLoad()}" />
+    </f:metadata>
 
-        <ui:param name="active" value="Visit" />
-        <ui:param name="title" value="Restaurantbesuche Übersicht" />
+    <ui:param name="active" value="Visit" />
+    <ui:param name="title" value="Restaurantbesuche Übersicht" />
 
-        <ui:define name="titleHeader">
-            <h2>#{title}</h2>
-        </ui:define>
+    <ui:define name="titleHeader">
+        <h2>#{title}</h2>
+    </ui:define>
 
-        <ui:define name="mainContent">
+    <ui:define name="mainContent">
 
-            <p:growl id="visitListGrowl" showDetail="false" keepAlive="8000"/>
+        <p:growl id="visitListGrowl" showDetail="false" keepAlive="8000"/>
 
-            <h:dataTable id="visitTable" value="#{backingBeanVisit.getAllVisitsProxy()}" var="visitListEntry" class="table">
-                <h:column>
-                    <f:facet name="header">Datum</f:facet>
-                    #{visitListEntry.getVisitingDateTime()}
-                </h:column>
+        <h:dataTable id="visitTable" value="#{backingBeanVisit.getAllVisitsProxy()}" var="visitListEntry" class="table">
+            <h:column>
+                <f:facet name="header">Datum</f:facet>
+                #{visitListEntry.getVisitingDateTime()}
+            </h:column>
 
-                <h:column>
-                    <f:facet name="header">Geplant in</f:facet>
-                    #{visitListEntry.getAddressVisit().getCity()}
-                </h:column>
+            <h:column>
+                <f:facet name="header">Geplant in</f:facet>
+                #{visitListEntry.getAddressVisit().getCity()}
+            </h:column>
 
-                <h:column>
-                    <f:facet name="header">Status</f:facet>
-                    #{visitListEntry.stateVisit.name()}
-                </h:column>
+            <h:column>
+                <f:facet name="header">Status</f:facet>
+                #{visitListEntry.stateVisit.name()}
+            </h:column>
 
-                <h:column>
-                    <f:facet name="header">Restaurant</f:facet>
-                    #{visitListEntry.restaurantChosen.getName()}
-                </h:column>
+            <h:column>
+                <f:facet name="header">Restaurant</f:facet>
+                #{visitListEntry.restaurantChosen.getName()}
+            </h:column>
 
-                <h:column>
-                    <f:facet name="header">Teilnehmer</f:facet>
-                    #{visitListEntry.getParticipantsAsString(null)}
-                </h:column>
+            <h:column>
+                <f:facet name="header">Teilnehmer</f:facet>
+                #{visitListEntry.getParticipantsAsString(null)}
+            </h:column>
 
-                <h:column>
-                    <f:facet name="header">Bewertungen</f:facet>
-                    #{visitListEntry.getRatings().size()}
-                </h:column>
+            <h:column>
+                <f:facet name="header">Bewertungen</f:facet>
+                #{visitListEntry.getRatings().size()}
+            </h:column>
 
-                <h:column>
-                    <h:form rendered="#{backingBeanVisit.isUserParticipantOf(visitListEntry)}">
-                        <h:commandLink action="#{backingBeanVisit.edit(visitListEntry)}" actionListener="#{backingBeanVisit.getAllVisits()}" class="btn btn-warning"  style="float:left;"><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>
-                        <h:commandLink action="#{backingBeanVisit.delete(visitListEntry)}" class="btn btn-danger"  style="float:left;"><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>
-                        <h:commandLink action="#{backingBeanVisit.rate(visitListEntry)}" class="btn btn-success"  style="float:left;"><i class="fas fa-star-half-alt" aria-hidden="true"></i></h:commandLink>
-                    </h:form>
-                    <h:form rendered="#{not backingBeanVisit.isUserParticipantOf(visitListEntry)}">
-                        <h:commandLink  class="btn btn-warning"  style="float:left; opacity: 0.1;"><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>
-                        <h:commandLink  class="btn btn-danger"  style="opacity: 0.1;"><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>
-                        <h:commandLink  class="btn btn-success"  style="opacity: 0.1;"><i class="fas fa-star-half-alt" aria-hidden="true"></i></h:commandLink>
-                    </h:form>
-                </h:column>
-            </h:dataTable>
+            <h:column>
+                <h:form rendered="#{backingBeanVisit.isUserParticipantOf(visitListEntry)}">
+                    <h:commandLink action="#{backingBeanVisit.edit(visitListEntry)}" actionListener="#{backingBeanVisit.getAllVisits()}" class="btn btn-warning"  style="float:left;"><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>
+                    <h:commandLink action="#{backingBeanVisit.delete(visitListEntry)}" class="btn btn-danger"  style="float:left;"><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>
+                    <h:commandLink action="#{backingBeanVisit.rate(visitListEntry)}" class="btn btn-success"  style="float:left;"><i class="fas fa-star-half-alt" aria-hidden="true"></i></h:commandLink>
+                </h:form>
+                <h:form rendered="#{not backingBeanVisit.isUserParticipantOf(visitListEntry)}">
+                    <h:commandLink  class="btn btn-warning"  style="float:left; opacity: 0.1;"><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>
+                    <h:commandLink  class="btn btn-danger"  style="opacity: 0.1;"><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>
+                    <h:commandLink  class="btn btn-success"  style="opacity: 0.1;"><i class="fas fa-star-half-alt" aria-hidden="true"></i></h:commandLink>
+                </h:form>
+            </h:column>
+        </h:dataTable>
 
-            <br/>
-            <h:form id="buttons">
-                <script type="text/javascript">
-                    function myclosefunction(code, channel, event)
-                    {
-                        console.log('Onclose event is ' + event);
-                        console.log('Onclose code is ' + code);
-                        console.log('Onclose channel  is ' + channel);
-                    }
-
-                    function mymessagefunction(message, channel, event)
-                    {
-                        console.log('OnMessage event is' + event);
-                        console.log('OnMessage channel is ' + channel);
-                        console.log('OnMessage message is ' + message);
-                    }
-
-                    function myopenfunction(channel)
-                    {
-                        console.log('OnOpen channel is ' + channel);
-                    }
-                </script>
-                <f:websocket channel="channelVisit" connected="true" scope="application" onopen="myopenfunction" onmessage="mymessagefunction" onclose="myclosefunction" >
-                    <f:ajax event="channelVisit" immediate="true" listener="#{backingBeanVisit.proxyOnLoad()}" render="visitTable" onevent="console.log('Ajax am Websocket fing event channelVisit')" />
-                </f:websocket>
-                
-                <h:inputHidden id="hidden" value="#{backingBeanVisit.zoneString}" />
-                <h:commandLink action="#{backingBeanUser.createNew()}" class="btn btn-primary" style="float:left;">User anlegen</h:commandLink>
-                <h:commandLink action="#{backingBeanRestaurant.createNew()}" class="btn btn-primary" >Restaurant anlegen</h:commandLink>
-                <h:commandLink  action="#{backingBeanVisit.createNew()}" class="btn btn-primary" style="margin-right: .5rem; ">Restaurantbesuch anlegen</h:commandLink >
-            </h:form>
-
-
-
+        <br/>
+        <h:form id="buttons">
             <script type="text/javascript">
-                jQuery(document).ready(function() { // läuft still nach dem Laden der Seite
-                    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                    document.getElementById("buttons:hidden").setAttribute("value", timeZone.toString());
-                })
+                function myclosefunction(code, channel, event)
+                {
+                    console.log('Onclose event is ' + event);
+                    console.log('Onclose code is ' + code);
+                    console.log('Onclose channel  is ' + channel);
+                }
+
+                function mymessagefunction(message, channel, event)
+                {
+                    console.log('OnMessage event is' + event);
+                    console.log('OnMessage channel is ' + channel);
+                    console.log('OnMessage message is ' + message);
+                }
+
+                function myopenfunction(channel)
+                {
+                    console.log('OnOpen channel is ' + channel);
+                }
             </script>
+            <f:websocket channel="channelVisit" connected="true" scope="application" onopen="myopenfunction" onmessage="mymessagefunction" onclose="myclosefunction" >
+                <f:ajax event="channelVisit" immediate="true" listener="#{backingBeanVisit.proxyOnLoad()}" render="visitTable" onevent="console.log('Ajax am Websocket fing event channelVisit')" />
+            </f:websocket>
 
-        </ui:define>
+            <h:inputHidden id="hidden" value="#{backingBeanVisit.zoneString}" />
+            <h:commandLink action="#{backingBeanUser.createNew()}" class="btn btn-primary" style="float:left;">User anlegen</h:commandLink>
+            <h:commandLink action="#{backingBeanRestaurant.createNew()}" class="btn btn-primary" >Restaurant anlegen</h:commandLink>
+            <h:commandLink  action="#{backingBeanVisit.createNew()}" class="btn btn-primary" style="margin-right: .5rem; ">Restaurantbesuch planen</h:commandLink >
+        </h:form>
 
-        <ui:define name="subContent">
 
-        </ui:define>
 
-        <ui:define name="footer">
-        </ui:define>
+        <script type="text/javascript">
+            jQuery(document).ready(function() { // läuft still nach dem Laden der Seite
+                const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                document.getElementById("buttons:hidden").setAttribute("value", timeZone.toString());
+            })
+        </script>
 
-    </ui:composition>
+    </ui:define>
+
+    <ui:define name="subContent">
+
+    </ui:define>
+
+    <ui:define name="footer">
+    </ui:define>
+
+</ui:composition>
 </html>

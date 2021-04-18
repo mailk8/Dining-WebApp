@@ -153,10 +153,8 @@ public class HttpClientWGS implements Serializable
 				{
 					Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# HttpClient: CF für Adresse " + adr + " erfolgreich!");
 					entry.getKey().setCounterApiCalls(0);
-
-//todo Update view mit User id
 					// UPDATE VIEW ?
-					websocket.sendMessage(User.class);
+					websocket.sendMessage(adr.getSessionId());
 				}
 			}
 		}

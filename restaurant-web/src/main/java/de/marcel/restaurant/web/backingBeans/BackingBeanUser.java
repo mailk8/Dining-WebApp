@@ -1,6 +1,7 @@
 package de.marcel.restaurant.web.backingBeans;
 
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
+import de.marcel.restaurant.ejb.model.Address;
 import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.User;
 import de.marcel.restaurant.web.httpClient.*;
@@ -11,6 +12,8 @@ import de.marcel.restaurant.web.security.UserMailController;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.omnifaces.util.Faces;
+
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -186,10 +189,15 @@ public class BackingBeanUser implements Serializable
 	///////////////////////////// Methods for WGS Coordinates /////////////////////////////////
 
 	public void requestWgsForAddress() {
-		client.get().enqueueNewRequest(current.getAddressLiving());
+		Address adr = current.getAddressLiving();
+		adr.setSessionId(getSessionId());
+		Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# requestWgsForAddress mit SessionID : " + adr.getSessionId());
+		client.get().enqueueNewRequest(adr);
 	}
 
-
+	public String getSessionId() {
+		return Faces.getSessionId();
+	}
 
 	////////////////////////////// Methods for Credentials Persist //////////////////////////
 	// Proxy Methode dient dem Zweck, dass beim AppServer das selbe Objekt erreicht wird

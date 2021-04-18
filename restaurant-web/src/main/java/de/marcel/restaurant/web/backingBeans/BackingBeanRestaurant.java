@@ -7,10 +7,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
+import de.marcel.restaurant.ejb.model.Address;
 import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.Restaurant;
 import de.marcel.restaurant.web.httpClient.HttpClientWGS;
 import de.marcel.restaurant.web.jsfFramework.WebSocketObserver;
+import org.omnifaces.util.Faces;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
@@ -131,6 +134,12 @@ public class BackingBeanRestaurant implements Serializable
 
 	///////////////////////////// Methods for WGS Coordinates /////////////////////////////////
 	public void requestWgsForAddress() {
-		client.get().enqueueNewRequest(current.getAddressRestaurant());
+		Address adr = current.getAddressRestaurant();
+		adr.setSessionId(getSessionId());
+		client.get().enqueueNewRequest(adr);
+	}
+
+	public String getSessionId() {
+		return Faces.getSessionId();
 	}
 }

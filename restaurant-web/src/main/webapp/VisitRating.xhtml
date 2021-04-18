@@ -23,8 +23,8 @@
     </ui:define>
 
     <ui:define name="head">
-            <!-- Konvertiert Radiobuttons in Sterne -->
-            <h:outputStylesheet  library="css" name="starRating.css" />
+        <!-- Konvertiert Radiobuttons in Sterne -->
+        <h:outputStylesheet  library="css" name="starRating.css" />
     </ui:define>
 
     <ui:define name="mainContent">
@@ -35,7 +35,7 @@
             <p:growl id="dishSelection"  showDetail="false" keepAlive="8000"/>
 
             <div class="form-group">
-<!--ZUSAMMENFASSUNG VISIT-->
+                <!--ZUSAMMENFASSUNG VISIT-->
                 <div class="row" style="padding-bottom: 70px">
                     <div class="col-12">
                         <c:set var="newline" value='\\n' />
@@ -44,7 +44,7 @@
                     </div>
                 </div>
 
-<!--KATEGORIE ESSEN-->
+                <!--KATEGORIE ESSEN-->
                 <div class="row">
                     <div class="col-4">
                         <label for="dish">Kategorie des Gerichts:</label>
@@ -58,7 +58,7 @@
                 </div>
                 <br/>
 
-<!-- MEMO Gericht / Rating -->
+                <!-- MEMO Gericht / Rating -->
                 <div class="row">
                     <div class="col-4">
                         <label for="dishMemo">Bemerkung zum Gericht:</label>
@@ -69,7 +69,7 @@
                 </div>
                 <br/>
 
-<!-- MEMO VISIT-->
+                <!-- MEMO VISIT-->
                 <div class="row">
                     <div class="col-4">
                         <label for="memoVisit">Memo zum Besuch:</label>
@@ -80,7 +80,7 @@
                 </div>
                 <br/>
 
-<!-- KOSTEN -->
+                <!-- KOSTEN -->
                 <div class="row" >
                     <div class="col-4">
                         <label for="price">Kosten:</label>
@@ -88,7 +88,7 @@
                     <div class="col-8">
                         <div class="input-group mb-auto">
                             <h:inputText id="price" value="#{ratingBean.currentRating.price}" class="form-control" converter="commaConverterCurrency"
-                                onkeydown="return myKeyboadFunction(event);" >
+                                         onkeydown="return myKeyboadFunction(event);" >
                                 <f:ajax event="blur" render="@this pricePopupMs" delay="0"/>
                             </h:inputText>
                             <div class="input-group-append">
@@ -106,7 +106,7 @@
                     </div>
                 </div>
 
-<!-- STERNE WERTUNG -->
+                <!-- STERNE WERTUNG -->
                 <div class="container">
                     <div class="rating-wrap">
                         <div class="center">
@@ -134,7 +134,7 @@
             </div>
 
 
-<!-- BUTTONS -->
+            <!-- BUTTONS -->
             <br/>
             <script type="text/javascript">
                 function myclosefunction(code, channel, event)
@@ -161,12 +161,12 @@
             </f:websocket>
             <h:commandButton action="VisitList?faces-redirect=true" actionListener="#{ratingBean.saveVisitBackingBean}" value="Speichern und zur Übersicht" class="btn btn-primary" style="float:left;"/>
         </h:form>
-        
+
         <br/>
 
     </ui:define>
 
-<!-- STATISTIK -->
+    <!-- STATISTIK -->
     <ui:define name="subContent">
 
         <h:form id="formStatistics">

@@ -6,7 +6,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-      >
+>
 
 <ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
 
@@ -24,7 +24,7 @@
 
 
 
-<!--Visit Daten anlegen-->
+    <!--Visit Daten anlegen-->
     <ui:define name="mainContent">
 
         <h:form id="visitCreate">
@@ -34,7 +34,7 @@
             <h:inputHidden id="sizeParticipants_Actual" value="#{backingBeanVisit.sizeParticipantsForValidator}" validator="serverValidatorParticipants"/>
             <h:inputHidden id="sizeParticipants_Initial" value="#{backingBeanVisit.sizeParticipantsForValidator}" />
 
-<!-- Ort -->
+            <!-- Ort -->
             <p:growl id="locationSearchGrowl" for="place" showDetail="true" keepAlive="8000"/>
 
             <div class="row">
@@ -56,12 +56,12 @@
 
             <div style="display: none">
                 <h:inputText id="googleMapsResult" value="#{backingBeanVisit.googleMapsResult}" >
-<!--                    <p:ajax  event="change" process="@this" immediate="true" async="true" delay="2000" render="visitCreate:locationSearchGrowl"-->
+                    <!--                    <p:ajax  event="change" process="@this" immediate="true" async="true" delay="2000" render="visitCreate:locationSearchGrowl"-->
                 </h:inputText>
             </div>
 
 
-<!-- Kulinarik -->
+            <!-- Kulinarik -->
             <div class="row" >
                 <div class="col-4">
                     <label>Gewünschte Küche:</label>
@@ -81,7 +81,7 @@
                 </div>
             </div>
             <br/>
-<!--Memo -->
+            <!--Memo -->
             <div class="row">
                 <div class="col-4">
                     <label>Memo zum Restaurantbesuch:</label>
@@ -94,7 +94,7 @@
             </div>
             <br/>
 
-<!-- Datum -->
+            <!-- Datum -->
             <div class="row">
                 <div class="col-4">
                     <label>Datum:</label>
@@ -108,7 +108,7 @@
             </div>
             <br/>
 
-<!-- Uhrzeit -->
+            <!-- Uhrzeit -->
             <div class="row">
                 <div class="col-4">
                     <label>Uhrzeit:</label>
@@ -122,22 +122,22 @@
 
             </div>
             <br/>
-<!--Zeitzone -->
+            <!--Zeitzone -->
             <div class="row">
                 <div class="col-4">
                     <label>Zeitzone:</label>
                 </div>
                 <div class="col-8">
                     <p:autoComplete id="fieldTimezone" dropdown="false" forceSelection="true"  autocomplete="on"
-                        value="#{backingBeanVisit.current.timezoneString}" widgetVar="widgetVarTimezone"
-                        completeMethod="#{backingBeanVisit.completeText}"
-                        scrollHeight="250" style="width: 200px !important;"
-                        required="true" requiredMessage="Bitte eine gültige Zeitzone wählen." />
+                                    value="#{backingBeanVisit.current.timezoneString}" widgetVar="widgetVarTimezone"
+                                    completeMethod="#{backingBeanVisit.completeText}"
+                                    scrollHeight="250" style="width: 200px !important;"
+                                    required="true" requiredMessage="Bitte eine gültige Zeitzone wählen." />
                 </div>
             </div>
             <br/>
 
-<!-- Buttons -->
+            <!-- Buttons -->
             <br/>
             <script type="text/javascript">
                 function myclosefunction(code, channel, event)
@@ -169,7 +169,7 @@
     </ui:define>
 
 
-<!-- Userauswahl Liste -->
+    <!-- Userauswahl Liste -->
     <ui:define name="subContent">
 
         <h:form id="userForm">
@@ -213,45 +213,45 @@
             </p:dataTable>
         </h:form>
 
-<!-- Skripte -->
+        <!-- Skripte -->
         <script async="async" src="https://maps.google.com/maps/api/js?key=AIzaSyDtJoxBmEHGk8KsyyiBcynKz5NrdxnELvE"/>
 
         <script type="text/javascript">
             document.getElementById("visitCreate:place").onblur = function() {
-                    let fieldOrt = document.getElementById("visitCreate:place");
-                    let varInputText = fieldOrt.value + " " + document.getElementById("visitCreate:zip").value;
-                    let googleMapsResult = document.getElementById("visitCreate:googleMapsResult");
-                    googleMapsResult.value = "";
-                    if(!varInputText)
-                    {
-                        fieldOrt.blur();
-                        return;
-                    }
-                    for (let i = 0; 5 > i; i++) {
-                            console.log('als Text für GoogleMaps-Abfrage erhalten: ' + fieldOrt.value);
-                            let geocoder;
-                            try {
-                                    geocoder= new window.google.maps.Geocoder();
-                                    geocoder.geocode({'address': varInputText}, function (results, status)
-                                    {
-                                        if (status === 'OK')
-                                        {
-                                            console.log('Versuch '+i+' OK');
-                                            // map.setCenter(results[0].geometry.location);
-                                            // var marker = new google.maps.Marker({ map: map,  position: results[0].geometry.location });
-                                            let stringResult = status+"+#"+results[0].geometry.location+"+#"+results[0].formatted_address;
-                                            googleMapsResult.value = stringResult;
-                                            return;
-                                        }
-                                        else
-                                        {
-                                            console.log('Versuch '+ i +' Fail, nächster Versuch');
-                                        }
-                                    });
-                            } catch (e) { continue; }
-                    }
-                    // console.log('googleMapsResult.value = "Keine Einträge gefunden"; ');
-                    // googleMapsResult.value = "Keine Einträge gefunden";
+                let fieldOrt = document.getElementById("visitCreate:place");
+                let varInputText = fieldOrt.value + " " + document.getElementById("visitCreate:zip").value;
+                let googleMapsResult = document.getElementById("visitCreate:googleMapsResult");
+                googleMapsResult.value = "";
+                if(!varInputText)
+                {
+                    fieldOrt.blur();
+                    return;
+                }
+                for (let i = 0; 5 > i; i++) {
+                    console.log('als Text für GoogleMaps-Abfrage erhalten: ' + fieldOrt.value);
+                    let geocoder;
+                    try {
+                        geocoder= new window.google.maps.Geocoder();
+                        geocoder.geocode({'address': varInputText}, function (results, status)
+                        {
+                            if (status === 'OK')
+                            {
+                                console.log('Versuch '+i+' OK');
+                                // map.setCenter(results[0].geometry.location);
+                                // var marker = new google.maps.Marker({ map: map,  position: results[0].geometry.location });
+                                let stringResult = status+"+#"+results[0].geometry.location+"+#"+results[0].formatted_address;
+                                googleMapsResult.value = stringResult;
+                                return;
+                            }
+                            else
+                            {
+                                console.log('Versuch '+ i +' Fail, nächster Versuch');
+                            }
+                        });
+                    } catch (e) { continue; }
+                }
+                // console.log('googleMapsResult.value = "Keine Einträge gefunden"; ');
+                // googleMapsResult.value = "Keine Einträge gefunden";
             }
 
 
