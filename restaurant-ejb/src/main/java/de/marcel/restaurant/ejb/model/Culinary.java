@@ -2,8 +2,6 @@ package de.marcel.restaurant.ejb.model;
 
 import de.marcel.restaurant.ejb.interfaces.ICulinary;
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @Entity

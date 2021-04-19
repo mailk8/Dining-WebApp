@@ -88,9 +88,7 @@ public class HttpClientWGS implements Serializable
 		{
 			URI uri = new URI(uriString);
 			adr.setWgsRestApiCall(uri);
-			Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# HttpClient: URL wird der Queue offeriert. Größe AddressQ " + addressQueue.size());
 			addressQueue.offer(adr);
-			Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# HttpClient: Neue URI hinzugefügt " + uri + " Umfang der AddressQ " + addressQueue.size());
 		}
 		catch (URISyntaxException e)
 		{
@@ -108,7 +106,6 @@ public class HttpClientWGS implements Serializable
 
 	private void runClient()
 	{
-		Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# HttpClient: Client gestartet!");
 		while(!addressQueue.isEmpty())
 		{
 			// Auftrag- und Result-Container für diese Iteration
@@ -137,35 +134,28 @@ public class HttpClientWGS implements Serializable
 
 
 			// Auftrags-Container, Ergebnisabfrage
-			for (Map.Entry<Address, CompletableFuture<Boolean>> entry : set) // persistieren nachdem x jobs abgelaufen sind // neuer Job beim Speichern, evtl. kurz vor regulärem persist // letzerer muss aber auf jeden Fall erfolgen.
+			for (Map.Entry<Address, CompletableFuture<Boolean>> entry : set)
 			{
 				Address adr = entry.getKey();
 
-				if ( ! entry.getValue().getNow(false)) // null -> false
+				if ( ! entry.getValue().getNow(false) )
 				{
-					// Etwas ist schiefgegangen, es wird erneut versucht bis maxApiCalls erreicht ist
-					 Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# HttpClient: Exception für  " + adr + " exceptionally beendet! "+"neuer Auftrag wird erstellt   " );
 					addressQueue.offer(adr);
-
 					// Faces Message ?
 				}
 				else
 				{
-					Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# HttpClient: CF für Adresse " + adr + " erfolgreich!");
 					entry.getKey().setCounterApiCalls(0);
-					// UPDATE VIEW ?
 					websocket.sendMessage(adr.getSessionId());
 				}
 			}
 		}
-		Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# HttpClient: Exiting ...");
 	}
 
 	private CompletableFuture<Boolean> sendRequest(Address adr)
 	{
 		// HttpRequest asynchron abschicken und Parsing veranlassen
 		HttpRequest request = HttpRequest.newBuilder().GET().uri(adr.getWgsRestApiCall()).build();
-		Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# HttpClient: Request erstellt!");
 		return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
 						.thenComposeAsync(response -> HttpResponseParser.parseResponse(response,adr), executor);
 	}

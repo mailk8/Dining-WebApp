@@ -4,7 +4,6 @@ import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 
 import javax.annotation.Priority;
 import javax.ejb.Startup;
-import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -15,7 +14,7 @@ import java.io.Serializable;
 public class Injector implements Serializable
 {
 	@Produces
-	private IRestaurantEJB getAppServer()
+	private IRestaurantEJB getAppServer() throws Exception
 	{
 		IRestaurantEJB appServer = null;
 		String[] jndiName = {"java:global/restaurant-ejb-1/RestaurantEJB!de.marcel.restaurant.ejb.interfaces.IRestaurantEJB"};
@@ -28,19 +27,9 @@ public class Injector implements Serializable
 		{
 			Exception newEx = new Exception("Fehler beim Anfordern des AppServers mit " + jndiName[0] + " in " + this.getClass());
 			newEx.printStackTrace();
+			throw newEx;
 		}
 		return appServer;
-
-//		Weld weld = new Weld();
-//		WeldContainer container = weld.initialize();
-//		IRestaurantEJB myp = container.select(IRestaurantEJB.class).get();
-//		return myp;
 	}
 
-
-//	@Produces
-//	private LoginController getLoginController()
-//	{
-//		return new LoginController();
-//	}
 }

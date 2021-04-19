@@ -19,7 +19,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 
-//public class TestFilter extends AuthenticatingFilter
 public class ModifiedAuthenticationFilter extends FormAuthenticationFilter
 {
 	@Inject LoginController loginController;

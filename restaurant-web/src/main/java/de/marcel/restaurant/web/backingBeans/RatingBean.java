@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -95,20 +94,15 @@ public class RatingBean implements Serializable
 	}
 
 	private String generateRetrospectVisit() {
-
 		nameRest = currentRestaurant.getName();
 		namesUser = currentVisit.getParticipantsAsString(currentUser);
 		date = currentVisit.getVisitingDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG));
-
 		ratingDone = ( currentRating != null && currentRating.getStars() > 0 ) ? " hast du schon bewertet. Eine Änderung ist aber noch möglich" : " hast du noch nicht bewertet. Bitte bewerte jetzt dein Hauptgericht";
-
 	    numberRatings = ( currentVisit.getRatings().size() > 0 ) ? currentVisit.getRatings().size()+ " von "+currentVisit.getParticipants().size() : "bisher keine";
 		ratingsOutOf = ( currentVisit.getParticipants().size() >= 2 ) ? "Es sind " + numberRatings + " Bewertungen eingegangen." : "";
 		ratingsOutOf = ( currentVisit.getRatings().size() == 1 ) ?     "Es ist  " + numberRatings + " Bewertungen eingegangen." : "";
-
 		int index = namesUser.lastIndexOf(",");
 		namesUser = ( index > 0 ) ? " mit " +namesUser.substring(0 , index) + " und " + namesUser.substring(index+1, namesUser.length()) + ". " : "";
-
 		retrospectVisit = "Deinen Besuch im Restaurant " + nameRest + " am " + date + namesUser + ratingDone + ". " + ratingsOutOf;
 
 		return retrospectVisit;
@@ -141,7 +135,6 @@ public class RatingBean implements Serializable
 
 	//////////////////////// Basic Crud //////////////////////////////////
 	public void saveVisitBackingBean() {
-
 		// Check auf konkurrierende Änderung
 		Restaurant possiblyChanged = (Restaurant) appServer.findOneByPrim(currentRestaurant.getPrim(), Restaurant.class, true);
 		if (possiblyChanged.getAvgRating() != restMean)
@@ -169,11 +162,9 @@ public class RatingBean implements Serializable
 
 		backingBeanVisit.setCurrent(currentVisit);
 		backingBeanRestaurant.setCurrent(currentRestaurant);
-
 		backingBeanVisit.save();
 		backingBeanRestaurant.save();
 		backingBeanUser.saveUser(currentUser);
-
 		websocket.sendMessage(Rating.class);
 	}
 
@@ -280,7 +271,10 @@ public class RatingBean implements Serializable
 
 	public void generateReport() {
 		if(currentRating.getStars() == 0)
-			return; // falls eine Änderung per Websocket eintrifft und der User noch nicht abgestimmt hat, sollen nicht gleich alle Ergebnisse aufgedeckt werden.
+		{
+			// falls eine Änderung per Websocket eintrifft und der User noch nicht abgestimmt hat, sollen nicht gleich alle Ergebnisse aufgedeckt werden.
+			return;
+		}
 
 		// Ermittelt Durchschnittswerte für Bar Model
 		Set<Rating> rest = new HashSet<>();
@@ -289,7 +283,6 @@ public class RatingBean implements Serializable
 
 		// Alle historischen Ratings prüfen, hier als aktuelles Ergebnis von der DB
 		// Verzicht auf Rechnen mit aggregierten Werten.
-
 		appServer.findAll(Rating.class).stream().map(e-> (Rating) e).forEach(e -> {
 			if(e.getRestaurantRated().getPrim().equals(currentRating.getRestaurantRated().getPrim()))
 				rest.add(e);
@@ -330,7 +323,6 @@ public class RatingBean implements Serializable
 		((HorizontalBarChartDataSet) getMyModelVisit().getData().getDataSet().get(0)).setLabel("# Ratings: "+visit.size()+"   Mit deiner Bewertung");
 
 		currentRestaurant.setAvgRating(restMean);
-
 	}
 
 

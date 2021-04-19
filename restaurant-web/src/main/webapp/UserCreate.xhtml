@@ -10,11 +10,6 @@
 <ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
 
     <f:metadata>
-        <ui:remove>
-        <!-- KANN GET-PARAMETER ENTGEGENNEHMEN UND WEITERREICHEN    -->
-        <!-- <f:viewParam name="foo" value="#{bean.foo}" />-->
-        <!-- FÜHRT METHODEN BEI PAGELOAD AUS-->
-        </ui:remove>
         <f:viewAction action="#{backingBeanUser.getAllCulinaries()}" />
     </f:metadata>
 
@@ -216,8 +211,6 @@
             {
                 document.getElementById("userInput:wgs84Lat").setAttribute("value", pos.coords.latitude.toPrecision(15).replace(".", ","));
                 document.getElementById("userInput:wgs84Lon").setAttribute("value", pos.coords.longitude.toPrecision(15).replace(".", ","));
-
-                // F12 Console ( LogLevels all einschalten )
                 // console.log(pos.coords.accuracy);
                 // console.log(pos.coords.altitude);
                 // console.log(pos.coords.altitudeAccuracy);

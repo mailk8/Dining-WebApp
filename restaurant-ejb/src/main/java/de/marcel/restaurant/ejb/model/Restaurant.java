@@ -51,7 +51,6 @@ public class Restaurant extends BaseEntity implements IRestaurant
 	@Column(name = "openTill", nullable = true, columnDefinition="TIME NULL")
 	private LocalTime openTill;
 	
-///////////////// todo: Besser SQL Date nutzen //////////////////////////////
 	@Column(name = "holidayFrom", nullable = true, columnDefinition="TIMESTAMP NULL")
 	private LocalDate holidayFrom;
 	
@@ -64,7 +63,7 @@ public class Restaurant extends BaseEntity implements IRestaurant
 
 	@OneToOne
 	private Culinary culinary;
-//############################
+
 	@Column(name = "avgRating", nullable = true, columnDefinition = "FLOAT")
 	private float avgRating;
 	
@@ -73,7 +72,7 @@ public class Restaurant extends BaseEntity implements IRestaurant
 
 	@OneToMany(mappedBy = "restaurantRated", fetch = FetchType.EAGER)
 	private Set<Rating> ratings = new HashSet<Rating>();
-//############################
+
 	@Transient
 	private double distanceMeetingPoint, distanceUser;
 

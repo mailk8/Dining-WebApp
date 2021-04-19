@@ -9,11 +9,6 @@
 <ui:composition template="WEB-INF/DefaultTemplateOneColumn.xhtml">
 
     <f:metadata>
-        <ui:remove>
-        <!-- KANN GET-PARAMETER ENTGEGENNEHMEN UND WEITERREICHEN    -->
-        <!-- <f:viewParam name="foo" value="#{bean.foo}" />-->
-        <!-- FÜHRT METHODEN BEI PAGELOAD AUS-->
-        </ui:remove>
         <f:viewAction action="#{backingBeanVisit.proxyOnLoad()}" />
     </f:metadata>
 
@@ -108,7 +103,7 @@
 
 
         <script type="text/javascript">
-            jQuery(document).ready(function() { // läuft still nach dem Laden der Seite
+            jQuery(document).ready(function() {
                 const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
                 document.getElementById("buttons:hidden").setAttribute("value", timeZone.toString());
             })

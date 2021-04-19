@@ -7,7 +7,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-import java.util.logging.Logger;
 
 @FacesValidator("serverValidatorParticipants")
 public class ServerValidatorParticipants implements Validator {
@@ -22,7 +21,6 @@ public class ServerValidatorParticipants implements Validator {
 	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException
 	{
 		// Validiert wird die aktuelle Anzahl der als Teilnehmer eingetragenen User.
-		Logger.getLogger(this.getClass().getSimpleName()).severe("+# serverValidatorParticipants" );
 		if( null != value )
 		{
 			Integer amount = Integer.parseInt(value.toString());
@@ -45,10 +43,6 @@ public class ServerValidatorParticipants implements Validator {
 			throwFacesErrorMessage(context, component);
 			return;
 		}
-
-		Logger.getLogger(this.getClass().getSimpleName()).severe("+# serverValidatorParticipants,  " +
-						((UIInput)(component.getParent().getChildren().get(2))).getId() + " submittit war "  +// hier wird das hiddenField 'sizeParticipants_Initial' ausgelesen
-						((UIInput)(component.getParent().getChildren().get(2))).getSubmittedValue().toString()); // hier wird das hiddenField 'sizeParticipants_Initial' ausgelesen
 	}
 
 	private void throwFacesErrorMessage(FacesContext context, UIComponent component)
@@ -56,6 +50,4 @@ public class ServerValidatorParticipants implements Validator {
 		((UIInput)component).setValid(false);
 		context.addMessage(null, new FacesMessage(severity, errorMessage, null)); // null means Global Message: Multi View Support
 	}
-
-
 }

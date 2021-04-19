@@ -1,6 +1,5 @@
 package de.marcel.restaurant.web.converters;
 
-import org.omnifaces.util.Faces;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -12,7 +11,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.Locale;
-import java.util.logging.Logger;
 
 @FacesConverter("commaConverterCurrency")
 public class CommaConverterCurrency implements Converter<Double>
@@ -22,7 +20,6 @@ public class CommaConverterCurrency implements Converter<Double>
 	{
 		try
 		{
-			Logger.getLogger(this.getClass().getSimpleName()).severe("+# getAsObject mit: " + stringValue + " in Phase " + Faces.getCurrentPhaseId());
 
 			if(null == stringValue || stringValue.isEmpty())
 			{
@@ -38,7 +35,6 @@ public class CommaConverterCurrency implements Converter<Double>
 		}
 		catch (Exception e)
 		{
-			Logger.getLogger(this.getClass().getSimpleName()).severe("+# catch (Exception e) mit: " + stringValue + " in Phase " + Faces.getCurrentPhaseId());
 			throwFacesErrorMessage(context, component, "Kein valider Betrag!", null, "price" );
 			//e.printStackTrace();
 			return 0.0;
@@ -56,7 +52,6 @@ public class CommaConverterCurrency implements Converter<Double>
 		NumberFormat currFormatter = NumberFormat.getNumberInstance(Locale.GERMANY);
 		currFormatter.setMaximumFractionDigits(2);
 		currFormatter.setMinimumFractionDigits(2);
-		Logger.getLogger(this.getClass().getSimpleName()).severe("+# getAsString mit: " + value + " in Phase " + Faces.getCurrentPhaseId());
 
 		return currFormatter.format(value);
 

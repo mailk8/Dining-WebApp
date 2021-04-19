@@ -13,11 +13,10 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.logging.Logger;
 
 /*
 	https://beanvalidation.org/resources/
-	http://www.passay.org/ dort gibt es anscheinend einen ausgereiften Passwortqualitäts-Checker
+	http://www.passay.org/ -> Passwortqualitäts-Checker
  */
 
 
@@ -36,7 +35,6 @@ public class ServerValidatorPassword implements Validator {
 		////// Neuanlage eines Users //////
 		if(null == backingBeanUser.getCurrent().getPrim())
 		{
-			Logger.getLogger(this.getClass().getSimpleName()).severe("+# Neuanlage eines Users. validation failed ? " + context.isValidationFailed() + " JSF Phase " + context.getCurrentPhaseId());
 
 			if (null == password || !isApropriateLength(password.toString()))
 			{
@@ -47,7 +45,6 @@ public class ServerValidatorPassword implements Validator {
 		}
 		else ////// Bestehender User wird geändert //////
 		{
-			Logger.getLogger(this.getClass().getSimpleName()).severe("+# Bestehender User wird geändert. validation failed ? " + context.isValidationFailed()+ " JSF Phase " + context.getCurrentPhaseId());
 
 			if(null == password || isApropriateLength(password.toString()) || password.toString().equals("") ||  password.toString().isEmpty() || password.toString().isBlank())
 			{
@@ -77,9 +74,5 @@ public class ServerValidatorPassword implements Validator {
 		}
 
 		return true;
-	}
-
-	public String getValidatorId() {
-		return "serverValidatorPassword";
 	}
 }

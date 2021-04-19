@@ -23,7 +23,7 @@
     </ui:define>
 
     <ui:define name="head">
-<!-- Konvertiert Radiobuttons in Sterne -->
+        <!-- Konvertiert Radiobuttons in Sterne -->
         <h:outputStylesheet  library="css" name="starRating.css" />
     </ui:define>
 
@@ -112,12 +112,12 @@
                         <div class="center">
                             <fieldset class="rating">
                                 <ui:remove>
-                <!-- UI REPEAT ERZEUGT n RADIOBUTTONS, DIE DURCH DAS CSS AM LABEL IN EINEN STERN UMGEWANDELT WERDEN.-->
-                <!-- DER VALUE ENTSPRICHT DER WERTIGKEIT DES RADIOBUTTONS UND IST AUCH GLEICHZEITIG SEINE ID.-->
-                <!-- AUF DIESE ID BEZIEHEN SICH DIE LABELS.-->
-                <!-- DAS ATTRIBUT CHECKED PRÜFT HIER, OB DER VALUE DES RADIOBUTTONS GLEICH DEM WERT EINES (MÖGLICHERWEISE) -->
-                <!-- ABGEGEBENEN RATINGS IST UND SETZT DEN ENTSPRECHENDEN BUTTON.-->
-                <!-- https://balusc.omnifaces.org/2015/10/custom-layout-with-hselectoneradio-in.html -->
+                                <!-- UI REPEAT ERZEUGT n RADIOBUTTONS, DIE DURCH DAS CSS AM LABEL IN EINEN STERN UMGEWANDELT WERDEN.-->
+                                <!-- DER VALUE ENTSPRICHT DER WERTIGKEIT DES RADIOBUTTONS UND IST AUCH GLEICHZEITIG SEINE ID.-->
+                                <!-- AUF DIESE ID BEZIEHEN SICH DIE LABELS.-->
+                                <!-- DAS ATTRIBUT CHECKED PRÜFT HIER, OB DER VALUE DES RADIOBUTTONS GLEICH DEM WERT EINES (MÖGLICHERWEISE) -->
+                                <!-- ABGEGEBENEN RATINGS IST UND SETZT DEN ENTSPRECHENDEN BUTTON.-->
+                                <!-- https://balusc.omnifaces.org/2015/10/custom-layout-with-hselectoneradio-in.html -->
                                 </ui:remove>
 
                                 <ui:repeat value="#{ratingBean.getStarsString()}" var="item">
@@ -238,12 +238,6 @@
             // Verhindert unpassende Eingaben in Währungsfeld
             function myKeyboadFunction(e) {
                 console.log("input war: " + String.fromCharCode(e.keyCode) + " " + e.key);
-                //  if (e.shiftKey === true ) {
-                //     if (e.keyCode  == 9) {
-                //         return true;
-                //     } return false;
-                // }
-
                 // Steuerzeichen 0 - 47 erlaubt
 
                 // Ziffern 48 - 57 erlaubt

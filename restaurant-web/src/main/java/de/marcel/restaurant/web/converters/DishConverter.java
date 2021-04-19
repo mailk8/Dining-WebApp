@@ -11,7 +11,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.logging.Logger;
 
 @Named
 @ViewScoped
@@ -22,7 +21,6 @@ public class DishConverter implements Converter<Dish>, Serializable
 
 	@Override public Dish getAsObject(FacesContext context, UIComponent component, String stringValue)
 	{
-		Logger.getLogger(getClass().getSimpleName()).severe("+# getAsObject stringValue " + stringValue);
 		return ratingBean.getAllDishesProxy().stream().filter(e -> e.toString().equals(stringValue)).findAny().get();
 	}
 

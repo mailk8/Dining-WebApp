@@ -10,8 +10,6 @@ import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.*;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
@@ -21,80 +19,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-/*
 
-Injectables
-	BackingBeanVisit
-	BackingBeanRestaurant
-
-Benötigte Objekte
-	Teilnehmer User: Unabänderbar aus Prozessschritt Create Visit
-	Alle Restaurants: Bei Pageload Liste in BbVisit aktualisieren, Liste vom Getter holen
-			Liste scannen und Treffer für gewählten Umkreis mit Entferung in TreeMap einfügen?
-			Geht wohl nicht, da View eine List erwartet.
-			Die Elemente können nur nach ihren Attributen sortiert werden, Entfernung müsste daher als transientes Feld in Restaurant eingefügt werden.
-
-	Kulinarik Matchingbucket
-			Initial befüllt durch teilnehmende User.
-			Muss dynamisch gefüllt und aktualisiert werden, da das Dropdown in der View Suggestions Änderungen zulässt.
-
-Variablen, sonstige
-	Entfernungsradius double, dynamisch änderbar bei Userinteraktion
-
-
-Verhalten
-	Bei allen Änderungen Prozess komplett neu anstoßen wäre Verschwendugn und nicht performant.
-	Daher werden Einzelschritte benötigt, die je nach Änderung (Neuer Ort, Neue Kulinaries, Neuer Umkreis) anstoßbar sind und zu einer neuen Restaurant Liste führen.
-
-	Exceptions
-		Was passiert wenn ich alle Kulinaries entferne
-		Was passiert bei neuer manueller Ortsvorgabe
-		Was passiert, wenn ein Teilnehmemr plötzlich nicht mehr existiert (gelöscht)?
-
-Funktionen
-	Schnittpunkt berechnen (Durchschnitt aus Koordinaten der Teilnehmer)
-		Ausbau: http://www.geomidpoint.com/ https://rechneronline.de/geo-koordinaten/durchschnitt.php und http://www.jennessent.com/downloads/graphics_shapes_poster_full.pdf
-		Was passiert, wenn der im Wasser landet? Dann sind keine Restaurants in der Nähe. Der Radius sollte dann erhöht werden und eine Faces Message geworfen werden.
-
-	Entfernungsradius von UI entgegennehmen
-	Entfernung für Restaurants berechnen, (Kompf naive Algorithmus, COS korrigiert)
-		bei Treffern im Umreis speichern, Rest verwerfen? ( evtl. benötigt man noch weitere für "mehr" oder Umkreisänderung )
-	Matching mit Kulinarikbucket, Ergebnis bilden oder aktualisieren
-
-
-Offene Punkte
-	Ort: Normalerweise werden die Orte als Addressen gehandelt. Visit hat eine Addresse, die wird dann für den Treffpunkt / Schnittpunkt missbraucht ?
-		Wenn bereits bei Visit Create vorgegeben,  keinen Schnittpunkt errechnen? Mit welchen Koordinaten, durch WgsClient ermitteln?
-		WgsCliet könnte generisch hinsichtlich der BaseEntity sein und nur mit setAddress arbeiten. Dazu müssten alle Addressen aber gleiche Variablennamen haben.
-		Vorgabe in Visit Create sollte Straße, Hausnummer, Ortsteil (schwierig !), Koordinaten vorsehen.
-		Oder Auswahl über Google Maps in Visit Suggestions. Dazu müsste etwas von der JS Api von Google zurückkommen... https://www.primefaces.org/showcase/ui/data/gmap/addMarkers.xhtml?jfwid=4ea20
-
-	User: Gibt es die Teilnehmer noch?
-		Evtl. auch vorher im Prozess bei Auswahl.
-
-		User verschwinden klammheimlich aus den Visits. Wenn ein Teilnehmer sich in einen Visit einträgt und dann den User löscht, steht er zunächst
-		einmal weiterhin als TN im Visit. Auch in einer neuen Session und Reload von der DB durch Seitenaufruf (??).
-		Nach Redeploy ist er jedoch verschwunden. Ohne Exception.
-		Aus der JoinTable verschwindet er umgehend, bei Löschung.
-
-		Sollzustand: User wird beim Löschen auch aus Visit entfernt.
-
-	Treffpunkt Validierung und Alternativen
-		Wenn ein weit entfernter User eingeladen wird, sollte auf Minimierung der Gesamt-Travel-Strecke umgeschaltet werden
-		Verinderung von Treffpunkten im Meer ?
- */
 @Named
 @SessionScoped
 public class SuggestionsBean implements Serializable
 {
 	private static final long serialVersionUID = 1L;
-
-//	@Resource private ManagedExecutorService executor;
-//	@Resource private ManagedThreadFactory managedThreadFactory;
-//	@Resource private ContextService contextService;
 
 	@Inject BackingBeanRestaurant backingBeanRestaurant;
 	@Inject BackingBeanUser backingBeanUser;
@@ -130,9 +62,7 @@ public class SuggestionsBean implements Serializable
 		{
 			// Überpringen der Treffpunktermittlung, falls eine Adresse vorhanden ist UND diese irgendwo liegt, außer an den Punkten 0.00 0.00
 			// ( Es hat bereits jemand eine Treffpunkt eingegeben, es soll kein neuer ermittelt werden. )
-
 			centerString = adr.getWgs84Latitude().toString()+", "+adr.getWgs84Longitude().toString();
-			Logger.getLogger(getClass().getSimpleName()).severe("+# proxyOnLoad Überpringen der Treffpunktermittlung ");
 		}
 		else
 		{
@@ -142,7 +72,6 @@ public class SuggestionsBean implements Serializable
 			Address center = determineCentralPointSearch(locationParticipants);
 			currentVisit.setAddressVisit(center);
 			centerString = center.getWgs84Latitude().toString()+", "+center.getWgs84Longitude().toString();
-			Logger.getLogger(getClass().getSimpleName()).severe("+# proxyOnLoad setzt centerSTring: " + centerString);
 		}
 
 		restaurantsRadius = filterByRadius(backingBeanRestaurant.getAllRestaurantsProxy(), distanceSearchRadius);
@@ -162,7 +91,6 @@ public class SuggestionsBean implements Serializable
 		googleZoomLevel = calculateZoomLevel();
 		restaurantsRadius = filterByRadius(backingBeanRestaurant.getAllRestaurantsProxy(), newValue);
 		restaurantsFiltered.clear();
-		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyRadiusChanged Entity enthält  Culinaries " + backingBeanVisit.getCurrent().getChosenCulinaries());
 		restaurantsFiltered = filterByCulinary(restaurantsRadius, currentVisit.getChosenCulinaries());
 	}
 
@@ -175,12 +103,6 @@ public class SuggestionsBean implements Serializable
 	}
 
 	public void proxyCulinariesChanged(ValueChangeEvent event) {
-
-		// ValueChangedEvent wird verarbeitet bevor die Setter für die Entity RestaurantVisit laufen.
-
-		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyCulinariesChanged  event value " + Arrays.deepToString((Culinary[])event.getNewValue()) + " currentThread " + Thread.currentThread().getName());
-		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyCulinariesChanged BeanVisit chosen Cul : " + backingBeanVisit.getCurrent().getChosenCulinaries() + " currentThread " + Thread.currentThread().getName());
-
 		restaurantsFiltered.clear();
 		List<Culinary> list = Arrays.asList((Culinary[])event.getNewValue());
 		currentVisit.setChosenCulinaries(list);
@@ -194,20 +116,12 @@ public class SuggestionsBean implements Serializable
 		Address adr = currentVisit.getAddressVisit();
 		adr.setWgs84Latitude(coord.getLat());
 		adr.setWgs84Longitude(coord.getLng());
-		//centerString = coord.getLat() + ", " + coord.getLng();
 
-		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyMarkerDrag  event Lat " + marker.getLatlng().getLat() + " Lon " + marker.getLatlng().getLng());
 		reDrawCircle(adr);
-		//googleZoomLevel = calculateZoomLevel();
 		restaurantsRadius = filterByRadius(backingBeanRestaurant.getAllRestaurantsProxy(), distanceSearchRadius);
 		restaurantsFiltered.clear();
 		restaurantsFiltered = filterByCulinary(restaurantsRadius, currentVisit.getChosenCulinaries());
 		drawMarkers(restaurantsFiltered, false);
-
-		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyMarkerDrag getSource : " + event.getSource().toString());
-		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyMarkerDrag getBehavior: " + event.getBehavior());
-		Logger.getLogger(getClass().getSimpleName()).severe("+# proxyMarkerDrag getComponent: " + event.getComponent());
-
 	}
 
 
@@ -216,18 +130,9 @@ public class SuggestionsBean implements Serializable
 
 	/////////////////////////////// Methods for Restaurant Filtering ///////////////////////////////
 	public List<Restaurant> filterByCulinary(List<Restaurant> restaurants, List<Culinary> matchingBucket) {
-
-		Logger.getLogger(getClass().getSimpleName()).severe("+# filterByCulinary hat Liste erhalten  " + restaurants);
-
 		List<Restaurant> result = restaurants.stream().filter(e -> {
-			Logger.getLogger(getClass().getSimpleName()).severe("+# filterByCulinary MatchingBucket enthält  " + matchingBucket);
-			Logger.getLogger(getClass().getSimpleName()).severe("+# filterByCulinary getestet wird  " + e.getCulinary());
-			Logger.getLogger(getClass().getSimpleName()).severe("+# filterByCulinary Ergebnis contains?  " + matchingBucket.contains(e.getCulinary()));
-
 			return matchingBucket.contains(e.getCulinary());
 		}).collect(Collectors.toList());
-
-		Logger.getLogger(getClass().getSimpleName()).severe("+# filterByCulinary gibt Liste zurück  " + result);
 
 		return result;
 	}
@@ -245,48 +150,25 @@ public class SuggestionsBean implements Serializable
 		double restaurantLatitude = 0;
 		double resultUser = 0;
 
-		Logger.getLogger(getClass().getSimpleName()).severe("+# filterByRadius für Treffpunkt " + latitudeMeeting +" " + longitudeMeeting);
-
 		double latitude = 0, longitude = 0, sinLat = 0, sinLong = 0, a = 0, c = 0, result = 0;
 		for(Restaurant rest : list){
-//			restaurantLatitude = rest.getAddressRestaurant().getWgs84Latitude();
-//			latitude = Math.toRadians(restaurantLatitude - latitudeMeeting);
-//			longitude = Math.toRadians(rest.getAddressRestaurant().getWgs84Longitude() - longitudeMeeting);
-//			sinLat = Math.sin(latitude / 2);
-//			sinLong = Math.sin(longitude / 2);
-//			a = sinLat * sinLat + Math.cos(Math.toRadians(latitudeMeeting)) * Math.cos(Math.toRadians(restaurantLatitude)) * sinLong * sinLong;
-//			c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-//			result = radius * c;
-
 			result = calculateDistance(rest, latitudeMeeting, longitudeMeeting);
-
-			Logger.getLogger(getClass().getSimpleName()).severe("+# filterByRadius Restaurant ermittelte Entfernung " + result);
 			if(result < distance)
 			{
-				Logger.getLogger(getClass().getSimpleName()).severe("+# filterByRadius Restaurant : " + rest.getName() + " liegt in " + distance + " km Umreis zu Treffpunkt");
 				rest.setDistanceMeetingPoint(result);
 				restaurantsRadius.add(rest);
 
 				resultUser = calculateDistance(rest, backingBeanUser.getCurrent().getAddressLiving().getWgs84Latitude(), backingBeanUser.getCurrent().getAddressLiving().getWgs84Longitude());
 				rest.setDistanceUser(resultUser);
 			}
-			else
-				Logger.getLogger(getClass().getSimpleName()).severe("+# filterByRadius Restaurant : " + rest.getName() + " liegt NICHT in " + distance + " km Umreis zu Treffpunkt");
 		}
-
-		Logger.getLogger(getClass().getSimpleName()).severe("+# filterByRadius gibt zurück: " + restaurantsRadius);
 
 		return restaurantsRadius;
 	}
 
 	public Address determineCentralPointSearch(List<Address> addressesParticipants) {
-
-		Logger.getLogger(getClass().getSimpleName()).severe("+# determineCentralPointSearch hat Addressen erhalten");
-		addressesParticipants.stream().forEach(e -> Logger.getLogger(getClass().getSimpleName()).severe("+# Lon: " + e.getWgs84Longitude() +" Lat: " + e.getWgs84Latitude()));
-
 		// https://stackoverflow.com/questions/6671183/calculate-the-center-point-of-multiple-latitude-longitude-coordinate-pairs
 		// https://www.biancahoegel.de/wissen/navigation/kugelkoordinaten.html
-
 		double x = 0, y = 0, z = 0, cl = 0, latitude = 0, longitude = 0;
 		for (Address coordinate : addressesParticipants)
 		{
@@ -309,8 +191,6 @@ public class SuggestionsBean implements Serializable
 		double r_new = Math.sqrt(x * x + y * y + z * z);
 		double centralLatitude = Math.asin(z / r_new);
 
-		Logger.getLogger(getClass().getSimpleName()).severe("+# Ermittelt wurde Suchort: Lon: " + Math.toDegrees(centralLongitude) + " Lat: " + Math.toDegrees(centralLatitude));
-
 		return new Address(Math.toDegrees(centralLatitude) , Math.toDegrees(centralLongitude));
 	}
 
@@ -329,12 +209,9 @@ public class SuggestionsBean implements Serializable
 
 	//////////////////////////// Map Methods ///////////////////////////////////////////////////
 	public void initMap(List<Restaurant> poiList) {
-
 		MapModel mapModel = getGmapModel();
 		mapModel.getCircles().clear();
-
 		drawMarkers(poiList, true);
-
 		Address adr = currentVisit.getAddressVisit();
 		LatLng coord = new LatLng(adr.getWgs84Latitude(), adr.getWgs84Longitude());
 		circle = new Circle(coord, distanceSearchRadius * 1000 );
@@ -343,16 +220,9 @@ public class SuggestionsBean implements Serializable
 		circle.setStrokeOpacity(0.4);
 		circle.setFillOpacity(0.4);
 		mapModel.addOverlay(circle);
-
-
-
-		//		//Icons and Data
-		//		advancedModel.addOverlay(new Marker(coord1, "Konyaalti", "BildInfoPopup.png", "Icon für Mapsdarstellung  https://maps.google.com/mapfiles/ms/micons/blue-dot.png"));
 	}
 
 	public void reDrawCircle(Address middle) {
-		// Circles sind nicht draggable. In mit JavaScript geht das http://jsfiddle.net/phpdeveloperrahul/rMy2B/
-
 		getGmapModel().getCircles().clear();
 		circle.setCenter(new LatLng(middle.getWgs84Latitude(), middle.getWgs84Longitude()));
 		circle.setRadius(distanceSearchRadius * 1000);
@@ -372,10 +242,8 @@ public class SuggestionsBean implements Serializable
 	}
 
 	public void drawMarkers(List<Restaurant> poiList, boolean effect) {
-
 		MapModel mapModel = getGmapModel();
 		mapModel.getMarkers().clear();
-
 		poiList.stream().forEach((e) ->
 				mapModel.addOverlay(
 						new Marker(
@@ -383,8 +251,6 @@ public class SuggestionsBean implements Serializable
 								e.getName()
 						))
 		);
-
-
 
 		if(effect)
 			mapModel.getMarkers().stream().forEach(e-> {
@@ -404,16 +270,12 @@ public class SuggestionsBean implements Serializable
 		center.setDraggable(true);
 		center.setId("Center");
 		mapModel.addOverlay(center);
-
 	}
 
 
 
 	////////////////////////////////// Basic Crud //////////////////////////////////////////
 	public void saveVisitBackingBean() {
-
-		Logger.getLogger(getClass().getSimpleName()).severe("+# saveVisitBackingBean persistiert current mit chosen Rest. " + currentVisit.getRestaurantChosen());
-
 		backingBeanVisit.setCurrent(currentVisit);
 		backingBeanVisit.save();
 	}

@@ -9,11 +9,6 @@
 >
 
 <ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
-    <ui:remove>
-<!--        <f:metadata>-->
-<!--            <f:viewAction action="#{suggestionsBean.proxyOnLoad()}" />-->
-<!--        </f:metadata>-->
-    </ui:remove>
 
     <ui:param name="active" value="Visit" />
     <ui:param name="title" value="Restaurant auswählen" />
@@ -35,8 +30,6 @@
 
                 <p:gmapInfoWindow id="infoWindow">
                     <p:outputPanel style="text-align: center; display: block; margin: auto">
-    <!-- <p:graphicImage name="/demo/images/antalya/#{infoWindowView.marker.data}" height="150"/>-->
-    <!-- <br/>-->
                         <h:outputText value="#{suggestionsBean.marker.title}"/>
                     </p:outputPanel>
                 </p:gmapInfoWindow>

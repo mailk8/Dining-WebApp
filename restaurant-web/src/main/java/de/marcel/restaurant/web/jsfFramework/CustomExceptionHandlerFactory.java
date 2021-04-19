@@ -36,8 +36,6 @@ public class CustomExceptionHandlerFactory extends ExceptionHandlerFactory
 		return handler;
 	}
 
-
-
 }
 
 class CustomExceptionHandler extends ExceptionHandlerWrapper

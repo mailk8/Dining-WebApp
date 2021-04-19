@@ -4,7 +4,6 @@ import de.marcel.restaurant.ejb.interfaces.IRating;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.logging.Logger;
 
 @Entity
 @Table(name = "ratings")
@@ -155,7 +154,6 @@ public class Rating extends BaseEntity implements IRating
 	}
 
 	@Override public void setPrice(double price) {
-		Logger.getLogger(this.getClass().getSimpleName()).severe("+# setPrice mit " + price);
 		this.price = price;
 	}
 
@@ -165,7 +163,6 @@ public class Rating extends BaseEntity implements IRating
 	}
 
 	@Override public void setDish(Dish dish) {
-		Logger.getLogger(getClass().getSimpleName()).severe("+# setDish mit: " + dish);
 		this.dish = dish;
 	}
 

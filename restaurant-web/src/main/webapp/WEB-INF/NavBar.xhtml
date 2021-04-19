@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:shiro="http://shiro.apache.org/tags"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
@@ -12,7 +10,7 @@
 <!--    <f:view locale="#{langSwitch.curLoc}" />-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 
-    <a class="navbar-brand" href="#"><h:outputText value="NavbarBrand" /></a>
+    <a class="navbar-brand" href="#"><h:outputText value="Dining WebApp" /></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavi">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -36,63 +34,6 @@
             </li>
 
         </ul>
-        <ui:remove>
-            <div class="dropdown" style="padding-right:10px;width:90px;height:30px">
-                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    #Sprache
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Deutsch</a>
-                    <a class="dropdown-item" href="#">Englisch</a>
-                    <a class="dropdown-item" href="#">Französisch</a>
-                </div>
-            </div>
-            <div style="padding-left:10px;padding-right:10px">
-                <p> </p>
-            </div>
-
-            <h:form>
-                <h:commandLink class="btn btn-warning" action="#{loginController.showCurrentVisit}">showCurrentVisit</h:commandLink>
-            </h:form>
-
-            <div style="padding-left:10px;padding-right:10px">
-                <p> </p>
-            </div>
-
-            <h:form>
-                <h:commandLink class="btn btn-warning" action="#{loginController.showCurrentRestaurant}">showCurrentRestaurant</h:commandLink>
-            </h:form>
-
-            <div style="padding-left:10px;padding-right:10px">
-                <p> </p>
-            </div>
-
-            <h:form>
-                <h:commandLink class="btn btn-warning" action="#{loginController.testSubject}">Test Subject</h:commandLink>
-            </h:form>
-
-            <div style="padding-left:10px;padding-right:10px">
-                <p> </p>
-            </div>
-
-            <h:form>
-                <h:commandLink class="btn btn-warning" action="#{loginController.showCurrentUser}">showCurrentUser</h:commandLink>
-            </h:form>
-
-            <div style="padding-left:10px;padding-right:10px">
-                <p> </p>
-            </div>
-
-
-
-            <h:form>
-                <h:commandLink class="btn btn-success" action="#{userMailController.getMailContainer}">Inhalt Mailcontainer</h:commandLink>
-            </h:form>
-
-            <div style="padding-left:10px;padding-right:10px">
-                <p> </p>
-            </div>
-        </ui:remove>
 
         <!-- icon="pi pi-external-link"-->
         <p:commandButton value="QR-Code" type="button"  onclick="PF('dlg1').show()" style="margin-right: .5rem; font-size: 0.9rem; !important;"/>
@@ -105,13 +46,13 @@
         <shiro:user>
             <h:form>
                 <h:commandLink class="btn btn-danger" action="#{loginController.logout()}" value=" Logout "
-                               style="font-size: 2.3rem; !important;"/>
+                               a:style="font-size: 1.0rem; !important;"/>
             </h:form>
         </shiro:user>
 
         <shiro:guest>
-            <p:button a:style="color: #ffffff; background-color: #28a745; border-color: #28a745;" href="https://localhost/restaurant-web-1/Login.jsf" value=" Login "
-                      style="font-size: 2.3rem; !important;"/>
+            <p:button a:style="color: #ffffff; background-color: #28a745; border-color: #28a745; font-size: 1.0rem; !important;"
+                            href="https://localhost/restaurant-web-1/Login.jsf" value=" Login " />
         </shiro:guest>
 
     </div>

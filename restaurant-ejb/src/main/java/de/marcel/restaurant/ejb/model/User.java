@@ -43,15 +43,13 @@ public class User extends BaseEntity implements IUser
 
 	@OneToOne
 	private Culinary culinaryLiking;
-//##############################
+
 	@OneToMany(mappedBy = "ratingUser", fetch = FetchType.EAGER)
 	private Set<Rating> ratings = new HashSet<Rating>();
 
 	@ManyToMany(mappedBy = "participants", cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
 	private Set<RestaurantVisit> visitedRestaurants;
-	// https://stackoverflow.com/questions/21985308/how-is-the-owning-side-of-this-many-to-many-relationship-determined
-	// https://en.wikibooks.org/wiki/Java_Persistence/ManyToMany
-//###############################
+
 	@Column(name = "phoneNumber", nullable = true, length = 30)
 	private String phoneNumber;
 

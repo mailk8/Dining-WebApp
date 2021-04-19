@@ -10,11 +10,6 @@
 <ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
 
     <f:metadata>
-        <ui:remove>
-        <!-- KANN GET-PARAMETER ENTGEGENNEHMEN UND WEITERREICHEN    -->
-        <!-- <f:viewParam name="foo" value="#{bean.foo}" />-->
-        <!-- FÜHRT METHODEN BEI PAGELOAD AUS-->
-        </ui:remove>
         <f:viewAction action="#{backingBeanRestaurant.getAllCulinaries()}" />
     </f:metadata>
 
@@ -41,14 +36,12 @@
             <div class="form-group">
                 <label for="email">E-Mail:<h:message for="email" class="text-danger" /></label>
                 <h:inputText id="email" value="#{backingBeanRestaurant.current.email}" class="form-control" required="false" requiredMessage="Erforderlich!">
-<!-- <f:validator validatorId="customValidator" />-->
                 </h:inputText>
             </div>
 
             <div class="form-group">
                 <label for="phoneNumber">Telefon:<h:message for="phoneNumber" class="text-danger" /></label>
                 <h:inputText id="phoneNumber" value="#{backingBeanRestaurant.current.phoneNumber}" class="form-control" required="false" requiredMessage="Erforderlich!">
-<!-- <f:validator validatorId="customValidator" />-->
                 </h:inputText>
             </div>
 <!--ADDRESSE-->

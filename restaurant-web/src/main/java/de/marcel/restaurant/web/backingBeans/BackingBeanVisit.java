@@ -25,21 +25,11 @@ import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-/*
-	Was passiert, wenn sich ein Teilnehmer löscht, der zu einem Visit gehört?
-		Es ist eine @manyToMany Beziehung zwischen User und Visit: Da gibt es kein orphanRemoval als Attribut, das hinter CascadeType angeführt werden könnte.
-		https://stackoverflow.com/questions/3055407/how-do-i-delete-orphan-entities-using-hibernate-and-jpa-on-a-many-to-many-relati
 
-	Was passiert, wenn man ein Restaurant löscht, das in einem Visit verplant ist?
-		Wird neu gespeichert
-
-	Genau das gleiche bei Rating?
- */
 @Named
-@SessionScoped  // ViewScoped nicht ohne Weiteres möglich
+@SessionScoped
 @ManagedBean
 public class BackingBeanVisit implements Serializable
 {
@@ -77,13 +67,11 @@ public class BackingBeanVisit implements Serializable
 
 	public void setCulinariesArray(Culinary[] culinariesArray)
 	{
-		Logger.getLogger(getClass().getSimpleName()).severe("+# setCulinariesArray  event value " + Arrays.deepToString(culinariesArray));
 		current.setChosenCulinaries(Arrays.asList(culinariesArray));
 	}
 
 	public List<Culinary> getAllCulinariesProxy()
 	{
-		//Logger.getLogger(getClass().getSimpleName()).severe("+# getAllCulinariesProxy läuft ");
 		if(null == allCulinariesProxy)
 		{
 			allCulinariesProxy = getAllCulinaries();
@@ -99,7 +87,6 @@ public class BackingBeanVisit implements Serializable
 	////////////////////////////////// Methods for Location of Search //////////////////////////////
 	public void setGoogleMapsResult(String googleApiReturn)
 	{
-		Logger.getLogger(getClass().getSimpleName()).severe("+# setGoogleMapsResult hat erhalten: " + googleApiReturn);
 		try
 		{
 			if( null != googleApiReturn )
@@ -118,11 +105,8 @@ public class BackingBeanVisit implements Serializable
 		}
 		catch (Exception e)
 		{
-			Logger.getLogger(getClass().getSimpleName()).severe("+# Exception! " + e.getMessage() + e.getClass());
 			e.printStackTrace();
 		}
-
-		Logger.getLogger(getClass().getSimpleName()).severe("+# setGoogleMapsResult - End" );
 
 		FacesContext.getCurrentInstance().addMessage("place",
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Zu dieser Eingabe wurde kein Ort gefunden.",  ""));
@@ -134,15 +118,10 @@ public class BackingBeanVisit implements Serializable
 	//////////////////////////  Methods for Fetching & Performane //////////////////////////
 	public void fetchVisitsForUser()
 	{
-		// Asynchronous Callable-Job for Servers Default-ThreadPoolExecutor
-		// appServer and user CAN be passed as locale References
-		// BUT user CAN NOT be retrieved by 'backingBean.getCurrent()' !!
-
 		User user = backingBeanUser.getCurrent();
 		if( null != user )
 		{
 			allVisitsThisUser = executor.submit(()-> {
-				Logger.getLogger(getClass().getSimpleName()).severe("+# Executor führt asynchrone Methode aus: findAllVisitsForUser ");
 				return appServer.findAllVisitsForUser(user);
 			});
 		}
@@ -159,13 +138,11 @@ public class BackingBeanVisit implements Serializable
 
 	public List<Culinary> getAllCulinaries()
 	{
-		//Logger.getLogger(getClass().getSimpleName()).severe("+# getAllCulinaries läuft ");
 		return appServer.findAll(Culinary.class);
 	}
 
 	public List<RestaurantVisit> getAllVisits()
 	{
-		//Logger.getLogger(getClass().getSimpleName()).severe("+# getAllVisits läuft");
 		appServer.clearCache(RestaurantVisit.class);
 		visitList = appServer.findAll(RestaurantVisit.class);
 		visitList.sort((a,b) -> b.getVisitingDateTime().compareTo(a.getVisitingDateTime()));
@@ -186,20 +163,6 @@ public class BackingBeanVisit implements Serializable
 	//////////////////////////  Methods for Visit Functions //////////////////////////
 	public void updateVisitState(RestaurantVisit visit)
 	{
-		// Könnte man auch im Enum unterbringen, dann wäre alles zusammen.
-		// Mind 1 TN zum Speichern
-		// Vorschlagsszenarien (An oder um festem Ort mit Radius -> Immer es gibt immer einen Ort egal ob aus Wohnorten oder LiveStandorten)
-			// Mit ausschließlicher Kulinarik Vorgabe (Kulinarik-Match-Bucket hat nur einen Eintrag)
-			// Kulinarik aus dominierender Vorliebe (Kulinarik-Match-Bucket hat nur einen Eintrag)
-			// Kulinarik Auswahl aus Vorlieben (Kulinarik-Match-Bucket hat mehrere Einträge)
-			// alles nur ein Case
-
-		// DateTime abgelaufen, bewertungsreif
-		// >= 1 Bewertung erteilt, bewertungen offen
-		// Alle Bewertungen aller Teilnehmer eingegangen, abgeschlossen
-
-		////Logger.getLogger(getClass().getSimpleName()).severe("+# BackingBeanVisit: visit ist " + visit);
-
 		int switchVar = visit.getStateVisit().ordinal();
 
 		switch (switchVar)
@@ -229,7 +192,6 @@ public class BackingBeanVisit implements Serializable
 					visit.setStateVisit(State.BEWERTET); // 5
 			}
 		}
-		//Logger.getLogger(getClass().getSimpleName()).severe("+# updateVisitState, for " + visit.getVisitingDateTime());
 	}
 
 	public String rate(RestaurantVisit u)
@@ -271,7 +233,6 @@ public class BackingBeanVisit implements Serializable
 	public void insert(RestaurantVisit u) {
 		int result = appServer.persist(u);
 		u.setPrim(result);
-		//Logger.getLogger(getClass().getSimpleName()).severe("+# nach insert, prim ist lt appServer " + result + " current hat prim " + current.getPrim());
 	}
 
 	public void update(RestaurantVisit u)
@@ -323,9 +284,6 @@ public class BackingBeanVisit implements Serializable
 	public String redirectIfWrongState(RestaurantVisit visit, int allowedStateFrom, int allowedStateTill) {
 		// Wird bei geschützte Aktionen in der OnLoad der Seite aufgerufen und bricht die Navigation ab,
 		// falls sich der betrachtete Visit nicht im richtigen Status befindet.
-
-		Logger.getLogger(getClass().getSimpleName()).severe("+# redirectIfWrongState aufgerufen mit Visit " + visit.getPrim());
-
 		if(visit.getStateVisit().ordinal() >= allowedStateFrom && visit.getStateVisit().ordinal() <= allowedStateTill)
 		{
 			return null; // OK, Weiterleitung darf erfolgen.
@@ -341,14 +299,12 @@ public class BackingBeanVisit implements Serializable
 	//////////////////////////  Methods for Participants Functions //////////////////////////
 	public String getSizeParticipantsForValidator()
 	{
-		//Logger.getLogger(getClass().getSimpleName()).severe("+# getSizeParticipantsForValidator aufgerufen mit " + current.getParticipants().size());
 		sizeParticipantsForValidator = current.getParticipants().size()+"";
 		return sizeParticipantsForValidator;
 	}
 
 	public void setSizeParticipantsForValidator(String sizeParticipantsForValidator)
 	{
-		//Logger.getLogger(getClass().getSimpleName()).severe("+# setSizeParticipantsForValidator aufgerufen mit " + sizeParticipantsForValidator);
 		this.sizeParticipantsForValidator = sizeParticipantsForValidator;
 
 	}
@@ -440,6 +396,5 @@ public class BackingBeanVisit implements Serializable
 	{
 		return googleMapsResult;
 	}
-
 
 }

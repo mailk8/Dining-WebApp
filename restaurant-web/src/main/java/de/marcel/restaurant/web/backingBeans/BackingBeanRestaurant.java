@@ -17,12 +17,8 @@ import org.omnifaces.util.Faces;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Logger;
 
-/*
-	Link WGS jetzt ermitteln sollte auf den Http Client gehen
-	Außerdem ist eine Adresse ab jetzt überall ein Muss.
- */
+
 
 @Named
 @SessionScoped
@@ -58,7 +54,6 @@ public class BackingBeanRestaurant implements Serializable
 
 	public List<Restaurant> getAllRestaurants()
 	{
-		//Logger.getLogger(getClass().getSimpleName()).severe("+# getAllRestaurants  läuft");
 		allRestaurantsProxy = appServer.findAll(Restaurant.class);
 		allRestaurantsProxy.sort(Comparator.comparing(e -> e.getName()));
 		return allRestaurantsProxy;
@@ -80,13 +75,11 @@ public class BackingBeanRestaurant implements Serializable
 	{
 		if(null == current.getPrim())
 		{
-			Logger.getLogger(getClass().getSimpleName()).severe("+# Aufruf insert - current ist " + current);
 			insert(current);
 		}
 
 		else
 		{
-			Logger.getLogger(getClass().getSimpleName()).severe("+# Aufruf update - current ist " + current);
 			update(current);
 		}
 
@@ -106,7 +99,6 @@ public class BackingBeanRestaurant implements Serializable
 
 	public String edit(Restaurant u)
 	{
-		Logger.getLogger(getClass().getSimpleName()).severe("+# Aufruf edit - current ist " + current +" zu editieren " + u);
 		this.current = u;
 		return "RestaurantCreate?faces-redirect=true";
 	}
@@ -127,7 +119,6 @@ public class BackingBeanRestaurant implements Serializable
 	{
 		int nextId = (appServer.findMaxId(Restaurant.class) + 1 + (new Random().nextInt(2)));
 		current = new Restaurant();
-		//current.setRatings(new HashSet<Rating>());
 		current.setId(nextId);
 		return "RestaurantCreate?faces-redirect=true";
 	}

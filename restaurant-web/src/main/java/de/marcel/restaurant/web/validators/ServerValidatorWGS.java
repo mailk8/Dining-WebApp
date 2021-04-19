@@ -1,14 +1,11 @@
 package de.marcel.restaurant.web.validators;
 
-import java.util.Map;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
-import javax.faces.event.PhaseId;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
@@ -29,17 +26,10 @@ public class ServerValidatorWGS implements Validator {
 
 	public void validate(FacesContext context, UIComponent component, Object val) throws ValidatorException
 	{
-		Logger.getLogger(this.getClass().getSimpleName()).severe("+# validate anfang mit ");
-
 		String valueString = val.toString();
 
-		////// Bei keinem Eintrag nichts prüfen //////
 		if(valueString.equals(""))
 			return;
-
-//		String valueString = value.toString().trim();
-//		valueString = valueString.replace(",", ".");
-
 
 		////// Keine fehlerhaften Zeichen oder mehrere Punkte bzw Kommata //////
 		if(!pattern.matcher(valueString).matches())
@@ -48,8 +38,6 @@ public class ServerValidatorWGS implements Validator {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fail", valueString + "\nist keine valide WGS84-Koordinate."));
 			return;
 		}
-
-
 
 		////// Lässt sich der Wert in einen Double umwandeln //////
 		Double valueDouble = null;
@@ -79,12 +67,5 @@ public class ServerValidatorWGS implements Validator {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fehler", "Längengrad muss zwischen +180° und -180° liegen.\n" + valueString + " ist nicht valide."));
 			return;
 		}
-
-		Logger.getLogger(this.getClass().getSimpleName()).severe("+# validate ende");
-
-
-
 	}
-
-
 }

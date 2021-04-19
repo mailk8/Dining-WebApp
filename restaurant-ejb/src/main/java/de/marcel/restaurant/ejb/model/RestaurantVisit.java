@@ -7,7 +7,6 @@ import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Entity
@@ -54,21 +53,18 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 	@Column(name = "memo", nullable = true, length = 200)
 	private String memo;
 
-	//// muss EAGER sein, damit er die User holt, wenn diese gerade keine Session offen haben.
-	//@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
 	private List<User> participants = new ArrayList<>();
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Address addressVisit = new Address();
-//############################
+
 	@OneToMany(mappedBy="visit", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Rating> ratings;
-//############################
+
 	@ManyToOne private Restaurant restaurantChosen;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	// referencedColumnName="bezeichnerPrimärschlüsselInParentTabelleVisit" name="FremdschlüsselSpalteDerChildTabelleCul"
 	private List<Culinary> chosenCulinaries = new ArrayList<>();
 
 	@Column(name = "stateVisit", nullable = true, columnDefinition = "TINYINT")
@@ -107,7 +103,6 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 
 	@Override public List<User> getParticipants()
 	{
-		//Logger.getLogger(getClass().getSimpleName()).severe("+# getParticipants aufgerufen, return  " + participants );
 		return participants;
 	}
 
@@ -147,7 +142,6 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 
 	@Override public void setRestaurantChosen(Restaurant restaurantChosen)
 	{
-		Logger.getLogger(getClass().getSimpleName()).severe("+# setRestaurantChosen erhält  chosen Rest. " + restaurantChosen);
 		this.restaurantChosen = restaurantChosen;
 	}
 

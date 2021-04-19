@@ -26,11 +26,8 @@ import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Logger;
 
-/*
-Culinary Preferences entfernen ?
- */
+
 
 @Named
 @SessionScoped
@@ -44,7 +41,6 @@ public class BackingBeanUser implements Serializable
 	@Inject private Instance<HttpClientWGS> client; // weld cdi workaround
 	@Inject private LoginController loginController;
 	@Inject private WebSocketObserver websocket;
-	private Logger logger = Logger.getLogger(getClass().getSimpleName());
 	private String sessionId;
 	private List<Culinary> allCulinariesProxy;
 	private List<User> allUsersProxy;
@@ -148,7 +144,6 @@ public class BackingBeanUser implements Serializable
 		if(result < 0)
 			return -1; // -1 = fail
 		current.setPrim(result);
-		Logger.getLogger(getClass().getSimpleName()).severe("+# Es wurde insert(User u) aufgerufen, Prim vom appServer " + result);
 		return 3; // 3  = success
 	}
 
@@ -158,7 +153,6 @@ public class BackingBeanUser implements Serializable
 		int result = appServer.update(u); // -1 = fail 3 = success
 		UserMailController.deleteUserEmail(old.getEmail());
 	    UserMailController.putNewUserEmail(u);
-		//Logger.getLogger(getClass().getSimpleName()).severe("+# Es wurde update(User u) aufgerufen, result von appServer.update(u) " + result);
 		return result;
 	}
 
@@ -168,19 +162,16 @@ public class BackingBeanUser implements Serializable
 	}
 
 	public String createNew() {
-		// Nächste freie id wird antizipiert und per Zufall erhöht, falls die Aktion parallel BEWERTBAR
+		// Nächste freie id wird antizipiert und per Zufall erhöht
 		int nextId = (appServer.findMaxId(User.class) + 1 + (new Random().nextInt(2)));
 		current = new User();
-		//current.setRatings(new HashSet<Rating>());
 		current.setId(nextId);
-		//setCoordinatesBean(current);
 
 		return "UserCreate?faces-redirect=true";
 	}
 
 	public void setCurrent(User u) {
 		this.current = u;
-		//setCoordinatesBean(u);
 	}
 
 
@@ -191,7 +182,6 @@ public class BackingBeanUser implements Serializable
 	public void requestWgsForAddress() {
 		Address adr = current.getAddressLiving();
 		adr.setSessionId(getSessionId());
-		Logger.getLogger(HttpClientWGS.class.getSimpleName()).severe("+# requestWgsForAddress mit SessionID : " + adr.getSessionId());
 		client.get().enqueueNewRequest(adr);
 	}
 

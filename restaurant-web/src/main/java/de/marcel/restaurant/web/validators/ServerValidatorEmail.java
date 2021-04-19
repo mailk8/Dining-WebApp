@@ -10,17 +10,13 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import java.util.Iterator;
-import java.util.logging.Logger;
 
 @FacesValidator("serverValidatorEmail")
 public class ServerValidatorEmail implements Validator
 {
 	@Override public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException
 	{
-		Logger.getLogger(this.getClass().getSimpleName()).severe("+# Validator Anfang ######################### validation failed ? " + context.isValidationFailed());
-
 		Iterator<FacesMessage> it = context.getMessages();
-
 		while ( it.hasNext() ) {
 			it.next();
 			it.remove();
@@ -45,7 +41,6 @@ public class ServerValidatorEmail implements Validator
 
 		}
 
-
 		context.addMessage("email", new FacesMessage(FacesMessage.SEVERITY_INFO, "OK, diese E-Mail wird noch nicht benutzt.", ""));
 		((UIInput)component).setValid(true);
 
@@ -53,8 +48,6 @@ public class ServerValidatorEmail implements Validator
 //		context.release();
 //		context.renderResponse();
 //      context.setCurrentPhaseId(PhaseId.INVOKE_APPLICATION);
-
-		Logger.getLogger(this.getClass().getSimpleName()).severe("+# Validator läuft bis Ende ################ validation failed ? " + context.isValidationFailed());
 
 	}
 }

@@ -4,7 +4,6 @@ import de.marcel.restaurant.ejb.interfaces.IAddress;
 
 import javax.persistence.*;
 import java.net.URI;
-import java.util.logging.Logger;
 
 @Entity
 @Table(name = "addresses")
@@ -72,7 +71,6 @@ public class Address extends BaseEntity implements IAddress
 
 	public Address()
 	{
-		// NPE: insertInIndex(this);
 	}
 
 	// GETTER SETTER

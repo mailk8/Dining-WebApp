@@ -8,7 +8,6 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import java.util.*;
-import java.util.logging.Logger;
 
 /*
 	https://www.ocpsoft.org/java/persist-and-pass-facesmessages-over-page-redirects/
@@ -24,7 +23,6 @@ public class LifeCycleListener implements PhaseListener
 	}
 
 	public void beforePhase(PhaseEvent event) {
-		//Logger.getLogger(getClass().getSimpleName()).severe("+# Start der JSF Phase " + event.getPhaseId() + " Validation failed? " + FacesContext.getCurrentInstance().isValidationFailed());
 
 		FacesContext facesContext = event.getFacesContext();
 		this.saveMessages(facesContext);
@@ -39,7 +37,6 @@ public class LifeCycleListener implements PhaseListener
 	}
 
 	public void afterPhase(PhaseEvent event) {
-		//Logger.getLogger(getClass().getSimpleName()).severe("+# Ende der JSF Phase " + event.getPhaseId() + " Validation failed? " + FacesContext.getCurrentInstance().isValidationFailed());
 
 		if (!PhaseId.RENDER_RESPONSE.equals(event.getPhaseId()))
 		{
@@ -50,8 +47,8 @@ public class LifeCycleListener implements PhaseListener
 
 	private int saveMessages(final FacesContext facesContext)
 	{
-		Iterator<FacesMessage> iter = facesContext.getMessages(null); // globale
-		//Iterator<FacesMessage> iter = facesContext.getMessages(); // jegliche
+		Iterator<FacesMessage> iter = facesContext.getMessages(null); // globale FacesMessages
+		//Iterator<FacesMessage> iter = facesContext.getMessages(); // jegliche FacesMessages
 		if (!iter.hasNext())
 		{
 			return 0;
@@ -63,7 +60,6 @@ public class LifeCycleListener implements PhaseListener
 		{
 			FacesMessage m = iter.next();
 			messages.add(m);
-			Logger.getLogger(getClass().getSimpleName()).severe("+# Message " + m.getSummary() + " " + m.getDetail() + " gefangen in Phase: " + Faces.getCurrentPhaseId() );
 			iter.remove();
 		}
 
@@ -104,7 +100,6 @@ public class LifeCycleListener implements PhaseListener
 
 			facesContext.addMessage("price", (FacesMessage) entry);
 //			FacesMessage m = (FacesMessage) entry;
-//			Logger.getLogger(getClass().getSimpleName()).severe("+# Message " + m.getSummary() + " " + m.getDetail() + " restored in Phase: " + Faces.getCurrentPhaseId() );
 		}
 		return restoredCount;
 	}

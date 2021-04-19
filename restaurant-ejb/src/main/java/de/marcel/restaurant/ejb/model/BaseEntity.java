@@ -4,7 +4,6 @@ import de.marcel.restaurant.ejb.interfaces.IBaseEntity;
 
 import javax.transaction.NotSupportedException;
 import java.lang.reflect.Field;
-import java.util.logging.Logger;
 
 public class BaseEntity implements IBaseEntity
 {
@@ -66,9 +65,7 @@ public class BaseEntity implements IBaseEntity
 	}
 
 	@Override public void setId(Integer id) {
-		Logger.getLogger(getClass().getSimpleName()).severe("+# setId aufgerufen vor set");
 		this.id = id;
-		Logger.getLogger(getClass().getSimpleName()).severe("+# setId nach set mit id " + id + "  Objekt id " + this.id +  " name " + this.getClass().getName());
 	}
 
 }

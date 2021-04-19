@@ -7,7 +7,6 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import java.text.NumberFormat;
 import java.util.Locale;
-import java.util.logging.Logger;
 
 
 @FacesConverter("commaConverterCoordinates")
@@ -38,7 +37,6 @@ public class CommaConverterCoordinates implements Converter
 
 	@Override public String getAsString(FacesContext context, UIComponent component, Object value)
 	{
-		Logger.getLogger(this.getClass().getSimpleName()).severe("+# getAsString begin mit " + value + " of class " + value.getClass());
 
 		if( null == value )
 		{

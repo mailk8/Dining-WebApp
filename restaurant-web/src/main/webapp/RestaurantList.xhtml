@@ -9,10 +9,6 @@
 <ui:composition template="WEB-INF/DefaultTemplateOneColumn.xhtml">
 
     <f:metadata>
-        <ui:remove>
-<!-- KANN GET-PARAMETER ENTGEGENNEHMEN UND WEITERREICHEN    -->
-<!-- <f:viewParam name="foo" value="#{bean.foo}" />-->
-        </ui:remove>
         <f:viewAction action="#{backingBeanRestaurant.getAllRestaurants()}" />
     </f:metadata>
 

@@ -5,15 +5,12 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
 >
 
 <ui:composition template="WEB-INF/DefaultTemplateOneColumn.xhtml">
 
     <f:metadata>
         <ui:remove>
-<!-- KANN GET-PARAMETER ENTGEGENNEHMEN UND WEITERREICHEN    -->
-<!-- <f:viewParam name="foo" value="#{bean.foo}" />-->
         </ui:remove>
         <f:viewAction action="#{backingBeanUser.getAllUsers()}" />
     </f:metadata>
@@ -43,17 +40,17 @@
             <h:column>
                 <h:form rendered="#{loginController.isLoggedInUser(u)}">
                     <ui:remove>
-    <!-- <h:commandLink  action="#{backingBeanUser.edit(u)}"  a:disabled="#{not loginController.isLoggedInUser(u)}" style="float:left; " class="btn btn-warning"><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>-->
-    <!-- <h:commandLink  action="#{backingBeanUser.delete(u)}" a:disabled="#{not loginController.isLoggedInUser(u)}" class="btn btn-danger"><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>-->
-    <!-- FUNKTIONIERT NICHT-->
-    <!-- <c:choose>-->
-    <!-- <c:when test="#{loginController.isLoggedInUser(u)}">-->
-    <!-- <h:commandLink  action="#{backingBeanUser.edit(u)}"   class="btn btn-warning" style="float:left; "><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>-->
-    <!-- </c:when>-->
-    <!-- <c:otherwise>-->
-    <!-- <h:commandLink  class="btn btn-danger"  style="opacity: 0.5"><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>-->
-    <!-- </c:otherwise>-->
-    <!-- </c:choose>-->
+                    <!-- <h:commandLink  action="#{backingBeanUser.edit(u)}"  a:disabled="#{not loginController.isLoggedInUser(u)}" style="float:left; " class="btn btn-warning"><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>-->
+                    <!-- <h:commandLink  action="#{backingBeanUser.delete(u)}" a:disabled="#{not loginController.isLoggedInUser(u)}" class="btn btn-danger"><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>-->
+                    <!-- FUNKTIONIERT NICHT-->
+                    <!-- <c:choose>-->
+                    <!-- <c:when test="#{loginController.isLoggedInUser(u)}">-->
+                    <!-- <h:commandLink  action="#{backingBeanUser.edit(u)}"   class="btn btn-warning" style="float:left; "><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>-->
+                    <!-- </c:when>-->
+                    <!-- <c:otherwise>-->
+                    <!-- <h:commandLink  class="btn btn-danger"  style="opacity: 0.5"><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>-->
+                    <!-- </c:otherwise>-->
+                    <!-- </c:choose>-->
                     </ui:remove>
                     <h:commandLink  action="#{backingBeanUser.edit(u)}"   style="float:left; " class="btn btn-warning"><i class="far fa-edit" aria-hidden="true"></i></h:commandLink>
                     <h:commandLink  action="#{backingBeanUser.delete(u)}"  class="btn btn-danger"><i class="fas fa-trash-alt" aria-hidden="true"></i></h:commandLink>

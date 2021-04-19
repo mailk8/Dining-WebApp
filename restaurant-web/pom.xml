@@ -45,13 +45,6 @@
             <scope>provided</scope>
         </dependency>
 
-<!-- Soll es ermöglichen, Custom Parameter in der Expression Language zu übergeben. -->
-<!-- <dependency>-->
-<!--     <groupId>org.glassfish.web</groupId>-->
-<!--     <artifactId>javax.el</artifactId>-->
-<!--     <version>2.2.6</version>-->
-<!-- </dependency>-->
-
 
 <!-- WEB FRAMEWORKS-->
         <dependency>
