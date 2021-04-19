@@ -17,9 +17,7 @@
     </properties>
 
     <dependencies>
-
-
-<!--        JAVA -->
+<!-- JAVA -->
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
@@ -47,18 +45,15 @@
             <scope>provided</scope>
         </dependency>
 
-<!--        Soll es ermöglichen, Custom Parameter in der Expression Language zu übergeben. -->
-<!--        <dependency>-->
-<!--            <groupId>org.glassfish.web</groupId>-->
-<!--            <artifactId>javax.el</artifactId>-->
-<!--            <version>2.2.6</version>-->
-<!--        </dependency>-->
+<!-- Soll es ermöglichen, Custom Parameter in der Expression Language zu übergeben. -->
+<!-- <dependency>-->
+<!--     <groupId>org.glassfish.web</groupId>-->
+<!--     <artifactId>javax.el</artifactId>-->
+<!--     <version>2.2.6</version>-->
+<!-- </dependency>-->
 
 
-
-
-        <!--        WEB FRAMEWORKS-->
-
+<!-- WEB FRAMEWORKS-->
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
@@ -71,16 +66,26 @@
             <version>1.0.10</version>
         </dependency>
 
-
         <dependency>
             <groupId>org.omnifaces</groupId>
             <artifactId>omnifaces</artifactId>
             <version>2.7.7</version>
         </dependency>
 
+<!--Primefaces Barcodes        -->
+        <dependency>
+            <groupId>net.glxn</groupId>
+            <artifactId>qrgen</artifactId>
+            <version>1.4</version>
+        </dependency>
 
-<!--        WEB JARS-->
+        <dependency>
+            <groupId>net.sf.barcode4j</groupId>
+            <artifactId>barcode4j-light</artifactId>
+            <version>2.1</version>
+        </dependency>
 
+<!-- WEB JARS-->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
@@ -142,8 +147,8 @@
             <url>http://repository.primefaces.org</url>
         </repository>
 
-<!--        ohne findet er die shiro faces nicht-->
-<!--        https://github.com/deluan/shiro-faces-->
+        <!-- ohne findet er die shiro faces nicht-->
+        <!-- https://github.com/deluan/shiro-faces-->
         <repository>
             <snapshots>
                 <enabled>false</enabled>

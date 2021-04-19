@@ -57,6 +57,10 @@
     <orderEntry type="library" name="Maven: org.primefaces:primefaces:10.0.0-RC2" level="project" />
     <orderEntry type="library" name="Maven: org.primefaces.themes:all-themes:1.0.10" level="project" />
     <orderEntry type="library" name="Maven: org.omnifaces:omnifaces:2.7.7" level="project" />
+    <orderEntry type="library" name="Maven: net.glxn:qrgen:1.4" level="project" />
+    <orderEntry type="library" name="Maven: com.google.zxing:javase:3.0.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.zxing:core:3.0.0" level="project" />
+    <orderEntry type="library" name="Maven: net.sf.barcode4j:barcode4j-light:2.1" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:bootstrap:4.5.2" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:jquery:3.5.1" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:popper.js:1.16.0" level="project" />

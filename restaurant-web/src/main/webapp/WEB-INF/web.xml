@@ -37,7 +37,7 @@
     <listener>
         <listener-class>de.marcel.restaurant.web.jsfFramework.SessionListener</listener-class>
     </listener>
-    <!-- Es darf nur ein Session Config Element geben-->
+<!-- Es darf nur ein Session Config Element geben-->
     <session-config>
         <tracking-mode>COOKIE</tracking-mode>
     </session-config>
@@ -54,7 +54,7 @@
     <filter>
         <filter-name>ShiroFilter</filter-name>
         <filter-class>org.apache.shiro.web.servlet.ShiroFilter</filter-class>
-        <!-- <filter-class>de.marcel.restaurant.web.security.ModifiedAuthenticationFilter</filter-class>-->
+<!-- <filter-class>de.marcel.restaurant.web.security.ModifiedAuthenticationFilter</filter-class>-->
         <init-param>
             <param-name>configPath</param-name>
             <param-value>/WEB-INF/shiro.ini</param-value>

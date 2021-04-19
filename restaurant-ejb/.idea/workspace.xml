@@ -11,23 +11,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8b0350e6-03f9-48a3-938e-c238785f6e2c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__jakarta_el_jakarta_el_api_4_0_0_M12.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/QrCode.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/restaurant_ejb_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/restaurant_ejb_war_exploded.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__de_marcel_restaurant_restaurant_ejb_model_classes_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__de_marcel_restaurant_restaurant_ejb_model_classes_12.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__jakarta_enterprise_jakarta_enterprise_cdi_api_3_0_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__jakarta_inject_jakarta_inject_api_2_0_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__jakarta_inject_jakarta_inject_api_2_0_0.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_faces_javax_faces_api_2_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_inject_javax_inject_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_inject_javax_inject_1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_compress_1_19.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_zxing_core_3_0_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_zxing_javase_3_0_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__jakarta_enterprise_jakarta_enterprise_cdi_api_3_0_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__jakarta_inject_jakarta_inject_api_2_0_02.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_faces_javax_faces_api_2_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_glxn_qrgen_1_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_barcode4j_barcode4j_light_2_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_artifact_3_02.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/restaurant_web_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/restaurant_web_war_exploded.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__jakarta_inject_jakarta_inject_api_2_0_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_core_3_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_core_3_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_shared_file_management_3_0_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_shared_maven_shared_io_3_0_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_shared_maven_shared_utils_3_2_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_shared_maven_shared_utils_3_2_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_wagon_wagon_provider_api_2_10.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_cache_1_7_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_config_core_1_7_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_config_ogdl_1_7_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_config_ogdl_1_7_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_core_1_7_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_faces_2_02.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_faces_2_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_faces_2_0.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant-ejb.iml" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant-ejb.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/RestaurantEJB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/RestaurantEJB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IRestaurantEJB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/marcel/restaurant/ejb/interfaces/IRestaurantEJB.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/restaurant-web.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/restaurant-web.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/Login.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/Login.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/QrCode.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/QrCode.xhtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/RestaurantCreate.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/RestaurantCreate.xhtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/RestaurantList.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/RestaurantList.xhtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/UserCreate.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/UserCreate.xhtml" afterDir="false" />
@@ -36,8 +44,9 @@
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitList.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitList.xhtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitRating.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitRating.xhtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitSuggestions.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/VisitSuggestions.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/DefaultTemplateOneColumn.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/DefaultTemplateOneColumn.xhtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/NavBar.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/NavBar.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/shiro.ini" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/shiro.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../restaurant-web/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,11 +155,11 @@
       <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-ejb\src\main\java\de\marcel\restaurant\web\security" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\webapp\resources" />
-      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\webapp" />
-      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main" />
-      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-web\src\main\webapp" />
-      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\Oracle OCA\IntelliJ Projekt\restaurant-web\src" />
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\java\de\marcel\restaurant\web\jsfFramework" />
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\java\de\marcel\restaurant\web\validators" />
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\java\de\marcel\restaurant\web\httpClient" />
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\java\de\marcel\restaurant\web\converters" />
+      <recent name="C:\Users\Marcel\Dropbox\Studier\Weiterbildung BQG\WBS Kurs\IntelliJ Projekt\restaurantWebApp\restaurant-web\src\main\java\de\marcel\restaurant\web\backingBeans" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="de.marcel.restaurant.ejb.interfaces" />
@@ -179,17 +188,6 @@
     </option>
   </component>
   <component name="RunManager" selected="JBoss/WildFly Server.JBoss 22.0.1.Final">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="GlassfishConfiguration" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment />
@@ -526,7 +524,9 @@
       <workItem from="1618554873334" duration="7459000" />
       <workItem from="1618578920698" duration="7733000" />
       <workItem from="1618655659163" duration="33899000" />
-      <workItem from="1618771938364" duration="1905000" />
+      <workItem from="1618771938364" duration="3613000" />
+      <workItem from="1618775610374" duration="1905000" />
+      <workItem from="1618780499802" duration="705000" />
     </task>
     <servers />
   </component>

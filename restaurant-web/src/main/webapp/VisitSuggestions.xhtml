@@ -10,9 +10,9 @@
 
 <ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
     <ui:remove>
-        <!--        <f:metadata>-->
-        <!--            <f:viewAction action="#{suggestionsBean.proxyOnLoad()}" />-->
-        <!--        </f:metadata>-->
+<!--        <f:metadata>-->
+<!--            <f:viewAction action="#{suggestionsBean.proxyOnLoad()}" />-->
+<!--        </f:metadata>-->
     </ui:remove>
 
     <ui:param name="active" value="Visit" />
@@ -22,7 +22,7 @@
         <h2>#{title}</h2>
     </ui:define>
 
-    <!-- GOOGLE MAP -->
+<!-- GOOGLE MAP -->
     <ui:define name="subContent">
         <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyDtJoxBmEHGk8KsyyiBcynKz5NrdxnELvE"></script>
         <div class="card" style="width:100%; height:900px; align-content: flex-start">
@@ -35,8 +35,8 @@
 
                 <p:gmapInfoWindow id="infoWindow">
                     <p:outputPanel style="text-align: center; display: block; margin: auto">
-                        <!-- <p:graphicImage name="/demo/images/antalya/#{infoWindowView.marker.data}" height="150"/>-->
-                        <!-- <br/>-->
+    <!-- <p:graphicImage name="/demo/images/antalya/#{infoWindowView.marker.data}" height="150"/>-->
+    <!-- <br/>-->
                         <h:outputText value="#{suggestionsBean.marker.title}"/>
                     </p:outputPanel>
                 </p:gmapInfoWindow>
@@ -44,13 +44,13 @@
         </div>
     </ui:define>
 
-    <!--Visit Daten eingrenzen-->
+<!--Visit Daten eingrenzen-->
     <ui:define name="mainContent">
         <h:form id="visitSuggestions">
             <h:inputHidden value="#{backingBeanVisit.current.prim}" />
             <h:inputHidden id="sizeParticipants_Actual" value="#{backingBeanVisit.sizeParticipantsForValidator}" validator="serverValidatorParticipants"/>
             <h:inputHidden id="sizeParticipants_Initial" value="#{backingBeanVisit.sizeParticipantsForValidator}" />
-            <!-- UMKREIS Text -->
+<!-- UMKREIS Text -->
             <div class="row">
                 <div class="col-4">
                     <label for="radius">Suchradius:</label>
@@ -65,7 +65,7 @@
                     <p:messages id="messageForRadius" for="radius" display="icon" style="padding-left: 1px" />
                 </div>
 
-                <!-- Umkreis Slider -->
+<!-- Umkreis Slider -->
                 <div class="col-5" style="padding-top: 18px;">
                     <p:slider id="slider" for="radius" minValue="1" maxValue="50" step="1" range="max" style="margin: 0px auto;" >
                         <p:ajax event="slideEnd" immediate="true" async="true" update="gmap radius visitSuggestions:dt-suggestions"
@@ -76,7 +76,7 @@
             </div>
             <br/>
 
-            <!-- KULINARIK -->
+<!-- KULINARIK -->
             <div class="row" style="height: 65px; align-content: flex-start">
                 <div class="col-4">
                     <label>Gewünschte Küche:</label>
@@ -99,7 +99,7 @@
             </div>
             <br/>
 
-            <!-- DATA TABLE Visit Suggestions -->
+<!-- DATA TABLE Visit Suggestions -->
             <div style="padding-top: 35px">
                 <p:dataTable id="dt-suggestions" widgetVar="dt-suggestions-var" var="restaurant"  reflow="false"
                              styleClass="products-table" stripedRows="true" size="medium"
@@ -176,7 +176,7 @@
                 </p:dataTable>
             </div>
 
-            <!-- BUTTONS -->
+<!-- BUTTONS -->
             <br/>
 
             <script type="text/javascript">

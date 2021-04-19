@@ -11,9 +11,9 @@
 
     <f:metadata>
         <ui:remove>
-            <!-- KANN GET-PARAMETER ENTGEGENNEHMEN UND WEITERREICHEN    -->
-            <!-- <f:viewParam name="foo" value="#{bean.foo}" />-->
-            <!-- FÜHRT METHODEN BEI PAGELOAD AUS-->
+        <!-- KANN GET-PARAMETER ENTGEGENNEHMEN UND WEITERREICHEN    -->
+        <!-- <f:viewParam name="foo" value="#{bean.foo}" />-->
+        <!-- FÜHRT METHODEN BEI PAGELOAD AUS-->
         </ui:remove>
         <f:viewAction action="#{backingBeanRestaurant.getAllCulinaries()}" />
     </f:metadata>
@@ -34,24 +34,24 @@
             <div class="form-group">
                 <label for="name">Name:<h:message for="name" class="text-danger" /></label>
                 <h:inputText id="name" value="#{backingBeanRestaurant.current.name}" class="form-control" required="false" requiredMessage="Erforderlich!">
-                    <!-- <f:validator validatorId="customValidator" />-->
+<!-- <f:validator validatorId="customValidator" />-->
                 </h:inputText>
             </div>
 
             <div class="form-group">
                 <label for="email">E-Mail:<h:message for="email" class="text-danger" /></label>
                 <h:inputText id="email" value="#{backingBeanRestaurant.current.email}" class="form-control" required="false" requiredMessage="Erforderlich!">
-                    <!-- <f:validator validatorId="customValidator" />-->
+<!-- <f:validator validatorId="customValidator" />-->
                 </h:inputText>
             </div>
 
             <div class="form-group">
                 <label for="phoneNumber">Telefon:<h:message for="phoneNumber" class="text-danger" /></label>
                 <h:inputText id="phoneNumber" value="#{backingBeanRestaurant.current.phoneNumber}" class="form-control" required="false" requiredMessage="Erforderlich!">
-                    <!-- <f:validator validatorId="customValidator" />-->
+<!-- <f:validator validatorId="customValidator" />-->
                 </h:inputText>
             </div>
-            <!--ADDRESSE-->
+<!--ADDRESSE-->
             <div class="form-group" >
                 <label for="street">Straße und Hausnummer<h:message for="street" class="text-danger" /></label>
                 <div class="row">
@@ -75,7 +75,7 @@
                 </div>
             </div>
 
-            <!--POSITION-->
+<!--POSITION-->
             <p:growl id="growlLocation" showDetail="true"  />
             <div class="card" style="padding-top: 25px; padding-left: 25px; padding-right: 25px; padding-bottom: 15px; " >
                 <div class="form-group">
@@ -112,7 +112,7 @@
             <br/>
 
 
-            <!--LINK MENU-->
+<!--LINK MENU-->
             <div class="form-group">
                 <label for="linkMenu">Link zur Speisekarte <h:message for="linkMenu" class="text-danger" />
                     <h:outputLink value="#{backingBeanRestaurant.current.linkMenu}" target="_blank">in neuem Tab öffnen</h:outputLink>
@@ -126,7 +126,7 @@
             </div>
 
 
-            <!--KÜCHE-->
+<!--KÜCHE-->
             <div>
                 <h:selectOneMenu value="#{backingBeanRestaurant.current.culinary}" select2="true" styleClass="form-control"  converter="omnifaces.SelectItemsConverter">
                     <f:selectItem itemLabel="Gebotene Küche" itemValue="" />
@@ -135,7 +135,7 @@
             </div>
 
 
-            <!--BUTTONS-->
+<!--BUTTONS-->
             <hr/>
             <script type="text/javascript">
                 function myclosefunction(code, channel, event)
@@ -164,7 +164,7 @@
             <h:commandButton action="#{backingBeanVisit.createNew()}" actionListener="#{backingBeanRestaurant.saveRestaurantProxy()}" value="Restaurantbesuch planen" class="btn btn-primary" />
         </h:form>
 
-        <!--SKRIPTE-->
+<!--SKRIPTE-->
         <script type="text/javascript">
             document.getElementById("restInput:linkGrabBrowser").onclick = function()
             {

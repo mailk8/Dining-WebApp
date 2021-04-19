@@ -23,7 +23,7 @@
     </ui:define>
 
     <ui:define name="head">
-        <!-- Konvertiert Radiobuttons in Sterne -->
+<!-- Konvertiert Radiobuttons in Sterne -->
         <h:outputStylesheet  library="css" name="starRating.css" />
     </ui:define>
 
@@ -35,7 +35,7 @@
             <p:growl id="dishSelection"  showDetail="false" keepAlive="8000"/>
 
             <div class="form-group">
-                <!--ZUSAMMENFASSUNG VISIT-->
+<!--ZUSAMMENFASSUNG VISIT-->
                 <div class="row" style="padding-bottom: 70px">
                     <div class="col-12">
                         <c:set var="newline" value='\\n' />
@@ -44,7 +44,7 @@
                     </div>
                 </div>
 
-                <!--KATEGORIE ESSEN-->
+<!--KATEGORIE ESSEN-->
                 <div class="row">
                     <div class="col-4">
                         <label for="dish">Kategorie des Gerichts:</label>
@@ -58,7 +58,7 @@
                 </div>
                 <br/>
 
-                <!-- MEMO Gericht / Rating -->
+<!-- MEMO Gericht / Rating -->
                 <div class="row">
                     <div class="col-4">
                         <label for="dishMemo">Bemerkung zum Gericht:</label>
@@ -69,7 +69,7 @@
                 </div>
                 <br/>
 
-                <!-- MEMO VISIT-->
+<!-- MEMO VISIT-->
                 <div class="row">
                     <div class="col-4">
                         <label for="memoVisit">Memo zum Besuch:</label>
@@ -80,7 +80,7 @@
                 </div>
                 <br/>
 
-                <!-- KOSTEN -->
+<!-- KOSTEN -->
                 <div class="row" >
                     <div class="col-4">
                         <label for="price">Kosten:</label>
@@ -106,18 +106,18 @@
                     </div>
                 </div>
 
-                <!-- STERNE WERTUNG -->
+<!-- STERNE WERTUNG -->
                 <div class="container">
                     <div class="rating-wrap">
                         <div class="center">
                             <fieldset class="rating">
                                 <ui:remove>
-                                    <!-- UI REPEAT ERZEUGT n RADIOBUTTONS, DIE DURCH DAS CSS AM LABEL IN EINEN STERN UMGEWANDELT WERDEN.-->
-                                    <!-- DER VALUE ENTSPRICHT DER WERTIGKEIT DES RADIOBUTTONS UND IST AUCH GLEICHZEITIG SEINE ID.-->
-                                    <!-- AUF DIESE ID BEZIEHEN SICH DIE LABELS.-->
-                                    <!-- DAS ATTRIBUT CHECKED PRÜFT HIER, OB DER VALUE DES RADIOBUTTONS GLEICH DEM WERT EINES (MÖGLICHERWEISE) -->
-                                    <!-- ABGEGEBENEN RATINGS IST UND SETZT DEN ENTSPRECHENDEN BUTTON.-->
-                                    <!-- https://balusc.omnifaces.org/2015/10/custom-layout-with-hselectoneradio-in.html -->
+                <!-- UI REPEAT ERZEUGT n RADIOBUTTONS, DIE DURCH DAS CSS AM LABEL IN EINEN STERN UMGEWANDELT WERDEN.-->
+                <!-- DER VALUE ENTSPRICHT DER WERTIGKEIT DES RADIOBUTTONS UND IST AUCH GLEICHZEITIG SEINE ID.-->
+                <!-- AUF DIESE ID BEZIEHEN SICH DIE LABELS.-->
+                <!-- DAS ATTRIBUT CHECKED PRÜFT HIER, OB DER VALUE DES RADIOBUTTONS GLEICH DEM WERT EINES (MÖGLICHERWEISE) -->
+                <!-- ABGEGEBENEN RATINGS IST UND SETZT DEN ENTSPRECHENDEN BUTTON.-->
+                <!-- https://balusc.omnifaces.org/2015/10/custom-layout-with-hselectoneradio-in.html -->
                                 </ui:remove>
 
                                 <ui:repeat value="#{ratingBean.getStarsString()}" var="item">
@@ -134,7 +134,7 @@
             </div>
 
 
-            <!-- BUTTONS -->
+<!-- BUTTONS -->
             <br/>
             <script type="text/javascript">
                 function myclosefunction(code, channel, event)
@@ -166,7 +166,7 @@
 
     </ui:define>
 
-    <!-- STATISTIK -->
+<!-- STATISTIK -->
     <ui:define name="subContent">
 
         <h:form id="formStatistics">

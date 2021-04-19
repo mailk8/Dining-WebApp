@@ -5,16 +5,15 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
->
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 <ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
 
     <f:metadata>
         <ui:remove>
-            <!-- KANN GET-PARAMETER ENTGEGENNEHMEN UND WEITERREICHEN    -->
-            <!-- <f:viewParam name="foo" value="#{bean.foo}" />-->
-            <!-- FÜHRT METHODEN BEI PAGELOAD AUS-->
+        <!-- KANN GET-PARAMETER ENTGEGENNEHMEN UND WEITERREICHEN    -->
+        <!-- <f:viewParam name="foo" value="#{bean.foo}" />-->
+        <!-- FÜHRT METHODEN BEI PAGELOAD AUS-->
         </ui:remove>
         <f:viewAction action="#{backingBeanUser.getAllCulinaries()}" />
     </f:metadata>
@@ -42,7 +41,7 @@
 
         <h:form id="userInput">
             <h:inputHidden value="#{backingBeanUser.current.id}" id="id" />
-            <!--Name -->
+<!--Name -->
             <div class="form-group">
                 <label for="firstname">Vor- und Nachname:<h:message for="firstname" class="text-danger" /></label>
                 <div class="row">
@@ -54,7 +53,7 @@
                     </div>
                 </div>
             </div>
-            <!--Mail -->
+<!--Mail -->
             <div class="form-group">
                 <label for="email">E-Mail:<h:message for="email" class="text-danger" /></label>
                 <p:inputText id="email" value="#{backingBeanUser.current.email}" class="form-control" required="false" requiredMessage="Erforderlich!"
@@ -65,14 +64,14 @@
                 <p:messages id="messageForEmailH" for="email" display="icon" style="padding-left: 1px" />
             </div>
 
-            <!--Phone -->
+<!--Phone -->
             <div class="form-group">
                 <label for="phoneNumber">Telefon:<h:message for="phoneNumber" class="text-danger" /></label>
                 <h:inputText id="phoneNumber" value="#{backingBeanUser.current.phoneNumber}" class="form-control" required="false" requiredMessage="Erforderlich!">
                 </h:inputText>
             </div>
 
-            <!--Adresse -->
+<!--Adresse -->
             <div class="form-group">
                 <label for="street">Straße und Hausnummer<h:message for="street" class="text-danger" /></label>
                 <div class="row">
@@ -104,7 +103,7 @@
                 </div>
             </div>
 
-            <!--Position-->
+<!--Position-->
             <p:growl id="growlLocation" showDetail="true"  />
             <div class="card" style="padding-top: 25px; padding-left: 25px; padding-right: 25px; padding-bottom: 15px; " >
                 <div class="form-group">
@@ -142,9 +141,7 @@
             </div>
             <br/>
 
-            <!--Culinaries -->
-            <!-- equals, hashcode und toString müssen implementiert sein-->
-            <!-- https://stackoverflow.com/questions/17343032/implement-converters-for-entities-with-java-generics/17343582#17343582-->
+<!--Culinaries -->
             <div>
                 <h:selectOneMenu value="#{backingBeanUser.current.culinaryLiking}" select2="true" styleClass="form-control"  converter="omnifaces.SelectItemsConverter">
                     <f:selectItem itemLabel="Favorisierte Küche" itemValue="" />
@@ -152,14 +149,12 @@
                 </h:selectOneMenu>
             </div>
             <br/>
-            <!--Password -->
+<!--Password -->
 
             <div class="form-group">
                 <label for="password">Passwort:<h:message for="password" class="text-danger" /></label>
                 <div class="row">
                     <div class="col-12">
-                        <!-- Hier wird kein #{object.value} Feld benutzt, damit das Passwort nicht irgenwo unsicher herumgliegt-->
-                        <!-- ValueChangedListener läuft trotzdem-->
                         <p:password id="password" class="form-control" required="false" requiredMessage="Erforderlich!"
                                     toggleMask="true" redisplay="true" feedback="true" inline="true" maxlength="50" size="100"
                                     valueChangeListener="#{loginController.passwordChanged}" autocomplete="false"
@@ -174,7 +169,7 @@
                 </div>
             </div>
 
-            <!-- Buttons    -->
+<!-- Buttons    -->
             <hr/>
             <script type="text/javascript">
                 function myclosefunction(code, channel, event)
@@ -203,7 +198,7 @@
             <h:commandButton action="#{backingBeanVisit.createNew}" actionListener="#{backingBeanUser.saveUserProxy()}" class="btn btn-primary" value="Restaurantbesuch planen"/>
         </h:form>
 
-        <!-- Skripte    -->
+<!-- Skripte    -->
         <script type="text/javascript">
             document.getElementById("userInput:linkGrabBrowser").onclick = function()
             {
