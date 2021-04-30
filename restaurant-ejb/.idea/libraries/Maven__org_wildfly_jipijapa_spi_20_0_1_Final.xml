@@ -1,13 +1,13 @@
 <component name="libraryTable">
-  <library name="Maven: org.wildfly:jipijapa-spi:20.0.1.Final">
+  <library name="Maven: org.apache.shiro:shiro-crypto-core:1.7.1">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/wildfly/jipijapa-spi/20.0.1.Final/jipijapa-spi-20.0.1.Final.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-core/1.7.1/shiro-crypto-core-1.7.1.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/org/wildfly/jipijapa-spi/20.0.1.Final/jipijapa-spi-20.0.1.Final-javadoc.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-core/1.7.1/shiro-crypto-core-1.7.1-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/wildfly/jipijapa-spi/20.0.1.Final/jipijapa-spi-20.0.1.Final-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/shiro/shiro-crypto-core/1.7.1/shiro-crypto-core-1.7.1-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

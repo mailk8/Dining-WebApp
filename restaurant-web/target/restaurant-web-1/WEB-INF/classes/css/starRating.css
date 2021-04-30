@@ -1,0 +1,114 @@
+@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css);
+
+/*https://www.youtube.com/watch?v=zDHC4r5eCdY*/
+/*https://drive.google.com/file/d/19073O3I66c62ncNBSESLX0sIdd3xbGMN/view*/
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Box wird VERTIKAL mittig ausgerichtet */
+html,body{
+    width: 100%;
+    height: 100%;
+}
+
+/* Schriftart Überschrift Box */
+body{
+    font-family: Arial, sans-serif;
+}
+
+/* Box umschließt Sterne */
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+/* Box Maße und Rahmen */
+.rating-wrap{
+    max-width: 494px;
+    margin: auto;
+    padding: 20px;
+    /*box-shadow: 0 0 10px 0 rgba(0,0,0,.2);*/
+    box-shadow: 0 0 0px 0 rgba(0,0,0,0);
+    text-align: center;
+}
+
+/* Berite der Box */
+.center{
+    width: 470px;
+    margin: auto;
+}
+
+
+/* Optionales Texteelement, numerische Anzeige */
+#rating-value{
+    width: 110px;
+    margin: 40px auto 0;
+    padding: 10px 5px;
+    text-align: center;
+    box-shadow: inset 0 0 2px 1px rgba(46,204,113,.2);
+}
+
+
+/* Hält Sterne in der Box fest */
+.rating{
+    border: none;
+    float: left;
+}
+
+/* Versteckt RadioButtons */
+.rating > input{
+    display: none;
+}
+
+
+/* Stern VOLL gefüllt*/
+.rating > label:before{
+    content: '\f005';
+    font-family: FontAwesome;
+    margin: 8px;
+    font-size: 4rem; /* Größe des Sterns*/
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* Stern halb gefüllt*/
+/* Bei halben Sternen springt bei Mousehoover zuerst der volle Stern an,
+danach wird der halbvollen beim "Betreten" des Sterns aktiviert.
+Kann man mit 0 Margin etwas kaschieren.  */
+.rating > .half:before{
+    content: '\f089';
+    font-family: FontAwesome;
+    font-size: 5rem;
+    position: absolute;
+    cursor: pointer;
+}
+
+/* Färbung der leeren Sterne und Ausrichtung */
+.rating > label{
+    color: #ddd;
+    float: right;
+    cursor: pointer;
+}
+
+/* Füllfarbe und Verhalten unchecked Stene bei Mousehoovering */
+.rating > input:checked ~ label,
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label{
+    color: #ffc107;
+
+
+}
+
+/* Füllfarbe und Verhalten checked Sterne bei Mousehoovering */
+.rating > input:checked + label:hover,
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label,
+.rating > input:checked ~ label:hover ~ label{
+    color: #ffc107;
+}

@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.3" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+              http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd">
+
+    <component>
+        <component-type>org.apache.shiro.web.faces.tags.PrincipalTag</component-type>
+        <component-class>org.apache.shiro.web.faces.tags.PrincipalTag</component-class>
+    </component>
+
+    <lifecycle>
+        <phase-listener>de.marcel.restaurant.web.jsfFramework.LifeCycleListener</phase-listener>
+    </lifecycle>
+
+    <factory>
+        <exception-handler-factory>
+            de.marcel.restaurant.web.jsfFramework.CustomExceptionHandlerFactory
+        </exception-handler-factory>
+    </factory>
+
+</faces-config>

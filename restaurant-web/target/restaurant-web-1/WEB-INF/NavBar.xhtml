@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:shiro="http://shiro.apache.org/tags"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+<!--    Erneutes Setzen der Locale, damit nach Link nicht erneut default eingestellt wird-->
+<!--    <f:view locale="#{langSwitch.curLoc}" />-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+
+    <a class="navbar-brand" href="#"><h:outputText value="Dining WebApp" /></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavi">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNavi">
+
+        <ul class="navbar-nav mr-auto">
+
+            <li class="nav-item #{active == 'User' ? 'active' : ''}">
+                <h:link class="nav-link" outcome="UserList"><h:outputText value="User" /></h:link>
+            </li>
+
+            <li class="nav-item #{active == 'Restaurants' ? 'active' : ''}">
+                <h:link class="nav-link" outcome="RestaurantList"><h:outputText value="Restaurants" /></h:link>
+            </li>
+
+            <li class="nav-item #{active == 'Visit' ? 'active' : ''}">
+                <h:form>
+                    <h:link class="nav-link" outcome="VisitList"><h:outputText value="Restaurantbesuche" /></h:link>
+                </h:form>
+            </li>
+
+        </ul>
+
+        <!-- icon="pi pi-external-link"-->
+        <p:commandButton value="QR-Code" type="button"  onclick="PF('dlg1').show()" style="margin-right: .5rem; font-size: 0.9rem; !important;"/>
+        <p:dialog header="Weitere Teilnehmer einladen?" widgetVar="dlg1" minHeight="40" width="400" showEffect="fade">
+            <p class="p-m-0">Der QR-Code enthält einen Link auf diese WebApp, der sich einfach per Smartphone öffnen lässt.
+            <p:barcode value="https://localhost/restaurant-web-1/" type="qr" style="height: 350px"/>
+            </p>
+        </p:dialog>
+
+        <shiro:user>
+            <h:form>
+                <h:commandLink class="btn btn-danger" action="#{loginController.logout()}" value=" Logout "
+                               a:style="font-size: 1.0rem; !important;"/>
+            </h:form>
+        </shiro:user>
+
+        <shiro:guest>
+            <p:button a:style="color: #ffffff; background-color: #28a745; border-color: #28a745; font-size: 1.0rem; !important;"
+                            href="https://localhost/restaurant-web-1/Login.jsf" value=" Login " />
+        </shiro:guest>
+
+    </div>
+</nav>
+</html>
+
