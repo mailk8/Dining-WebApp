@@ -91,31 +91,6 @@
     <orderEntry type="library" name="Maven: org.iq80.snappy:snappy:0.4" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.tukaani:xz:1.8" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.plexus:plexus-utils:3.3.0" level="project" />
-    <orderEntry type="library" name="Maven: de.marcel.restaurant.restaurant-web:credentials-class-interface:1" level="project" />
-    <orderEntry type="library" name="Maven: org.primefaces:primefaces:10.0.0-RC2" level="project" />
-    <orderEntry type="library" name="Maven: org.primefaces.themes:all-themes:1.0.10" level="project" />
-    <orderEntry type="library" name="Maven: org.omnifaces:omnifaces:2.7.7" level="project" />
-    <orderEntry type="library" name="Maven: org.webjars:bootstrap:4.5.2" level="project" />
-    <orderEntry type="library" name="Maven: org.webjars:jquery:3.5.1" level="project" />
-    <orderEntry type="library" name="Maven: org.webjars:popper.js:1.16.0" level="project" />
-    <orderEntry type="library" name="Maven: org.webjars:font-awesome:5.14.0" level="project" />
-    <orderEntry type="library" name="Maven: org.webjars:bootstrap-datepicker:1.9.0" level="project" />
-    <orderEntry type="library" name="Maven: de.marcel.restaurant.restaurant-ejb:interfaces:1" level="project" />
-    <orderEntry type="library" name="Maven: de.marcel.restaurant.restaurant-ejb:model-classes:1" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-core:1.7.1" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-lang:1.7.1" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.26" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-cache:1.7.1" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-crypto-hash:1.7.1" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-crypto-core:1.7.1" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-crypto-cipher:1.7.1" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-config-core:1.7.1" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-config-ogdl:1.7.1" level="project" />
-    <orderEntry type="library" name="Maven: commons-beanutils:commons-beanutils:1.9.4" level="project" />
-    <orderEntry type="library" name="Maven: commons-collections:commons-collections:3.2.2" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-event:1.7.1" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-web:1.7.1" level="project" />
-    <orderEntry type="library" name="Maven: org.owasp.encoder:encoder:1.2.2" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.weld.se:weld-se-core:4.0.0.Final" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.weld.environment:weld-environment-common:4.0.0.Final" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.weld:weld-core-impl:4.0.0.Final" level="project" />

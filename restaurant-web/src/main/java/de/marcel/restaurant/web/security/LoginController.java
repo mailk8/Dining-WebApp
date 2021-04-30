@@ -1,7 +1,9 @@
 package de.marcel.restaurant.web.security;
 
 
+import de.marcel.restaurant.ejb.interfaces.ICredentials;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
+import de.marcel.restaurant.ejb.model.Credentials;
 import de.marcel.restaurant.ejb.model.User;
 import de.marcel.restaurant.web.backingBeans.BackingBeanRestaurant;
 import de.marcel.restaurant.web.backingBeans.BackingBeanUser;
@@ -40,7 +42,7 @@ public class LoginController implements Serializable
 	@Inject BackingBeanRestaurant backingBeanRestaurant;
 	@Inject BackingBeanVisit backingBeanVisit;
 	@Inject IRestaurantEJB appServer;
-	private Credentials cred;
+	private de.marcel.restaurant.ejb.model.Credentials cred;
 
 	public void login() {
 			// Befindet sich in ModifiedAuthenticationFilter

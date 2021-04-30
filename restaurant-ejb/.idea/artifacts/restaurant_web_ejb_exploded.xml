@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-ejb" name="restaurant-web:ejb exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/restaurant_web_ejb_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="restaurant-web/ejb/EJB" />
+      <element id="javaee-facet-classes" facet="restaurant-web/ejb/EJB" />
+    </root>
+  </artifact>
+</component>

@@ -41,5 +41,9 @@ public interface IAddress extends Serializable
 
 	void setWgsRestApiCall(URI wgsRestApiCall);
 
+	String getSessionId();
+
+	void setSessionId(String sessionId);
+
 	@Override String toString();
 }

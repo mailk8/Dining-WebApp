@@ -85,11 +85,9 @@
           <element id="library" level="project" name="Maven: org.iq80.snappy:snappy:0.4" />
           <element id="library" level="project" name="Maven: org.tukaani:xz:1.8" />
           <element id="library" level="project" name="Maven: org.codehaus.plexus:plexus-utils:3.3.0" />
-          <element id="library" level="project" name="Maven: de.marcel.restaurant.restaurant-web:credentials-class-interface:1" />
           <element id="library" level="project" name="Maven: de.marcel.restaurant.restaurant-ejb:model-classes:1" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-core:1.7.1" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-lang:1.7.1" />
-          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.26" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-cache:1.7.1" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-crypto-hash:1.7.1" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-crypto-core:1.7.1" />
@@ -102,6 +100,7 @@
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-web:1.7.1" />
           <element id="library" level="project" name="Maven: org.owasp.encoder:encoder:1.2.2" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-faces:2.0" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.30" />
         </element>
       </element>
       <element id="directory" name="META-INF">

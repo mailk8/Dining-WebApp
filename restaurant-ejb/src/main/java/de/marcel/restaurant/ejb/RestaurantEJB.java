@@ -2,9 +2,9 @@ package de.marcel.restaurant.ejb;
 
 
 import de.marcel.restaurant.ejb.interfaces.IBaseEntity;
+import de.marcel.restaurant.ejb.interfaces.ICredentials;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.User;
-import de.marcel.restaurant.web.security.ICredentials;
 import org.eclipse.persistence.config.CascadePolicy;
 
 import javax.annotation.PostConstruct;

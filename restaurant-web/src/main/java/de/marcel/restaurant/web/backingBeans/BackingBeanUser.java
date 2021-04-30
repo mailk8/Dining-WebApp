@@ -1,12 +1,12 @@
 package de.marcel.restaurant.web.backingBeans;
 
+import de.marcel.restaurant.ejb.interfaces.ICredentials;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.Address;
 import de.marcel.restaurant.ejb.model.Culinary;
 import de.marcel.restaurant.ejb.model.User;
 import de.marcel.restaurant.web.httpClient.*;
 import de.marcel.restaurant.web.jsfFramework.WebSocketObserver;
-import de.marcel.restaurant.web.security.ICredentials;
 import de.marcel.restaurant.web.security.LoginController;
 import de.marcel.restaurant.web.security.UserMailController;
 import org.apache.shiro.SecurityUtils;

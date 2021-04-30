@@ -18,6 +18,7 @@ public class Address extends BaseEntity implements IAddress
 
 	@Transient private int counterApiCalls;
 	@Transient private URI wgsRestApiCall;
+	@Transient private String sessionId;
 
 	@Id
 	@Column(name = "prim", nullable = false, columnDefinition = "INT")
@@ -163,6 +164,16 @@ public class Address extends BaseEntity implements IAddress
 	@Override public void setWgsRestApiCall(URI wgsRestApiCall)
 	{
 		this.wgsRestApiCall = wgsRestApiCall;
+	}
+
+	@Override public String getSessionId()
+	{
+		return sessionId;
+	}
+
+	@Override public void setSessionId(String sessionId)
+	{
+		this.sessionId = sessionId;
 	}
 
 	@Override public String toString()
