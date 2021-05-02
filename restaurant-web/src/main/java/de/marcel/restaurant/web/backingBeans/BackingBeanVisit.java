@@ -260,8 +260,6 @@ public class BackingBeanVisit implements Serializable
 
 	public String delete(RestaurantVisit u) {
 
-		// todo: Security einschalten für delete Visit
-		//if(redirectIfWrongState(u, 0,2) == null)
 		appServer.delete(u);
 		websocket.sendMessage(RestaurantVisit.class);
 		return "VisitList?faces-redirect=true";

@@ -2,8 +2,8 @@ package de.marcel.restaurant.web.httpClient;
 
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.Address;
-import de.marcel.restaurant.ejb.model.User;
 import de.marcel.restaurant.web.jsfFramework.WebSocketObserver;
+import de.marcel.restaurant.web.apiKeys.MyApiKeys;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -68,7 +68,7 @@ public class HttpClientWGS implements Serializable
 					+ "municipality=City&"
 					+ "postalCode=ZipCode&"
 					+ "language=en-US&"
-					+ "key=sVYA6qRCAQW0AKOmZQgLvFkQUs73xSfv"; // todo: Api-Key entfernen
+					+ "key="+MyApiKeys.TOMTOM;
 
 
 	public HttpClientWGS(){}

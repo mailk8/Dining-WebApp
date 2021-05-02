@@ -37,9 +37,6 @@ public class QrGenerator implements Serializable
 
 	public void generateQrCode()
 	{
-		Logger.getLogger(this.getClass().getSimpleName()).severe("+# generateQrCode läuft");
-
-
 		String qrCodeString = Faces.getRequestParameterMap().get("paramurl");
 
 		Logger.getLogger(this.getClass().getSimpleName()).severe("+# generateQrCode hat erhalten " + qrCodeString );
@@ -52,14 +49,13 @@ public class QrGenerator implements Serializable
 		try
 		{
 			BitMatrix matrix = new MultiFormatWriter().encode(qrCodeString, BarcodeFormat.QR_CODE, 350, 350, hintMap);
-//			BitMatrix matrix = new MultiFormatWriter().encode(qrCodeString, BarcodeFormat.QR_CODE, 350, 350);
 			BufferedImage image = MatrixToImageWriter.toBufferedImage(matrix);
 
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ImageIO.write(image,"png", baos);
 			qrCodeBytes = baos.toByteArray();
 
-			Logger.getLogger(this.getClass().getSimpleName()).severe("+# generateQrCode hat generiert.  " );
+			Logger.getLogger(this.getClass().getSimpleName()).severe("+# QrCode generiert." );
 
 		}
 		catch (WriterException e)
