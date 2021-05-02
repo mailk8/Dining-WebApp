@@ -22,8 +22,10 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.*;
+import java.util.logging.Logger;
 
 /*
 Stellt Logoutfunktion bereit und
@@ -51,6 +53,7 @@ public class LoginController implements Serializable
 	public synchronized String logout() {
 		// logout soll Session invalidieren und dafür sorgen, dass der Current User aus der BackingBeanUser verschwindet
 		clearSession();
+		generateBarcode();
 		return "UserList?faces-redirect=true";
 	}
 
@@ -245,5 +248,25 @@ public class LoginController implements Serializable
 		return new Sha256Hash(clearText[0], salt, 1).toBase64();
 	}
 
+	/////////////////////////////// QR-Code /////////////////////////////////
+	public String generateBarcode() {
+		HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		String ipAddress = request.getHeader("X-FORWARDED-FOR");
+		barcode = "http://"+ipAddress+"/restaurant-web-1";
+		Logger.getLogger(this.getClass().getSimpleName()).severe("+# generateBarcode " + barcode);
+		return "http://"+ipAddress+"/restaurant-web-1";
+	}
+
+	String barcode="leerBeiAppStart";
+
+	public String getBarcode()
+	{
+		return barcode;
+	}
+
+	public void setBarcode(String barcode)
+	{
+		this.barcode = barcode;
+	}
 }
 

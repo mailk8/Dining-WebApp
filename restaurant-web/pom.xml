@@ -11,8 +11,8 @@
     <packaging>war</packaging>
 
     <properties>
-        <maven.compiler.target>15</maven.compiler.target>
-        <maven.compiler.source>15</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
         <shiro.version>1.7.1</shiro.version>
     </properties>
 
@@ -66,17 +66,17 @@
         </dependency>
 
 
-<!--Primefaces Barcodes        -->
+<!-- QR CODE    -->
         <dependency>
-            <groupId>net.glxn</groupId>
-            <artifactId>qrgen</artifactId>
-            <version>1.4</version>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.4.1</version>
         </dependency>
 
         <dependency>
-            <groupId>net.sf.barcode4j</groupId>
-            <artifactId>barcode4j-light</artifactId>
-            <version>2.1</version>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>3.3.0</version>
         </dependency>
 
 <!-- WEB JARS-->

@@ -179,7 +179,8 @@
                          style="border: 0px solid transparent; outline: 1px solid lightgrey; padding-right: 0px"
                          rows="10" paginator="false" paginatorPosition="bottom"
                          value="#{backingBeanUser.getAllUsersProxy()}" rowKey="#{user.id}"
-                         selection="#{backingBeanVisit.current.participants}" rowSelectMode="add" >
+                         selection="#{backingBeanVisit.current.participants}" rowSelectMode="add"
+                         onRowClick="console.log('Ajax am Websocket fing event channelEdit')">
 
                 <p:ajax event="rowSelect"  update=":visitCreate:sizeParticipants_Actual" />
                 <p:ajax event="rowUnselect" update=":visitCreate:sizeParticipants_Actual" />

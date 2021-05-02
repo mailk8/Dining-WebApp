@@ -8,6 +8,7 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import java.util.*;
+import java.util.logging.Logger;
 
 /*
 	https://www.ocpsoft.org/java/persist-and-pass-facesmessages-over-page-redirects/
@@ -23,6 +24,7 @@ public class LifeCycleListener implements PhaseListener
 	}
 
 	public void beforePhase(PhaseEvent event) {
+		//Logger.getLogger(this.getClass().getSimpleName()).severe("+# beforePhase: " + event.getPhaseId().getName());
 
 		FacesContext facesContext = event.getFacesContext();
 		this.saveMessages(facesContext);
@@ -37,7 +39,7 @@ public class LifeCycleListener implements PhaseListener
 	}
 
 	public void afterPhase(PhaseEvent event) {
-
+		//Logger.getLogger(this.getClass().getSimpleName()).severe("+# afterPhase: " + event.getPhaseId().getName());
 		if (!PhaseId.RENDER_RESPONSE.equals(event.getPhaseId()))
 		{
 			FacesContext facesContext = event.getFacesContext();
@@ -60,6 +62,7 @@ public class LifeCycleListener implements PhaseListener
 		{
 			FacesMessage m = iter.next();
 			messages.add(m);
+			//Logger.getLogger(this.getClass().getSimpleName()).severe("+# saveMessages fing Message: " + m.toString());
 			iter.remove();
 		}
 
@@ -97,9 +100,9 @@ public class LifeCycleListener implements PhaseListener
 			// fügt alle gefangenen Messages als globale (ClientId null) wieder in den Kontext ein.
 			// Wenn auch spzifische Meldungen gefangen werden, verliert die Message den Bezug
 			// auf den Darstell-Ort.
+			//Logger.getLogger(this.getClass().getSimpleName()).severe("+# restoreMessage: " + ((FacesMessage) entry).toString());
 
-			facesContext.addMessage("price", (FacesMessage) entry);
-//			FacesMessage m = (FacesMessage) entry;
+			facesContext.addMessage(null, (FacesMessage) entry);
 		}
 		return restoredCount;
 	}

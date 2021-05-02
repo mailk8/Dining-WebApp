@@ -69,5 +69,26 @@
         <mode>REQUIRE</mode>
       </ssl-config>
     </data-source>
+    <data-source name="mariadb_resraurantapp@amazon_rds" uuid="87fb98e6-6cab-4c95-8b89-488fd1d61668">
+      <database-info product="MariaDB" version="10.5.8-MariaDB-log" jdbc-version="4.2" driver-name="MariaDB Connector/J" driver-version="2.6.0" dbms="MARIADB" exact-version="10.5.8" exact-driver-version="2.6">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <schema-mapping>
+        <introspection-scope>
+          <node kind="schema">
+            <name qname="restaurantapp" />
+            <name qname="restaurantapp_auth" />
+          </node>
+        </introspection-scope>
+      </schema-mapping>
+      <ssl-config>
+        <enabled>true</enabled>
+        <mode>REQUIRE</mode>
+      </ssl-config>
+    </data-source>
   </component>
 </project>

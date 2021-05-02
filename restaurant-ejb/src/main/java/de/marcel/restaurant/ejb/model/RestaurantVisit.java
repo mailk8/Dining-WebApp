@@ -7,10 +7,11 @@ import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "restaurantVisit")
+@Table(name = "restaurantvisit") // -> geändert von restaurantVisit auf restaurantvisit
 @NamedQueries({
 
 				@NamedQuery(name = "RestaurantVisit.findAllForUser", query = "SELECT u FROM RestaurantVisit u WHERE u.restaurantChosen = :attribute"),
@@ -28,6 +29,8 @@ import java.util.stream.Collectors;
 
 public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 {
+	@Transient private Logger log = Logger.getLogger(this.getClass().getSimpleName());
+
 	private static final long serialVersionUID = 1L;
 
 	@Transient
@@ -103,11 +106,13 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 
 	@Override public List<User> getParticipants()
 	{
+		log.severe("+# getParticipants laeuft");
 		return participants;
 	}
 
 	@Override public String getParticipantsAsString(User u)
 	{
+		log.severe("+# getParticipantsAsString laeuft");
 		List<User> list = participants;
 		if(u != null)
 		{
@@ -122,26 +127,32 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 
 	@Override public void setParticipants(List<User> users)
 	{
+		log.severe("+# setParticipants laeuft mit: ");
+		users.forEach(e -> log.severe(e.getFirstname() + " "));
 		this.participants = users;
 	}
 
 	public Set<Rating> getRatings()
 	{
+		log.severe("+# getRatings laeuft");
 		return ratings;
 	}
 
 	public void setRatings(Set<Rating> ratings)
 	{
+		log.severe("+# setRatings laeuft");
 		this.ratings = ratings;
 	}
 
 	@Override public Restaurant getRestaurantChosen()
 	{
+		log.severe("+# getRestaurantChosen laeuft");
 		return restaurantChosen;
 	}
 
 	@Override public void setRestaurantChosen(Restaurant restaurantChosen)
 	{
+		log.severe("+# setRestaurantChosen laeuft");
 		this.restaurantChosen = restaurantChosen;
 	}
 
@@ -162,6 +173,7 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 
 	@Override public void setChosenCulinaries(List<Culinary> chosenCulinaries)
 	{
+		log.severe("+# setChosenCulinaries laeuft");
 		this.chosenCulinaries = chosenCulinaries;
 	}
 
@@ -172,6 +184,7 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 
 	@Override public void setAddressVisit(Address addressVisit)
 	{
+		log.severe("+# setAddressVisit laeuft");
 		this.addressVisit = addressVisit;
 	}
 
@@ -182,6 +195,7 @@ public class RestaurantVisit extends BaseEntity implements IRestaurantVisit
 
 	@Override public void setVisitingTime(LocalTime visitingTime)
 	{
+		log.severe("+# setVisitingTime laeuft");
 		this.visitingTime = visitingTime;
 	}
 

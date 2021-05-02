@@ -25,6 +25,8 @@ import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 
@@ -36,7 +38,7 @@ public class BackingBeanVisit implements Serializable
 	private static final long serialVersionUID = 1L;
 	private RestaurantVisit current = new RestaurantVisit();
 
-	@Resource(name = "DefaultManagedExecutorService") ManagedExecutorService executor;
+	@Resource/*(name = "DefaultManagedExecutorService") */ManagedExecutorService executor;
 	@Inject private IRestaurantEJB appServer;
 	@Inject private BackingBeanUser backingBeanUser;
 	@Inject private WebSocketObserver websocket;
@@ -49,29 +51,32 @@ public class BackingBeanVisit implements Serializable
 	private HashSet<Integer> set;
 	private MapModel geoModel;
 	private String googleMapsResult;
+	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
 
 	public void init() {
+		log.severe("+# init laeuft");
 		geoModel = new DefaultMapModel();
 	}
 
 	public void proxyOnLoad() {
+		log.severe("+# proxyOnLoad laeuft");
 		getAllVisits().forEach(e -> e.setStateVisit(State.UNVOLLSTÄNDIG));
 		visitList.stream().forEach(e -> updateVisitState(e));
 	}
 
 	////////////////////////////////// Methods for Restaurant & Culinary Selection //////////////////////////////
 	public Culinary[] getCulinariesArray()
-	{
+	{log.severe("+# getCulinariesArray laeuft");
 		return current.getChosenCulinaries().stream().toArray(Culinary[]::new);
 	}
 
 	public void setCulinariesArray(Culinary[] culinariesArray)
-	{
+	{log.severe("+# setCulinariesArray laeuft mit " + culinariesArray);
 		current.setChosenCulinaries(Arrays.asList(culinariesArray));
 	}
 
 	public List<Culinary> getAllCulinariesProxy()
-	{
+	{log.severe("+# getAllCulinariesProxy laeuft");
 		if(null == allCulinariesProxy)
 		{
 			allCulinariesProxy = getAllCulinaries();
@@ -79,14 +84,15 @@ public class BackingBeanVisit implements Serializable
 		return allCulinariesProxy;
 	}
 
-	public Integer getAvgRating(Restaurant r) {
+	public Integer getAvgRating(Restaurant r)
+	{log.severe("+# getAvgRating laeuft");
 		return BigDecimal.valueOf(r.getAvgRating()).intValue();
 	}
 
 
 	////////////////////////////////// Methods for Location of Search //////////////////////////////
 	public void setGoogleMapsResult(String googleApiReturn)
-	{
+	{log.severe("+# setGoogleMapsResult laeuft");
 		try
 		{
 			if( null != googleApiReturn )
@@ -117,11 +123,12 @@ public class BackingBeanVisit implements Serializable
 
 	//////////////////////////  Methods for Fetching & Performane //////////////////////////
 	public void fetchVisitsForUser()
-	{
+	{log.severe("+# fetchVisitsForUser laeuft");
 		User user = backingBeanUser.getCurrent();
 		if( null != user )
-		{
+		{log.severe("+# fetchVisitsForUser executor wird angesprochen");
 			allVisitsThisUser = executor.submit(()-> {
+				log.severe("+# executor läuft, findAllVisitsForUser ergibt: " + appServer.findAllVisitsForUser(user));
 				return appServer.findAllVisitsForUser(user);
 			});
 		}
@@ -132,12 +139,12 @@ public class BackingBeanVisit implements Serializable
 	}
 
 	public void prepareGetAllCulinaries()
-	{
+	{log.severe("+# prepareGetAllCulinaries laeuft");
 		allCulinariesProxy = getAllCulinaries();
 	}
 
 	public List<Culinary> getAllCulinaries()
-	{
+	{log.severe("+# getAllCulinaries laeuft");
 		return appServer.findAll(Culinary.class);
 	}
 
@@ -152,7 +159,7 @@ public class BackingBeanVisit implements Serializable
 	}
 
 	public List<RestaurantVisit> getAllVisitsProxy()
-	{
+	{log.severe("+# getAllVisitsProxy laeuft");
 		return visitList;
 	}
 
@@ -162,7 +169,7 @@ public class BackingBeanVisit implements Serializable
 
 	//////////////////////////  Methods for Visit Functions //////////////////////////
 	public void updateVisitState(RestaurantVisit visit)
-	{
+	{log.severe("+# updateVisitState laeuft");
 		int switchVar = visit.getStateVisit().ordinal();
 
 		switch (switchVar)
@@ -195,7 +202,7 @@ public class BackingBeanVisit implements Serializable
 	}
 
 	public String rate(RestaurantVisit u)
-	{
+	{log.severe("+# rate laeuft");
 		this.current = u;
 		return "VisitRating?faces-redirect=true";
 	}
@@ -236,7 +243,7 @@ public class BackingBeanVisit implements Serializable
 	}
 
 	public void update(RestaurantVisit u)
-	{
+	{log.severe("+# getCulinariesArray laeuft");
 		appServer.update(u);
 	}
 
@@ -260,20 +267,20 @@ public class BackingBeanVisit implements Serializable
 		return "VisitList?faces-redirect=true";
 	}
 
-	public String createNew() {
-
+	public String createNew()
+	{log.severe("+# createNew: Neuen Restaurantbesuch planen");
 		current = new RestaurantVisit();
 		current.setTimezoneString(zoneString);
 		return "VisitCreate?faces-redirect=true";
 	}
 
 	public void setCurrent(RestaurantVisit u)
-	{
+	{log.severe("+# setCurrent laeuft");
 		this.current = u;
 	}
 
 	public RestaurantVisit getCurrent()
-	{
+	{log.severe("+# getCurrent laeuft");
 		return current;
 	}
 
@@ -298,13 +305,13 @@ public class BackingBeanVisit implements Serializable
 
 	//////////////////////////  Methods for Participants Functions //////////////////////////
 	public String getSizeParticipantsForValidator()
-	{
+	{log.severe("+# getSizeParticipantsForValidator laeuft:" + sizeParticipantsForValidator);
 		sizeParticipantsForValidator = current.getParticipants().size()+"";
 		return sizeParticipantsForValidator;
 	}
 
 	public void setSizeParticipantsForValidator(String sizeParticipantsForValidator)
-	{
+	{log.severe("+# setSizeParticipantsForValidator laeuft mit " + sizeParticipantsForValidator);
 		this.sizeParticipantsForValidator = sizeParticipantsForValidator;
 
 	}
@@ -317,7 +324,7 @@ public class BackingBeanVisit implements Serializable
 
 	//////////////////////////  Methods for Date Time Functions //////////////////////////
 	public Set<String> getAllTimezones()
-	{
+	{log.severe("+# getCulinariesArray laeuft");
 		return new TreeSet<String>(ZoneId.getAvailableZoneIds());
 	}
 
@@ -327,12 +334,12 @@ public class BackingBeanVisit implements Serializable
 	}
 
 	public String getZoneString()
-	{
+	{log.severe("+# getCulinariesArray laeuft");
 		return zoneString;
 	}
 
 	public void setZoneString(String zoneString)
-	{
+	{log.severe("+# getCulinariesArray laeuft");
 		this.zoneString = zoneString;
 	}
 
@@ -348,16 +355,17 @@ public class BackingBeanVisit implements Serializable
 	}
 
 	public boolean isUserParticipantOf(RestaurantVisit visit)
-	{
+	{log.severe("+# isUserParticipantOf laeuft");
 		try
 		{
 			if( null != allVisitsThisUser )
 			{
 				// Abholen aus dem Future (async)
 				if ( null !=  (set = allVisitsThisUser.get()) )
-				{
+				{log.severe("+# allVisitsThisUser ist nicht null");
 					// Prüft, ob das Set der Visits dieses Users den aktuell betrachteten Visit enthält.
 					// Der betrachtete Visit erhält dann in der List Buttons zum Bearbeiten (und Bewerten), oder eben nicht.
+					log.severe("+# user " + backingBeanUser.getCurrent() + " ist Teilnehmer in Visit vom " + visit.getVisitingDateTime());
 					return set.contains(visit.getPrim());
 				}
 				else
@@ -383,17 +391,17 @@ public class BackingBeanVisit implements Serializable
 	////////////////////////////////// Getter Setter ////////////////////////////////////////
 
 	public MapModel getGeoModel()
-	{
+	{log.severe("+# getCulinariesArray laeuft");
 		return geoModel;
 	}
 
 	public void setGeoModel(MapModel geoModel)
-	{
+	{log.severe("+# getCulinariesArray laeuft");
 		this.geoModel = geoModel;
 	}
 
 	public String getGoogleMapsResult()
-	{
+	{log.severe("+# getCulinariesArray laeuft");
 		return googleMapsResult;
 	}
 

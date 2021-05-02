@@ -13,15 +13,15 @@ import org.primefaces.model.charts.hbar.HorizontalBarChartDataSet;
 import org.primefaces.model.charts.hbar.HorizontalBarChartModel;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -147,6 +147,7 @@ public class RatingBean implements Serializable
 
 		if(currentRating.getPrim() != null)
 		{
+			Logger.getLogger(this.getClass().getSimpleName()).severe("+# Update, User ändert sein Rating");
 			// Update, User ändert sein Rating
 			appServer.update(currentRating);
 			currentVisit.getRatings().remove(currentRating);
@@ -154,10 +155,24 @@ public class RatingBean implements Serializable
 		}
 		else
 		{
+			Logger.getLogger(this.getClass().getSimpleName()).severe("+# Check hat dieser User bereits abgestimmt");
+			// Check hat dieser User bereits abgestimmt
+			RestaurantVisit checkDuplicates = (RestaurantVisit) appServer.findOneByPrim(currentVisit.getPrim(), RestaurantVisit.class, true);
+			Logger.getLogger(this.getClass().getSimpleName()).severe("+# checkDuplicates enthält user " + checkDuplicates.getRatings().stream().map(e->e.getRatingUser()).collect(Collectors.toList()));
+			Optional<Rating> opt = checkDuplicates.getRatings().stream().filter(e -> e.getRatingUser().getPrim().equals(currentUser.getPrim())).findAny();
+			if(opt.isPresent())
+			{
+				FacesContext ctx = FacesContext.getCurrentInstance();
+				ctx.renderResponse();
+				ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Du hast für diesen Restaurantbesuch bereits eine Bewertung abgegeben!" , ""));
+				Logger.getLogger(this.getClass().getSimpleName()).severe("+# Check steigt aus, da schon ein Rating enthalten ist");
+				return;
+			}
+
 			// Rating wird erstmalig gespeichert
 			int i = appServer.persist(currentRating);
 			currentRating.setPrim(i);
-			currentVisit.getRatings().add(currentRating); // mehrmals ??
+			currentVisit.getRatings().add(currentRating);
 		}
 
 		backingBeanVisit.setCurrent(currentVisit);

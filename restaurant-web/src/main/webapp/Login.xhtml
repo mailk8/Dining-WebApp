@@ -22,7 +22,18 @@
     </ui:define>
 
     <ui:define name="htmlHeader">
+        <script type="text/javascript">
+            window.onload = function() {
+                const arr =  window.location.href.split('/', 5);
+                const urlString = ""+arr[0]+"/"+arr[1]+"/"+arr[2]+"/"+arr[3];
+                console.log("Ermittelte URL: " + arr[0]+"/"+arr[1]+"/"+arr[2]+"/"+arr[3]+ " ans Backend wird gesandt : " +  urlString);
+                submitUrlBackend({paramurl:urlString});
+            }
+        </script>
 
+        <h:form>
+            <h:commandScript name="submitUrlBackend" action="#{qrGenerator.generateQrCode()}" />
+        </h:form>
     </ui:define>
 
     <ui:define name="mainContent">
