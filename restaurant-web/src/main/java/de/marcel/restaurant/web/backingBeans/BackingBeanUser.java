@@ -26,8 +26,7 @@ import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
-
-
+import java.util.logging.Logger;
 
 @Named
 @SessionScoped
@@ -201,6 +200,10 @@ public class BackingBeanUser implements Serializable
 	public int proxyPersistCredentials(ICredentials cred)
 	{
 		return appServer.persistCredentials(cred);
+	}
+
+	public void testWs() {
+		Logger.getLogger(this.getClass().getSimpleName()).severe("+# Listener im Backend durch Ajax aufgerufen " + current.getAddressLiving().getWgs84Longitude());
 	}
 
 }

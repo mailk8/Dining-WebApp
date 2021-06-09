@@ -13,6 +13,8 @@ import javax.faces.push.PushContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Set;
+import java.util.concurrent.Future;
 import java.util.logging.Logger;
 
 @Named
@@ -40,7 +42,8 @@ public class WebSocketObserver implements Serializable
 	}
 
 	public void sendMessage(String sessionId) {
-		channelEdit.send("channelEditEvent", sessionId);
+		Set<Future<Void>> result = channelEdit.send("channelEdit", sessionId);
+		Logger.getLogger(this.getClass().getSimpleName()).severe("+# Result des Messageversands auf ChannelEdit " + result);
 	}
 
 	public void onOpen(@Observes @WebsocketEvent.Opened WebsocketEvent event) {

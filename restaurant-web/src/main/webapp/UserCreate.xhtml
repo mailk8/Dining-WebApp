@@ -72,12 +72,12 @@
                 <label for="street">Straße und Hausnummer<h:message for="street" class="text-danger" /></label>
                 <div class="row">
                     <div class="col-9">
-                        <h:inputText id="street" value="#{backingBeanUser.current.addressLiving.street}" class="form-control" required="false" requiredMessage="Erforderlich!">
+                        <h:inputText id="street" value="#{backingBeanUser.current.addressLiving.street}" class="form-control" required="false" requiredMessage="Erforderlich!" autocomplete="off" >
                             <f:ajax event="blur" immediate="true" process="@this"/>
                         </h:inputText>
                     </div>
                     <div class="col-3">
-                        <h:inputText id="houseNumber" value="#{backingBeanUser.current.addressLiving.houseNumber}" class="form-control" required="false" requiredMessage="Erforderlich!">
+                        <h:inputText id="houseNumber" value="#{backingBeanUser.current.addressLiving.houseNumber}" class="form-control" required="false" requiredMessage="Erforderlich!" autocomplete="off" >
                             <f:ajax event="blur" immediate="true" process="@this"/>
                         </h:inputText>
                     </div>
@@ -87,12 +87,12 @@
                 <label for="zipCode">PLZ und Ort:<h:message for="zipCode" class="text-danger" /></label>
                 <div class="row">
                     <div class="col-4">
-                        <h:inputText id="zipCode" value="#{backingBeanUser.current.addressLiving.zipCode}" class="form-control" required="false" requiredMessage="Erforderlich!">
+                        <h:inputText id="zipCode" value="#{backingBeanUser.current.addressLiving.zipCode}" class="form-control" required="false" requiredMessage="Erforderlich!" autocomplete="off" >
                             <f:ajax event="blur" immediate="true" process="@this"/>
                         </h:inputText>
                     </div>
                     <div class="col-8">
-                        <h:inputText id="city" value="#{backingBeanUser.current.addressLiving.city}" autocomplete="true" class="form-control" required="false" requiredMessage="Erforderlich!">
+                        <h:inputText id="city" value="#{backingBeanUser.current.addressLiving.city}" class="form-control" required="false" requiredMessage="Erforderlich!" autocomplete="off" >
                             <f:ajax event="blur" immediate="true" process="@this"/>
                         </h:inputText>
                     </div>
@@ -192,9 +192,19 @@
                     console.log('OnError code is ' + code + ' event ' + event.code);
                 }
             </script>
-            <f:websocket channel="channelEdit" user="#{backingBeanUser.getSessionId()}" connected="true">
-                    <f:ajax event="channelEditEvent" immediate="true" render="userInput:wgs84Lat userInput:wgs84Lon"  onevent="console.log('Ajax am Websocket fing event channelEdit')" />
+
+            <h:commandScript name="pushScript" action="#{backingBeanUser.testWs()}" render="userInput:wgs84Lat userInput:wgs84Lon"  />
+
+            <!-- Der Userchannel-Websocket benötigt drei Hooks, damit das UI zuverlässig aktualisiert wird ^^ -->
+            <f:websocket channel="channelEdit" user="#{backingBeanUser.sessionId}" connected="true" onopen="pushScript" onclose="pushScript" onmessage="pushScript">
+                <ui:remove>
+                <f:ajax event="channelEdit" delay="400" listener="#{backingBeanUser.testWs()}" immediate="false"
+                            render="userInput:wgs84Lat userInput:wgs84Lon"
+                            onevent="console.log('Ajax am Websocket fing event channelEdit')" />
+                </ui:remove>
             </f:websocket>
+
+
             <h:commandButton action="#{backingBeanUser.saveUserProxy()}" value="Speichern" class="btn btn-primary" style="float:left;"/>
             <h:commandButton action="#{backingBeanVisit.createNew}" actionListener="#{backingBeanUser.saveUserProxy()}" class="btn btn-primary" value="Restaurantbesuch planen"/>
         </h:form>

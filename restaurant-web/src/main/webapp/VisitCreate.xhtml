@@ -43,11 +43,11 @@
                 </div>
 
                 <div class="col-3">
-                    <h:inputText id="zip"  value="#{backingBeanVisit.current.addressVisit.zipCode}" a:placeholder="PLZ" class="form-control" required="false" />
+                    <h:inputText id="zip"  value="#{backingBeanVisit.current.addressVisit.zipCode}" a:placeholder="PLZ" class="form-control" required="false" autocomplete="off" />
                 </div>
 
                 <div class="col-5">
-                    <h:inputText id="place" value="#{backingBeanVisit.current.addressVisit.city}" a:placeholder="Ort" class="form-control" required="false" >
+                    <h:inputText id="place" value="#{backingBeanVisit.current.addressVisit.city}" a:placeholder="Ort" class="form-control" required="false" autocomplete="off" >
                         <p:ajax  event="change" process="googleMapsResult" immediate="false" async="false" delay="700" update="visitCreate:locationSearchGrowl"/>
                     </h:inputText>
                 </div>
