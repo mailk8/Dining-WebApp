@@ -50,10 +50,12 @@
                 <div class="row">
                     <div class="col-9">
                         <h:inputText id="street" value="#{backingBeanRestaurant.current.addressRestaurant.street}" class="form-control" required="false" requiredMessage="Erforderlich!" autocomplete="off" >
+                            <f:ajax event="blur" immediate="true" process="@this"/>
                         </h:inputText>
                     </div>
                     <div class="col-3">
                         <h:inputText id="houseNumber" value="#{backingBeanRestaurant.current.addressRestaurant.houseNumber}" class="form-control" required="false" requiredMessage="Erforderlich!" autocomplete="off" >
+                            <f:ajax event="blur" immediate="true" process="@this"/>
                         </h:inputText>
                     </div>
                 </div>
@@ -63,10 +65,12 @@
                 <div class="row">
                     <div class="col-4">
                         <h:inputText id="zipCode" value="#{backingBeanRestaurant.current.addressRestaurant.zipCode}" class="form-control" required="false" requiredMessage="Erforderlich!" autocomplete="off" >
+                            <f:ajax event="blur" immediate="true" process="@this"/>
                         </h:inputText>
                     </div>
                     <div class="col-8">
                         <h:inputText id="city" value="#{backingBeanRestaurant.current.addressRestaurant.city}" class="form-control" required="false" requiredMessage="Erforderlich!" autocomplete="off" >
+                            <f:ajax event="blur" immediate="true" process="@this"/>
                         </h:inputText>
                     </div>
                 </div>
@@ -77,7 +81,7 @@
             <div class="card" style="padding-top: 25px; padding-left: 25px; padding-right: 25px; padding-bottom: 15px; " >
                 <div class="form-group">
                     <label for="wgs84Lat">Position des Restaurants auf Breiten- und Längengrad, per
-                        <h:commandLink id="linkGrabRestApi" action="#{backingBeanRetaurant.requestWgsForAddress()}" immediate="true">REST-Call</h:commandLink> ermitteln?
+                        <h:commandLink id="linkGrabRestApi" action="#{backingBeanRestaurant.requestWgsForAddress()}" immediate="true">REST-Call</h:commandLink> ermitteln?
                     </label>
                     <div class="row">
                         <div class="col-5">
@@ -113,7 +117,6 @@
             <div class="form-group">
                 <label for="linkMenu">Link zur Speisekarte <h:message for="linkMenu" class="text-danger" />
                     <h:outputLink value="#{backingBeanRestaurant.current.linkMenu}" target="_blank">in neuem Tab öffnen</h:outputLink>
-                    <p:ajax event="keyup" update="@this" immediate="true"/>
                 </label>
 
                 <h:inputText id="linkMenu" value="#{backingBeanRestaurant.current.linkMenu}" class="form-control" required="false">
@@ -154,9 +157,9 @@
                     console.log('OnOpen channel is ' + channel);
                 }
             </script>
-            <f:websocket channel="channelEdit" user="#{backingBeanUser.sessionId}" connected="true">
-                <f:ajax event="channelEditEvent"  immediate="true" render="userInput:wgs84Lat userInput:wgs84Lon"  onevent="console.log('Ajax am Websocket fing event channelEdit')" />
-            </f:websocket>
+            <h:commandScript name="pushScript" render="restInput:wgs84Lat restInput:wgs84Lon"  />
+            <!-- Der Userchannel-Websocket benötigt drei Hooks, damit das UI zuverlässig aktualisiert wird ^^ -->
+            <f:websocket channel="channelEdit" user="#{backingBeanUser.sessionId}" connected="true" onopen="pushScript" onclose="pushScript" onmessage="pushScript"></f:websocket>
             <h:commandButton action="#{backingBeanRestaurant.saveRestaurantProxy()}" value="Speichern" class="btn btn-primary" style="float:left;"/>
             <h:commandButton action="#{backingBeanVisit.createNew()}" actionListener="#{backingBeanRestaurant.saveRestaurantProxy()}" value="Restaurantbesuch planen" class="btn btn-primary" />
         </h:form>
