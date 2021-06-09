@@ -5,7 +5,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:o="http://omnifaces.org/ui" >
 
 <ui:composition template="WEB-INF/DefaultTemplateTwoColumns.xhtml">
 
@@ -176,6 +177,7 @@
 
                 function mymessagefunction(message, channel, event)
                 {
+
                     console.log('OnMessage event is' + event);
                     console.log('OnMessage channel is ' + channel);
                     console.log('OnMessage message is ' + message);
@@ -185,9 +187,13 @@
                 {
                     console.log('OnOpen channel is ' + channel);
                 }
+                function myerrorfunction(code, channel, event)
+                {
+                    console.log('OnError code is ' + code + ' event ' + event.code);
+                }
             </script>
-            <f:websocket channel="channelEdit" user="#{backingBeanUser.getSessionId()}" connected="true" onopen="myopenfunction" onmessage="mymessagefunction" onclose="myclosefunction" >
-                <f:ajax event="channelEdit" immediate="true" render="userInput:wgs84Lat userInput:wgs84Lon" onevent="console.log('Ajax am Websocket fing event channelEdit')" />
+            <f:websocket channel="channelEdit" user="#{backingBeanUser.getSessionId()}" connected="true">
+                    <f:ajax event="channelEditEvent" immediate="true" render="userInput:wgs84Lat userInput:wgs84Lon"  onevent="console.log('Ajax am Websocket fing event channelEdit')" />
             </f:websocket>
             <h:commandButton action="#{backingBeanUser.saveUserProxy()}" value="Speichern" class="btn btn-primary" style="float:left;"/>
             <h:commandButton action="#{backingBeanVisit.createNew}" actionListener="#{backingBeanUser.saveUserProxy()}" class="btn btn-primary" value="Restaurantbesuch planen"/>
@@ -197,6 +203,11 @@
         <script type="text/javascript">
             document.getElementById("userInput:linkGrabBrowser").onclick = function()
             {
+                if (location.protocol == "http:") { // Browserabfrage funktioniert nur bei https Verbindung
+                    alert("Du hast die App über eine unverschlüsselte http-Verbindung aufgerufen, bitte auf https wechseln oder REST-Call nutzen.");
+                    return;
+                }
+
                 if (navigator.geolocation) // Abfrage ob Browser WGS-Koordinaten liefern kann
                 {
                     navigator.geolocation.getCurrentPosition(showPosition)
@@ -206,6 +217,7 @@
                     alert("Dein Browser lässt die Abfrage von Geolocations nicht zu.");
                 }
             }
+
 
             function showPosition(pos)
             {

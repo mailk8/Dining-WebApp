@@ -33,9 +33,15 @@
     <data-source source="LOCAL" name="mariadb_resraurantapp@amazon_rds" uuid="87fb98e6-6cab-4c95-8b89-488fd1d61668">
       <driver-ref>mariadb</driver-ref>
       <synchronize>true</synchronize>
-      <remarks>use ssl !</remarks>
       <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mariadb://awsmariadb1.c1cuhxcrsptk.eu-central-1.rds.amazonaws.com:3307/restaurantapp</jdbc-url>
+      <jdbc-url>jdbc:mariadb://awsmariadb1.c1cuhxcrsptk.eu-central-1.rds.amazonaws.com:3307/restaurantapp?useLegacyDatetimeCode=true</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="auth_resraurantapp@amazon_rds" uuid="a4de9489-cfef-4384-a86d-20e6c1931592">
+      <driver-ref>mariadb</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mariadb://awsmariadb1.c1cuhxcrsptk.eu-central-1.rds.amazonaws.com:3307/restaurantapp_auth?useSSL=true&amp;trustServerCertificate=true&amp;useLegacyDatetimeCode=true</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

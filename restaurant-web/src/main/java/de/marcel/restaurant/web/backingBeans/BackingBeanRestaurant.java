@@ -62,7 +62,7 @@ public class BackingBeanRestaurant implements Serializable
 	public void setCurrent(Restaurant u)
 	{
 		this.current = u;
-		
+
 	}
 
 	public String saveRestaurantProxy() {

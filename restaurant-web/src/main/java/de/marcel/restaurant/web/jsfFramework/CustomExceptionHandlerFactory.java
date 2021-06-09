@@ -10,8 +10,10 @@ import javax.faces.context.ExceptionHandlerWrapper;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
+import java.nio.channels.ClosedChannelException;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /*
 	Sorgt dafür dass nach dem Ablauf einer User-Session keine Exceptions im Browser erscheinen.
@@ -67,7 +69,6 @@ class CustomExceptionHandler extends ExceptionHandlerWrapper
 			final Map<String, Object> requestMap = fc.getExternalContext().getRequestMap();
 			final NavigationHandler nav = fc.getApplication().getNavigationHandler();
 
-			//here you do what ever you want with exception
 			try {
 
 				//log error ?
@@ -79,7 +80,8 @@ class CustomExceptionHandler extends ExceptionHandlerWrapper
 					fc.setViewRoot(fc.getApplication().getViewHandler().createView(fc, errorPageLocation));
 					fc.getPartialViewContext().setRenderAll(true);
 					fc.renderResponse();
-				} else {
+				}
+				else {
 					//redirect error page
 					requestMap.put("javax.servlet.error.message", t.getMessage());
 					nav.handleNavigation(fc, null, "/erro.xhtml");
@@ -93,7 +95,7 @@ class CustomExceptionHandler extends ExceptionHandlerWrapper
 				i.remove();
 			}
 		}
-		//parent hanle
+		//parent handle
 		getWrapped().handle();
 	}
 }

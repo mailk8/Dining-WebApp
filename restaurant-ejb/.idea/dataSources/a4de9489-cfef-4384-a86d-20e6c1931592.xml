@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dataSource name="mariadb_resraurantapp@amazon_rds">
+<dataSource name="auth_resraurantapp@amazon_rds">
   <database-model serializer="dbm" dbms="MARIADB" family-id="MARIADB" format-version="4.21">
     <root id="1">
       <ServerVersion>10.5.8</ServerVersion>
@@ -82,10 +82,10 @@
       <Collation>utf8_general_ci</Collation>
     </schema>
     <schema id="6" parent="1" name="restaurantapp">
-      <Current>1</Current>
       <Collation>latin1_swedish_ci</Collation>
     </schema>
     <schema id="7" parent="1" name="restaurantapp_auth">
+      <Current>1</Current>
       <Collation>latin1_swedish_ci</Collation>
     </schema>
     <schema id="8" parent="1" name="tmp">
@@ -1104,345 +1104,39 @@
       <Host>localhost</Host>
     </user>
     <user id="333" parent="1" name="root"/>
-    <table id="334" parent="6" name="SEQUENCE"/>
-    <table id="335" parent="6" name="addresses"/>
-    <table id="336" parent="6" name="culinaries"/>
-    <table id="337" parent="6" name="dishes"/>
-    <table id="338" parent="6" name="ratings"/>
-    <table id="339" parent="6" name="restaurantVisit"/>
-    <table id="340" parent="6" name="restaurantVisit_culinaries"/>
-    <table id="341" parent="6" name="restaurantVisit_users"/>
-    <table id="342" parent="6" name="restaurants"/>
-    <table id="343" parent="6" name="restaurantvisit"/>
-    <table id="344" parent="6" name="restaurantvisit_culinaries"/>
-    <table id="345" parent="6" name="restaurantvisit_users"/>
-    <table id="346" parent="6" name="users"/>
-    <column id="347" parent="334" name="SEQ_NAME">
-      <Position>1</Position>
-      <DataType>varchar(50)|0s</DataType>
-    </column>
-    <column id="348" parent="334" name="SEQ_COUNT">
-      <Position>2</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="349" parent="335" name="prim">
+    <table id="334" parent="7" name="gruppen"/>
+    <table id="335" parent="7" name="users"/>
+    <column id="336" parent="334" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="350" parent="335" name="city">
-      <Position>2</Position>
-      <DataType>varchar(70)|0s</DataType>
-    </column>
-    <column id="351" parent="335" name="houseNumber">
-      <Position>3</Position>
-      <DataType>varchar(10)|0s</DataType>
-    </column>
-    <column id="352" parent="335" name="id">
-      <Position>4</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="353" parent="335" name="street">
-      <Position>5</Position>
-      <DataType>varchar(70)|0s</DataType>
-    </column>
-    <column id="354" parent="335" name="wgs84Latitude">
-      <Position>6</Position>
-      <DataType>double|0s</DataType>
-    </column>
-    <column id="355" parent="335" name="wgs84Longitude">
-      <Position>7</Position>
-      <DataType>double|0s</DataType>
-    </column>
-    <column id="356" parent="335" name="zipCode">
-      <Position>8</Position>
-      <DataType>varchar(10)|0s</DataType>
-    </column>
-    <column id="357" parent="336" name="prim">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="358" parent="336" name="category">
+    <column id="337" parent="334" name="groupname">
       <Position>2</Position>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <column id="359" parent="336" name="id">
-      <Position>3</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="360" parent="337" name="prim">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="361" parent="337" name="dishName">
-      <Position>2</Position>
-      <DataType>varchar(50)|0s</DataType>
-    </column>
-    <column id="362" parent="337" name="id">
-      <Position>3</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="363" parent="338" name="prim">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="364" parent="338" name="id">
-      <Position>2</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="365" parent="338" name="price">
-      <Position>3</Position>
-      <DataType>double|0s</DataType>
-    </column>
-    <column id="366" parent="338" name="ratingDateTime">
-      <Position>4</Position>
-      <DataType>date|0s</DataType>
-    </column>
-    <column id="367" parent="338" name="stars">
-      <Position>5</Position>
-      <DataType>tinyint(4)|0s</DataType>
-    </column>
-    <column id="368" parent="338" name="RATINGUSER_prim">
-      <Position>6</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="369" parent="338" name="VISIT_prim">
-      <Position>7</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="370" parent="338" name="RESTAURANTRATED_prim">
-      <Position>8</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="371" parent="338" name="DISH_prim">
-      <Position>9</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="372" parent="338" name="dishMemo">
-      <Position>10</Position>
-      <DataType>varchar(50)|0s</DataType>
-    </column>
-    <column id="373" parent="339" name="prim">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="374" parent="339" name="id">
-      <Position>2</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="375" parent="339" name="memo">
-      <Position>3</Position>
-      <DataType>varchar(200)|0s</DataType>
-    </column>
-    <column id="376" parent="339" name="stateVisit">
-      <Position>4</Position>
-      <DataType>tinyint(4)|0s</DataType>
-    </column>
-    <column id="377" parent="339" name="timezoneString">
-      <Position>5</Position>
-      <DataType>varchar(35)|0s</DataType>
-    </column>
-    <column id="378" parent="339" name="visitingDate">
-      <Position>6</Position>
-      <DataType>date|0s</DataType>
-    </column>
-    <column id="379" parent="339" name="visitingTime">
-      <Position>7</Position>
-      <DataType>time|0s</DataType>
-    </column>
-    <column id="380" parent="339" name="RESTAURANTCHOSEN_prim">
-      <Position>8</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="381" parent="339" name="ADDRESSVISIT_prim">
-      <Position>9</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <key id="382" parent="339" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>prim</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="383" parent="340" name="RestaurantVisit_prim">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="384" parent="340" name="chosenCulinaries_prim">
-      <Position>2</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <key id="385" parent="340" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>RestaurantVisit_prim
-chosenCulinaries_prim</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="386" parent="341" name="visitedRestaurants_prim">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="387" parent="341" name="participants_prim">
-      <Position>2</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <key id="388" parent="341" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>visitedRestaurants_prim
-participants_prim</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <foreign-key id="389" parent="341" name="FK_restaurantVisit_users_visitedRestaurants_prim">
-      <ColNames>visitedRestaurants_prim</ColNames>
-      <RefTableName>restaurantVisit</RefTableName>
-      <RefColNames>prim</RefColNames>
-    </foreign-key>
-    <column id="390" parent="342" name="prim">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="391" parent="342" name="dayOfRest">
-      <Position>2</Position>
-      <DataType>blob|0s</DataType>
-    </column>
-    <column id="392" parent="342" name="email">
+    <column id="338" parent="334" name="email">
       <Position>3</Position>
       <DataType>varchar(100)|0s</DataType>
     </column>
-    <column id="393" parent="342" name="holidayFrom">
+    <column id="339" parent="334" name="id_prod_db">
       <Position>4</Position>
-      <DataType>timestamp|0s</DataType>
-    </column>
-    <column id="394" parent="342" name="holidayTill">
-      <Position>5</Position>
-      <DataType>timestamp|0s</DataType>
-    </column>
-    <column id="395" parent="342" name="id">
-      <Position>6</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="396" parent="342" name="linkMenu">
-      <Position>7</Position>
-      <DataType>varchar(500)|0s</DataType>
-    </column>
-    <column id="397" parent="342" name="name">
-      <Position>8</Position>
-      <DataType>varchar(70)|0s</DataType>
-    </column>
-    <column id="398" parent="342" name="openFrom">
-      <Position>9</Position>
-      <DataType>time|0s</DataType>
-    </column>
-    <column id="399" parent="342" name="openTill">
-      <Position>10</Position>
-      <DataType>time|0s</DataType>
-    </column>
-    <column id="400" parent="342" name="phoneNumber">
-      <Position>11</Position>
-      <DataType>varchar(30)|0s</DataType>
-    </column>
-    <column id="401" parent="342" name="ADDRESSRESTAURANT_prim">
-      <Position>12</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="402" parent="342" name="CULINARY_prim">
-      <Position>13</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="403" parent="342" name="avgRating">
-      <Position>14</Position>
-      <DataType>float(23)|0s</DataType>
-    </column>
-    <column id="404" parent="343" name="prim">
+    <column id="340" parent="335" name="password">
       <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
+      <DataType>varchar(64)|0s</DataType>
     </column>
-    <column id="405" parent="343" name="id">
+    <column id="341" parent="335" name="salt">
       <Position>2</Position>
+      <DataType>varchar(128)|0s</DataType>
+    </column>
+    <column id="342" parent="335" name="id_prod_db">
+      <Position>3</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="406" parent="343" name="memo">
-      <Position>3</Position>
+    <column id="343" parent="335" name="email">
+      <Position>4</Position>
       <DataType>varchar(200)|0s</DataType>
-    </column>
-    <column id="407" parent="343" name="stateVisit">
-      <Position>4</Position>
-      <DataType>tinyint(4)|0s</DataType>
-    </column>
-    <column id="408" parent="343" name="timezoneString">
-      <Position>5</Position>
-      <DataType>varchar(35)|0s</DataType>
-    </column>
-    <column id="409" parent="343" name="visitingDate">
-      <Position>6</Position>
-      <DataType>date|0s</DataType>
-    </column>
-    <column id="410" parent="343" name="visitingTime">
-      <Position>7</Position>
-      <DataType>time|0s</DataType>
-    </column>
-    <column id="411" parent="343" name="RESTAURANTCHOSEN_prim">
-      <Position>8</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="412" parent="343" name="ADDRESSVISIT_prim">
-      <Position>9</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="413" parent="344" name="RestaurantVisit_prim">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="414" parent="344" name="chosenCulinaries_prim">
-      <Position>2</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="415" parent="345" name="visitedRestaurants_prim">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="416" parent="345" name="participants_prim">
-      <Position>2</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="417" parent="346" name="prim">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="418" parent="346" name="email">
-      <Position>2</Position>
-      <DataType>varchar(100)|0s</DataType>
-    </column>
-    <column id="419" parent="346" name="firstname">
-      <Position>3</Position>
-      <DataType>varchar(20)|0s</DataType>
-    </column>
-    <column id="420" parent="346" name="id">
-      <Position>4</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="421" parent="346" name="lastname">
-      <Position>5</Position>
-      <DataType>varchar(20)|0s</DataType>
-    </column>
-    <column id="422" parent="346" name="phoneNumber">
-      <Position>6</Position>
-      <DataType>varchar(30)|0s</DataType>
-    </column>
-    <column id="423" parent="346" name="ADDRESSACTUAL_prim">
-      <Position>7</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="424" parent="346" name="ADDRESSLIVING_prim">
-      <Position>8</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="425" parent="346" name="CULINARYLIKING_prim">
-      <Position>9</Position>
-      <DataType>int(11)|0s</DataType>
     </column>
   </database-model>
 </dataSource>

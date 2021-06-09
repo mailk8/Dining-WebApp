@@ -71,7 +71,7 @@ public class QrGenerator implements Serializable
 
 	public byte[] getQrCodeBytes()
 	{
-		Logger.getLogger(this.getClass().getSimpleName()).severe("+# getQrCodeBytes läuft.  " );
+		//Logger.getLogger(this.getClass().getSimpleName()).severe("+# getQrCodeBytes läuft.  " );
 		return qrCodeBytes;
 	}
 

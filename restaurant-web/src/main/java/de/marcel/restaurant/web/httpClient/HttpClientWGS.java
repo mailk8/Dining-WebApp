@@ -9,7 +9,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
-import javax.ejb.Lock;
 import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -59,7 +58,7 @@ public class HttpClientWGS implements Serializable
 	}
 
 	// Die Tom Tom Api akzeptiert bis zu 5 Anfragen pro Sekunde und bis zu 2.500 Anfragen pro Tag.
-	// Werden mehr als 5 Anfragen in einer Sekdunde gestellt, erhält man den Code 429 zurück.
+	// Werden mehr als 5 Anfragen in einer Sekunde gestellt, erhält man den Code 429 zurück.
 	private  final String REQUEST_URL ="https://api.tomtom.com/search/2/structuredGeocode.json?"
 					+ "countryCode=CountryCodeLocation&"
 					+ "limit=5&"
@@ -76,13 +75,14 @@ public class HttpClientWGS implements Serializable
 	public void enqueueNewRequest(Address adr)
 	{
 		// Entities stellen ihre Anfrage hier mit Übergabe ihrer Adresse ein
-
 		String uriString = REQUEST_URL.replace("CountryCodeLocation", "DE")
 						.replace("Housenumber", adr.getHouseNumber())
 						.replace("Streetname", adr.getStreet())
 						.replace("City", adr.getCity())
 						.replace("ZipCode", adr.getZipCode())
 						.replace(" ", "%20");
+
+		Logger.getLogger(this.getClass().getSimpleName()).severe("+# Neuen Auftrag für REST Request erhalten: " + uriString);
 
 		try
 		{
@@ -98,8 +98,11 @@ public class HttpClientWGS implements Serializable
 		if(addressQueue.size() == 1)
 		{
 			// Start des Clients, falls er noch nicht läuft
+			Logger.getLogger(this.getClass().getSimpleName()).severe("+# Client wird gestartet, Q Size ist: " + addressQueue.size());
 			executor.execute(()-> runClient());
 		}
+
+		Logger.getLogger(this.getClass().getSimpleName()).severe("+# Controllerthread verlässt HttpClient ");
 		return;
 	}
 
@@ -140,11 +143,13 @@ public class HttpClientWGS implements Serializable
 
 				if ( ! entry.getValue().getNow(false) )
 				{
+					Logger.getLogger(this.getClass().getSimpleName()).severe("+# Fail bei TomTom-Api Abfrage, es wird erneut versucht");
 					addressQueue.offer(adr);
 					// Faces Message ?
 				}
 				else
 				{
+					Logger.getLogger(this.getClass().getSimpleName()).severe("+# Success bei TomTom-Api Abfrage, UI Refresh für SessionID " + adr.getSessionId());
 					entry.getKey().setCounterApiCalls(0);
 					websocket.sendMessage(adr.getSessionId());
 				}
@@ -155,7 +160,11 @@ public class HttpClientWGS implements Serializable
 	private CompletableFuture<Boolean> sendRequest(Address adr)
 	{
 		// HttpRequest asynchron abschicken und Parsing veranlassen
+
 		HttpRequest request = HttpRequest.newBuilder().GET().uri(adr.getWgsRestApiCall()).build();
+
+		Logger.getLogger(this.getClass().getSimpleName()).severe("+# Request wird verschickt: " + request.uri());
+
 		return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
 						.thenComposeAsync(response -> HttpResponseParser.parseResponse(response,adr), executor);
 	}

@@ -11,6 +11,7 @@ import javax.json.stream.JsonParser;
 import java.io.StringReader;
 import java.net.http.HttpResponse;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Logger;
 
 @Named
 @ApplicationScoped
@@ -23,11 +24,13 @@ public class HttpResponseParser
 
 		if((response.statusCode() != 200) || (response.body().length() < 5))
 		{
+			Logger.getLogger(HttpResponseParser.class.getSimpleName()).severe("+# Responseparser hat Antwort mit Status != 200 erhalten. Code " + response.statusCode());
 			return exitExceptionally(response);
 		}
 
 		try(JsonParser parser = Json.createParser(new StringReader(response.body())))
 		{
+			Logger.getLogger(HttpResponseParser.class.getSimpleName()).severe("+# Responseparser verarbeitet Antwort" );
 
 			while (parser.hasNext())
 			{
@@ -45,12 +48,14 @@ public class HttpResponseParser
 
 							double lat = parser.getBigDecimal().doubleValue();
 							adr.setWgs84Latitude(lat);
+							Logger.getLogger(HttpResponseParser.class.getSimpleName()).severe("+# Responseparser setzt Adresse auf lat " + adr.getWgs84Latitude());
 							parser.next();
 							if(parser.getString().equals("lon")) // Annahme: lon folgt nach lat
 							{
 								parser.next();
 								double lon = parser.getBigDecimal().doubleValue();
 								adr.setWgs84Longitude(lon);
+								Logger.getLogger(HttpResponseParser.class.getSimpleName()).severe("+# Responseparser änderte Adresse auf lon" + adr.getWgs84Longitude());
 								return exitSuccessfully(response);
 							}
 						}
@@ -103,6 +108,7 @@ public class HttpResponseParser
 
 	private static CompletableFuture<Boolean> exitExceptionally(HttpResponse<String> resp)
 	{
+		Logger.getLogger(HttpResponseParser.class.getSimpleName()).severe("+# Responseparser fail");
 		CompletableFuture<Boolean> cfFail = new CompletableFuture<>();
 		cfFail.complete(false);
 		return cfFail;
@@ -110,6 +116,7 @@ public class HttpResponseParser
 
 	private static CompletableFuture<Boolean> exitSuccessfully(HttpResponse<String> resp)
 	{
+		Logger.getLogger(HttpResponseParser.class.getSimpleName()).severe("+# Responseparser success");
 		CompletableFuture<Boolean> cfSucc = new CompletableFuture<>();
 		cfSucc.complete(true);
 		return cfSucc;

@@ -12,7 +12,6 @@ import de.marcel.restaurant.web.security.UserMailController;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-import org.omnifaces.util.Faces;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
@@ -22,6 +21,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
@@ -186,7 +186,9 @@ public class BackingBeanUser implements Serializable
 	}
 
 	public String getSessionId() {
-		return Faces.getSessionId();
+		FacesContext fCtx = FacesContext.getCurrentInstance();
+		HttpSession session = (HttpSession) fCtx.getExternalContext().getSession(false);
+		return session.getId();
 	}
 
 	////////////////////////////// Methods for Credentials Persist //////////////////////////

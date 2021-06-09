@@ -4,12 +4,10 @@ package de.marcel.restaurant.web.backingBeans;
 import de.marcel.restaurant.ejb.interfaces.IRestaurantEJB;
 import de.marcel.restaurant.ejb.model.*;
 import de.marcel.restaurant.web.jsfFramework.WebSocketObserver;
-import org.primefaces.event.AbstractAjaxBehaviorEvent;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.MapModel;
 
 import javax.annotation.ManagedBean;
-import javax.ejb.Local;
 import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
@@ -25,7 +23,6 @@ import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 

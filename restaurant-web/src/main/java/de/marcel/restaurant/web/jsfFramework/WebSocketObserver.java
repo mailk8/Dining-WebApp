@@ -4,7 +4,6 @@ import de.marcel.restaurant.ejb.model.Rating;
 import de.marcel.restaurant.ejb.model.Restaurant;
 import de.marcel.restaurant.ejb.model.RestaurantVisit;
 import de.marcel.restaurant.ejb.model.User;
-import de.marcel.restaurant.web.httpClient.HttpClientWGS;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
@@ -41,14 +40,15 @@ public class WebSocketObserver implements Serializable
 	}
 
 	public void sendMessage(String sessionId) {
-		channelEdit.send("channelEdit", sessionId);
+		channelEdit.send("channelEditEvent", sessionId);
 	}
 
 	public void onOpen(@Observes @WebsocketEvent.Opened WebsocketEvent event) {
-		String channel = event.getChannel();
+		Logger.getLogger(this.getClass().getSimpleName()).severe("+# onOpen Websocket " + event);
 	}
 
 	public void onClose(@Observes @WebsocketEvent.Closed WebsocketEvent event) {
+		Logger.getLogger(this.getClass().getSimpleName()).severe("+# onClose Websocket " + event);
 	}
 
 }
